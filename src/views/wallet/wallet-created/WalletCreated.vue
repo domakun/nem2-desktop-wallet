@@ -17,6 +17,15 @@
           <p class="txt">{{$t('display_mnemonic')}}</p>
         </div>
       </div>
+
+      <div class="copy_btns clear">
+        <div class="button_container radius">
+          <div class="copy_button right">
+            <span class="radius pointer" @click="copyMnemonic">{{$t('copy_mnemonic')}}</span>
+          </div>
+        </div>
+      </div>
+
       <div class="btns clear">
         <Button class="prev left" type="default" @click="toBack">{{$t('previous')}}</Button>
         <Button class="next right" type="success" @click="changeTabs(1)">{{$t('next')}}</Button>
@@ -86,6 +95,7 @@
     import {Component, Prop, Vue} from 'vue-property-decorator'
     import {localRead, localSave,strToHexCharCode} from '@/help/help'
     import {MnemonicPassPhrase, ExtendedKey, Wallet} from 'nem2-hd-wallets'
+    import {copyTxt} from '@/help/help.ts'
 
     @Component
     export default class WalletCreated extends Vue{
@@ -214,6 +224,18 @@
                     this.tags = index
                     break;
             }
+        }
+        
+        copyMnemonic() {
+            const mnemonic = this.mnemonic.join(' ')
+            const that = this
+            copyTxt(mnemonic).then(() => {
+                that.$Notice.success(
+                    {
+                        title: this.$t(Message.COPY_SUCCESS) + ''
+                    }
+                )
+            })
         }
 
         buf2hex(buffer) {

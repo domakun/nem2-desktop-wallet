@@ -401,6 +401,7 @@ export const zh_CN = {
     tips: '提示',
     Do_not_reveal_the_mnemonic_you_backed_up_Anyone_with_a_mnemonic_can_always_own_the_wallet: '不要透露你备份的助记词，任何有了助记词的人就可以永远拥有该钱包',
     Write_your_mnemonic_on_a_piece_of_paper_If_you_want_to_be_safer_you_can_write_on_multiple_sheets_of_paper_and_save_the_backup_in_multiple_locations_such_as_an_externally_encrypted_hard_drive_or_storage_media: '请将你的助记词写在一张纸上，如果你想更安全，可以写在多张纸上并在多个位置保存备份，（如外部加密硬盘驱动器或存储介质）。',
+    copy_mnemonic: '复制助记词',
     display_mnemonic: '显示助记词',
     previous: '上一步',
     Confirm_mnemonic: '确认助记词',

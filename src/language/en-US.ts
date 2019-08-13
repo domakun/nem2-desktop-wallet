@@ -410,6 +410,7 @@ export const en_US = {
     tips: 'tips',
     Do_not_reveal_the_mnemonic_you_backed_up_Anyone_with_a_mnemonic_can_always_own_the_wallet: 'Don\'t reveal the mnemonic you backed up. Anyone with a mnemonic can always own the wallet.',
     Write_your_mnemonic_on_a_piece_of_paper_If_you_want_to_be_safer_you_can_write_on_multiple_sheets_of_paper_and_save_the_backup_in_multiple_locations_such_as_an_externally_encrypted_hard_drive_or_storage_media: 'Write your mnemonic on a piece of paper. If you want to be safer, you can write on multiple sheets of paper and save the backup in multiple locations (such as an externally encrypted hard drive or storage media).',
+    copy_mnemonic: 'Copy mnemonic',
     display_mnemonic: 'Display mnemonic',
     previous: 'Previous',
     Confirm_mnemonic: 'Confirm mnemonic',
