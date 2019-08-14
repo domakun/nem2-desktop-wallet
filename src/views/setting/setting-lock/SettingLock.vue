@@ -3,6 +3,13 @@
     <ul>
       <li>
         {{$t('old_password')}}
+        <Tooltip placement="right">
+        <div slot="content">
+          <p>{{$t('password_hint1', {min: MIN_PASSWORD_LENGTH, max: MAX_PASSWORD_LENGTH})}}</p>
+          <p>{{$t('password_hint2', {specialChar: ALLOWED_SPECIAL_CHAR})}}</p>
+        </div>
+          <Icon type="ios-help-circle-outline" class="tip-icon" />
+        </Tooltip>
         <div class="gray_content">
           <input class="absolute" type="password" v-model="prePassword" @input="changeBtnState"
                  :placeholder="$t('please_enter_the_original_password')">

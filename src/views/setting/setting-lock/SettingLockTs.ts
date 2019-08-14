@@ -1,6 +1,12 @@
 import {UInt64} from 'nem2-sdk'
 import {Message} from "@/config/index"
 import {localRead, localSave} from '@/help/help'
+import {
+    passwordValidator,
+    MIN_PASSWORD_LENGTH,
+    MAX_PASSWORD_LENGTH,
+    ALLOWED_SPECIAL_CHAR,
+} from '@/help/formValidationHelp'
 import {Component, Vue} from 'vue-property-decorator'
 import {decryptKey, encryptKey} from "@/help/appHelp"
 
@@ -12,6 +18,11 @@ export class SettingLockTs extends Vue {
     lockKey = [50, 50]
     btnState = false
 
+    passwordValidator = passwordValidator
+    MIN_PASSWORD_LENGTH = MIN_PASSWORD_LENGTH
+    MAX_PASSWORD_LENGTH = MAX_PASSWORD_LENGTH
+    ALLOWED_SPECIAL_CHAR = ALLOWED_SPECIAL_CHAR
+    
     get getWallet() {
         return this.$store.state.account.wallet
     }
