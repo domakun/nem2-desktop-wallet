@@ -203,7 +203,7 @@ export const zh_CN = {
     //setting-normal
     switch_language: '切换语言',
     currency_setting: '货币设置',
-    Time_zone_setting:'时区设置',
+    Time_zone_setting: '时区设置',
     account_name: '账户名',
     the_default_is_Number: '默认为Nember',
     confirm: '确认',
@@ -619,6 +619,17 @@ export const zh_CN = {
     Node_connection_failed: '节点连接失败',
     Node_connection_succeeded: '节点连接成功',
 
-    This_password_is_used_for_importing_the_keystore_file:'该密码为解密Keystore的密码，用于keystore文件导入,请务必记牢。'
+    This_password_is_used_for_importing_the_keystore_file: '该密码为解密Keystore的密码，用于keystore文件导入,请务必记牢。',
+    // Forms
+    newPassword: '新密码',
+    LABEL_new_password: '新密码',
+    HINT_new_password1: '应该为6~32字符',
+    HINT_new_password2: '允许以下特殊字符: - _ ! @ # $ & * " ~ + = %',
+    PLACEHOLDER_new_password: '9_pass-WORD',
+
+    previousPassword: '旧密码',
+    LABEL_previous_password: '旧密码',
+    HINT_previous_password: '用于登入程序的面膜',
+    PLACEHOLDER_previous_password: 'My FiRst Pa$$word!',
 
 }

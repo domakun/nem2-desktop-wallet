@@ -336,14 +336,18 @@ export const formatSeconds = function (second) {
         m = Math.floor(second / 60);
         second = second % 60;
     }
+    // let result = second + vueInstance.$t('time_second');
     let result = second + ' s '
     if (m > 0 || h > 0 || d > 0) {
+        // result = m + vueInstance.$t('time_minute') + result;
         result = m + ' m ' + result;
     }
     if (h > 0 || d > 0) {
+        // result = h + vueInstance.$t('time_hour') + result;
         result = h + ' h ' + result;
     }
     if (d > 0) {
+        // result = d + vueInstance.$t('time_day') + result;
         result = d + ' d ' + result;
     }
 
@@ -369,3 +373,5 @@ export const getCurrentTimeZone = () => {
     const localUtc = new Date().getTimezoneOffset() / 60;
     return localUtc
 }
+
+export const clone = object => JSON.parse(JSON.stringify(object))
