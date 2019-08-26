@@ -204,13 +204,10 @@ export class MonitorDashBoardTs extends Vue {
         const start = (page - 1) * pageSize
         const end = page * pageSize
         if (showConfirmedTransactions) {
-            //confirmed
             this.currentTransactionList = this.transferTransactionList.slice(start, end)
             return
         }
-        // unconfirmed
         this.currentTransactionList = this.receiptList.slice(start, end)
-
     }
 
 
@@ -240,8 +237,9 @@ export class MonitorDashBoardTs extends Vue {
     onAllTransacrionListChange() {
         const currentXEM = this.$store.state.account.currentXEM1
         const {allTransacrionList, accountAddress, showConfirmedTransactions} = this
-        this.transferTransactionList = transactionFormat(allTransacrionList, accountAddress, currentXEM).transferTransactionList
-        this.receiptList = transactionFormat(allTransacrionList, accountAddress, currentXEM).receiptList
+        const transactionList = transactionFormat(allTransacrionList, accountAddress, currentXEM)
+        this.transferTransactionList = transactionList.transferTransactionList
+        this.receiptList = transactionList.receiptList
         this.changePage(1)
         this.transferListLength = this.transferTransactionList.length
         this.receiptListLength = this.receiptList.length
@@ -259,6 +257,7 @@ export class MonitorDashBoardTs extends Vue {
     }
 
     created() {
+
         this.initData()
         this.getMarketOpenPrice()
         this.refreshTransferTransactionList()

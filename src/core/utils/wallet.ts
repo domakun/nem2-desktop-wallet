@@ -141,6 +141,7 @@ export const getNamespaces = async (address, node) => {
             })
             namespaceName = namespaceName.slice(0, namespaceName.length - 1)
             const newObj = {
+                parentId: item.namespaceInfo.parentId,
                 value: namespaceName,
                 label: namespaceName,
                 alias: item.namespaceInfo.alias,
@@ -185,7 +186,7 @@ export const multisigAccountInfo = (address, node) => {
 }
 
 export const encryptKey = (data, password) => {
-  return Crypto.encrypt(data, password)
+    return Crypto.encrypt(data, password)
 }
 
 export const decryptKey = (wallet, password) => {
@@ -305,6 +306,7 @@ export const getBlockInfoByTransactionList = (transactionList: Array<any>, node:
         }).then((result) => {
             result.result.Block.subscribe((info) => {
                 item.time = formateNemTimestamp(info.timestamp.compact(), offset)
+                item.dialogDetailMap.timestamp = formateNemTimestamp(info.timestamp.compact(), offset)
             })
         })
         return item.transactionInfo.height.compact()

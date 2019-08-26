@@ -23,7 +23,7 @@
                      :placeholder="$t('please_enter_your_wallet_password')"></Input>
             </FormItem>
             <FormItem>
-              <Button type="success" @click="exportKeystore">{{$t('next')}}
+              <Button type="success" class="button_arrow" @click="exportKeystore">{{$t('next')}}
                 <Icon type="ios-arrow-round-forward"/>
               </Button>
             </FormItem>
@@ -56,7 +56,7 @@
               </Col>
             </Row>
           </div>
-          <Button type="success" @click="exportKeystore">{{$t('next')}}
+          <Button type="success" class="button_arrow"  @click="exportKeystore">{{$t('next')}}
             <Icon type="ios-arrow-round-forward"/>
           </Button>
         </div>
@@ -81,7 +81,7 @@
           </Row>
           <Row :gutter="80">
             <Col span="12">
-              <Button type="success" @click="copyKeystore">{{$t('copy')}} Keystore</Button>
+              <Button type="success" class="button_arrow"  @click="copyKeystore">{{$t('copy')}} Keystore</Button>
             </Col>
 <!--            <Col span="8">-->
 <!--              <Button type="success" @click="exportKeystore">{{$t('Display_Keystore_QR_code')}}</Button>-->

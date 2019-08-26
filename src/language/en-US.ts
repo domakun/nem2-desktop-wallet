@@ -8,7 +8,7 @@ export const en_US = {
     time_day: 'day',
     month: 'month',
     year: 'year',
-    // Please add Plural form for time unit here（请添加时间单复数校验）
+    // Please add Plural form for time unit here
     m_ago: 'minute ago',
     h_ago: 'hour ago',
     d_ago: 'day ago',
@@ -219,7 +219,7 @@ export const en_US = {
     //setting-normal
     switch_language: 'Switch language',
     currency_setting: 'Currency setting',
-    Time_zone_setting:'Time zone setting',
+    Time_zone_setting: 'Time zone setting',
     account_name: 'Account name',
     the_default_is_Number: 'The default is Nember',
     confirm: 'Confirm',
@@ -612,7 +612,7 @@ export const en_US = {
     delete_wallet: 'Delete wallet',
 
 
-    regist_namespace: 'Regist namespace',
+    regist_namespace: 'Regist/Renewal namespace',
     address_alias: 'Address alias',
     mosaic_alias: 'Mosaic alias',
     mosaic_definition: 'Mosaic definition',
@@ -651,5 +651,7 @@ export const en_US = {
     Node_connection_succeeded: 'Node connection succeeded',
 
     This_password_is_used_for_importing_the_keystore_file: 'This password is the password for decrypting the Keystore and is used for importing the keystore file. Please remember it.',
+    timestamp: 'timestamp',
+    sender: 'sender'
 
 }
