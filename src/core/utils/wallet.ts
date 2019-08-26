@@ -16,8 +16,8 @@ import {accountApi} from "@/core/api/accountApi.ts";
 import {namespaceApi} from "@/core/api/namespaceApi.ts";
 import {multisigApi} from "@/core/api/multisigApi.ts";
 import {filterApi} from "@/core/api/filterApi.ts";
-import {blockchainApi} from "@/core/api/blockchainApi";
-import {formateNemTimestamp} from "@/core/utils/utils";
+import {blockchainApi} from "@/core/api/blockchainApi.ts";
+import {formateNemTimestamp} from "@/core/utils/utils.ts";
 
 export const saveLocalWallet = (wallet, encryptObj, index, mnemonicEnCodeObj?) => {
     let localData: any[] = []
