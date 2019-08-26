@@ -10,11 +10,14 @@ import {
     PropertyModificationType,
     MosaicId
 } from 'nem2-sdk'
+import CryptoJS from 'crypto-js'
 import {walletApi} from "@/core/api/walletApi.ts";
 import {accountApi} from "@/core/api/accountApi.ts";
 import {namespaceApi} from "@/core/api/namespaceApi.ts";
 import {multisigApi} from "@/core/api/multisigApi.ts";
 import {filterApi} from "@/core/api/filterApi.ts";
+import {blockchainApi} from "@/core/api/blockchainApi";
+import {formateNemTimestamp} from "@/core/utils/utils";
 
 export const saveLocalWallet = (wallet, encryptObj, index, mnemonicEnCodeObj?) => {
     let localData: any[] = []
@@ -194,6 +197,19 @@ export const decryptKey = (wallet, password) => {
     return Crypto.decrypt(encryptObj)
 }
 
+export const decryptKeystore = (encryptStr: string) => {
+    const words = CryptoJS.enc.Base64.parse(encryptStr)
+    const parseStr = words.toString(CryptoJS.enc.Utf8)
+    return parseStr
+}
+
+//
+export const encryptKeystore = (decryptStr: string) => {
+    let str = CryptoJS.enc.Utf8.parse(decryptStr)
+    str = CryptoJS.enc.Base64.stringify(str)
+    return str
+}
+
 
 export const createBondedMultisigTransaction = (transaction: Array<Transaction>, multisigPublickey: string, networkType: NetworkType, account: Account, fee: number) => {
     return multisigApi.bondedMultisigTransaction({
@@ -273,16 +289,24 @@ export const creatrModifyAccountPropertyTransaction = (propertyType: PropertyTyp
             return result.result.modifyAccountPropertyMosaicTransaction
         })
     }
-
-
 }
 
-// export const getAccountProperties = (address: string, node: string) => {
-//     // TODO sdk is not complete yet
-//     // return accountInterface.getAccountProperties({
-//     //     address,
-//     //     node
-//     // }).then((result) => {
-//     //     return result.result.accountPropertiesInfo
-//     // })
-// }
+/*  transactionList: pointer of target array  Array
+*   node:node   stirng
+*   offset: time zone   number
+* */
+
+export const getBlockInfoByTransactionList = (transactionList: Array<any>, node: string, offset: number) => {
+    const blockHeightList = transactionList.map((item) => {
+        const height = item.transactionInfo.height.compact()
+        blockchainApi.getBlockByHeight({
+            node,
+            height
+        }).then((result) => {
+            result.result.Block.subscribe((info) => {
+                item.time = formateNemTimestamp(info.timestamp.compact(), offset)
+            })
+        })
+        return item.transactionInfo.height.compact()
+    })
+}

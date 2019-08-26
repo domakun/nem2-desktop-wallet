@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import QRCode from 'qrcode'
 import i18n from '@/language/index.ts'
-import {AliasActionType, TransactionType} from 'nem2-sdk'
+import {AliasActionType, Deadline, TransactionType} from 'nem2-sdk'
 
 const vueInstance = new Vue({i18n});
 
@@ -262,6 +262,17 @@ export const formatTransactions = function (transactionList, accountAddress, cur
     return transferTransaction
 };
 
+export const formateNemTimestamp = (timestamp, offset) => {
+    return formatDate(covertOffset(timestamp + Deadline.timestampNemesisBlock * 1000, offset))
+}
+
+//
+export const covertOffset = (timestamp, offset) => {
+    const currentZone = new Date().getTimezoneOffset() / 60
+    return timestamp + (currentZone - offset) * 1000 * 60 * 60
+}
+
+
 export const formatAddress = function (address) {
     if (!address) return
     let txt = '';
@@ -325,18 +336,14 @@ export const formatSeconds = function (second) {
         m = Math.floor(second / 60);
         second = second % 60;
     }
-    // let result = second + vueInstance.$t('time_second');
     let result = second + ' s '
     if (m > 0 || h > 0 || d > 0) {
-        // result = m + vueInstance.$t('time_minute') + result;
         result = m + ' m ' + result;
     }
     if (h > 0 || d > 0) {
-        // result = h + vueInstance.$t('time_hour') + result;
         result = h + ' h ' + result;
     }
     if (d > 0) {
-        // result = d + vueInstance.$t('time_day') + result;
         result = d + ' d ' + result;
     }
 
@@ -344,7 +351,8 @@ export const formatSeconds = function (second) {
 
 };
 export const formatXEMamount = (XEMamount) => {
-    if (!XEMamount) return '0'
+    if (!Number(XEMamount)) return '0'
+    XEMamount = XEMamount + ''
     if (XEMamount.includes('.')) {
         const decimal = XEMamount.split('.')[1];
         if (decimal.length > 2) {
@@ -356,3 +364,8 @@ export const formatXEMamount = (XEMamount) => {
         return XEMamount
     }
 };
+
+export const getCurrentTimeZone = () => {
+    const localUtc = new Date().getTimezoneOffset() / 60;
+    return localUtc
+}

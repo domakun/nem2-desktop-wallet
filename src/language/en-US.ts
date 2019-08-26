@@ -219,6 +219,7 @@ export const en_US = {
     //setting-normal
     switch_language: 'Switch language',
     currency_setting: 'Currency setting',
+    Time_zone_setting:'Time zone setting',
     account_name: 'Account name',
     the_default_is_Number: 'The default is Nember',
     confirm: 'Confirm',
@@ -629,5 +630,7 @@ export const en_US = {
     link_account: 'Link account',
     please_choose_entity_type: 'please choose entity type',
     Node_connection_failed: 'Node connection failed',
-    Node_connection_succeeded: 'Node connection succeeded'
+    Node_connection_succeeded: 'Node connection succeeded',
+    This_password_is_used_for_importing_the_keystore_file: 'This password is the password for decrypting the Keystore and is used for importing the keystore file. Please remember it.',
+
 }
