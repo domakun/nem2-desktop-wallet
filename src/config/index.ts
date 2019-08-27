@@ -1,7 +1,7 @@
 import {TransactionType} from 'nem2-sdk'
 import {timeZoneList} from '@/config/TimeZone.ts'
 
-const isWin32 = require('./packgeParam.js').isWin32
+const isWin32 = require('./packgeParam.ts').isWin32
 
 export const apiUrl = process.env.NODE_ENV === 'production' ? 'http://120.79.181.170' : 'http://120.79.181.170'
 
