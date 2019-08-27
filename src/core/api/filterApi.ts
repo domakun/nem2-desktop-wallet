@@ -6,11 +6,11 @@ import {
     ModifyAccountPropertyMosaicTransaction,
     ModifyAccountPropertyEntityTypeTransaction
 } from 'nem2-sdk'
-import {sdkApi} from "@/core/api/apis";
+import { sdkApi } from "@/core/api/apis";
 
 export const filterApi: sdkApi.filter = {
     creatrModifyAccountPropertyAddressTransaction: async (params) => {
-        const {propertyType, modifications, networkType, fee} = params
+        const { propertyType, modifications, networkType, fee } = params
         const modifyAccountPropertyAddressTransaction = ModifyAccountPropertyAddressTransaction.create(
             Deadline.create(),
             propertyType,
@@ -25,7 +25,7 @@ export const filterApi: sdkApi.filter = {
         }
     },
     creatrModifyAccountPropertyMosaicTransaction: async (params) => {
-        const {propertyType, modifications, networkType, fee} = params
+        const { propertyType, modifications, networkType, fee } = params
         const modifyAccountPropertyMosaicTransaction = ModifyAccountPropertyMosaicTransaction.create(
             Deadline.create(),
             propertyType,
@@ -40,7 +40,7 @@ export const filterApi: sdkApi.filter = {
         }
     },
     creatrModifyAccountPropertyEntityTypeTransaction: async (params) => {
-        const {propertyType, modifications, networkType, fee} = params
+        const { propertyType, modifications, networkType, fee } = params
         const modifyAccountPropertyEntityTypeTransaction = ModifyAccountPropertyEntityTypeTransaction.create(
             Deadline.create(),
             propertyType,

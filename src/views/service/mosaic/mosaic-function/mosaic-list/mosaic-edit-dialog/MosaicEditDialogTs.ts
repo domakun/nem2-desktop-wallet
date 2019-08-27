@@ -1,7 +1,7 @@
 import {Account, Crypto} from 'nem2-sdk'
 import {Message} from "@/config/index.ts"
 import {walletApi} from "@/core/api/walletApi.ts"
-import {mosaicApi} from "@/core/api/mosaicApi.ts"
+import {MosaicApiRxjs} from "@/core/api/MosaicApiRxjs.ts"
 import {decryptKey} from "@/core/utils/wallet.ts"
 import {transactionApi} from "@/core/api/transactionApi.ts"
 import {Component, Vue, Prop, Watch} from 'vue-property-decorator'
@@ -125,23 +125,14 @@ export class MosaicEditDialogTs extends Vue {
 
     updateMosaic(key) {
         const that = this
-        mosaicApi.mosaicSupplyChange({
-            mosaicId: this.mosaic['mosaicId'],
-            delta: this.mosaic.changeDelta,
-            netWorkType: this.getWallet.networkType,
-            MosaicSupplyType: this.mosaic.supplyType,
-            maxFee: this.mosaic.fee,
-        }).then((changed) => {
-            const transaction = changed.result.mosaicSupplyChangeTransaction
-            const account = Account.createFromPrivateKey(key, this.getWallet.networkType)
-            const signature = account.sign(transaction, this.generationHash)
-
-            transactionApi.announce({signature, node: that.node}).then((announceResult) => {
-                // get announce status
-                announceResult.result.announceStatus.subscribe((announceInfo: any) => {
-                    console.log(signature)
-                    that.updatedMosaic()
-                })
+        const transaction = new MosaicApiRxjs().mosaicSupplyChange(this.mosaic['mosaicId'], this.mosaic.changeDelta, this.mosaic.supplyType, this.getWallet.networkType, this.mosaic.fee)
+        const account = Account.createFromPrivateKey(key, this.getWallet.networkType)
+        const signature = account.sign(transaction, this.generationHash)
+        transactionApi.announce({signature, node: that.node}).then((announceResult) => {
+            // get announce status
+            announceResult.result.announceStatus.subscribe((announceInfo: any) => {
+                console.log(signature)
+                that.updatedMosaic()
             })
         })
     }

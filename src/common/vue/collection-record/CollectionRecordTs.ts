@@ -3,7 +3,7 @@ import {transactionApi} from '@/core/api/transactionApi.ts'
 import {Component, Prop, Vue, Watch} from 'vue-property-decorator'
 import transacrionAssetIcon from '@/common/img/monitor/transaction/txConfirmed.png'
 import {formateNemTimestamp, formatTransactions, getCurrentMonthFirst, getCurrentMonthLast,} from '@/core/utils/utils.ts'
-import {blockchainApi} from "@/core/api/blockchainApi";
+
 import {getBlockInfoByTransactionList} from '@/core/utils/wallet.ts'
 
 

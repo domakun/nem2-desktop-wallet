@@ -1,6 +1,6 @@
 import {Message} from "@/config/index.ts"
 import {multisigAccountInfo} from "@/core/utils/wallet.ts"
-import {mosaicApi} from '@/core/api/mosaicApi.ts'
+import {MosaicApiRxjs} from '@/core/api/MosaicApiRxjs.ts'
 import {formatSeconds, formatAddress} from '@/core/utils/utils.ts'
 import {Component, Vue, Watch} from 'vue-property-decorator'
 import {transactionApi} from '@/core/api/transactionApi.ts'
@@ -191,29 +191,16 @@ export class MosaicTransactionTs extends Vue {
         const that = this
         const nonce = MosaicNonce.createRandom()
         const mosaicId = MosaicId.createFromNonce(nonce, PublicAccount.createFromPublicKey(accountPublicKey, this.getWallet.networkType))
-        mosaicApi.createMosaic({
-            mosaicNonce: nonce,
-            supply: supply,
-            mosaicId: mosaicId,
-            supplyMutable: supplyMutable,
-            transferable: transferable,
-            divisibility: Number(divisibility),
-            duration: this.formItem.permanent ? undefined : Number(duration),
-            netWorkType: this.getWallet.networkType,
-            maxFee: Number(innerFee),
-            publicAccount: account.publicAccount
-        }).then((result: any) => {
-            const mosaicDefinitionTransaction = result.result.mosaicDefinitionTransaction
-            const signature = account.sign(mosaicDefinitionTransaction, generationHash)
-            transactionApi.announce({signature, node}).then((announceResult) => {
-                // get announce status
-                announceResult.result.announceStatus.subscribe((announceInfo: any) => {
-                    console.log(signature)
-                    that.$Notice.success({
-                        title: this.$t(Message.SUCCESS) + ''
-                    })
-                    that.initForm()
+        const mosaicDefinitionTransaction = new MosaicApiRxjs().createMosaic(nonce, mosaicId, supplyMutable, transferable, Number(divisibility), this.formItem.permanent ? undefined : Number(duration), this.getWallet.networkType, supply, account.publicAccount, Number(innerFee))
+        const signature = account.sign(mosaicDefinitionTransaction, generationHash)
+        transactionApi.announce({signature, node}).then((announceResult) => {
+            // get announce status
+            announceResult.result.announceStatus.subscribe((announceInfo: any) => {
+                console.log(signature)
+                that.$Notice.success({
+                    title: this.$t(Message.SUCCESS) + ''
                 })
+                that.initForm()
             })
         }).catch((e) => {
             console.log(e)
@@ -254,38 +241,36 @@ export class MosaicTransactionTs extends Vue {
         )
 
         if (that.currentMinApproval > 1) {
-            createBondedMultisigTransaction(
+            const aggregateTransaction = createBondedMultisigTransaction(
                 [mosaicDefinitionTx, mosaicSupplyChangeTx],
                 multisigPublickey,
                 networkType,
                 account,
                 aggregateFee
-            ).then((aggregateTransaction) => {
-                transactionApi.announceBondedWithLock({
-                    aggregateTransaction,
-                    account,
-                    listener,
-                    node,
-                    generationHash,
-                    networkType,
-                    fee: lockFee,
-                    mosaicHex,
-                })
+            )
+            transactionApi.announceBondedWithLock({
+                aggregateTransaction,
+                account,
+                listener,
+                node,
+                generationHash,
+                networkType,
+                fee: lockFee,
+                mosaicHex,
             })
             return
         }
-        createCompleteMultisigTransaction(
+        const aggregateTransaction = createCompleteMultisigTransaction(
             [mosaicDefinitionTx, mosaicSupplyChangeTx],
             multisigPublickey,
             networkType,
             aggregateFee,
-        ).then((aggregateTransaction) => {
-            transactionApi._announce({
-                transaction: aggregateTransaction,
-                account,
-                node,
-                generationHash
-            })
+        )
+        transactionApi._announce({
+            transaction: aggregateTransaction,
+            account,
+            node,
+            generationHash
         })
     }
 

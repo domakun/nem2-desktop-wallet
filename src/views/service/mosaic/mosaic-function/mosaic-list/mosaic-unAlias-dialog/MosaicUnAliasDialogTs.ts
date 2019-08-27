@@ -1,7 +1,7 @@
 import {Message} from "@/config/index.ts"
 import {decryptKey} from "@/core/utils/wallet.ts"
 import {walletApi} from "@/core/api/walletApi.ts"
-import {namespaceApi} from "@/core/api/namespaceApi.ts"
+import {NamespaceApiRxjs} from "@/core/api/NamespaceApiRxjs.ts"
 import {transactionApi} from "@/core/api/transactionApi.ts"
 import {Component, Vue, Prop, Watch} from 'vue-property-decorator'
 import {Account, AliasActionType, NamespaceId, MosaicId} from "nem2-sdk"
@@ -88,15 +88,13 @@ export class MosaicUnAliasDialogTs extends Vue {
     async updateMosaic(key) {
         const that = this
         const account = Account.createFromPrivateKey(key, this.getWallet.networkType);
-        namespaceApi.mosaicAliasTransaction({
-            actionType: AliasActionType.Unlink,
-            namespaceId: new NamespaceId(that.mosaic['name']),
-            mosaicId: new MosaicId(that.mosaic['hex']),
-            networkType: this.getWallet.networkType,
-            maxFee: that.mosaic.fee
-        }).then((aliasTransaction) => {
-            let transaction
-            transaction = aliasTransaction.result.aliasMosaicTransaction
+        let transaction = new NamespaceApiRxjs().mosaicAliasTransaction(
+             AliasActionType.Unlink,
+             new NamespaceId(that.mosaic['name']),
+             new MosaicId(that.mosaic['hex']),
+             this.getWallet.networkType,
+             that.mosaic.fee
+        )
             const signature = account.sign(transaction, this.generationHash)
             transactionApi.announce({signature, node: this.node}).then((announceResult) => {
                 // get announce status
@@ -107,7 +105,6 @@ export class MosaicUnAliasDialogTs extends Vue {
                     })
                     that.initForm()
                     that.updatedMosaicAlias()
-                })
             })
         })
 

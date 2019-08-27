@@ -12,11 +12,11 @@ import {
 } from 'nem2-sdk'
 import CryptoJS from 'crypto-js'
 import {walletApi} from "@/core/api/walletApi.ts";
-import {accountApi} from "@/core/api/accountApi.ts";
-import {namespaceApi} from "@/core/api/namespaceApi.ts";
-import {multisigApi} from "@/core/api/multisigApi.ts";
+import {AccountApiRxjs} from "@/core/api/AccountApiRxjs.ts";
+import {NamespaceApiRxjs} from "@/core/api/NamespaceApiRxjs.ts";
+import {MultisigApiRxjs} from "@/core/api/MultisigApiRxjs.ts";
 import {filterApi} from "@/core/api/filterApi.ts";
-import {blockchainApi} from "@/core/api/blockchainApi.ts";
+import {BlockApiRxjs} from "@/core/api/BlockApiRxjs.ts";
 import {formateNemTimestamp} from "@/core/utils/utils.ts";
 
 export const saveLocalWallet = (wallet, encryptObj, index, mnemonicEnCodeObj?) => {
@@ -81,107 +81,79 @@ export const getAccountDefault = async (name, account, netType, node?, currentXE
 
 export const setWalletMosaic = async (storeWallet, node, currentXEM1, currentXEM2) => {
     let wallet = storeWallet
-    await accountApi.getAccountInfo({
-        node,
-        address: wallet.address
-    }).then(accountInfoResult => {
-        accountInfoResult.result.accountInfo.subscribe((accountInfo) => {
-            let mosaicList = accountInfo.mosaics
-            mosaicList.map((item) => {
-                item.hex = item.id.toHex()
-                if (item.id.toHex() == currentXEM2 || item.id.toHex() == currentXEM1) {
-                    wallet.balance = item.amount.compact() / 1000000
-                }
-            })
-            wallet.mosaics = mosaicList
-        }, () => {
-            wallet.balance = 0
-            wallet.mosaics = []
+    wallet.balance = 0
+    wallet.mosaics = []
+    await new AccountApiRxjs().getAccountInfo(wallet.address, node).subscribe((accountInfo) => {
+        let mosaicList = accountInfo.mosaics
+        mosaicList.map((item: any) => {
+            item.hex = item.id.toHex()
+            if (item.id.toHex() == currentXEM2 || item.id.toHex() == currentXEM1) {
+                wallet.balance = item.amount.compact() / 1000000
+            }
         })
+        wallet.mosaics = mosaicList
+    }, () => {
+        wallet.balance = 0
+        wallet.mosaics = []
+
     })
+
     return wallet
 }
 
 export const setMultisigAccount = async (storeWallet, node) => {
     let wallet = storeWallet
-    await accountApi.getMultisigAccountInfo({
-        node: node,
-        address: wallet.address
-    }).then((multisigAccountInfo) => {
-        if (typeof (multisigAccountInfo.result.multisigAccountInfo) == 'object') {
-            multisigAccountInfo.result.multisigAccountInfo['subscribe']((accountInfo) => {
-                wallet.isMultisig = true
-            }, () => {
-                wallet.isMultisig = false
-            })
+    wallet.isMultisig = false
+    await new AccountApiRxjs().getMultisigAccountInfo(wallet.address, node).subscribe((accountInfo) => {
+            wallet.isMultisig = true
+        }, (error) => {
+            wallet.isMultisig = false
         }
-    })
+    )
     return wallet
 }
 
 export const getNamespaces = async (address, node) => {
     let list = []
     let namespace = {}
-    await namespaceApi.getNamespacesFromAccount({
-        address: Address.createFromRawAddress(address),
-        url: node
-    }).then((namespacesFromAccount) => {
-        namespacesFromAccount.result.namespaceList
-            .sort((a, b) => {
-                return a['namespaceInfo']['depth'] - b['namespaceInfo']['depth']
-            }).map((item, index) => {
-            if (!namespace.hasOwnProperty(item.namespaceInfo.id.toHex())) {
-                namespace[item.namespaceInfo.id.toHex()] = item.namespaceName
-            } else {
-                return
-            }
-            let namespaceName = ''
-            item.namespaceInfo.levels.map((item, index) => {
-                namespaceName += namespace[item.id.toHex()] + '.'
-            })
-            namespaceName = namespaceName.slice(0, namespaceName.length - 1)
-            const newObj = {
-                parentId: item.namespaceInfo.parentId,
-                value: namespaceName,
-                label: namespaceName,
-                alias: item.namespaceInfo.alias,
-                levels: item.namespaceInfo.levels.length,
-                name: namespaceName,
-                duration: item.namespaceInfo.endHeight.compact(),
-            }
-            list.push(newObj)
+    let namespaceList: any = new NamespaceApiRxjs().getNamespacesFromAccount(Address.createFromRawAddress(address), node)
+    namespaceList.sort((a, b) => {
+        return a['namespaceInfo']['depth'] - b['namespaceInfo']['depth']
+    }).map((item, index) => {
+        if (!namespace.hasOwnProperty(item.namespaceInfo.id.toHex())) {
+            namespace[item.namespaceInfo.id.toHex()] = item.namespaceName
+        } else {
+            return
+        }
+        let namespaceName = ''
+        item.namespaceInfo.levels.map((item, index) => {
+            namespaceName += namespace[item.id.toHex()] + '.'
         })
+        namespaceName = namespaceName.slice(0, namespaceName.length - 1)
+        const newObj = {
+            parentId: item.namespaceInfo.parentId,
+            value: namespaceName,
+            label: namespaceName,
+            alias: item.namespaceInfo.alias,
+            levels: item.namespaceInfo.levels.length,
+            name: namespaceName,
+            duration: item.namespaceInfo.endHeight.compact(),
+        }
+        list.push(newObj)
     })
     return list
 }
 
 export const createRootNamespace = (namespaceName, duration, networkType, maxFee) => {
-    return namespaceApi.createdRootNamespace({
-        namespaceName: namespaceName,
-        duration: duration,
-        networkType: networkType,
-        maxFee: maxFee
-    }).then((transaction) => {
-        return transaction.result.rootNamespaceTransaction
-    })
+    return new NamespaceApiRxjs().createdRootNamespace(namespaceName, duration, networkType, maxFee)
 }
 
 export const createSubNamespace = (rootNamespaceName, subNamespaceName, networkType, maxFee) => {
-    return namespaceApi.createdSubNamespace({
-        parentNamespace: rootNamespaceName,
-        namespaceName: subNamespaceName,
-        networkType: networkType,
-        maxFee: maxFee
-    }).then((transaction) => {
-        return transaction.result.subNamespaceTransaction
-    })
+    return new NamespaceApiRxjs().createdSubNamespace(subNamespaceName, rootNamespaceName, networkType, maxFee)
 }
 export const multisigAccountInfo = (address, node) => {
-    return multisigApi.getMultisigAccountInfo({
-        address,
-        node
-    }).then((result) => {
-        return result.result.multisigInfo
+    return new MultisigApiRxjs().getMultisigAccountInfo(address, node).subscribe((multisigInfo) => {
+        return multisigInfo
     })
 }
 
@@ -213,26 +185,11 @@ export const encryptKeystore = (decryptStr: string) => {
 
 
 export const createBondedMultisigTransaction = (transaction: Array<Transaction>, multisigPublickey: string, networkType: NetworkType, account: Account, fee: number) => {
-    return multisigApi.bondedMultisigTransaction({
-        transaction,
-        multisigPublickey,
-        networkType,
-        account,
-        fee
-    }).then((result) => {
-        return result.result.aggregateTransaction
-    })
+    return new MultisigApiRxjs().bondedMultisigTransaction(networkType, account, fee, multisigPublickey, transaction)
 }
 
 export const createCompleteMultisigTransaction = (transaction: Array<Transaction>, multisigPublickey: string, networkType: NetworkType, fee: number) => {
-    return multisigApi.completeMultisigTransaction({
-        transaction,
-        multisigPublickey,
-        networkType,
-        fee
-    }).then((result) => {
-        return result.result.aggregateTransaction
-    })
+    return new MultisigApiRxjs().completeMultisigTransaction(networkType, fee, multisigPublickey, transaction)
 }
 
 export const creatrModifyAccountPropertyTransaction = (propertyType: PropertyType, modifications: Array<any>, networkType: NetworkType, fee: number,) => {
@@ -300,14 +257,14 @@ export const creatrModifyAccountPropertyTransaction = (propertyType: PropertyTyp
 export const getBlockInfoByTransactionList = (transactionList: Array<any>, node: string, offset: number) => {
     const blockHeightList = transactionList.map((item) => {
         const height = item.transactionInfo.height.compact()
-        blockchainApi.getBlockByHeight({
-            node,
-            height
-        }).then((result) => {
-            result.result.Block.subscribe((info) => {
+        new BlockApiRxjs().getBlockByHeight(node, height).subscribe((info) => {
+            if (info) {
                 item.time = formateNemTimestamp(info.timestamp.compact(), offset)
+            }
+            if (item.dialogDetailMap) {
                 item.dialogDetailMap.timestamp = formateNemTimestamp(info.timestamp.compact(), offset)
-            })
+            }
+            return
         })
         return item.transactionInfo.height.compact()
     })

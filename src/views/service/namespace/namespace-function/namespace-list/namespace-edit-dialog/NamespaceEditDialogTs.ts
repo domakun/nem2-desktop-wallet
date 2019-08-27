@@ -117,18 +117,16 @@ export class NamespaceEditDialogTs extends Vue {
         let transaction
         const account = Account.createFromPrivateKey(key, this.getWallet.networkType);
         await createRootNamespace(this.currentNamespace.name, this.namespace.duration,
-            this.getWallet.networkType, this.namespace.fee).then((rootNamespaceTransaction) => {
-            transaction = rootNamespaceTransaction
-            const signature = account.sign(transaction, this.generationHash)
-            transactionApi.announce({signature, node: this.node}).then((announceResult) => {
-                // get announce status
-                announceResult.result.announceStatus.subscribe((announceInfo: any) => {
-                    that.$Notice.success({
-                        title: this.$t(Message.SUCCESS) + ''
-                    })
-                    that.initForm()
-                    that.updatedNamespace()
+            transaction = this.getWallet.networkType, this.namespace.fee)
+        const signature = account.sign(transaction, this.generationHash)
+        transactionApi.announce({signature, node: this.node}).then((announceResult) => {
+            // get announce status
+            announceResult.result.announceStatus.subscribe((announceInfo: any) => {
+                that.$Notice.success({
+                    title: this.$t(Message.SUCCESS) + ''
                 })
+                that.initForm()
+                that.updatedNamespace()
             })
         })
     }

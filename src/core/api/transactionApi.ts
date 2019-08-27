@@ -13,8 +13,8 @@ import {
     MosaicId,
     ModifyAccountPropertyAddressTransaction
 } from 'nem2-sdk'
-import {sdkApi} from "@/core/api/apis.d.ts"
-import {filter, mergeMap} from "rxjs/operators"
+import { sdkApi } from "@/core/api/apis.d.ts"
+import { filter, mergeMap } from "rxjs/operators"
 
 export const transactionApi: sdkApi.transaction = {
 
@@ -30,7 +30,7 @@ export const transactionApi: sdkApi.transaction = {
     },
 
     _announce: async (params) => {
-        const {transaction, node, account, generationHash} = params
+        const { transaction, node, account, generationHash } = params
         console.log(account, transaction)
         const signedTransaction = account.sign(transaction, generationHash);
         const announceStatus = await new TransactionHttp(node).announce(signedTransaction);
@@ -44,7 +44,7 @@ export const transactionApi: sdkApi.transaction = {
 
     // todo Account Restriction  after updating sdk
     accountAddressRestrictionModificationTransaction: async (params) => {
-        const {propertyType, accountPropertyTransaction, networkType, fee} = params
+        const { propertyType, accountPropertyTransaction, networkType, fee } = params
         const modifyAccountPropertyAddressTransaction = ModifyAccountPropertyAddressTransaction.create(
             Deadline.create(),
             propertyType,
@@ -210,7 +210,7 @@ export const transactionApi: sdkApi.transaction = {
 
 
     announceBondedWithLock: async (params) => {
-        const {aggregateTransaction, account, listener, node, generationHash, networkType, fee, mosaicHex} = params
+        const { aggregateTransaction, account, listener, node, generationHash, networkType, fee, mosaicHex } = params
         const transactionHttp = new TransactionHttp(node);
         const signedTransaction = account.sign(aggregateTransaction, generationHash);
         const hashLockTransaction = HashLockTransaction.create(
@@ -244,7 +244,7 @@ export const transactionApi: sdkApi.transaction = {
     },
 
     getTransactionEffectiveFee: async (params: any) => {
-        const {node, hash} = params
+        const { node, hash } = params
         const transactionHttp = new TransactionHttp(node)
         const effectiveFee = await transactionHttp.getTransactionEffectiveFee(hash)
         console.log(effectiveFee)

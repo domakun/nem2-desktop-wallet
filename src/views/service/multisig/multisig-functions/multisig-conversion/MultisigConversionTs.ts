@@ -1,6 +1,6 @@
 import {Message} from "@/config/index.ts"
 import {Component, Vue, Watch} from 'vue-property-decorator'
-import {multisigApi} from '@/core/api/multisigApi.ts'
+import {MultisigApiRxjs} from '@/core/api/MultisigApiRxjs.ts'
 import {transactionApi} from '@/core/api/transactionApi.ts'
 import {createBondedMultisigTransaction} from "@/core/utils/wallet.ts"
 import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
@@ -138,18 +138,17 @@ export class MultisigConversionTs extends Vue {
 
     getMultisigAccountList() {
         const that = this
-        if(!this.getWallet) return
+        if (!this.getWallet) return
         const {address} = this.getWallet
         const {node} = this.$store.state.account
-
-        multisigApi.getMultisigAccountInfo({
+        new MultisigApiRxjs().getMultisigAccountInfo(
             address,
             node
-        }).then((result) => {
-            if (result.result.multisigInfo.cosignatories.length !== 0) {
+        ).subscribe((multisigInfo) => {
+            if (multisigInfo.cosignatories.length !== 0) {
                 that.isMultisig = true
             }
-        }).catch(e => console.log(e))
+        })
     }
 
     sendMultisignConversionTransaction(privatekey) {
@@ -172,13 +171,13 @@ export class MultisigConversionTs extends Vue {
             networkType,
             UInt64.fromUint(innerFee)
         );
-        createBondedMultisigTransaction(
+        const aggregateTransaction = createBondedMultisigTransaction(
             [modifyMultisigAccountTransaction],
             account.publicKey,
             networkType,
             account,
             bondedFee,
-        ).then(aggregateTransaction => {
+        )
             transactionApi.announceBondedWithLock({
                 aggregateTransaction,
                 account,
@@ -188,7 +187,6 @@ export class MultisigConversionTs extends Vue {
                 networkType,
                 fee: lockFee,
                 mosaicHex,
-            })
         })
     }
 

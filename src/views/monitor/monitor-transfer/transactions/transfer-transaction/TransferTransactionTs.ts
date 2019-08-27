@@ -1,6 +1,6 @@
 import {Message} from "@/config/index.ts"
-import {mosaicApi} from '@/core/api/mosaicApi.ts'
-import {accountApi} from '@/core/api/accountApi.ts'
+import {MosaicApiRxjs} from '@/core/api/MosaicApiRxjs.ts'
+import {AccountApiRxjs} from '@/core/api/AccountApiRxjs.ts'
 import {Account, Mosaic, MosaicId, UInt64} from 'nem2-sdk'
 import {Component, Vue, Watch} from 'vue-property-decorator'
 import {transactionApi} from '@/core/api/transactionApi.ts'
@@ -77,14 +77,9 @@ export default class TransferTransactionTs extends Vue {
             mosaics: [new Mosaic(new MosaicId(mosaic), UInt64.fromUint(amount))],
             message: remark
         }).then((transactionResult) => {
-            // sign tx
             const transaction = transactionResult.result.transferTransaction
-            // const transaction = tx
-            console.log(transaction)
             const signature = account.sign(transaction, generationHash)
-            // send tx
             transactionApi.announce({signature, node}).then((announceResult) => {
-                // get announce status
                 announceResult.result.announceStatus.subscribe((announceInfo: any) => {
                     console.log(signature)
                     that.$Notice.success({
@@ -128,65 +123,58 @@ export default class TransferTransactionTs extends Vue {
         const that = this
         let {accountAddress, node} = this
         const {currentXEM1, currentXEM2} = this.$store.state.account
-        await accountApi.getAccountInfo({
-            node,
-            address: accountAddress
-        }).then(async accountInfoResult => {
-            await accountInfoResult.result.accountInfo.subscribe((accountInfo) => {
-                let mosaicList = []
-                // set mosaicList
-                mosaicList = accountInfo.mosaics.map((item) => {
-                    item._amount = item.amount.compact()
-                    item.value = item.id.toHex()
-                    if (item.value == currentXEM1 || item.value == currentXEM2) {
-                        item.label = 'nem.xem' + ' (' + item._amount + ')'
-                    } else {
-                        item.label = item.id.toHex() + ' (' + item._amount + ')'
-                    }
-                    return item
-                })
-                let isCrrentXEMExists = mosaicList.every((item) => {
-                    if (item.value == currentXEM1 || item.value == currentXEM2) {
-                        return false
-                    }
-                    return true
-                })
-                if (isCrrentXEMExists) {
-                    mosaicList.unshift({
-                        value: currentXEM1,
-                        label: 'nem.xem'
-                    })
-                }
-                that.mosaicList = mosaicList
-            }, () => {
-                let mosaicList = []
-                mosaicList.unshift({
-                    value: currentXEM1,
-                    label: 'nem.xem'
-                })
-                that.mosaicList = mosaicList
-            })
-        })
-    }
-
-    getNamespace(currentXem, mosaicIdList, currentXEM1, currentXEM2, mosaicList) {
-        let currentXEMHex = ''
-        const that = this
-        mosaicApi.getMosaicByNamespace({
-            namespace: currentXem
-        }).then((result: any) => {
-            let isCrrentXEMExists = true
-            let spliceIndex = -1
-            isCrrentXEMExists = mosaicIdList.every((item, index) => {
+        new AccountApiRxjs().getAccountInfo(accountAddress, node).subscribe((accountInfo) => {
+            let mosaicList = []
+            // set mosaicList
+            mosaicList = accountInfo.mosaics.map((item: any) => {
+                item._amount = item.amount.compact()
+                item.value = item.id.toHex()
                 if (item.value == currentXEM1 || item.value == currentXEM2) {
-                    spliceIndex = index
+                    item.label = 'nem.xem' + ' (' + item._amount + ')'
+                } else {
+                    item.label = item.id.toHex() + ' (' + item._amount + ')'
+                }
+                return item
+            })
+            let isCrrentXEMExists = mosaicList.every((item) => {
+                if (item.value == currentXEM1 || item.value == currentXEM2) {
                     return false
                 }
                 return true
             })
+            if (isCrrentXEMExists) {
+                mosaicList.unshift({
+                    value: currentXEM1,
+                    label: 'nem.xem'
+                })
+            }
             that.mosaicList = mosaicList
-            that.formItem.mosaic = currentXEMHex
+        }, () => {
+            let mosaicList = []
+            mosaicList.unshift({
+                value: currentXEM1,
+                label: 'nem.xem'
+            })
+            that.mosaicList = mosaicList
         })
+    }
+
+
+    getNamespace(currentXem, mosaicIdList, currentXEM1, currentXEM2, mosaicList) {
+        let currentXEMHex = ''
+        const that = this
+        new MosaicApiRxjs().getMosaicByNamespace(currentXem)
+        let isCrrentXEMExists = true
+        let spliceIndex = -1
+        isCrrentXEMExists = mosaicIdList.every((item, index) => {
+            if (item.value == currentXEM1 || item.value == currentXEM2) {
+                spliceIndex = index
+                return false
+            }
+            return true
+        })
+        that.mosaicList = mosaicList
+        that.formItem.mosaic = currentXEMHex
     }
 
     initData() {

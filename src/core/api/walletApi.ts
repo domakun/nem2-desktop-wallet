@@ -1,5 +1,5 @@
-import {Password, SimpleWallet, Account, PublicAccount, AccountHttp} from 'nem2-sdk'
-import {sdkApi} from "@/core/api/apis";
+import { Password, SimpleWallet, Account, PublicAccount, AccountHttp } from 'nem2-sdk'
+import { sdkApi } from "@/core/api/apis";
 import generator from 'generate-password';
 
 export const walletApi: sdkApi.wallet = {
@@ -8,7 +8,7 @@ export const walletApi: sdkApi.wallet = {
         const name = params.name;
         const privateKey = params.privateKey;
         const networkType = params.networkType;
-        const password = new Password(generator.generate({length: 50, numbers: true, symbols: true,}));
+        const password = new Password(generator.generate({ length: 50, numbers: true, symbols: true, }));
         const wallet = await SimpleWallet.createFromPrivateKey(name, password, privateKey, networkType);
         const account = Account.createFromPrivateKey(privateKey, networkType)
         const publicAccount = PublicAccount.createFromPublicKey(account.publicKey, networkType)
@@ -33,7 +33,7 @@ export const walletApi: sdkApi.wallet = {
         const name = params.name;
         const networkType = params.networkType;
         const privateKey = Account.generateNewAccount(networkType).privateKey;
-        const password = new Password(generator.generate({length: 50, numbers: true, symbols: true,}));
+        const password = new Password(generator.generate({ length: 50, numbers: true, symbols: true, }));
         const wallet = await SimpleWallet.createFromPrivateKey(name, password, privateKey, networkType);
         return {
             result: {
@@ -48,7 +48,7 @@ export const walletApi: sdkApi.wallet = {
         const name = params.name;
         const privateKey = params.privateKey;
         const networkType = params.networkType;
-        const password = new Password(generator.generate({length: 50, numbers: true, symbols: true,}));
+        const password = new Password(generator.generate({ length: 50, numbers: true, symbols: true, }));
         const wallet = await SimpleWallet.createFromPrivateKey(name, password, privateKey, networkType);
         return {
             result: {

@@ -97,18 +97,17 @@ export class MultisigManagementTs extends Vue {
             networkType,
             UInt64.fromUint(innerFee)
         )
-        createCompleteMultisigTransaction(
+        const aggregateTransaction = createCompleteMultisigTransaction(
             [modifyMultisigAccountTx],
             multisigPublickey,
             networkType,
             innerFee,
-        ).then((aggregateTransaction) => {
-            transactionApi._announce({
-                transaction: aggregateTransaction,
-                account,
-                node,
-                generationHash
-            })
+        )
+        transactionApi._announce({
+            transaction: aggregateTransaction,
+            account,
+            node,
+            generationHash
         })
     }
 
@@ -131,22 +130,21 @@ export class MultisigManagementTs extends Vue {
             networkType,
             UInt64.fromUint(innerFee)
         );
-        createBondedMultisigTransaction(
+        const aggregateTransaction = createBondedMultisigTransaction(
             [modifyMultisigAccountTransaction],
             account.publicKey,
             networkType,
             account, bondedFee
-        ).then((aggregateTransaction) => {
-            transactionApi.announceBondedWithLock({
-                aggregateTransaction,
-                account,
-                listener,
-                node,
-                generationHash,
-                networkType,
-                fee: lockFee,
-                mosaicHex,
-            })
+        )
+        transactionApi.announceBondedWithLock({
+            aggregateTransaction,
+            account,
+            listener,
+            node,
+            generationHash,
+            networkType,
+            fee: lockFee,
+            mosaicHex,
         })
     }
 
