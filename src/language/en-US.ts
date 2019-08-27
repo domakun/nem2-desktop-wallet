@@ -652,6 +652,8 @@ export const en_US = {
 
     This_password_is_used_for_importing_the_keystore_file: 'This password is the password for decrypting the Keystore and is used for importing the keystore file. Please remember it.',
     timestamp: 'timestamp',
-    sender: 'sender'
+    sender: 'sender',
+
+    inner_transaction:'inner',
 
 }

@@ -83,7 +83,8 @@ export class MonitorDashBoardTs extends Vue {
 
     showDialog(transaction) {
         this.isShowDialog = true
-        this.transactionDetails = transaction.dialogDetailMap
+        this.transactionDetails = transaction
+        console.log(transaction, '.............')
     }
 
     get currentHeight() {

@@ -633,6 +633,8 @@ export const zh_CN = {
     PLACEHOLDER_previous_password: 'My FiRst Pa$$word!',
 
     timestamp: '时间戳',
-    sender: '发送者'
+    sender: '发送者',
+
+    inner_transaction:'内部交易',
 
 }

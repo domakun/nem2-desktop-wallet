@@ -69,7 +69,6 @@ export default class TransferTransactionTs extends Vue {
         let {node, generationHash} = this
         let {address, mosaic, amount, remark, fee} = this.formItem
         const account = Account.createFromPrivateKey(key, this.getWallet.networkType)
-
         transactionApi.transferTransaction({
             network: this.getWallet.networkType,
             MaxFee: fee,
@@ -94,7 +93,6 @@ export default class TransferTransactionTs extends Vue {
                     that.initForm()
                 })
             })
-
         })
     }
 
