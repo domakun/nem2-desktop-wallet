@@ -49,4 +49,8 @@ export class CheckPasswordDialogTs extends Vue {
         this.show = this.showCheckPWDialog
     }
 
+    signAndAnnounce(signedTransaction:Array<any>,privatekey:string){
+
+    }
+
 }

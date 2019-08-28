@@ -15,7 +15,7 @@ import {WalletApiRxjs} from "@/core/api/WalletApiRxjs.ts";
 import {AccountApiRxjs} from "@/core/api/AccountApiRxjs.ts";
 import {NamespaceApiRxjs} from "@/core/api/NamespaceApiRxjs.ts";
 import {MultisigApiRxjs} from "@/core/api/MultisigApiRxjs.ts";
-import {filterApi} from "@/core/api/filterApi.ts";
+// import {filterApi} from "@/core/api/filterApi.ts";
 import {BlockApiRxjs} from "@/core/api/BlockApiRxjs.ts";
 import {formateNemTimestamp} from "@/core/utils/utils.ts";
 import {concatAll} from 'rxjs/operators';
@@ -193,62 +193,62 @@ export const createCompleteMultisigTransaction = (transaction: Array<Transaction
     return new MultisigApiRxjs().completeMultisigTransaction(networkType, fee, multisigPublickey, transaction)
 }
 
-export const creatrModifyAccountPropertyTransaction = (propertyType: PropertyType, modifications: Array<any>, networkType: NetworkType, fee: number,) => {
-    //address
-    if (propertyType === PropertyType.BlockAddress || propertyType === PropertyType.AllowAddress) {
-        modifications = modifications.map((item) => {
-            return AccountPropertyModification.createForAddress(
-                // TODO AFTER SDK COMPLETE  add PropertyModificationType
-                PropertyModificationType.Remove,
-                Address.createFromRawAddress(item.value)
-            )
-        })
-        return filterApi.creatrModifyAccountPropertyAddressTransaction({
-            propertyType,
-            modifications,
-            networkType,
-            fee
-        }).then((result) => {
-            return result.result.modifyAccountPropertyAddressTransaction
-        })
-    }
-    // entity type
-    if (propertyType === PropertyType.BlockTransaction || propertyType === PropertyType.AllowTransaction) {
-        modifications = modifications.map((item) => {
-            return AccountPropertyModification.createForEntityType(
-                // TODO AFTER SDK COMPLETE  add PropertyModificationType
-                PropertyModificationType.Remove,
-                item.value
-            )
-        })
-        return filterApi.creatrModifyAccountPropertyEntityTypeTransaction({
-            propertyType,
-            modifications,
-            networkType,
-            fee
-        }).then((result) => {
-            return result.result.modifyAccountPropertyEntityTypeTransaction
-        })
-    }
-    // mosaic
-    if (propertyType === PropertyType.BlockMosaic || propertyType === PropertyType.AllowMosaic) {
-        modifications = modifications.map((item) => {
-            // TODO AFTER SDK COMPLETE  add PropertyModificationType
-            return AccountPropertyModification.createForMosaic(
-                PropertyModificationType.Remove,
-                new MosaicId(item.value)
-            )
-        })
-        return filterApi.creatrModifyAccountPropertyMosaicTransaction({
-            propertyType,
-            modifications,
-            networkType,
-            fee
-        }).then((result) => {
-            return result.result.modifyAccountPropertyMosaicTransaction
-        })
-    }
-}
+// export const creatrModifyAccountPropertyTransaction = (propertyType: PropertyType, modifications: Array<any>, networkType: NetworkType, fee: number,) => {
+//     //address
+//     if (propertyType === PropertyType.BlockAddress || propertyType === PropertyType.AllowAddress) {
+//         modifications = modifications.map((item) => {
+//             return AccountPropertyModification.createForAddress(
+//                 // TODO AFTER SDK COMPLETE  add PropertyModificationType
+//                 PropertyModificationType.Remove,
+//                 Address.createFromRawAddress(item.value)
+//             )
+//         })
+//         return filterApi.creatrModifyAccountPropertyAddressTransaction({
+//             propertyType,
+//             modifications,
+//             networkType,
+//             fee
+//         }).then((result) => {
+//             return result.result.modifyAccountPropertyAddressTransaction
+//         })
+//     }
+//     // entity type
+//     if (propertyType === PropertyType.BlockTransaction || propertyType === PropertyType.AllowTransaction) {
+//         modifications = modifications.map((item) => {
+//             return AccountPropertyModification.createForEntityType(
+//                 // TODO AFTER SDK COMPLETE  add PropertyModificationType
+//                 PropertyModificationType.Remove,
+//                 item.value
+//             )
+//         })
+//         return filterApi.creatrModifyAccountPropertyEntityTypeTransaction({
+//             propertyType,
+//             modifications,
+//             networkType,
+//             fee
+//         }).then((result) => {
+//             return result.result.modifyAccountPropertyEntityTypeTransaction
+//         })
+//     }
+//     // mosaic
+//     if (propertyType === PropertyType.BlockMosaic || propertyType === PropertyType.AllowMosaic) {
+//         modifications = modifications.map((item) => {
+//             // TODO AFTER SDK COMPLETE  add PropertyModificationType
+//             return AccountPropertyModification.createForMosaic(
+//                 PropertyModificationType.Remove,
+//                 new MosaicId(item.value)
+//             )
+//         })
+//         return filterApi.creatrModifyAccountPropertyMosaicTransaction({
+//             propertyType,
+//             modifications,
+//             networkType,
+//             fee
+//         }).then((result) => {
+//             return result.result.modifyAccountPropertyMosaicTransaction
+//         })
+//     }
+// }
 
 /*  transactionList: pointer of target array  Array
 *   node:node   stirng
