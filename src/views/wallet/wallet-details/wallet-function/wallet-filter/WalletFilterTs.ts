@@ -3,7 +3,6 @@ import {Component, Vue} from 'vue-property-decorator'
 import {Account, Crypto, PropertyType} from "nem2-sdk"
 import {Message, entityTypeList} from "@/config/index.ts"
 import {TransactionApiRxjs} from "@/core/api/TransactionApiRxjs.ts"
-import {creatrModifyAccountPropertyTransaction} from '@/core/utils/wallet.ts'
 
 @Component
 export class WalletFilterTs extends Vue {
@@ -136,20 +135,20 @@ export class WalletFilterTs extends Vue {
         const {networkType} = this.$store.state.account.wallet
         const {generationHash, node} = this.$store.state.account
         const account = Account.createFromPrivateKey(privatekey, networkType)
-        creatrModifyAccountPropertyTransaction(
-            filterType,
-            filterList,
-            networkType,
-            fee
-        ).then((modifyAccountPropertyAddressTransaction) => {
-            console.log(modifyAccountPropertyAddressTransaction)
-            new TransactionApiRxjs()._announce(
-                modifyAccountPropertyAddressTransaction,
-                node,
-                account,
-                generationHash
-            )
-        })
+        // creatrModifyAccountPropertyTransaction(
+        //     filterType,
+        //     filterList,
+        //     networkType,
+        //     fee
+        // ).then((modifyAccountPropertyAddressTransaction) => {
+        //     console.log(modifyAccountPropertyAddressTransaction)
+        //     new TransactionApiRxjs()._announce(
+        //         modifyAccountPropertyAddressTransaction,
+        //         node,
+        //         account,
+        //         generationHash
+        //     )
+        // })
     }
 
 
@@ -186,10 +185,6 @@ export class WalletFilterTs extends Vue {
         }
         const {node} = this.$store.state.account
         const {address} = this.$store.state.account.wallet
-        // TODO SDK has not been complete yet
-        // getAccountProperties(address, node).then((accountPropertiesInfo) => {
-        //     console.log(accountPropertiesInfo)
-        // })
     }
 
     created() {

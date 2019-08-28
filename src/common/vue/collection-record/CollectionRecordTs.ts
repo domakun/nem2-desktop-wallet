@@ -1,6 +1,7 @@
 import {PublicAccount} from 'nem2-sdk'
 import {TransactionApiRxjs} from '@/core/api/TransactionApiRxjs.ts'
 import {Component, Prop, Vue, Watch} from 'vue-property-decorator'
+import {TransferType} from '@/config/index.ts'
 import transacrionAssetIcon from '@/common/img/monitor/transaction/txConfirmed.png'
 import {
     formatTransactions,
@@ -64,7 +65,11 @@ export class CollectionRecordTs extends Vue {
         }
     ]
 
-    @Prop({ default: () => { return 0 } })
+    @Prop({
+        default: () => {
+            return 0
+        }
+    })
     transactionType
 
     get getWallet() {
@@ -142,30 +147,38 @@ export class CollectionRecordTs extends Vue {
             node,
         ).subscribe(async (transactionsInfo) => {
             let transferTransaction = formatTransactions(transactionsInfo, accountAddress, currentXEM1)
-            let list = []
             // get transaction by choose recript tx or send
-            if (transactionType == 1) {
+            if (transactionType == TransferType.RECEIVED) {
                 transferTransaction.forEach((item) => {
                     if (item.isReceipt) {
-                        list.push(item)
+                        that.localConfirmedTransactions.push(item)
                     }
                 })
-                that.localConfirmedTransactions = list
-                await that.getBlockInfoByTransactionList(that.localConfirmedTransactions, node)
-                that.onCurrentMonthChange()
-                that.isLoadingTransactionRecord = false
+                try {
+                    await that.getBlockInfoByTransactionList(that.localConfirmedTransactions, node)
+                } catch (e) {
+                    console.log(e)
+                } finally {
+                    that.onCurrentMonthChange()
+                    that.isLoadingTransactionRecord = false
+                }
                 return
             }
 
             transferTransaction.forEach((item) => {
                 if (!item.isReceipt) {
-                    list.push(item)
+                    that.localConfirmedTransactions.push(item)
                 }
             })
-            that.localConfirmedTransactions = list
-            await that.getBlockInfoByTransactionList(that.localConfirmedTransactions, node)
-            that.onCurrentMonthChange()
-            that.isLoadingTransactionRecord = false
+            try {
+                await that.getBlockInfoByTransactionList(that.localConfirmedTransactions, node)
+            } catch (e) {
+                console.log(e)
+            } finally {
+                that.onCurrentMonthChange()
+                that.isLoadingTransactionRecord = false
+            }
+
         })
     }
 
@@ -188,25 +201,22 @@ export class CollectionRecordTs extends Vue {
             node,
         ).subscribe(async (transactionsInfo) => {
             let transferTransaction = formatTransactions(transactionsInfo, accountAddress, currentXEM1)
-            let list = []
             // get transaction by choose recript tx or send
-            if (transactionType == 1) {
+            if (transactionType == TransferType.RECEIVED) {
                 transferTransaction.forEach((item) => {
                     if (item.isReceipt) {
-                        list.push(item)
+                        that.localUnConfirmedTransactions.push(item)
                     }
                 })
-                that.localUnConfirmedTransactions = list
                 that.onCurrentMonthChange()
                 that.isLoadingTransactionRecord = false
                 return
             }
             transferTransaction.forEach((item) => {
                 if (!item.isReceipt) {
-                    list.push(item)
+                    that.localUnConfirmedTransactions.push(item)
                 }
             })
-            that.localUnConfirmedTransactions = list
             that.onCurrentMonthChange()
             that.isLoadingTransactionRecord = false
         })

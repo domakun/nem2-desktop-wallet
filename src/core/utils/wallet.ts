@@ -1,14 +1,10 @@
 import {localRead, localSave} from "@/core/utils/utils.ts"
 import {
     Account,
-    AccountPropertyModification,
     Address,
     Crypto,
     NetworkType,
-    PropertyType,
     Transaction,
-    PropertyModificationType,
-    MosaicId
 } from 'nem2-sdk'
 import CryptoJS from 'crypto-js'
 import {WalletApiRxjs} from "@/core/api/WalletApiRxjs.ts";
