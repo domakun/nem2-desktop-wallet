@@ -2,7 +2,7 @@ import {market} from "@/core/api/logicApi.ts"
 import {KlineQuery} from "@/core/query/klineQuery.ts"
 import {transactionFormat} from '@/core/utils/format.ts'
 import {BlockApiRxjs} from '@/core/api/BlockApiRxjs.ts'
-import {transactionApi} from '@/core/api/transactionApi.ts'
+import {TransactionApiRxjs} from '@/core/api/TransactionApiRxjs.ts'
 import {Component, Vue, Watch} from 'vue-property-decorator'
 import {PublicAccount, NetworkType, Deadline} from 'nem2-sdk'
 import LineChart from '@/common/vue/line-chart/LineChart.vue'
@@ -142,17 +142,15 @@ export class MonitorDashBoardTs extends Vue {
         let {accountPrivateKey, accountPublicKey, currentXem, accountAddress, node} = this
         if (!accountPublicKey || accountPublicKey.length < 64) return
         const publicAccount = PublicAccount.createFromPublicKey(accountPublicKey, NetworkType.MIJIN_TEST)
-        transactionApi.transactions({
+        new TransactionApiRxjs().transactions(
             publicAccount,
-            node,
-            queryParams: {
+            {
                 pageSize: 100
-            }
-        }).then((transactionsResult) => {
-            transactionsResult.result.transactions.subscribe(async (transactionsInfo) => {
-                that.allTransacrionList.push(...transactionsInfo)
-                await that.getBlockInfoByTransactionList(that.allTransacrionList, node)
-            })
+            },
+            node,
+        ).subscribe(async (transactionsInfo) => {
+            that.allTransacrionList.push(...transactionsInfo)
+            await that.getBlockInfoByTransactionList(that.allTransacrionList, node)
         })
     }
 
@@ -161,21 +159,20 @@ export class MonitorDashBoardTs extends Vue {
         let {accountPrivateKey, accountPublicKey, currentXem, accountAddress, node} = this
         if (!accountPublicKey || accountPublicKey.length < 64) return
         const publicAccount = PublicAccount.createFromPublicKey(accountPublicKey, NetworkType.MIJIN_TEST)
-        transactionApi.unconfirmedTransactions({
+        new TransactionApiRxjs().unconfirmedTransactions(
             publicAccount,
-            node,
-            queryParams: {
+
+            {
                 pageSize: 100
-            }
-        }).then((transactionsResult) => {
-            transactionsResult.result.unconfirmedTransactions.subscribe(async (unconfirmedtransactionsInfo) => {
-                unconfirmedtransactionsInfo = unconfirmedtransactionsInfo.map((unconfirmedtransaction) => {
-                    unconfirmedtransaction.isTxUnconfirmed = true
-                    return unconfirmedtransaction
-                })
-                that.allTransacrionList.push(...unconfirmedtransactionsInfo)
-                await that.getBlockInfoByTransactionList(that.allTransacrionList, node)
+            },
+            node,
+        ).subscribe(async (unconfirmedtransactionsInfo:any) => {
+            unconfirmedtransactionsInfo = unconfirmedtransactionsInfo.map((unconfirmedtransaction) => {
+                unconfirmedtransaction.isTxUnconfirmed = true
+                return unconfirmedtransaction
             })
+            that.allTransacrionList.push(...unconfirmedtransactionsInfo)
+            await that.getBlockInfoByTransactionList(that.allTransacrionList, node)
         })
     }
 
