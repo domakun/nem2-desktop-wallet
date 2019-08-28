@@ -219,7 +219,6 @@ export const en_US = {
     //setting-normal
     switch_language: 'Switch language',
     currency_setting: 'Currency setting',
-    Time_zone_setting: 'Time zone setting',
     account_name: 'Account name',
     the_default_is_Number: 'The default is Nember',
     confirm: 'Confirm',
