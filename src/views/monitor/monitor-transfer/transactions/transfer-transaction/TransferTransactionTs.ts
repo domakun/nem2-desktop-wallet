@@ -2,219 +2,158 @@ import {Message} from "@/config/index.ts"
 import {MosaicApiRxjs} from '@/core/api/MosaicApiRxjs.ts'
 import {AccountApiRxjs} from '@/core/api/AccountApiRxjs.ts'
 import {Account, Mosaic, MosaicId, UInt64} from 'nem2-sdk'
-import {Component, Vue, Watch} from 'vue-property-decorator'
+import {Component, Vue, Watch,Provide} from 'vue-property-decorator'
 import {TransactionApiRxjs} from '@/core/api/TransactionApiRxjs.ts'
 import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
-
+import {clone} from '@/core/utils/utils'
+import ErrorTooltip from '@/views/other/forms/errorTooltip/ErrorTooltip.vue'
+import {standardFields} from '@/core/validation'
+import {mapState} from 'vuex';
 
 @Component({
-    components: {
-        CheckPWDialog
-    }
+  components: { CheckPWDialog, ErrorTooltip },
+  computed  : { ...mapState({ activeAccount: 'account' }) },
 })
 export default class TransferTransactionTs extends Vue {
-    node = ''
-    currentXem = ''
-    mosaicList = []
-    generationHash = ''
-    accountAddress = ''
-    accountPublicKey = ''
-    transactionDetail = {}
-    isShowSubAlias = false
-    showCheckPWDialog = false
-    isCompleteForm = false
-    formItem = {
-        fee: 50000,
-        remark: '',
-        address: '',
-        mosaic: '',
-        amount: 0,
-    }
+  @Provide() validator: any = this.$validator
+  activeAccount: any
+  standardFields: object = standardFields
+  errors: any
+  submitDisabled: boolean = false
+  mosaicList = []
+  transactionDetail = {}
+  showCheckPWDialog = false
+  isCompleteForm = false
 
-    get getWallet() {
-        return this.$store.state.account.wallet
-    }
+  formFields = {
+    fee: 50000,
+    remark: '',
+    address: '',
+    mosaic: '',
+    amount: 0,
+  }
 
-    initForm() {
-        this.formItem = {
-            fee: 50000,
-            remark: '',
-            address: 'SCSXIT-R36DCY-JRVSNE-NY5BUA-HXSL7I-E6ULEY-UYRC',
-            mosaic: '',
-            amount: 0,
-        }
-    }
+  formModel = clone(this.formFields)
 
-    checkInfo() {
-        if (!this.isCompleteForm) return
-        if (!this.checkForm()) return
+  get wallet() { return this.activeAccount.wallet }
+  get accountPublicKey() { return this.activeAccount.wallet.publicKey }
+  get accountAddress() { return this.activeAccount.wallet.address }
+  get node() { return this.activeAccount.node }
+  get currentXem() { return this.activeAccount.currentXem }
+  get generationHash() { return this.activeAccount.generationHash }
+
+  resetFields() {
+    this.formModel = clone(this.formFields)
+    this.$nextTick(() => this.$validator.reset())
+  }
+
+  submit() {
+    this.$validator
+      .validate()
+      .then((valid) => {
+        if(!valid) return
         this.showDialog()
-    }
+      });
+  }
 
-    showDialog() {
-        const {address, mosaic, amount, remark, fee} = this.formItem
-        this.transactionDetail = {
-            "transaction_type": 'ordinary_transfer',
-            "transfer_target": address,
-            "asset_type": mosaic,
-            "quantity": amount,
-            "fee": fee + 'gas',
-            "remarks": remark
-        }
-        this.showCheckPWDialog = true
+  showDialog() {
+    const {address, mosaic, amount, remark, fee} = this.formModel
+    this.transactionDetail = {
+      "transaction_type": 'ordinary_transfer',
+      "transfer_target": address,
+      "asset_type": mosaic,
+      "quantity": amount,
+      "fee": fee + 'gas',
+      "remarks": remark
     }
+    this.showCheckPWDialog = true
+  }
 
-    sendTransaction(key) {
-        const that = this
-        let {node, generationHash} = this
-        let {address, mosaic, amount, remark, fee} = this.formItem
-        const account = Account.createFromPrivateKey(key, this.getWallet.networkType)
-        const transaction = new TransactionApiRxjs().transferTransaction(
-            this.getWallet.networkType,
-            fee,
-            address,
-            [new Mosaic(new MosaicId(mosaic), UInt64.fromUint(amount))],
-            0,
-            remark
-        )
+  sendTransaction(key) {
+    const that = this
+    let {node, generationHash} = this
+    let {address, mosaic, amount, remark, fee} = this.formModel
+    const { networkType } = this.wallet
+    const account = Account.createFromPrivateKey(key, networkType)
+      const transaction = new TransactionApiRxjs().transferTransaction(
+          networkType,
+          fee,
+          address,
+          [new Mosaic(new MosaicId(mosaic), UInt64.fromUint(amount))],
+          0,
+          remark
+      )
+
         const signature = account.sign(transaction, generationHash)
-        new TransactionApiRxjs().announce(signature, node).subscribe((announceInfo: any) => {
-            that.$Notice.success({
-                title: this.$t(Message.SUCCESS) + ''
-            })
-            that.initForm()
-        })
-    }
-
-    checkForm() {
-        const {address, mosaic, amount, remark, fee} = this.formItem
-        if (address.length < 40) {
-            this.showErrorMessage(this.$t(Message.ADDRESS_FORMAT_ERROR))
-            return false
-        }
-        if (mosaic == '' || mosaic.trim() == '') {
-            this.showErrorMessage(this.$t(Message.INPUT_EMPTY_ERROR))
-            return false
-        }
-        if ((!Number(amount) && Number(amount) !== 0) || Number(amount) < 0) {
-            this.showErrorMessage(this.$t(Message.AMOUNT_LESS_THAN_0_ERROR))
-            return false
-        }
-        if ((!Number(fee) && Number(fee) !== 0) || Number(fee) < 0) {
-            this.showErrorMessage(this.$t(Message.FEE_LESS_THAN_0_ERROR))
-            return false
-        }
-        return true
-    }
-
-    showErrorMessage(message) {
-        this.$Notice.destroy()
-        this.$Notice.error({
-            title: message
-        })
-    }
-
-    async getMosaicList() {
-        const that = this
-        let {accountAddress, node} = this
-        const {currentXEM1, currentXEM2} = this.$store.state.account
-        new AccountApiRxjs().getAccountInfo(accountAddress, node).subscribe((accountInfo) => {
-            let mosaicList = []
-            // set mosaicList
-            mosaicList = accountInfo.mosaics.map((item: any) => {
-                item._amount = item.amount.compact()
-                item.value = item.id.toHex()
-                if (item.value == currentXEM1 || item.value == currentXEM2) {
-                    item.label = 'nem.xem' + ' (' + item._amount + ')'
-                } else {
-                    item.label = item.id.toHex() + ' (' + item._amount + ')'
-                }
-                return item
-            })
-            let isCrrentXEMExists = mosaicList.every((item) => {
-                if (item.value == currentXEM1 || item.value == currentXEM2) {
-                    return false
-                }
-                return true
-            })
-            if (isCrrentXEMExists) {
-                mosaicList.unshift({
-                    value: currentXEM1,
-                    label: 'nem.xem'
+      new TransactionApiRxjs().announce(signature, node).subscribe(
+              () => {
+                that.$Notice.success({
+                    title: this.$t(Message.SUCCESS) + ''
                 })
-            }
-            that.mosaicList = mosaicList
-        }, () => {
-            let mosaicList = []
-            mosaicList.unshift({
-                value: currentXEM1,
-                label: 'nem.xem'
-            })
-            that.mosaicList = mosaicList
-        })
-    }
+                that.resetFields()
+              }, (error) => { console.log(error) }
+            )
+  }
 
+  async getMosaicList() {
+      this.mosaicList = []
+      const that = this
+      let {accountAddress, node} = this
+      const {currentXEM1, currentXEM2} = this.activeAccount
+      new AccountApiRxjs().getAccountInfo(accountAddress, node).subscribe((accountInfo) => {
+              // set mosaicList
+              const mosaicList = accountInfo.mosaics.map((item:any) => {
+                  item._amount = item.amount.compact()
+                  item.value = item.id.toHex()
+                  if (item.value == currentXEM1 || item.value == currentXEM2) {
+                      item.label = 'nem.xem' + ' (' + item._amount + ')'
+                  } else {
+                      item.label = item.id.toHex() + ' (' + item._amount + ')'
+                  }
+                  return item
+              })
+              let isCrrentXEMExists = mosaicList.every((item) => {
+                  if (item.value == currentXEM1 || item.value == currentXEM2) {
+                      return false
+                  }
+                  return true
+              })
+              if (isCrrentXEMExists) {
+                  mosaicList.unshift({
+                      value: currentXEM1,
+                      label: 'nem.xem'
+                  })
+              }
+              that.mosaicList = mosaicList
+          }, () => {
+              that.mosaicList = [{
+                  value: currentXEM1,
+                  label: 'nem.xem'
+              }]
+      })
+  }
 
-    getNamespace(currentXem, mosaicIdList, currentXEM1, currentXEM2, mosaicList) {
-        let currentXEMHex = ''
-        const that = this
-        new MosaicApiRxjs().getMosaicByNamespace(currentXem)
-        let isCrrentXEMExists = true
-        let spliceIndex = -1
-        isCrrentXEMExists = mosaicIdList.every((item, index) => {
-            if (item.value == currentXEM1 || item.value == currentXEM2) {
-                spliceIndex = index
-                return false
-            }
-            return true
-        })
-        that.mosaicList = mosaicList
-        that.formItem.mosaic = currentXEMHex
-    }
+  closeCheckPWDialog() { this.showCheckPWDialog = false }
 
-    initData() {
-        if (!this.getWallet) {
-            return
-        }
-        this.accountPublicKey = this.getWallet.publicKey
-        this.accountAddress = this.getWallet.address
-        this.node = this.$store.state.account.node
-        this.currentXem = this.$store.state.account.currentXem
-        this.generationHash = this.$store.state.account.generationHash
-    }
+  checkEnd(key) {
+      if (key) {
+          this.sendTransaction(key)
+      } else {
+          this.$Notice.error({
+              title: this.$t(Message.WRONG_PASSWORD_ERROR) + ''
+          })
+      }
+  }
 
-    closeCheckPWDialog() {
-        this.showCheckPWDialog = false
-    }
+  @Watch('accountAddress')
+  onAcountAddressChange() {
+      this.resetFields()
+      this.getMosaicList()
+  }
 
-    checkEnd(key) {
-        if (key) {
-            this.sendTransaction(key)
-        } else {
-            this.$Notice.error({
-                title: this.$t(Message.WRONG_PASSWORD_ERROR) + ''
-            })
-        }
-    }
+  @Watch('errors.items')
+  onErrorsChanged() { this.submitDisabled = this.errors.items.length > 0 }
 
-
-    @Watch('getWallet')
-    onGetWalletChange() {
-        this.initData()
-        this.getMosaicList()
-    }
-
-    @Watch('formItem', {immediate: true, deep: true})
-    onFormItemChange() {
-        const {address, mosaic, amount, fee} = this.formItem
-        // isCompleteForm
-        this.isCompleteForm = address !== '' && mosaic !== '' && parseInt(amount.toString()) >= 0 && fee >= 0
-    }
-
-    created() {
-        this.initForm()
-        this.initData()
-        this.getMosaicList()
-    }
-
+  created() { this.getMosaicList() }
+  mounted() { this.resetFields() }
 }

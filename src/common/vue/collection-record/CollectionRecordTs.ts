@@ -3,7 +3,6 @@ import {TransactionApiRxjs} from '@/core/api/TransactionApiRxjs.ts'
 import {Component, Prop, Vue, Watch} from 'vue-property-decorator'
 import transacrionAssetIcon from '@/common/img/monitor/transaction/txConfirmed.png'
 import {
-    formateNemTimestamp,
     formatTransactions,
     getCurrentMonthFirst,
     getCurrentMonthLast,
@@ -65,11 +64,7 @@ export class CollectionRecordTs extends Vue {
         }
     ]
 
-    @Prop({
-        default: () => {
-            return 0
-        }
-    })
+    @Prop({ default: () => { return 0 } })
     transactionType
 
     get getWallet() {
