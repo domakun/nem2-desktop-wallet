@@ -14,6 +14,7 @@
     import {ListenerApiRxjs} from '@/core/api/ListenerApiRxjs.ts'
     import {Component, Vue} from 'vue-property-decorator'
 
+
     @Component
     export default class App extends Vue {
         node: any
