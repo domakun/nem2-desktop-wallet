@@ -1,7 +1,7 @@
 import {Crypto} from 'nem2-sdk'
 import {Message} from "@/config/index.ts"
 import {decryptKey} from "@/core/utils/wallet.ts"
-import {walletApi} from "@/core/api/walletApi.ts"
+import {WalletApiRxjs} from "@/core/api/WalletApiRxjs.ts"
 import {Component, Vue, Prop, Watch} from 'vue-property-decorator'
 
 @Component
@@ -28,19 +28,20 @@ export class CheckPasswordDialogTs extends Vue {
 
     checkPassword() {
         const DeTxt = decryptKey(this.getWallet, this.wallet.password)
-        walletApi.getWallet({
-            name: this.getWallet.name,
-            networkType: this.getWallet.networkType,
-            privateKey: DeTxt.length === 64 ? DeTxt : ''
-        }).then(async (Wallet: any) => {
+        try {
+            new WalletApiRxjs().getWallet(
+                this.getWallet.name,
+                DeTxt.length === 64 ? DeTxt : '',
+                this.getWallet.networkType,
+            )
             this.show = false
             this.checkPasswordDialogCancel()
             this.$emit('checkEnd', DeTxt)
-        }).catch(() => {
+        } catch (e) {
             this.$Notice.error({
                 title: this.$t(Message.WRONG_PASSWORD_ERROR) + ''
             })
-        })
+        }
     }
 
     @Watch('showCheckPWDialog')

@@ -3,7 +3,7 @@ import {Message, bandedNamespace as BandedNamespaceList} from "@/config/index.ts
 import {formatAddress} from '@/core/utils/utils.ts'
 import {Component, Vue, Watch} from 'vue-property-decorator'
 import {NamespaceApiRxjs} from "@/core/api/NamespaceApiRxjs.ts"
-import {transactionApi} from "@/core/api/transactionApi.ts"
+import {TransactionApiRxjs} from "@/core/api/TransactionApiRxjs.ts"
 import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
 import {MultisigApiRxjs} from "@/core/api/MultisigApiRxjs.ts"
 
@@ -85,15 +85,12 @@ export class SubNamespaceTs extends Vue {
 
         transaction = this.createSubNamespace()
         const signature = account.sign(transaction, this.generationHash)
-        transactionApi.announce({signature, node: this.node}).then((announceResult) => {
-            // get announce status
-            announceResult.result.announceStatus.subscribe((announceInfo: any) => {
+        new TransactionApiRxjs().announce(signature,  this.node).subscribe((announceInfo: any) => {
                 that.$emit('createdNamespace')
                 that.$Notice.success({
                     title: this.$t(Message.SUCCESS) + ''
                 })
                 that.initForm()
-            })
         })
     }
 

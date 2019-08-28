@@ -1,7 +1,7 @@
 import {Message} from "@/config/index.ts"
 import {Component, Vue, Watch} from 'vue-property-decorator'
 import {MultisigApiRxjs} from '@/core/api/MultisigApiRxjs.ts'
-import {transactionApi} from '@/core/api/transactionApi.ts'
+import {TransactionApiRxjs} from '@/core/api/TransactionApiRxjs.ts'
 import {createBondedMultisigTransaction} from "@/core/utils/wallet.ts"
 import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
 import {
@@ -178,16 +178,16 @@ export class MultisigConversionTs extends Vue {
             account,
             bondedFee,
         )
-            transactionApi.announceBondedWithLock({
-                aggregateTransaction,
-                account,
-                listener,
-                node,
-                generationHash,
-                networkType,
-                fee: lockFee,
-                mosaicHex,
-        })
+        new TransactionApiRxjs().announceBondedWithLock(
+            aggregateTransaction,
+            account,
+            listener,
+            node,
+            generationHash,
+            networkType,
+            lockFee,
+            mosaicHex,
+        )
     }
 
     @Watch('formItem', {immediate: true, deep: true})

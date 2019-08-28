@@ -160,7 +160,7 @@ export class TransactionApiRxjs implements TransactionRepository {
                 )
                 .subscribe(announcedAggregateBonded => console.log(announcedAggregateBonded),
                     err => console.error(err));
-        });
+        }).catch((error)=>{console.log(error)})
     }
 
     getTransactionEffectiveFee(node: string,

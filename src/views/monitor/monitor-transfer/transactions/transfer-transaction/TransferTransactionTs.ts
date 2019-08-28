@@ -3,7 +3,7 @@ import {MosaicApiRxjs} from '@/core/api/MosaicApiRxjs.ts'
 import {AccountApiRxjs} from '@/core/api/AccountApiRxjs.ts'
 import {Account, Mosaic, MosaicId, UInt64} from 'nem2-sdk'
 import {Component, Vue, Watch} from 'vue-property-decorator'
-import {transactionApi} from '@/core/api/transactionApi.ts'
+import {TransactionApiRxjs} from '@/core/api/TransactionApiRxjs.ts'
 import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
 
 
@@ -69,25 +69,20 @@ export default class TransferTransactionTs extends Vue {
         let {node, generationHash} = this
         let {address, mosaic, amount, remark, fee} = this.formItem
         const account = Account.createFromPrivateKey(key, this.getWallet.networkType)
-        transactionApi.transferTransaction({
-            network: this.getWallet.networkType,
-            MaxFee: fee,
-            receive: address,
-            MessageType: 0,
-            mosaics: [new Mosaic(new MosaicId(mosaic), UInt64.fromUint(amount))],
-            message: remark
-        }).then((transactionResult) => {
-            const transaction = transactionResult.result.transferTransaction
-            const signature = account.sign(transaction, generationHash)
-            transactionApi.announce({signature, node}).then((announceResult) => {
-                announceResult.result.announceStatus.subscribe((announceInfo: any) => {
-                    console.log(signature)
-                    that.$Notice.success({
-                        title: this.$t(Message.SUCCESS) + ''
-                    })
-                    that.initForm()
-                })
+        const transaction = new TransactionApiRxjs().transferTransaction(
+            this.getWallet.networkType,
+            fee,
+            address,
+            [new Mosaic(new MosaicId(mosaic), UInt64.fromUint(amount))],
+            0,
+            remark
+        )
+        const signature = account.sign(transaction, generationHash)
+        new TransactionApiRxjs().announce(signature, node).subscribe((announceInfo: any) => {
+            that.$Notice.success({
+                title: this.$t(Message.SUCCESS) + ''
             })
+            that.initForm()
         })
     }
 

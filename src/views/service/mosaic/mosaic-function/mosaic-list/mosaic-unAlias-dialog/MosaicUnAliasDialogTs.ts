@@ -1,8 +1,8 @@
 import {Message} from "@/config/index.ts"
 import {decryptKey} from "@/core/utils/wallet.ts"
-import {walletApi} from "@/core/api/walletApi.ts"
+import {WalletApiRxjs} from "@/core/api/WalletApiRxjs.ts"
 import {NamespaceApiRxjs} from "@/core/api/NamespaceApiRxjs.ts"
-import {transactionApi} from "@/core/api/transactionApi.ts"
+import {TransactionApiRxjs} from "@/core/api/TransactionApiRxjs.ts"
 import {Component, Vue, Prop, Watch} from 'vue-property-decorator'
 import {Account, AliasActionType, NamespaceId, MosaicId} from "nem2-sdk"
 
@@ -72,17 +72,17 @@ export class MosaicUnAliasDialogTs extends Vue {
 
     checkPrivateKey(DeTxt) {
         const that = this
-        walletApi.getWallet({
-            name: this.getWallet.name,
-            networkType: this.getWallet.networkType,
-            privateKey: DeTxt.length === 64 ? DeTxt : ''
-        }).then(async (Wallet: any) => {
+        try {
+            new WalletApiRxjs().getWallet( this.getWallet.name,
+                this.getWallet.networkType,
+                DeTxt.length === 64 ? DeTxt : ''
+            )
             this.updateMosaic(DeTxt)
-        }).catch(() => {
+        }catch (e) {
             that.$Notice.error({
                 title: this.$t('password_error') + ''
             })
-        })
+        }
     }
 
     async updateMosaic(key) {
@@ -96,16 +96,12 @@ export class MosaicUnAliasDialogTs extends Vue {
              that.mosaic.fee
         )
             const signature = account.sign(transaction, this.generationHash)
-            transactionApi.announce({signature, node: this.node}).then((announceResult) => {
-                // get announce status
-                console.log(signature)
-                announceResult.result.announceStatus.subscribe((announceInfo: any) => {
+            new TransactionApiRxjs().announce(signature,this.node).subscribe((announceInfo: any) => {
                     that.$Notice.success({
                         title: this.$t(Message.SUCCESS) + ''
                     })
                     that.initForm()
                     that.updatedMosaicAlias()
-            })
         })
 
     }

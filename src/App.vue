@@ -27,10 +27,10 @@
                 walletList[i].iv = walletList[i].iv.data
                 let style = 'walletItem_bg_' + String(Number(i) % 3)
                 walletList[i].style = style
-                await that.getAccountInfo(walletList[i]).then((data) => {
+                that.getAccountInfo(walletList[i]).then((data) => {
                     walletList[i] = data
                 })
-                await that.getMultisigAccount(walletList[i]).then((data) => {
+                that.getMultisigAccount(walletList[i]).then((data) => {
                     walletList[i] = data
                 })
             }
@@ -40,10 +40,11 @@
 
         async getAccountInfo(listItem) {
             let walletItem = listItem
+            walletItem.mosaics = []
             let node = this.$store.state.account.node
             let currentXEM2 = this.$store.state.account.currentXEM2
             let currentXEM1 = this.$store.state.account.currentXEM1
-            await new AccountApiRxjs().getAccountInfo(walletItem.address, node).subscribe((accountInfo) => {
+            new AccountApiRxjs().getAccountInfo(walletItem.address, node).subscribe((accountInfo) => {
                 let mosaicList = accountInfo.mosaics
                 mosaicList.map((item: any) => {
                     item.hex = item.id.toHex()
@@ -52,6 +53,8 @@
                     }
                 })
                 walletItem.mosaics = mosaicList
+            }, (error) => {
+                walletItem.mosaics = []
             })
             return walletItem
         }
@@ -59,7 +62,8 @@
         async getMultisigAccount(listItem) {
             let walletItem = listItem
             let node = this.$store.state.account.node
-            await new AccountApiRxjs().getMultisigAccountInfo(walletItem.address, node).subscribe((multisigAccountInfo: any) => {
+            walletItem.isMultisig = false
+            new AccountApiRxjs().getMultisigAccountInfo(walletItem.address, node).subscribe((multisigAccountInfo: any) => {
                 multisigAccountInfo.subscribe((accountInfo) => {
                     walletItem.isMultisig = true
                 }, () => {

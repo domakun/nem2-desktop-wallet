@@ -2,7 +2,7 @@ import {Message} from "@/config/index.ts"
 import {AccountApiRxjs} from '@/core/api/AccountApiRxjs.ts'
 import {MultisigApiRxjs} from '@/core/api/MultisigApiRxjs.ts'
 import {Component, Vue, Watch} from 'vue-property-decorator'
-import {transactionApi} from '@/core/api/transactionApi.ts'
+import {TransactionApiRxjs} from '@/core/api/TransactionApiRxjs.ts'
 import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
 import {
     Account,
@@ -120,16 +120,16 @@ export class MultisigTransferTransactionTs extends Vue {
                 account,
                 bondedFee
             )
-            transactionApi.announceBondedWithLock({
+            new TransactionApiRxjs().announceBondedWithLock(
                 aggregateTransaction,
                 account,
                 listener,
                 node,
                 generationHash,
                 networkType,
-                fee: lockFee,
+                lockFee,
                 mosaicHex,
-            })
+            )
             return
         }
         const aggregateTransaction = createCompleteMultisigTransaction(
@@ -138,12 +138,12 @@ export class MultisigTransferTransactionTs extends Vue {
             networkType,
             aggregateFee
         )
-        transactionApi._announce({
-            transaction: aggregateTransaction,
-            account,
+        new TransactionApiRxjs()._announce(
+            aggregateTransaction,
             node,
+            account,
             generationHash
-        })
+        )
     }
     MosaicTransactionTs
     getMultisigAccountList() {

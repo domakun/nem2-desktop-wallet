@@ -1,8 +1,8 @@
-import {walletApi} from "@/core/api/walletApi.ts"
+import {WalletApiRxjs} from "@/core/api/WalletApiRxjs.ts"
 import {Component, Vue} from 'vue-property-decorator'
 import {Account, Crypto, PropertyType} from "nem2-sdk"
 import {Message, entityTypeList} from "@/config/index.ts"
-import {transactionApi} from "@/core/api/transactionApi.ts"
+import {TransactionApiRxjs} from "@/core/api/TransactionApiRxjs.ts"
 import {creatrModifyAccountPropertyTransaction} from '@/core/utils/wallet.ts'
 
 @Component
@@ -143,12 +143,12 @@ export class WalletFilterTs extends Vue {
             fee
         ).then((modifyAccountPropertyAddressTransaction) => {
             console.log(modifyAccountPropertyAddressTransaction)
-            transactionApi._announce({
-                transaction: modifyAccountPropertyAddressTransaction,
-                account,
+            new TransactionApiRxjs()._announce(
+                modifyAccountPropertyAddressTransaction,
                 node,
+                account,
                 generationHash
-            })
+            )
         })
     }
 
@@ -170,20 +170,18 @@ export class WalletFilterTs extends Vue {
 
     checkPrivateKey(DeTxt) {
         const that = this
-        walletApi.getWallet({
-            name: this.getWallet.name,
-            networkType: this.getWallet.networkType,
-            privateKey: DeTxt.length === 64 ? DeTxt : ''
-        }).then(async (Wallet: any) => {
+        try {
+            new WalletApiRxjs().getWallet(this.getWallet.name,
+                DeTxt.length === 64 ? DeTxt : '',
+                this.getWallet.networkType)
             this.sendTransaction(DeTxt)
-        }).catch((e) => {
-            console.log(e)
+        } catch (e) {
             that.showErrorMessage(this.$t(Message.WRONG_PASSWORD_ERROR))
-        })
+        }
     }
 
     getAccountProperties() {
-        if(!this.$store.state.account.wallet){
+        if (!this.$store.state.account.wallet) {
             return
         }
         const {node} = this.$store.state.account

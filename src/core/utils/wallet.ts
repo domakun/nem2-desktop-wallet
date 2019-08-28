@@ -11,13 +11,15 @@ import {
     MosaicId
 } from 'nem2-sdk'
 import CryptoJS from 'crypto-js'
-import {walletApi} from "@/core/api/walletApi.ts";
+import {WalletApiRxjs} from "@/core/api/WalletApiRxjs.ts";
 import {AccountApiRxjs} from "@/core/api/AccountApiRxjs.ts";
 import {NamespaceApiRxjs} from "@/core/api/NamespaceApiRxjs.ts";
 import {MultisigApiRxjs} from "@/core/api/MultisigApiRxjs.ts";
 import {filterApi} from "@/core/api/filterApi.ts";
 import {BlockApiRxjs} from "@/core/api/BlockApiRxjs.ts";
 import {formateNemTimestamp} from "@/core/utils/utils.ts";
+import {concatAll} from 'rxjs/operators';
+import rxjs from 'rxjs'
 
 export const saveLocalWallet = (wallet, encryptObj, index, mnemonicEnCodeObj?) => {
     let localData: any[] = []
@@ -51,31 +53,27 @@ export const saveLocalWallet = (wallet, encryptObj, index, mnemonicEnCodeObj?) =
 
 export const getAccountDefault = async (name, account, netType, node?, currentXEM1?, currentXEM2?) => {
     let storeWallet = {}
-    await walletApi.getWallet({
-        name: name,
-        networkType: netType,
-        privateKey: account.privateKey
-    }).then(async (Wallet: any) => {
-        storeWallet = {
-            name: Wallet.result.wallet.name,
-            address: Wallet.result.wallet.address['address'],
-            networkType: Wallet.result.wallet.address['networkType'],
-            privateKey: Wallet.result.privateKey,
-            publicKey: account.publicKey,
-            publicAccount: account.publicAccount,
-            mosaics: [],
-            wallet: Wallet.result.wallet,
-            password: Wallet.result.password,
-            balance: 0
-        }
-        if (!node) return storeWallet
-        await setWalletMosaic(storeWallet, node, currentXEM1, currentXEM2).then((data) => {
-            storeWallet = data
-        })
-        await setMultisigAccount(storeWallet, node).then((data) => {
-            storeWallet = data
-        })
-    })
+
+    const Wallet = new WalletApiRxjs().getWallet(
+        name,
+        account.privateKey,
+        netType,
+    )
+    storeWallet = {
+        name: Wallet.wallet.name,
+        address: Wallet.wallet.address['address'],
+        networkType: Wallet.wallet.address['networkType'],
+        privateKey: Wallet.privateKey,
+        publicKey: account.publicKey,
+        publicAccount: account.publicAccount,
+        mosaics: [],
+        wallet: Wallet.wallet,
+        password: Wallet.password,
+        balance: 0
+    }
+    if (!node) return storeWallet
+    storeWallet = await setWalletMosaic(storeWallet, node, currentXEM1, currentXEM2)
+    storeWallet = await setMultisigAccount(storeWallet, node)
     return storeWallet
 }
 
@@ -97,7 +95,6 @@ export const setWalletMosaic = async (storeWallet, node, currentXEM1, currentXEM
         wallet.mosaics = []
 
     })
-
     return wallet
 }
 
@@ -116,30 +113,34 @@ export const setMultisigAccount = async (storeWallet, node) => {
 export const getNamespaces = async (address, node) => {
     let list = []
     let namespace = {}
-    let namespaceList: any = new NamespaceApiRxjs().getNamespacesFromAccount(Address.createFromRawAddress(address), node)
-    namespaceList.sort((a, b) => {
-        return a['namespaceInfo']['depth'] - b['namespaceInfo']['depth']
-    }).map((item, index) => {
-        if (!namespace.hasOwnProperty(item.namespaceInfo.id.toHex())) {
-            namespace[item.namespaceInfo.id.toHex()] = item.namespaceName
-        } else {
-            return
-        }
-        let namespaceName = ''
-        item.namespaceInfo.levels.map((item, index) => {
-            namespaceName += namespace[item.id.toHex()] + '.'
+    new NamespaceApiRxjs().getNamespacesFromAccount(
+        Address.createFromRawAddress(address),
+        node
+    ).then((namespacesFromAccount) => {
+        namespacesFromAccount.result.namespaceList
+            .sort((a, b) => {
+                return a['namespaceInfo']['depth'] - b['namespaceInfo']['depth']
+            }).map((item, index) => {
+            if (!namespace.hasOwnProperty(item.namespaceInfo.id.toHex())) {
+                namespace[item.namespaceInfo.id.toHex()] = item.namespaceName
+            } else {
+                return
+            }
+            let namespaceName = ''
+            item.namespaceInfo.levels.map((item, index) => {
+                namespaceName += namespace[item.id.toHex()] + '.'
+            })
+            namespaceName = namespaceName.slice(0, namespaceName.length - 1)
+            const newObj = {
+                value: namespaceName,
+                label: namespaceName,
+                alias: item.namespaceInfo.alias,
+                levels: item.namespaceInfo.levels.length,
+                name: namespaceName,
+                duration: item.namespaceInfo.endHeight.compact(),
+            }
+            list.push(newObj)
         })
-        namespaceName = namespaceName.slice(0, namespaceName.length - 1)
-        const newObj = {
-            parentId: item.namespaceInfo.parentId,
-            value: namespaceName,
-            label: namespaceName,
-            alias: item.namespaceInfo.alias,
-            levels: item.namespaceInfo.levels.length,
-            name: namespaceName,
-            duration: item.namespaceInfo.endHeight.compact(),
-        }
-        list.push(newObj)
     })
     return list
 }

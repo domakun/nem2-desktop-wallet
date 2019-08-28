@@ -3,7 +3,7 @@ import {multisigAccountInfo} from "@/core/utils/wallet.ts"
 import {MosaicApiRxjs} from '@/core/api/MosaicApiRxjs.ts'
 import {formatSeconds, formatAddress} from '@/core/utils/utils.ts'
 import {Component, Vue, Watch} from 'vue-property-decorator'
-import {transactionApi} from '@/core/api/transactionApi.ts'
+import {TransactionApiRxjs} from '@/core/api/TransactionApiRxjs.ts'
 import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
 import {createBondedMultisigTransaction, createCompleteMultisigTransaction} from '@/core/utils/wallet.ts'
 import {
@@ -193,17 +193,12 @@ export class MosaicTransactionTs extends Vue {
         const mosaicId = MosaicId.createFromNonce(nonce, PublicAccount.createFromPublicKey(accountPublicKey, this.getWallet.networkType))
         const mosaicDefinitionTransaction = new MosaicApiRxjs().createMosaic(nonce, mosaicId, supplyMutable, transferable, Number(divisibility), this.formItem.permanent ? undefined : Number(duration), this.getWallet.networkType, supply, account.publicAccount, Number(innerFee))
         const signature = account.sign(mosaicDefinitionTransaction, generationHash)
-        transactionApi.announce({signature, node}).then((announceResult) => {
-            // get announce status
-            announceResult.result.announceStatus.subscribe((announceInfo: any) => {
-                console.log(signature)
-                that.$Notice.success({
-                    title: this.$t(Message.SUCCESS) + ''
-                })
-                that.initForm()
+        new TransactionApiRxjs().announce(signature, node).subscribe((announceInfo: any) => {
+            console.log(signature)
+            that.$Notice.success({
+                title: this.$t(Message.SUCCESS) + ''
             })
-        }).catch((e) => {
-            console.log(e)
+            that.initForm()
         })
     }
 
@@ -248,16 +243,16 @@ export class MosaicTransactionTs extends Vue {
                 account,
                 aggregateFee
             )
-            transactionApi.announceBondedWithLock({
+            new TransactionApiRxjs().announceBondedWithLock(
                 aggregateTransaction,
                 account,
                 listener,
                 node,
                 generationHash,
                 networkType,
-                fee: lockFee,
+                lockFee,
                 mosaicHex,
-            })
+            )
             return
         }
         const aggregateTransaction = createCompleteMultisigTransaction(
@@ -266,12 +261,12 @@ export class MosaicTransactionTs extends Vue {
             networkType,
             aggregateFee,
         )
-        transactionApi._announce({
-            transaction: aggregateTransaction,
-            account,
+        new TransactionApiRxjs()._announce(
+            aggregateTransaction,
             node,
+            account,
             generationHash
-        })
+        )
     }
 
     checkForm() {

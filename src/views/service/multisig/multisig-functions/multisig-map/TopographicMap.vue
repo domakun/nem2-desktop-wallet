@@ -110,7 +110,7 @@
         }
 
 
-        async getMultisigInfo() {
+        getMultisigInfo() {
             const that = this
             const {address, publicAccount} = this.$store.state.account.wallet
             const {node} = this.$store.state.account
@@ -120,7 +120,7 @@
             let allAccountList = []
             let links = []
             const xAxisDistance = 30
-            await new MultisigApiRxjs().getMultisigAccountInfo(address, node).subscribe((multisigInfo) => {
+            new MultisigApiRxjs().getMultisigAccountInfo(address, node).subscribe((multisigInfo) => {
                 //self
                 const selfNode = {
                     name: 'self',

@@ -3,9 +3,9 @@ import {Component, Vue, Watch} from 'vue-property-decorator'
 import {EmptyAlias} from "nem2-sdk/dist/src/model/namespace/EmptyAlias"
 import {NamespaceApiRxjs} from "@/core/api/NamespaceApiRxjs.ts"
 import {Account, Address, AddressAlias, AliasActionType, MosaicId, NamespaceId} from "nem2-sdk";
-import {transactionApi} from "@/core/api/transactionApi.ts"
+import {TransactionApiRxjs} from "@/core/api/TransactionApiRxjs.ts"
 import {decryptKey} from "@/core/utils/wallet.ts"
-import {walletApi} from "@/core/api/walletApi.ts"
+import {WalletApiRxjs} from "@/core/api/WalletApiRxjs.ts"
 import {formatAddress, formatSeconds} from "@/core/utils/utils.ts"
 
 @Component
@@ -106,17 +106,17 @@ export class WalletAliasTs extends Vue {
 
     checkPrivateKey(DeTxt) {
         const that = this
-        walletApi.getWallet({
-            name: this.getWallet.name,
-            networkType: this.getWallet.networkType,
-            privateKey: DeTxt.length === 64 ? DeTxt : ''
-        }).then(async (Wallet: any) => {
-            this.addressAlias(DeTxt, true)
-        }).catch(() => {
+        try {
+            new WalletApiRxjs().getWallet(this.getWallet.name,
+                DeTxt.length === 64 ? DeTxt : '',
+                this.getWallet.networkType,
+            )
+            that.addressAlias(DeTxt, true)
+        } catch (e) {
             that.$Notice.error({
                 title: this.$t('password_error') + ''
             })
-        })
+        }
     }
 
     addressAlias(key, type) {
@@ -130,15 +130,11 @@ export class WalletAliasTs extends Vue {
             that.formItem.fee
         )
         const signature = account.sign(transaction, this.generationHash)
-        transactionApi.announce({signature, node: this.node}).then((announceResult) => {
-            // get announce status
-            console.log(signature)
-            announceResult.result.announceStatus.subscribe((announceInfo: any) => {
-                that.$Notice.success({
-                    title: this.$t(Message.SUCCESS) + ''
-                })
-                this.closeModel()
+        new TransactionApiRxjs().announce(signature, this.node).subscribe((announceInfo: any) => {
+            that.$Notice.success({
+                title: this.$t(Message.SUCCESS) + ''
             })
+            this.closeModel()
         })
     }
 

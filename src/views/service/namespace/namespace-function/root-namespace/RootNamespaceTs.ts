@@ -3,7 +3,7 @@ import {NamespaceApiRxjs} from "@/core/api/NamespaceApiRxjs.ts"
 import {MultisigApiRxjs} from '@/core/api/MultisigApiRxjs.ts'
 import {formatSeconds, formatAddress} from '@/core/utils/utils.ts'
 import {Component, Vue, Watch} from 'vue-property-decorator'
-import {transactionApi} from "@/core/api/transactionApi.ts"
+import {TransactionApiRxjs} from "@/core/api/TransactionApiRxjs.ts"
 import {Message, bandedNamespace as BandedNamespaceList} from "@/config/index.ts"
 import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
 import {createBondedMultisigTransaction, createCompleteMultisigTransaction} from "@/core/utils/wallet.ts"
@@ -88,13 +88,10 @@ export class RootNamespaceTs extends Vue {
         const account = Account.createFromPrivateKey(privatekey, this.getWallet.networkType);
         transaction = this.createRootNamespace()
         const signature = account.sign(transaction, this.generationHash)
-        transactionApi.announce({signature, node: this.node}).then((announceResult) => {
-            // get announce status
-            announceResult.result.announceStatus.subscribe((announceInfo: any) => {
+        new TransactionApiRxjs().announce(signature,this.node).subscribe((announceInfo: any) => {
                 that.$emit('createdNamespace')
                 that.$Notice.success({title: this.$t(Message.SUCCESS) + ''})
                 that.initForm()
-            })
         })
     }
 
@@ -120,16 +117,16 @@ export class RootNamespaceTs extends Vue {
                 account,
                 aggregateFee
             )
-            transactionApi.announceBondedWithLock({
+            new TransactionApiRxjs().announceBondedWithLock(
                 aggregateTransaction,
                 account,
                 listener,
                 node,
                 generationHash,
                 networkType,
-                fee: lockFee,
+                lockFee,
                 mosaicHex,
-            })
+            )
 
             return
         }
@@ -139,12 +136,12 @@ export class RootNamespaceTs extends Vue {
             networkType,
             aggregateFee
         )
-        transactionApi._announce({
-            transaction: aggregateTransaction,
-            account,
+        new TransactionApiRxjs()._announce(
+           aggregateTransaction,
             node,
+            account,
             generationHash
-        })
+        )
     }
 
     async checkEnd(privatekey) {

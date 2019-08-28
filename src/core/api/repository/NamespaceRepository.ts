@@ -5,7 +5,7 @@ import {
     NamespaceId,
     NetworkType, RegisterNamespaceTransaction,
 } from "nem2-sdk";
-import { Observable, Subscribable, Subscription } from "rxjs";
+import {Observable, Subscribable, Subscription} from "rxjs";
 
 export interface NamespaceRepository {
     createNamespaceId(name: string | number[]): NamespaceId;
@@ -43,9 +43,13 @@ export interface NamespaceRepository {
         url: string
     ): Observable<any>;
 
-    getNamespacesFromAccount(
-        address: Address,
-        url: string
-    ): Subscription;
+    // getNamespacesFromAccount(
+    //     address: Address,
+    //     url: string
+    // ): Observable<any>;
 
+    // getNamespacesName(
+    //     url: string,
+    //     namespaceIds: Array<NamespaceId>
+    // ): Observable<any>;
 }
