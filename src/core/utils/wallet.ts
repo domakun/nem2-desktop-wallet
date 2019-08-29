@@ -4,20 +4,18 @@ import {
     Address,
     Crypto, Listener,
     NetworkType,
-    Transaction, TransactionType,
+    Transaction, Mosaic, MosaicInfo,
 } from 'nem2-sdk'
 import CryptoJS from 'crypto-js'
 import {WalletApiRxjs} from "@/core/api/WalletApiRxjs.ts";
 import {AccountApiRxjs} from "@/core/api/AccountApiRxjs.ts";
 import {NamespaceApiRxjs} from "@/core/api/NamespaceApiRxjs.ts";
 import {MultisigApiRxjs} from "@/core/api/MultisigApiRxjs.ts";
-// import {filterApi} from "@/core/api/filterApi.ts";
 import {BlockApiRxjs} from "@/core/api/BlockApiRxjs.ts";
 import {formateNemTimestamp} from "@/core/utils/utils.ts";
-import {concatAll} from 'rxjs/operators';
-import rxjs from 'rxjs'
 import {TransactionApiRxjs} from "@/core/api/TransactionApiRxjs";
-import {Message} from "@/config";
+import { MosaicApiRxjs } from '../api/MosaicApiRxjs';
+import { async } from 'rxjs/internal/scheduler/async';
 
 export const saveLocalWallet = (wallet, encryptObj, index, mnemonicEnCodeObj?) => {
     let localData: any[] = []
@@ -210,7 +208,6 @@ export const getBlockInfoByTransactionList = (transactionList: Array<any>, node:
     })
 }
 
-
 export const signAndAnnounceNormal = (account: Account, node: string, generationHash: string, transactionList: Array<any>, callBack: any) => {
     try {
         const signature = account.sign(transactionList[0], generationHash)
@@ -247,4 +244,51 @@ export const signAndAnnounceBonded = (
         currentXEM1,
     )
 }
+
+export const getMosaicList =  (address: string, node: string):Mosaic[] => {
+    let mosaicList:Mosaic[]=[];
+    new AccountApiRxjs().getAccountInfo(address, node).subscribe((accountInfo) => {
+        mosaicList =  accountInfo.mosaics;
+        return;
+    });
+    return mosaicList;
+}
+
+export const getMosaicInfoList = (node: string, mosaicList: Mosaic[]):MosaicInfo[] => {
+    let mosaicInfoList:MosaicInfo[] = [];
+    const mosaicIds = mosaicList.map((item) => {
+        return item.id;
+    })
+    new MosaicApiRxjs().getMosaics(node, mosaicIds).subscribe(( mosaicInfoList) => {
+        return mosaicInfoList;
+    });
+    return mosaicInfoList;
+}
+
+export const buildMosaicList = (mosaicList: Mosaic[],coin1:string,coin2:string):any => {
+    const mosaicListRst = mosaicList.map((mosaic: any) => {
+        mosaic._amount = mosaic.amount.compact()
+        mosaic.value = mosaic.id.toHex()
+        if (mosaic.value == coin1 || mosaic.value == coin2) {
+            mosaic.label = 'nem.xem' + ' (' + mosaic._amount + ')'
+        } else {
+            mosaic.label = mosaic.id.toHex() + ' (' + mosaic._amount + ')'
+        }
+        return mosaic;
+    })
+    let isCoinExist = mosaicListRst.every((mosaic) => {
+        if (mosaic.value == coin1 || mosaic.value == coin2) {
+            return false
+        }
+        return true
+    })
+    if (isCoinExist) {
+        mosaicListRst.unshift({
+            value: coin1,
+            label: 'nem.xem'
+        })
+    }
+    return mosaicListRst;
+}
+
 

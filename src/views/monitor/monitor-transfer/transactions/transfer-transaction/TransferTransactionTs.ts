@@ -9,6 +9,7 @@ import {clone} from '@/core/utils/utils'
 import ErrorTooltip from '@/views/other/forms/errorTooltip/ErrorTooltip.vue'
 import {standardFields} from '@/core/validation'
 import {mapState} from 'vuex';
+import { getMosaicList, getMosaicInfoList, buildMosaicList } from '@/core/utils/wallet';
 
 @Component({
     components: {CheckPWDialog, ErrorTooltip},
@@ -116,42 +117,51 @@ export default class TransferTransactionTs extends Vue {
         // )
     }
 
-    async getMosaicList() {
+    // async getMosaicList() {
+    //     this.mosaicList = []
+    //     const that = this
+    //     let {accountAddress, node} = this
+    //     const {currentXEM1, currentXEM2} = this.activeAccount
+    //     new AccountApiRxjs().getAccountInfo(accountAddress, node).subscribe((accountInfo) => {
+    //         // set mosaicList
+    //         const mosaicList = accountInfo.mosaics.map((item: any) => {
+    //             item._amount = item.amount.compact()
+    //             item.value = item.id.toHex()
+    //             if (item.value == currentXEM1 || item.value == currentXEM2) {
+    //                 item.label = 'nem.xem' + ' (' + item._amount + ')'
+    //             } else {
+    //                 item.label = item.id.toHex() + ' (' + item._amount + ')'
+    //             }
+    //             return item
+    //         })
+    //         let isCrrentXEMExists = mosaicList.every((item) => {
+    //             if (item.value == currentXEM1 || item.value == currentXEM2) {
+    //                 return false
+    //             }
+    //             return true
+    //         })
+    //         if (isCrrentXEMExists) {
+    //             mosaicList.unshift({
+    //                 value: currentXEM1,
+    //                 label: 'nem.xem'
+    //             })
+    //         }
+    //         that.mosaicList = mosaicList
+    //     }, () => {
+    //         that.mosaicList = [{
+    //             value: currentXEM1,
+    //             label: 'nem.xem'
+    //         }]
+    //     })
+    // }
+
+    async mosaicInit(){
         this.mosaicList = []
         const that = this
         let {accountAddress, node} = this
         const {currentXEM1, currentXEM2} = this.activeAccount
-        new AccountApiRxjs().getAccountInfo(accountAddress, node).subscribe((accountInfo) => {
-            // set mosaicList
-            const mosaicList = accountInfo.mosaics.map((item: any) => {
-                item._amount = item.amount.compact()
-                item.value = item.id.toHex()
-                if (item.value == currentXEM1 || item.value == currentXEM2) {
-                    item.label = 'nem.xem' + ' (' + item._amount + ')'
-                } else {
-                    item.label = item.id.toHex() + ' (' + item._amount + ')'
-                }
-                return item
-            })
-            let isCrrentXEMExists = mosaicList.every((item) => {
-                if (item.value == currentXEM1 || item.value == currentXEM2) {
-                    return false
-                }
-                return true
-            })
-            if (isCrrentXEMExists) {
-                mosaicList.unshift({
-                    value: currentXEM1,
-                    label: 'nem.xem'
-                })
-            }
-            that.mosaicList = mosaicList
-        }, () => {
-            that.mosaicList = [{
-                value: currentXEM1,
-                label: 'nem.xem'
-            }]
-        })
+        const mosaicList:Mosaic[] = await getMosaicList(accountAddress,node)
+        that.mosaicList  = await buildMosaicList(mosaicList,currentXEM1,currentXEM2)
     }
 
     closeCheckPWDialog() {
@@ -169,7 +179,7 @@ export default class TransferTransactionTs extends Vue {
     @Watch('accountAddress')
     onAcountAddressChange() {
         this.resetFields()
-        this.getMosaicList()
+        this.mosaicInit()
     }
 
     @Watch('errors.items')
@@ -178,7 +188,7 @@ export default class TransferTransactionTs extends Vue {
     }
 
     created() {
-        this.getMosaicList()
+        this.mosaicInit()
     }
 
     mounted() {
