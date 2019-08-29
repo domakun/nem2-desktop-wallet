@@ -2,10 +2,10 @@ import {localRead, localSave} from "@/core/utils/utils.ts"
 import {
     Account,
     Address,
-    Crypto, Listener,
+    Crypto,
     NetworkType,
     Transaction,
-    RestrictionType,
+    Listener
 } from 'nem2-sdk'
 import CryptoJS from 'crypto-js'
 import {WalletApiRxjs} from "@/core/api/WalletApiRxjs.ts";
@@ -14,7 +14,7 @@ import {NamespaceApiRxjs} from "@/core/api/NamespaceApiRxjs.ts";
 import {MultisigApiRxjs} from "@/core/api/MultisigApiRxjs.ts";
 import {BlockApiRxjs} from "@/core/api/BlockApiRxjs.ts";
 import {formateNemTimestamp} from "@/core/utils/utils.ts";
-import {TransactionApiRxjs} from "@/core/api/TransactionApiRxjs";
+import {TransactionApiRxjs} from '@/core/api/TransactionApiRxjs.ts'
 
 export const saveLocalWallet = (wallet, encryptObj, index, mnemonicEnCodeObj?) => {
     let localData: any[] = []
