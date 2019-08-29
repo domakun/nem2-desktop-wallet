@@ -114,8 +114,9 @@ export class MosaicEditDialogTs extends Vue {
         try {
             new WalletApiRxjs().getWallet(
                 this.getWallet.name,
+                DeTxt.length === 64 ? DeTxt : '',
                 this.getWallet.networkType,
-                DeTxt.length === 64 ? DeTxt : ''
+
             )
             this.updateMosaic(DeTxt)
         } catch (e) {

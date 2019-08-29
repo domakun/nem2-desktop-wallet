@@ -4,20 +4,17 @@ import {
     Address,
     Crypto, Listener,
     NetworkType,
-    Transaction, TransactionType,
+    Transaction,
+    RestrictionType,
 } from 'nem2-sdk'
 import CryptoJS from 'crypto-js'
 import {WalletApiRxjs} from "@/core/api/WalletApiRxjs.ts";
 import {AccountApiRxjs} from "@/core/api/AccountApiRxjs.ts";
 import {NamespaceApiRxjs} from "@/core/api/NamespaceApiRxjs.ts";
 import {MultisigApiRxjs} from "@/core/api/MultisigApiRxjs.ts";
-// import {filterApi} from "@/core/api/filterApi.ts";
 import {BlockApiRxjs} from "@/core/api/BlockApiRxjs.ts";
 import {formateNemTimestamp} from "@/core/utils/utils.ts";
-import {concatAll} from 'rxjs/operators';
-import rxjs from 'rxjs'
 import {TransactionApiRxjs} from "@/core/api/TransactionApiRxjs";
-import {Message} from "@/config";
 
 export const saveLocalWallet = (wallet, encryptObj, index, mnemonicEnCodeObj?) => {
     let localData: any[] = []
@@ -214,6 +211,7 @@ export const getBlockInfoByTransactionList = (transactionList: Array<any>, node:
 export const signAndAnnounceNormal = (account: Account, node: string, generationHash: string, transactionList: Array<any>, callBack: any) => {
     try {
         const signature = account.sign(transactionList[0], generationHash)
+        console.log(signature)
         new TransactionApiRxjs().announce(signature, node).subscribe(() => {
                 callBack()
             }, (error) => {
@@ -232,7 +230,7 @@ export const signAndAnnounceBonded = (
     generationHash: string,
     transactionList: Array<any>,
     currentXEM1: string,
-    networkType:NetworkType,
+    networkType: NetworkType,
 ) => {
     const aggregateTransaction = transactionList[0]
     const listener = new Listener(node.replace('http', 'ws'), WebSocket)
