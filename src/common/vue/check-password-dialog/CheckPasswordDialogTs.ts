@@ -80,7 +80,7 @@ export class CheckPasswordDialogTs extends Vue {
 
     @Watch('showCheckPWDialog')
     onShowCheckPWDialogChange() {
-        this.wallet.password = '111111'
+        this.wallet.password = ''
         this.show = this.showCheckPWDialog
     }
 

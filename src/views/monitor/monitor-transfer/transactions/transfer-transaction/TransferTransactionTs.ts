@@ -90,8 +90,10 @@ export default class TransferTransactionTs extends Vue {
 
     generateTransaction() {
         const that = this
+        let {node, generationHash} = this
         let {address, mosaic, amount, remark, fee} = this.formModel
         const {networkType} = this.wallet
+        // const account = Account.createFromPrivateKey(key, networkType)
         const transaction = new TransactionApiRxjs().transferTransaction(
             networkType,
             fee,
@@ -101,7 +103,17 @@ export default class TransferTransactionTs extends Vue {
             remark
         )
         this.transactionList = [transaction]
-        that.resetFields()
+        // const signature = account.sign(transaction, generationHash)
+        // new TransactionApiRxjs().announce(signature, node).subscribe(
+        //     () => {
+        //         that.$Notice.success({
+        //             title: this.$t(Message.SUCCESS) + ''
+        //         })
+        //         that.resetFields()
+        //     }, (error) => {
+        //         console.log(error)
+        //     }
+        // )
     }
 
     async getMosaicList() {
