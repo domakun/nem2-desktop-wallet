@@ -105,7 +105,7 @@ export const setMultisigAccount = async (storeWallet, node) => {
     return wallet
 }
 
-export const getNamespaces = async (address, node) => {
+export const getNamespaces = async (address:string, node:string) => {
     let list = []
     let namespace = {}
     new NamespaceApiRxjs().getNamespacesFromAccount(
