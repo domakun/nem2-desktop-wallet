@@ -2,7 +2,6 @@ import {Message} from "@/config/index.ts"
 import {AccountApiRxjs} from '@/core/api/AccountApiRxjs.ts'
 import {MultisigApiRxjs} from '@/core/api/MultisigApiRxjs.ts'
 import {Component, Vue, Watch} from 'vue-property-decorator'
-import {TransactionApiRxjs} from '@/core/api/TransactionApiRxjs.ts'
 import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
 import {
     Account,
@@ -19,7 +18,7 @@ import {createBondedMultisigTransaction, createCompleteMultisigTransaction} from
 
 @Component({
     components: {
-        CheckPWDialog
+        CheckPWDialog,
     }
 })
 export class MultisigTransferTransactionTs extends Vue {
@@ -28,11 +27,13 @@ export class MultisigTransferTransactionTs extends Vue {
     isShowPanel = true
     accountAddress = ''
     generationHash = ''
+    transactionList = []
     accountPublicKey = ''
     transactionDetail = {}
     currentMinApproval = 0
     isShowSubAlias = false
     showCheckPWDialog = false
+    otherDetails: any = {}
     isCompleteForm = false
     currentCosignatoryList = []
     mosaicList = [{
@@ -89,10 +90,14 @@ export class MultisigTransferTransactionTs extends Vue {
             "fee": bondedFee + lockFee + aggregateFee + 'gas',
             "remarks": remark
         }
+        this.otherDetails = {
+            lockFee: lockFee
+        }
         this.showCheckPWDialog = true
+
     }
 
-    sendTransaction(privatekey) {
+    sendTransaction() {
         if (this.currentMinApproval == 0) {
             return
         }
@@ -100,7 +105,6 @@ export class MultisigTransferTransactionTs extends Vue {
         const {networkType} = this.$store.state.account.wallet
         const {generationHash, node} = this.$store.state.account
         const mosaicHex = this.$store.state.account.currentXEM1
-        const account = Account.createFromPrivateKey(privatekey, networkType)
         let {address, bondedFee, lockFee, aggregateFee, mosaic, amount, remark, multisigPublickey} = this.formItem
         const listener = new Listener(node.replace('http', 'ws'), WebSocket)
         const transaction = TransferTransaction.create(
@@ -117,19 +121,9 @@ export class MultisigTransferTransactionTs extends Vue {
                 [transaction],
                 multisigPublickey,
                 networkType,
-                account,
                 bondedFee
             )
-            new TransactionApiRxjs().announceBondedWithLock(
-                aggregateTransaction,
-                account,
-                listener,
-                node,
-                generationHash,
-                networkType,
-                lockFee,
-                mosaicHex,
-            )
+            this.transactionList = [aggregateTransaction]
             return
         }
         const aggregateTransaction = createCompleteMultisigTransaction(
@@ -138,14 +132,9 @@ export class MultisigTransferTransactionTs extends Vue {
             networkType,
             aggregateFee
         )
-        new TransactionApiRxjs()._announce(
-            aggregateTransaction,
-            node,
-            account,
-            generationHash
-        )
+        this.transactionList = [aggregateTransaction]
     }
-    MosaicTransactionTs
+
     getMultisigAccountList() {
         const that = this
         if (!this.getWallet) return
@@ -263,9 +252,9 @@ export class MultisigTransferTransactionTs extends Vue {
         this.showCheckPWDialog = false
     }
 
-    checkEnd(key) {
-        if (key) {
-            this.sendTransaction(key)
+    checkEnd(isPasswordRight) {
+        if (isPasswordRight) {
+            this.sendTransaction()
             return
         }
         this.showErrorMessage(this.$t(Message.WRONG_PASSWORD_ERROR) + '')

@@ -1,9 +1,8 @@
 import { Account, AccountHttp, Address, EncryptedMessage, Transaction } from 'nem2-sdk'
 import { WebClient } from "@/core/utils/web.ts"
 import { Observable, from as observableFrom } from 'rxjs';
-import { AccountRepository } from '@/core/api/repository/AccountRepository.ts'
 
-export class AccountApiRxjs implements AccountRepository {
+export class AccountApiRxjs {
 
     /**
      *  getAccountsNames
