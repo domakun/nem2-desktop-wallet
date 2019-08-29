@@ -42,7 +42,7 @@ export const zh_CN = {
     enter_the_date_for_example: '输入日期,例如：',
     fee: '费用',
     the_default_is: '默认为',
-    the_more_you_set_the_cost_the_higher_the_processing_priority: '设置的费用越多，处理优先级越高 (1000000 microxem = 1.0xem)',
+    the_more_you_set_the_cost_the_higher_the_processing_priority: '设置的费用越多，处理优先级越高 (1000000 gas = 1.0xem)',
     create: '创建',
     all: '全部',
     processing: '进行中',
