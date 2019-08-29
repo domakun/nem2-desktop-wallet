@@ -16,7 +16,7 @@ export class SubNamespaceTs extends Vue {
     multisigPublickey = ''
     isCompleteForm = false
     showCheckPWDialog = false
-    otherDetails: any
+    otherDetails: any = {}
     transactionDetail = {}
     transactionList = []
     form = {

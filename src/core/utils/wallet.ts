@@ -2,9 +2,9 @@ import {localRead, localSave} from "@/core/utils/utils.ts"
 import {
     Account,
     Address,
-    Crypto,
+    Crypto, Listener,
     NetworkType,
-    Transaction,
+    Transaction, TransactionType,
 } from 'nem2-sdk'
 import CryptoJS from 'crypto-js'
 import {WalletApiRxjs} from "@/core/api/WalletApiRxjs.ts";
@@ -16,6 +16,8 @@ import {BlockApiRxjs} from "@/core/api/BlockApiRxjs.ts";
 import {formateNemTimestamp} from "@/core/utils/utils.ts";
 import {concatAll} from 'rxjs/operators';
 import rxjs from 'rxjs'
+import {TransactionApiRxjs} from "@/core/api/TransactionApiRxjs";
+import {Message} from "@/config";
 
 export const saveLocalWallet = (wallet, encryptObj, index, mnemonicEnCodeObj?) => {
     let localData: any[] = []
@@ -180,7 +182,7 @@ export const encryptKeystore = (decryptStr: string) => {
 }
 
 
-export const createBondedMultisigTransaction = (transaction: Array<Transaction>, multisigPublickey: string, networkType: NetworkType,fee: number) => {
+export const createBondedMultisigTransaction = (transaction: Array<Transaction>, multisigPublickey: string, networkType: NetworkType, fee: number) => {
     return new MultisigApiRxjs().bondedMultisigTransaction(networkType, fee, multisigPublickey, transaction)
 }
 
@@ -207,3 +209,44 @@ export const getBlockInfoByTransactionList = (transactionList: Array<any>, node:
         return item.transactionInfo.height.compact()
     })
 }
+
+
+export const signAndAnnounceNormal = (networkType: NetworkType, privatekey: string, node: string, generationHash: string, transactionList: Array<any>, callBack: any) => {
+    try {
+        const account = Account.createFromPrivateKey(privatekey, networkType)
+        const signature = account.sign(transactionList[0], generationHash)
+        new TransactionApiRxjs().announce(signature, node).subscribe(() => {
+                callBack()
+            }, (error) => {
+                console.log(error)
+            }
+        )
+    } catch (e) {
+        console.log(e)
+    }
+}
+
+export const signAndAnnounceBonded = (
+    privatekey: string,
+    networkType: NetworkType,
+    lockFee: number,
+    node: string,
+    generationHash: string,
+    transactionList: Array<any>,
+    currentXEM1: string
+) => {
+    const account = Account.createFromPrivateKey(privatekey, networkType)
+    const aggregateTransaction = transactionList[0]
+    const listener = new Listener(node.replace('http', 'ws'), WebSocket)
+    new TransactionApiRxjs().announceBondedWithLock(
+        aggregateTransaction,
+        account,
+        listener,
+        node,
+        generationHash,
+        networkType,
+        lockFee,
+        currentXEM1,
+    )
+}
+

@@ -1,10 +1,10 @@
+import {mapState} from "vuex"
 import {Message} from "@/config/index.ts"
+import { TransactionType} from "nem2-sdk"
 import {decryptKey} from "@/core/utils/wallet.ts"
 import {WalletApiRxjs} from "@/core/api/WalletApiRxjs.ts"
-import {TransactionApiRxjs} from '@/core/api/TransactionApiRxjs.ts'
 import {Component, Vue, Prop, Watch} from 'vue-property-decorator'
-import {Transaction, Account, TransactionType, Listener} from "nem2-sdk";
-import {mapState} from "vuex";
+import {signAndAnnounceBonded, signAndAnnounceNormal} from '@/core/utils/wallet.ts'
 
 @Component({
     computed: {...mapState({activeAccount: 'account'})},
@@ -85,55 +85,72 @@ export class CheckPasswordDialogTs extends Vue {
     }
 
     switchAnnounceType(privatekey) {
-        const {transactionList} = this
-        console.log(transactionList)
-        if (transactionList[0].type !== TransactionType.AGGREGATE_BONDED) {
-            // normal transaction
-            this.signAndAnnounceNormal(privatekey)
-            return
-        }
-        // bonded transaction
-        this.signAndAnnounceBonded(privatekey)
-    }
-
-    signAndAnnounceNormal(privatekey) {
-        const that = this
-        const {node, generationHash, transactionList} = this
-        const {networkType} = this.getWallet
-        try {
-            const account = Account.createFromPrivateKey(privatekey, networkType)
-            const signature = account.sign(transactionList[0], generationHash)
-            new TransactionApiRxjs().announce(signature, node).subscribe(
-                () => {
-                    that.$Notice.success({
-                        title: this.$t(Message.SUCCESS) + ''
-                    })
-                }, (error) => {
-                    console.log(error)
-                }
-            )
-        } catch (e) {
-            console.log(e)
-        }
-    }
-
-    signAndAnnounceBonded(privatekey) {
         const that = this
         const {node, generationHash, transactionList, currentXEM1} = this
         const {networkType} = this.getWallet
         const {lockFee} = this.otherDetails
-        const account = Account.createFromPrivateKey(privatekey, networkType)
-        const aggregateTransaction = transactionList[0]
-        const listener = new Listener(node.replace('http', 'ws'), WebSocket)
-        new TransactionApiRxjs().announceBondedWithLock(
-            aggregateTransaction,
-            account,
-            listener,
-            node,
-            generationHash,
+        if (transactionList[0].type !== TransactionType.AGGREGATE_BONDED) {
+            // normal transaction
+            signAndAnnounceNormal(networkType, privatekey, node, generationHash, transactionList, this.showNotice)
+            return
+        }
+        // bonded transaction
+        signAndAnnounceBonded(
+            privatekey,
             networkType,
             lockFee,
-            currentXEM1,
+            node,
+            generationHash,
+            transactionList,
+            currentXEM1
         )
+    }
+
+    //
+    // signAndAnnounceNormal(privatekey) {
+    //     const that = this
+    //     const {node, generationHash, transactionList} = this
+    //     const {networkType} = this.getWallet
+    //     try {
+    //         const account = Account.createFromPrivateKey(privatekey, networkType)
+    //         const signature = account.sign(transactionList[0], generationHash)
+    //         new TransactionApiRxjs().announce(signature, node).subscribe(
+    //             () => {
+    //                 that.$Notice.success({
+    //                     title: this.$t(Message.SUCCESS) + ''
+    //                 })
+    //             }, (error) => {
+    //                 console.log(error)
+    //             }
+    //         )
+    //     } catch (e) {
+    //         console.log(e)
+    //     }
+    // }
+    //
+    // signAndAnnounceBonded(privatekey) {
+    //     const that = this
+    //     const {node, generationHash, transactionList, currentXEM1} = this
+    //     const {networkType} = this.getWallet
+    //     const {lockFee} = this.otherDetails
+    //     const account = Account.createFromPrivateKey(privatekey, networkType)
+    //     const aggregateTransaction = transactionList[0]
+    //     const listener = new Listener(node.replace('http', 'ws'), WebSocket)
+    //     new TransactionApiRxjs().announceBondedWithLock(
+    //         aggregateTransaction,
+    //         account,
+    //         listener,
+    //         node,
+    //         generationHash,
+    //         networkType,
+    //         lockFee,
+    //         currentXEM1,
+    //     )
+    // }
+
+    showNotice() {
+        this.$Notice.success({
+            title: this.$t(Message.SUCCESS) + ''
+        })
     }
 }

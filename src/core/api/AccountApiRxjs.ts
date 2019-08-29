@@ -1,6 +1,6 @@
-import { Account, AccountHttp, Address, EncryptedMessage, Transaction } from 'nem2-sdk'
-import { WebClient } from "@/core/utils/web.ts"
-import { Observable, from as observableFrom } from 'rxjs';
+import {Account, AccountHttp, Address, EncryptedMessage, Transaction} from 'nem2-sdk'
+import {WebClient} from "@/core/utils/web.ts"
+import {Observable, from as observableFrom} from 'rxjs';
 
 export class AccountApiRxjs {
 
@@ -44,7 +44,7 @@ export class AccountApiRxjs {
      */
     public getMultisigAccountInfo(address: string, node: string) {
         const accountAddress = Address.createFromRawAddress(address)
-        return observableFrom(new AccountHttp(node).getMultisigAccountInfo(accountAddress))
+        return new AccountHttp(node).getMultisigAccountInfo(accountAddress)
     }
 
 

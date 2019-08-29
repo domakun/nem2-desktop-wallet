@@ -21,7 +21,7 @@ export class RootNamespaceTs extends Vue {
     durationIntoDate: any = 0
     showCheckPWDialog = false
     transactionList = []
-    otherDetails: any
+    otherDetails: any = {}
     form = {
         duration: 1000,
         rootNamespaceName: '',

@@ -90,6 +90,7 @@
                    @checkEnd="checkEnd"
                    :showCheckPWDialog="showCheckPWDialog"
                    :otherDetails='otherDetails'
+                   :transactionList="transactionList"
     ></CheckPWDialog>
   </div>
 </template>

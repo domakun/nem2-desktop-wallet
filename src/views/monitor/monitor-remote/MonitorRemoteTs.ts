@@ -104,6 +104,8 @@ export class MonitorRemoteTs extends Vue {
         const account = Account.createFromPrivateKey(privatekey, networkType)
         const accountLinkTransaction = AccountLinkTransaction.create(Deadline.create(), remotePublickey, isLinked ? LinkAction.Link : LinkAction.Unlink, NetworkType.MIJIN_TEST, UInt64.fromUint(fee)
         )
+
+
         new TransactionApiRxjs()._announce(
             accountLinkTransaction,
             node,

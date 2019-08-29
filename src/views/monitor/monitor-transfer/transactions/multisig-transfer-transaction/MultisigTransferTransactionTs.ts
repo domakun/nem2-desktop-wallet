@@ -93,8 +93,8 @@ export class MultisigTransferTransactionTs extends Vue {
         this.otherDetails = {
             lockFee: lockFee
         }
+        this.sendTransaction()
         this.showCheckPWDialog = true
-
     }
 
     sendTransaction() {
@@ -103,8 +103,7 @@ export class MultisigTransferTransactionTs extends Vue {
         }
         const that = this
         const {networkType} = this.$store.state.account.wallet
-        const {generationHash, node} = this.$store.state.account
-        const mosaicHex = this.$store.state.account.currentXEM1
+        const {node} = this.$store.state.account
         let {address, bondedFee, lockFee, aggregateFee, mosaic, amount, remark, multisigPublickey} = this.formItem
         const listener = new Listener(node.replace('http', 'ws'), WebSocket)
         const transaction = TransferTransaction.create(
@@ -134,6 +133,7 @@ export class MultisigTransferTransactionTs extends Vue {
         )
         this.transactionList = [aggregateTransaction]
     }
+
     getMultisigAccountList() {
         const that = this
         if (!this.getWallet) return
@@ -252,11 +252,12 @@ export class MultisigTransferTransactionTs extends Vue {
     }
 
     checkEnd(isPasswordRight) {
-        if (isPasswordRight) {
-            this.sendTransaction()
-            return
+        if (!isPasswordRight) {
+            this.$Notice.destroy()
+            this.$Notice.error({
+                title: this.$t(Message.WRONG_PASSWORD_ERROR) + ''
+            })
         }
-        this.showErrorMessage(this.$t(Message.WRONG_PASSWORD_ERROR) + '')
     }
 
 

@@ -30,7 +30,7 @@ export class MosaicTransactionTs extends Vue {
 
     node = ''
     duration = 0
-    otherDetails: any
+    otherDetails: any = {}
     currentXem = ''
     accountAddress = ''
     generationHash = ''

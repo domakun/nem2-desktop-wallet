@@ -29,7 +29,7 @@ export class MultisigManagementTs extends Vue {
     transactionList = []
     currentPublickey = ''
     currentMinRemoval = 0
-    otherDetails: any
+    otherDetails: any = {}
     currentMinApproval = 0
     hasAddCosigner = false
     isCompleteForm = false
