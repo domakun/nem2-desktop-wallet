@@ -107,48 +107,6 @@ export class CheckPasswordDialogTs extends Vue {
         )
     }
 
-    //
-    // signAndAnnounceNormal(privatekey) {
-    //     const that = this
-    //     const {node, generationHash, transactionList} = this
-    //     const {networkType} = this.getWallet
-    //     try {
-    //         const account = Account.createFromPrivateKey(privatekey, networkType)
-    //         const signature = account.sign(transactionList[0], generationHash)
-    //         new TransactionApiRxjs().announce(signature, node).subscribe(
-    //             () => {
-    //                 that.$Notice.success({
-    //                     title: this.$t(Message.SUCCESS) + ''
-    //                 })
-    //             }, (error) => {
-    //                 console.log(error)
-    //             }
-    //         )
-    //     } catch (e) {
-    //         console.log(e)
-    //     }
-    // }
-    //
-    // signAndAnnounceBonded(privatekey) {
-    //     const that = this
-    //     const {node, generationHash, transactionList, currentXEM1} = this
-    //     const {networkType} = this.getWallet
-    //     const {lockFee} = this.otherDetails
-    //     const account = Account.createFromPrivateKey(privatekey, networkType)
-    //     const aggregateTransaction = transactionList[0]
-    //     const listener = new Listener(node.replace('http', 'ws'), WebSocket)
-    //     new TransactionApiRxjs().announceBondedWithLock(
-    //         aggregateTransaction,
-    //         account,
-    //         listener,
-    //         node,
-    //         generationHash,
-    //         networkType,
-    //         lockFee,
-    //         currentXEM1,
-    //     )
-    // }
-
     showNotice() {
         this.$Notice.success({
             title: this.$t(Message.SUCCESS) + ''
