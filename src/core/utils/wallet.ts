@@ -211,9 +211,8 @@ export const getBlockInfoByTransactionList = (transactionList: Array<any>, node:
 }
 
 
-export const signAndAnnounceNormal = (networkType: NetworkType, privatekey: string, node: string, generationHash: string, transactionList: Array<any>, callBack: any) => {
+export const signAndAnnounceNormal = (account: Account, node: string, generationHash: string, transactionList: Array<any>, callBack: any) => {
     try {
-        const account = Account.createFromPrivateKey(privatekey, networkType)
         const signature = account.sign(transactionList[0], generationHash)
         new TransactionApiRxjs().announce(signature, node).subscribe(() => {
                 callBack()
@@ -227,15 +226,14 @@ export const signAndAnnounceNormal = (networkType: NetworkType, privatekey: stri
 }
 
 export const signAndAnnounceBonded = (
-    privatekey: string,
-    networkType: NetworkType,
+    account: Account,
     lockFee: number,
     node: string,
     generationHash: string,
     transactionList: Array<any>,
-    currentXEM1: string
+    currentXEM1: string,
+    networkType:NetworkType,
 ) => {
-    const account = Account.createFromPrivateKey(privatekey, networkType)
     const aggregateTransaction = transactionList[0]
     const listener = new Listener(node.replace('http', 'ws'), WebSocket)
     new TransactionApiRxjs().announceBondedWithLock(

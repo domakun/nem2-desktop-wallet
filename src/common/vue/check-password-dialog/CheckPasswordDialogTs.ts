@@ -1,6 +1,6 @@
 import {mapState} from "vuex"
 import {Message} from "@/config/index.ts"
-import { TransactionType} from "nem2-sdk"
+import {Account, TransactionType} from "nem2-sdk"
 import {decryptKey} from "@/core/utils/wallet.ts"
 import {WalletApiRxjs} from "@/core/api/WalletApiRxjs.ts"
 import {Component, Vue, Prop, Watch} from 'vue-property-decorator'
@@ -89,20 +89,21 @@ export class CheckPasswordDialogTs extends Vue {
         const {node, generationHash, transactionList, currentXEM1} = this
         const {networkType} = this.getWallet
         const {lockFee} = this.otherDetails
+        const account = Account.createFromPrivateKey(privatekey, networkType)
         if (transactionList[0].type !== TransactionType.AGGREGATE_BONDED) {
             // normal transaction
-            signAndAnnounceNormal(networkType, privatekey, node, generationHash, transactionList, this.showNotice)
+            signAndAnnounceNormal(account, node, generationHash, transactionList, this.showNotice)
             return
         }
         // bonded transaction
         signAndAnnounceBonded(
-            privatekey,
-            networkType,
+            account,
             lockFee,
             node,
             generationHash,
             transactionList,
-            currentXEM1
+            currentXEM1,
+            networkType
         )
     }
 
