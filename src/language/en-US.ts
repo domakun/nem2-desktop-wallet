@@ -248,7 +248,7 @@ export const en_US = {
     transportability: 'Transportability',
     variable_supply: 'Supply',
     effective_time: 'Duration(block)',
-    overdue: 'Overdue',
+    overdue: 'Will lost ownership in ',
     forever: 'Forever',
     alias: 'Alias',
 
@@ -280,6 +280,10 @@ export const en_US = {
     select_root_namespace: 'Choose root namespace',
     select_parent_namespace: 'Choose parent namespace',
     subspace: 'Subspace',
+    is_active: 'active',
+    true: 'true',
+    false: 'false',
+
     input_space_name: 'Input space name',
     the_duration_is_calculated_in_blocks_one_block_is_12_seconds: 'The duration is calculated in blocks one block is 12 seconds.',
     space_list: 'Space list',

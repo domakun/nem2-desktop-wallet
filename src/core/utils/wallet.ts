@@ -105,7 +105,7 @@ export const setMultisigAccount = async (storeWallet, node) => {
     return wallet
 }
 
-export const getNamespaces = async (address:string, node:string) => {
+export const getNamespaces = async (address: string, node: string) => {
     let list = []
     let namespace = {}
     new NamespaceApiRxjs().getNamespacesFromAccount(
@@ -125,10 +125,12 @@ export const getNamespaces = async (address:string, node:string) => {
             item.namespaceInfo.levels.map((item, index) => {
                 namespaceName += namespace[item.id.toHex()] + '.'
             })
+            console.log(item.namespaceInfo)
             namespaceName = namespaceName.slice(0, namespaceName.length - 1)
             const newObj = {
                 value: namespaceName,
                 label: namespaceName,
+                isActive: item.namespaceInfo.active,
                 alias: item.namespaceInfo.alias,
                 levels: item.namespaceInfo.levels.length,
                 name: namespaceName,
@@ -157,12 +159,13 @@ export const encryptKey = (data, password) => {
     return Crypto.encrypt(data, password)
 }
 
-export const decryptKey = (wallet, password) => {
-    let encryptObj = {
+export const decryptKey = (wallet, password: string) => {
+    const encryptObj = {
         ciphertext: wallet.ciphertext,
         iv: wallet.iv.data ? wallet.iv.data : wallet.iv,
         key: password
     }
+    // console.log()
     return Crypto.decrypt(encryptObj)
 }
 
