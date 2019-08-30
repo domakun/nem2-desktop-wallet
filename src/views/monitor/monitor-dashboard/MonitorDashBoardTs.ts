@@ -84,7 +84,6 @@ export class MonitorDashBoardTs extends Vue {
     showDialog(transaction) {
         this.isShowDialog = true
         this.transactionDetails = transaction
-        console.log(transaction, '.............')
     }
 
     get currentHeight() {
@@ -150,7 +149,11 @@ export class MonitorDashBoardTs extends Vue {
             node,
         ).subscribe(async (transactionsInfo) => {
             that.allTransacrionList.push(...transactionsInfo)
-            await that.getBlockInfoByTransactionList(that.allTransacrionList, node)
+            try {
+                await that.getBlockInfoByTransactionList(that.allTransacrionList, node)
+            } catch (e) {
+                console.log(e)
+            }
         })
     }
 
@@ -166,13 +169,17 @@ export class MonitorDashBoardTs extends Vue {
                 pageSize: 100
             },
             node,
-        ).subscribe(async (unconfirmedtransactionsInfo:any) => {
+        ).subscribe(async (unconfirmedtransactionsInfo: any) => {
             unconfirmedtransactionsInfo = unconfirmedtransactionsInfo.map((unconfirmedtransaction) => {
                 unconfirmedtransaction.isTxUnconfirmed = true
                 return unconfirmedtransaction
             })
             that.allTransacrionList.push(...unconfirmedtransactionsInfo)
-            await that.getBlockInfoByTransactionList(that.allTransacrionList, node)
+            try {
+                await that.getBlockInfoByTransactionList(that.allTransacrionList, node)
+            } catch (e) {
+                console.log(e)
+            }
         })
     }
 

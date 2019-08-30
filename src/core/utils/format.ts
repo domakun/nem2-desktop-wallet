@@ -149,7 +149,7 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>) => {
                     'hash': item.transactionInfo.hash,
                 }
                 break;
-            case TransactionType.MODIFY_ACCOUNT_PROPERTY_ADDRESS:
+            case TransactionType.MODIFY_ACCOUNT_RESTRICTION_ADDRESS:
                 item.icon = iconMap.dashboardFilter
                 item.tag = transactionTag.MODIFY_ACCOUNT_PROPERTY_ADDRESS
                 item.dialogDetailMap = {
@@ -159,7 +159,7 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>) => {
                     'hash': item.transactionInfo.hash,
                 }
                 break;
-            case TransactionType.MODIFY_ACCOUNT_PROPERTY_MOSAIC:
+            case TransactionType.MODIFY_ACCOUNT_RESTRICTION_MOSAIC:
                 item.icon = iconMap.dashboardFilter
                 item.tag = transactionTag.MODIFY_ACCOUNT_PROPERTY_MOSAIC
                 item.dialogDetailMap = {
@@ -169,7 +169,7 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>) => {
                     'hash': item.transactionInfo.hash,
                 }
                 break;
-            case TransactionType.MODIFY_ACCOUNT_PROPERTY_ENTITY_TYPE:
+            case TransactionType.MODIFY_ACCOUNT_RESTRICTION_OPERATION:
                 item.icon = iconMap.dashboardFilter
                 item.tag = transactionTag.MODIFY_ACCOUNT_PROPERTY_ENTITY_TYPE
                 item.dialogDetailMap = {
@@ -217,7 +217,7 @@ const formatTransferTransactions = function (transaction, accountAddress, curren
 };
 
 
-function formatOtherTransaction(transaction: any, accountAddress: string) {
+function formatOtherTransaction(transaction : any, accountAddress: string) {
     const {type} = transaction
     transaction.time = formatNemDeadline(transaction.deadline);
     transaction.isReceipt = false
@@ -344,7 +344,7 @@ function formatOtherTransaction(transaction: any, accountAddress: string) {
                 'hash': transaction.transactionInfo.hash,
             }
             break;
-        case TransactionType.MODIFY_ACCOUNT_PROPERTY_ADDRESS:
+        case TransactionType.MODIFY_ACCOUNT_RESTRICTION_ADDRESS:
             transaction.icon = iconMap.dashboardFilter
             transaction.tag = transactionTag.MODIFY_ACCOUNT_PROPERTY_ADDRESS
             transaction.dialogDetailMap = {
@@ -354,7 +354,7 @@ function formatOtherTransaction(transaction: any, accountAddress: string) {
                 'hash': transaction.transactionInfo.hash,
             }
             break;
-        case TransactionType.MODIFY_ACCOUNT_PROPERTY_MOSAIC:
+        case TransactionType.MODIFY_ACCOUNT_RESTRICTION_MOSAIC:
             transaction.icon = iconMap.dashboardFilter
             transaction.tag = transactionTag.MODIFY_ACCOUNT_PROPERTY_MOSAIC
             transaction.dialogDetailMap = {
@@ -364,7 +364,7 @@ function formatOtherTransaction(transaction: any, accountAddress: string) {
                 'hash': transaction.transactionInfo.hash,
             }
             break;
-        case TransactionType.MODIFY_ACCOUNT_PROPERTY_ENTITY_TYPE:
+        case TransactionType.MODIFY_ACCOUNT_RESTRICTION_OPERATION:
             transaction.icon = iconMap.dashboardFilter
             transaction.tag = transactionTag.MODIFY_ACCOUNT_PROPERTY_ENTITY_TYPE
             transaction.dialogDetailMap = {

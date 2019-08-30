@@ -444,7 +444,7 @@ export const zh_CN = {
     Export_private_key: '导出私钥',
     Export_Keystore: '导出Keystore',
     Alias_settings: '别名设置',
-    Filter_management: '过滤器管理',
+    Filter_management: '拦截器',
     Subaddress_management: '子地址管理',
     Modify_the_private_key_wallet_password: '修改钱包密码',
     status: '状态',
@@ -577,7 +577,7 @@ export const zh_CN = {
     There_are_no_more_accounts_under_this_account: '此账户下暂无多签账户',
     There_are_no_more_accounts_under_this_account_or_cosigner: '此账户下暂无多签账户或共签人',
     This_account_is_already_a_multi_sign_account: '此账户已经是一个多签账户',
-    mosaic_id_format_error: '马赛克id格式错误',
+    mosaic_hex_format_error: '马赛克hex格式错误',
     alias_name_format_error: '别名格式错误',
     max_approval_amount_more_than_10: 'Min approval 不可大于10',
     max_removal_amount_more_than_10: 'Min removal 不可大于10',
@@ -635,7 +635,7 @@ export const zh_CN = {
 
     timestamp: '时间戳',
     sender: '发送者',
-    inner_transaction:'内部交易',
+    inner_transaction: '内部交易',
 
     amount: '金额'
 }

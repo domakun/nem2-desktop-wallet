@@ -2,9 +2,10 @@ import {localRead, localSave} from "@/core/utils/utils.ts"
 import {
     Account,
     Address,
-    Crypto, Listener,
+    Crypto,
     NetworkType,
-    Transaction, Mosaic, MosaicInfo,
+    Transaction,
+    Listener, Mosaic, MosaicInfo, MosaicId
 } from 'nem2-sdk'
 import CryptoJS from 'crypto-js'
 import {WalletApiRxjs} from "@/core/api/WalletApiRxjs.ts";
@@ -13,8 +14,8 @@ import {NamespaceApiRxjs} from "@/core/api/NamespaceApiRxjs.ts";
 import {MultisigApiRxjs} from "@/core/api/MultisigApiRxjs.ts";
 import {BlockApiRxjs} from "@/core/api/BlockApiRxjs.ts";
 import {formateNemTimestamp} from "@/core/utils/utils.ts";
-import {TransactionApiRxjs} from "@/core/api/TransactionApiRxjs";
-import { MosaicApiRxjs } from '../api/MosaicApiRxjs';
+import {TransactionApiRxjs} from '@/core/api/TransactionApiRxjs.ts'
+import {MosaicApiRxjs} from "@/core/api/MosaicApiRxjs";
 import { async } from 'rxjs/internal/scheduler/async';
 
 export const saveLocalWallet = (wallet, encryptObj, index, mnemonicEnCodeObj?) => {
@@ -106,7 +107,7 @@ export const setMultisigAccount = async (storeWallet, node) => {
     return wallet
 }
 
-export const getNamespaces = async (address, node) => {
+export const getNamespaces = async (address:string, node:string) => {
     let list = []
     let namespace = {}
     new NamespaceApiRxjs().getNamespacesFromAccount(
@@ -208,9 +209,11 @@ export const getBlockInfoByTransactionList = (transactionList: Array<any>, node:
     })
 }
 
+
 export const signAndAnnounceNormal = (account: Account, node: string, generationHash: string, transactionList: Array<any>, callBack: any) => {
     try {
         const signature = account.sign(transactionList[0], generationHash)
+        console.log(signature)
         new TransactionApiRxjs().announce(signature, node).subscribe(() => {
                 callBack()
             }, (error) => {
@@ -229,7 +232,7 @@ export const signAndAnnounceBonded = (
     generationHash: string,
     transactionList: Array<any>,
     currentXEM1: string,
-    networkType:NetworkType,
+    networkType: NetworkType,
 ) => {
     const aggregateTransaction = transactionList[0]
     const listener = new Listener(node.replace('http', 'ws'), WebSocket)
@@ -245,27 +248,31 @@ export const signAndAnnounceBonded = (
     )
 }
 
-export const getMosaicList =  (address: string, node: string):Mosaic[] => {
-    let mosaicList:Mosaic[]=[];
-    new AccountApiRxjs().getAccountInfo(address, node).subscribe((accountInfo) => {
-        mosaicList =  accountInfo.mosaics;
-        return;
-    });
+export const getMosaicList = async (address: string, node: string) => {
+    let mosaicList: Mosaic[] = [];
+    await new AccountApiRxjs().getAccountInfo(address, node).toPromise().then(accountInfo => {
+        mosaicList = accountInfo.mosaics;
+    }).catch((_) => {
+        return ;
+    })
     return mosaicList;
 }
 
-export const getMosaicInfoList = (node: string, mosaicList: Mosaic[]):MosaicInfo[] => {
-    let mosaicInfoList:MosaicInfo[] = [];
-    const mosaicIds = mosaicList.map((item) => {
-        return item.id;
+export const getMosaicInfoList = async (node: string, mosaicList: Mosaic[]) => {
+    let mosaicInfoList: MosaicInfo[] = [];
+
+    let mosaicIds: any = mosaicList.map((item) => {
+        return item.id
     })
-    new MosaicApiRxjs().getMosaics(node, mosaicIds).subscribe(( mosaicInfoList) => {
-        return mosaicInfoList;
-    });
+    await new MosaicApiRxjs().getMosaics(node, mosaicIds).toPromise().then(mosaics => {
+        mosaicInfoList =  mosaics
+    }).catch((_) => {
+        return ;
+    })
     return mosaicInfoList;
 }
 
-export const buildMosaicList = (mosaicList: Mosaic[],coin1:string,coin2:string):any => {
+export const buildMosaicList = (mosaicList: Mosaic[], coin1: string, coin2: string): any => {
     const mosaicListRst = mosaicList.map((mosaic: any) => {
         mosaic._amount = mosaic.amount.compact()
         mosaic.value = mosaic.id.toHex()
@@ -290,5 +297,4 @@ export const buildMosaicList = (mosaicList: Mosaic[],coin1:string,coin2:string):
     }
     return mosaicListRst;
 }
-
 

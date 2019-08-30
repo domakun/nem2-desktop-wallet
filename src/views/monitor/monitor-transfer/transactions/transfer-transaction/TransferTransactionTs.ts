@@ -1,7 +1,5 @@
 import {Message} from "@/config/index.ts"
-import {MosaicApiRxjs} from '@/core/api/MosaicApiRxjs.ts'
-import {AccountApiRxjs} from '@/core/api/AccountApiRxjs.ts'
-import {Account, Mosaic, MosaicId, UInt64} from 'nem2-sdk'
+import {Mosaic, MosaicId, UInt64} from 'nem2-sdk'
 import {Component, Vue, Watch, Provide} from 'vue-property-decorator'
 import {TransactionApiRxjs} from '@/core/api/TransactionApiRxjs.ts'
 import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
@@ -9,7 +7,7 @@ import {clone} from '@/core/utils/utils'
 import ErrorTooltip from '@/views/other/forms/errorTooltip/ErrorTooltip.vue'
 import {standardFields} from '@/core/validation'
 import {mapState} from 'vuex';
-import { getMosaicList, getMosaicInfoList, buildMosaicList } from '@/core/utils/wallet';
+import { getMosaicList, buildMosaicList } from '@/core/utils/wallet';
 
 @Component({
     components: {CheckPWDialog, ErrorTooltip},
@@ -117,45 +115,7 @@ export default class TransferTransactionTs extends Vue {
         // )
     }
 
-    // async getMosaicList() {
-    //     this.mosaicList = []
-    //     const that = this
-    //     let {accountAddress, node} = this
-    //     const {currentXEM1, currentXEM2} = this.activeAccount
-    //     new AccountApiRxjs().getAccountInfo(accountAddress, node).subscribe((accountInfo) => {
-    //         // set mosaicList
-    //         const mosaicList = accountInfo.mosaics.map((item: any) => {
-    //             item._amount = item.amount.compact()
-    //             item.value = item.id.toHex()
-    //             if (item.value == currentXEM1 || item.value == currentXEM2) {
-    //                 item.label = 'nem.xem' + ' (' + item._amount + ')'
-    //             } else {
-    //                 item.label = item.id.toHex() + ' (' + item._amount + ')'
-    //             }
-    //             return item
-    //         })
-    //         let isCrrentXEMExists = mosaicList.every((item) => {
-    //             if (item.value == currentXEM1 || item.value == currentXEM2) {
-    //                 return false
-    //             }
-    //             return true
-    //         })
-    //         if (isCrrentXEMExists) {
-    //             mosaicList.unshift({
-    //                 value: currentXEM1,
-    //                 label: 'nem.xem'
-    //             })
-    //         }
-    //         that.mosaicList = mosaicList
-    //     }, () => {
-    //         that.mosaicList = [{
-    //             value: currentXEM1,
-    //             label: 'nem.xem'
-    //         }]
-    //     })
-    // }
-
-    async mosaicInit(){
+    async initMosaic(){
         this.mosaicList = []
         const that = this
         let {accountAddress, node} = this
@@ -179,7 +139,7 @@ export default class TransferTransactionTs extends Vue {
     @Watch('accountAddress')
     onAcountAddressChange() {
         this.resetFields()
-        this.mosaicInit()
+        this.initMosaic()
     }
 
     @Watch('errors.items')
@@ -188,7 +148,7 @@ export default class TransferTransactionTs extends Vue {
     }
 
     created() {
-        this.mosaicInit()
+        this.initMosaic()
     }
 
     mounted() {
