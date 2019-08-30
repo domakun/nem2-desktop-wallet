@@ -61,7 +61,7 @@ export const en_US = {
     number_of_voters: 'Number of voters',
     yes: 'Yes',
     no: 'No',
-
+    aggregate_hash:'aggregate hash',
     //monitor-dashboard
     transaction_detail: 'Transaction detail',
     XEM_market_trend_nearly_7_days: 'XEM market trend nearly 7 days',

@@ -25,10 +25,22 @@ const iconMap = {
     dashboardSecret
 }
 
-const formatAggregateCompelete = (innerTransactionList: Array<any>) => {
+const formatAggregateCompelete = (innerTransactionList: Array<any>, accountAddress: string) => {
     innerTransactionList = innerTransactionList.map((item) => {
         const type = item.type
         switch (type) {
+            case TransactionType.TRANSFER:
+                item.isReceipt = item.recipient.address == accountAddress
+                item.tag = item.isReceipt ? transactionTag.GATHERING : transactionTag.PAYMENT
+                item.time = formatNemDeadline(item.deadline);
+                item.dialogDetailMap = {
+                    'transfer_type': item.tag,
+                    'fee': item.maxFee.compact() * 0.0000001 + ' XEM',
+                    'block': item.transactionInfo.height.compact(),
+                    'aggregate_hash': item.transactionInfo.aggregateHash,
+                    'message': item.message.payload
+                }
+                break;
             case TransactionType.REGISTER_NAMESPACE:
                 item.tag = transactionTag.REGIST_NAMESPACE
                 item.icon = iconMap.dashboardNamespace
@@ -41,7 +53,7 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>) => {
                     'rent': (item.duration ? item.duration.compact() : '0') * 0.00005 + ' XEM',
                     'fee': item.maxFee.compact() * 0.0000001 + ' XEM',
                     'block': item.transactionInfo.height.compact(),
-                    'hash': item.transactionInfo.hash,
+                    'aggregate_hash': item.transactionInfo.aggregateHash,
                 }
                 break;
             case TransactionType.ADDRESS_ALIAS:
@@ -51,7 +63,7 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>) => {
                     'transfer_type': item.tag,
                     'fee': item.maxFee.compact() * 0.0000001 + ' XEM',
                     'block': item.transactionInfo.height.compact(),
-                    'hash': item.transactionInfo.hash,
+                    'aggregate_hash': item.transactionInfo.aggregateHash,
                 }
             case TransactionType.MOSAIC_ALIAS:
                 item.icon = iconMap.dashboardMosaicAlias
@@ -60,7 +72,7 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>) => {
                     'transfer_type': item.tag,
                     'fee': item.maxFee.compact() * 0.0000001 + ' XEM',
                     'block': item.transactionInfo.height.compact(),
-                    'hash': item.transactionInfo.hash,
+                    'aggregate_hash': item.transactionInfo.aggregateHash,
                 }
                 break;
             case TransactionType.MOSAIC_DEFINITION:
@@ -70,7 +82,7 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>) => {
                     'transfer_type': item.tag,
                     'fee': item.maxFee.compact() * 0.0000001 + ' XEM',
                     'block': item.transactionInfo.height.compact(),
-                    'hash': item.transactionInfo.hash,
+                    'aggregate_hash': item.transactionInfo.aggregateHash,
                 }
                 break;
             case TransactionType.MOSAIC_SUPPLY_CHANGE:
@@ -80,7 +92,7 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>) => {
                     'transfer_type': item.tag,
                     'fee': item.maxFee.compact() * 0.0000001 + ' XEM',
                     'block': item.transactionInfo.height.compact(),
-                    'hash': item.transactionInfo.hash,
+                    'aggregate_hash': item.transactionInfo.aggregateHash,
                 }
 
                 break;
@@ -91,7 +103,7 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>) => {
                     'transfer_type': item.tag,
                     'fee': item.maxFee.compact() * 0.0000001 + ' XEM',
                     'block': item.transactionInfo.height.compact(),
-                    'hash': item.transactionInfo.hash,
+                    'aggregate_hash': item.transactionInfo.aggregateHash,
                 }
                 break;
             // case TransactionType.AGGREGATE_COMPLETE:
@@ -103,7 +115,7 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>) => {
             //         'transfer_type': item.tag,
             //         'fee': item.maxFee.compact() * 0.0000001 + ' XEM',
             //         'block': item.transactionInfo.height.compact(),
-            //         'hash': item.transactionInfo.hash,
+            //         'aggregate_hash': item.transactionInfo.hash,
             //     }
             //     break;
             case TransactionType.AGGREGATE_BONDED:
@@ -113,7 +125,7 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>) => {
                     'transfer_type': item.tag,
                     'fee': item.maxFee.compact() * 0.0000001 + ' XEM',
                     'block': item.transactionInfo.height.compact(),
-                    'hash': item.transactionInfo.hash,
+                    'aggregate_hash': item.transactionInfo.aggregateHash,
                 }
                 break;
             case TransactionType.LOCK:
@@ -126,7 +138,7 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>) => {
                     'timestamp': item.time,
                     'fee': item.maxFee.compact() * 0.0000001 + ' XEM',
                     'block': item.transactionInfo.height.compact(),
-                    'hash': item.transactionInfo.hash,
+                    'aggregate_hash': item.transactionInfo.aggregateHash,
                 }
                 break;
             case TransactionType.SECRET_LOCK:
@@ -136,7 +148,7 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>) => {
                     'transfer_type': item.tag,
                     'fee': item.maxFee.compact() * 0.0000001 + ' XEM',
                     'block': item.transactionInfo.height.compact(),
-                    'hash': item.transactionInfo.hash,
+                    'aggregate_hash': item.transactionInfo.aggregateHash,
                 }
                 break;
             case TransactionType.SECRET_PROOF:
@@ -146,7 +158,7 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>) => {
                     'transfer_type': item.tag,
                     'fee': item.maxFee.compact() * 0.0000001 + ' XEM',
                     'block': item.transactionInfo.height.compact(),
-                    'hash': item.transactionInfo.hash,
+                    'aggregate_hash': item.transactionInfo.aggregateHash,
                 }
                 break;
             case TransactionType.MODIFY_ACCOUNT_RESTRICTION_ADDRESS:
@@ -156,7 +168,7 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>) => {
                     'transfer_type': item.tag,
                     'fee': item.maxFee.compact() * 0.0000001 + ' XEM',
                     'block': item.transactionInfo.height.compact(),
-                    'hash': item.transactionInfo.hash,
+                    'aggregate_hash': item.transactionInfo.aggregateHash,
                 }
                 break;
             case TransactionType.MODIFY_ACCOUNT_RESTRICTION_MOSAIC:
@@ -166,7 +178,7 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>) => {
                     'transfer_type': item.tag,
                     'fee': item.maxFee.compact() * 0.0000001 + ' XEM',
                     'block': item.transactionInfo.height.compact(),
-                    'hash': item.transactionInfo.hash,
+                    'aggregate_hash': item.transactionInfo.aggregateHash,
                 }
                 break;
             case TransactionType.MODIFY_ACCOUNT_RESTRICTION_OPERATION:
@@ -176,7 +188,7 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>) => {
                     'transfer_type': item.tag,
                     'fee': item.maxFee.compact() * 0.0000001 + ' XEM',
                     'block': item.transactionInfo.height.compact(),
-                    'hash': item.transactionInfo.hash,
+                    'aggregate_hash': item.transactionInfo.aggregateHash,
                 }
                 break;
             case TransactionType.LINK_ACCOUNT:
@@ -186,7 +198,7 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>) => {
                     'transfer_type': item.tag,
                     'fee': item.maxFee.compact() * 0.0000001 + ' XEM',
                     'block': item.transactionInfo.height.compact(),
-                    'hash': item.transactionInfo.hash,
+                    'aggregate_hash': item.transactionInfo.aggregateHash,
                 }
                 break;
         }
@@ -217,7 +229,7 @@ const formatTransferTransactions = function (transaction, accountAddress, curren
 };
 
 
-function formatOtherTransaction(transaction : any, accountAddress: string) {
+function formatOtherTransaction(transaction: any, accountAddress: string) {
     const {type} = transaction
     transaction.time = formatNemDeadline(transaction.deadline);
     transaction.isReceipt = false
@@ -291,7 +303,7 @@ function formatOtherTransaction(transaction : any, accountAddress: string) {
             break;
         case TransactionType.AGGREGATE_COMPLETE:
             const innerTransactionList = transaction.innerTransactions
-            transaction.formatAggregateCompelete = formatAggregateCompelete(innerTransactionList)
+            transaction.formatAggregateCompelete = formatAggregateCompelete(innerTransactionList, accountAddress)
             transaction.icon = iconMap.dashboardAggregate
             transaction.tag = transactionTag.AGGREGATE_COMPLETE
             transaction.dialogDetailMap = {

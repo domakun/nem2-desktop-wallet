@@ -58,6 +58,7 @@ export const zh_CN = {
     The_total_market_capitalization: '市场总值',
     network_status: '网络状态',
     account: '账户',
+    aggregate_hash: '聚合hash',
     transaction_type: '交易类型',
     the_amount: '量',
     date: '日期',
