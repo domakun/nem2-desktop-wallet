@@ -5,7 +5,7 @@ import {
     Crypto,
     NetworkType,
     Transaction,
-    Listener, Mosaic, MosaicInfo, MosaicId
+    Listener, Mosaic, MosaicInfo
 } from 'nem2-sdk'
 import CryptoJS from 'crypto-js'
 import {WalletApiRxjs} from "@/core/api/WalletApiRxjs.ts";
@@ -16,16 +16,11 @@ import {BlockApiRxjs} from "@/core/api/BlockApiRxjs.ts";
 import {formateNemTimestamp} from "@/core/utils/utils.ts";
 import {TransactionApiRxjs} from '@/core/api/TransactionApiRxjs.ts'
 import {MosaicApiRxjs} from "@/core/api/MosaicApiRxjs";
-import { async } from 'rxjs/internal/scheduler/async';
 
 export const saveLocalWallet = (wallet, encryptObj, index, mnemonicEnCodeObj?) => {
     let localData: any[] = []
     let isExist: boolean = false
-    try {
-        localData = JSON.parse(localRead('wallets'))
-    } catch (e) {
-        localData = []
-    }
+    localData = JSON.parse(localRead('wallets'))
     let saveData = {
         name: wallet.name,
         ciphertext: encryptObj ? encryptObj.ciphertext : localData[index].ciphertext,
@@ -50,7 +45,6 @@ export const saveLocalWallet = (wallet, encryptObj, index, mnemonicEnCodeObj?) =
 
 export const getAccountDefault = async (name, account, netType, node?, currentXEM1?, currentXEM2?) => {
     let storeWallet = {}
-
     const Wallet = new WalletApiRxjs().getWallet(
         name,
         account.privateKey,
@@ -90,7 +84,6 @@ export const setWalletMosaic = async (storeWallet, node, currentXEM1, currentXEM
     }, () => {
         wallet.balance = 0
         wallet.mosaics = []
-
     })
     return wallet
 }
@@ -167,7 +160,6 @@ export const decryptKey = (wallet, password: string) => {
         iv: wallet.iv.data ? wallet.iv.data : wallet.iv,
         key: password
     }
-    // console.log()
     return Crypto.decrypt(encryptObj)
 }
 
@@ -191,10 +183,6 @@ export const createBondedMultisigTransaction = (transaction: Array<Transaction>,
 export const createCompleteMultisigTransaction = (transaction: Array<Transaction>, multisigPublickey: string, networkType: NetworkType, fee: number) => {
     return new MultisigApiRxjs().completeMultisigTransaction(networkType, fee, multisigPublickey, transaction)
 }
-/*  transactionList: pointer of target array  Array
-*   node:node   stirng
-*   offset: time zone   number
-* */
 
 export const getBlockInfoByTransactionList = (transactionList: Array<any>, node: string, offset: number) => {
     const blockHeightList = transactionList.map((item) => {
@@ -214,18 +202,10 @@ export const getBlockInfoByTransactionList = (transactionList: Array<any>, node:
 
 
 export const signAndAnnounceNormal = (account: Account, node: string, generationHash: string, transactionList: Array<any>, callBack: any) => {
-    try {
-        const signature = account.sign(transactionList[0], generationHash)
-        console.log(signature)
-        new TransactionApiRxjs().announce(signature, node).subscribe(() => {
-                callBack()
-            }, (error) => {
-                console.log(error)
-            }
-        )
-    } catch (e) {
-        console.log(e)
-    }
+    const signature = account.sign(transactionList[0], generationHash)
+    new TransactionApiRxjs().announce(signature, node).subscribe(() => {
+        callBack()
+    });
 }
 
 export const signAndAnnounceBonded = (
