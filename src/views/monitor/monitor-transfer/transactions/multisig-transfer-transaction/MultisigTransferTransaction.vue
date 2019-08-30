@@ -42,6 +42,9 @@
       <span class="mosaic_name overflow_ellipsis">{{$t('mosaic')}}</span>
       <span class="mosaic_amount overflow_ellipsis">{{$t('amount')}}</span>
       <div class="scroll">
+        <div class="no_data" v-if="formItem.mosaicTransferList.length <1">
+          {{$t('no_data')}}
+        </div>
         <div class="mosaic_list_item radius" v-for="(m,index) in formItem.mosaicTransferList">
           <span class="mosaic_name overflow_ellipsis">{{m.id.id.toHex()}}</span>
           <span class="mosaic_amount overflow_ellipsis">{{m.amount.compact()}}</span>
@@ -79,7 +82,6 @@
     <span class="xem_tips">{{formItem.bondedFee / 1000000}} xem </span>
 
 
-
     <div class="fee flex_center">
       <span class="title">{{$t('lock_fee')}}</span>
       <span class="value radius flex_center">
@@ -89,7 +91,6 @@
     </div>
     <span class="xem_tips">{{$t('the_more_you_set_the_cost_the_higher_the_processing_priority')}}</span>
     <span class="xem_tips">{{formItem.bondedFee / 1000000}} xem </span>
-
 
 
     <div v-if="currentMinApproval > 1">

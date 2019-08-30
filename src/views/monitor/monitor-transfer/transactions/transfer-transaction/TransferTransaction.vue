@@ -56,6 +56,9 @@
         <span class="mosaic_name overflow_ellipsis">{{$t('mosaic')}}</span>
         <span class="mosaic_amount overflow_ellipsis">{{$t('amount')}}</span>
         <div class="scroll">
+          <div class="no_data" v-if="formModel.mosaicTransferList.length <1">
+            {{$t('no_data')}}
+          </div>
           <div class="mosaic_list_item radius" v-for="(m,index) in formModel.mosaicTransferList">
             <span class="mosaic_name overflow_ellipsis">{{m.id.id.toHex()}}</span>
             <span class="mosaic_amount overflow_ellipsis">{{m.amount.compact()}}</span>
@@ -114,7 +117,7 @@
 </template>
 
 <script lang="ts">
-    import TransferTransactionTs from './TransferTransactionTs'
+    import TransferTransactionTs from './TransferTransactionTs';
 
     export default class TransferTransaction extends TransferTransactionTs {
     }

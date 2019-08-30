@@ -6,7 +6,6 @@ import {
     MultisigCosignatoryModificationType,
     MultisigCosignatoryModification,
     PublicAccount,
-    Account,
     Listener,
     Address,
     Deadline,
@@ -38,10 +37,7 @@ export class MultisigManagementTs extends Vue {
     currentCosignatoryList = []
     showSubpublickeyList = false
     MultisigCosignatoryModificationType = MultisigCosignatoryModificationType
-    publickeyList = [{
-        label: 'no data',
-        value: 'no data'
-    }]
+    publickeyList = []
 
     formItem = {
         minApprovalDelta: 0,

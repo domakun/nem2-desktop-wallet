@@ -40,10 +40,7 @@ export class MosaicTransactionTs extends Vue {
     showMosaicAliasDialog = false;
     isCompleteForm = true;
 
-    multisigPublickeyList = [{
-        value: 'no data',
-        label: 'no data'
-    }];
+    multisigPublickeyList = [];
     typeList = [
         {
             name: 'ordinary_account',
