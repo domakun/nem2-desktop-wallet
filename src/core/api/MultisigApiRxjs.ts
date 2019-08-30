@@ -5,17 +5,17 @@ import {
     AggregateTransaction,
     AccountHttp,
     Address, NetworkType, Account, Transaction
-} from 'nem2-sdk'
-import { from as observableFrom, Observable } from "rxjs";
+} from 'nem2-sdk';
+import {from as observableFrom, Observable} from "rxjs";
 
-export class MultisigApiRxjs  {
+export class MultisigApiRxjs {
     getMultisigAccountInfo(
         address: string,
         node: string
     ) {
-        if (!address) return
-        const accountHttp = new AccountHttp(node)
-        return observableFrom(accountHttp.getMultisigAccountInfo(Address.createFromRawAddress(address)))
+        if (!address) return;
+        const accountHttp = new AccountHttp(node);
+        return observableFrom(accountHttp.getMultisigAccountInfo(Address.createFromRawAddress(address)));
     }
 
     bondedMultisigTransaction(
@@ -25,9 +25,9 @@ export class MultisigApiRxjs  {
         transaction: Array<Transaction>
     ) {
         transaction = transaction.map((item) => {
-            item = item.toAggregate(PublicAccount.createFromPublicKey(multisigPublickey, networkType))
-            return item
-        })
+            item = item.toAggregate(PublicAccount.createFromPublicKey(multisigPublickey, networkType));
+            return item;
+        });
         return AggregateTransaction.createBonded(
             Deadline.create(),
             transaction,
@@ -44,9 +44,9 @@ export class MultisigApiRxjs  {
         multisigPublickey: string,
         transaction: Array<Transaction>) {
         transaction = transaction.map((item) => {
-            item = item.toAggregate(PublicAccount.createFromPublicKey(multisigPublickey, networkType))
-            return item
-        })
+            item = item.toAggregate(PublicAccount.createFromPublicKey(multisigPublickey, networkType));
+            return item;
+        });
         return AggregateTransaction.createComplete(
             Deadline.create(),
             transaction,

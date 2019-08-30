@@ -50,6 +50,7 @@ export default {
         SET_TIME_ZONE(state: appInfo, timeZone: number): void {
             state.timeZone = timeZone
         },
+
         SET_CHAIN_STATUS(state: appInfo, chainStatus: any) {
             const {currentHeight, currentGenerateTime, numTransactions, currentBlockInfo, preBlockInfo, signerPublicKey, nodeAmount} = chainStatus
             state.chainStatus.currentHeight = currentHeight ? currentHeight : state.chainStatus.currentHeight

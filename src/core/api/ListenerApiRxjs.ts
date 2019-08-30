@@ -1,11 +1,11 @@
-import { filter, mergeMap } from 'rxjs/operators'
-import { Address, Listener, TransactionHttp } from 'nem2-sdk'
-import { from as observableFrom } from "rxjs";
+import {filter, mergeMap} from 'rxjs/operators';
+import {Address, Listener, TransactionHttp} from 'nem2-sdk';
+import {from as observableFrom} from "rxjs";
 
 export class ListenerApiRxjs {
 
     public openWs(listener: any) {
-        return observableFrom(listener.open())
+        return observableFrom(listener.open());
     }
 
 
@@ -17,9 +17,9 @@ export class ListenerApiRxjs {
                     filter((transaction: any) => transaction.transactionInfo !== undefined)
                 )
                 .subscribe(transactionInfo => {
-                    fn(transactionInfo)
-                })
-        }))
+                    fn(transactionInfo);
+                });
+        }));
     }
 
     listenerConfirmed(listener: any, address: Address, fn: any) {
@@ -27,9 +27,9 @@ export class ListenerApiRxjs {
             listener.confirmed(address)
                 .pipe(filter((transaction: any) => transaction.transactionInfo !== undefined))
                 .subscribe(transactionInfo => {
-                    fn(transactionInfo)
-                })
-        }))
+                    fn(transactionInfo);
+                });
+        }));
     }
 
     listenerTxStatus(listener: any, address: Address, fn: any) {
@@ -38,15 +38,15 @@ export class ListenerApiRxjs {
             listener
                 .status(address)
                 .subscribe(transactionInfo => {
-                    fn(transactionInfo)
-                })
-        }))
+                    fn(transactionInfo);
+                });
+        }));
     }
 
     sendMultisigWs(address: Address, account: any, node: string, signedBondedTx: any, signedLockTx: any, listener: any) {
-        const transactionHttp = new TransactionHttp(node)
+        const transactionHttp = new TransactionHttp(node);
         return observableFrom(listener.open().then(() => {
-            transactionHttp.announce(signedBondedTx)
+            transactionHttp.announce(signedBondedTx);
             listener
                 .confirmed(account.address)
                 .pipe(
@@ -54,34 +54,34 @@ export class ListenerApiRxjs {
                         && transaction.transactionInfo.hash === signedLockTx.hash),
                     mergeMap(ignored => transactionHttp.announceAggregateBonded(signedBondedTx))
                 )
-                .subscribe()
-        }))
+                .subscribe();
+        }));
     }
 
 
     newBlock(listener: Listener, pointer: any) {
         return observableFrom(listener.open().then(() => {
-            listener
-                .newBlock()
-                .subscribe(
-                    (block) => {
-                        const { currentBlockInfo, preBlockInfo } = pointer.$store.state.app.chainStatus
-                        const chainStatus = {
-                            preBlockInfo: currentBlockInfo,
-                            numTransactions: block.numTransactions ? block.numTransactions : 0,
-                            signerPublicKey: block.signer.publicKey,
-                            currentHeight: block.height.compact(),
-                            currentBlockInfo: block,
-                            currentGenerateTime: 12
-                        }
-                        if (preBlockInfo.timestamp) {
-                            let currentGenerateTime = (block.timestamp.compact() - preBlockInfo.timestamp.compact()) / 1000    //time
-                            chainStatus.currentGenerateTime = Number(currentGenerateTime.toFixed(0))
-                        }
-                        pointer.$store.commit('SET_CHAIN_STATUS', chainStatus)
-                    },
-                )
-        })
-        )
+                listener
+                    .newBlock()
+                    .subscribe(
+                        (block) => {
+                            const {currentBlockInfo, preBlockInfo} = pointer.$store.state.app.chainStatus;
+                            const chainStatus = {
+                                preBlockInfo: currentBlockInfo,
+                                numTransactions: block.numTransactions ? block.numTransactions : 0,
+                                signerPublicKey: block.signer.publicKey,
+                                currentHeight: block.height.compact(),
+                                currentBlockInfo: block,
+                                currentGenerateTime: 12
+                            };
+                            if (preBlockInfo.timestamp) {
+                                let currentGenerateTime = (block.timestamp.compact() - preBlockInfo.timestamp.compact()) / 1000;    //time
+                                chainStatus.currentGenerateTime = Number(currentGenerateTime.toFixed(0));
+                            }
+                            pointer.$store.commit('SET_CHAIN_STATUS', chainStatus);
+                        },
+                    );
+            })
+        );
     }
 }

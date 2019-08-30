@@ -2526,4 +2526,4 @@ export const timeZoneList = [
         "value": "Pacific/Wallis",
         "label": "Pacific/Wallis",
         "offset": 12,
-    }]
+    }];

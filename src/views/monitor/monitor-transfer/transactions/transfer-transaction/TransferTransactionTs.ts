@@ -25,13 +25,13 @@ export default class TransferTransactionTs extends Vue {
     transactionDetail = {}
     showCheckPWDialog = false
     isCompleteForm = false
-
+    currentMosaic: string = ''
+    currentAmount: number = 0
     formFields = {
         fee: 50000,
         remark: '',
         address: '',
-        mosaic: '',
-        amount: 0,
+        mosaicTransferList: []
     }
 
     formModel = clone(this.formFields)
@@ -60,6 +60,15 @@ export default class TransferTransactionTs extends Vue {
         return this.activeAccount.generationHash
     }
 
+    addMosaic() {
+        const {currentMosaic, currentAmount} = this
+        this.formModel.mosaicTransferList.push(new Mosaic(new MosaicId(currentMosaic), UInt64.fromUint(currentAmount)))
+    }
+
+    removeMosaic(index) {
+        this.formModel.mosaicTransferList.splice(index, 1)
+    }
+
     resetFields() {
         this.formModel = clone(this.formFields)
         this.$nextTick(() => this.$validator.reset())
@@ -75,12 +84,14 @@ export default class TransferTransactionTs extends Vue {
     }
 
     showDialog() {
-        const {address, mosaic, amount, remark, fee} = this.formModel
+        const {address, mosaicTransferList, remark, fee} = this.formModel
+        console.log(mosaicTransferList)
         this.transactionDetail = {
             "transaction_type": 'ordinary_transfer',
             "transfer_target": address,
-            "asset_type": mosaic,
-            "quantity": amount,
+            "mosaic": mosaicTransferList.map(item => {
+                return item.id.id.toHex() + `(${item.amount.compact()})`
+            }).join(','),
             "fee": fee + 'gas',
             "remarks": remark
         }
@@ -90,30 +101,17 @@ export default class TransferTransactionTs extends Vue {
 
     generateTransaction() {
         const that = this
-        let {node, generationHash} = this
-        let {address, mosaic, amount, remark, fee} = this.formModel
+        let {address, remark, fee, mosaicTransferList} = this.formModel
         const {networkType} = this.wallet
-        // const account = Account.createFromPrivateKey(key, networkType)
         const transaction = new TransactionApiRxjs().transferTransaction(
             networkType,
             fee,
             address,
-            [new Mosaic(new MosaicId(mosaic), UInt64.fromUint(amount))],
+            mosaicTransferList,
             0,
             remark
         )
         this.transactionList = [transaction]
-        // const signature = account.sign(transaction, generationHash)
-        // new TransactionApiRxjs().announce(signature, node).subscribe(
-        //     () => {
-        //         that.$Notice.success({
-        //             title: this.$t(Message.SUCCESS) + ''
-        //         })
-        //         that.resetFields()
-        //     }, (error) => {
-        //         console.log(error)
-        //     }
-        // )
     }
 
     async getMosaicList() {

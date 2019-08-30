@@ -125,7 +125,7 @@ export const getNamespaces = async (address: string, node: string) => {
             item.namespaceInfo.levels.map((item, index) => {
                 namespaceName += namespace[item.id.toHex()] + '.'
             })
-            console.log(item.namespaceInfo)
+
             namespaceName = namespaceName.slice(0, namespaceName.length - 1)
             const newObj = {
                 value: namespaceName,

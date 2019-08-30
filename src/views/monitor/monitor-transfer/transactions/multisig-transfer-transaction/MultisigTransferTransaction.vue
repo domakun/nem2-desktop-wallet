@@ -24,16 +24,30 @@
       <span class="title">{{$t('asset_type')}}</span>
       <span>
         <span class="type value radius flex_center">
-          <Select v-model="formItem.mosaic" :placeholder="$t('asset_type')" class="asset_type">
+          <Select v-model="currentMosaic" :placeholder="$t('asset_type')" class="asset_type">
             <Option v-for="item in mosaicList" :value="item.value" :key="item.value">
               {{ item.label }}
             </Option>
            </Select>
         </span>
         <span class="amount value radius flex_center">
-           <input v-model="formItem.amount" :placeholder="$t('please_enter_the_transfer_amount')" type="text">
+           <input v-model="currentAmount" :placeholder="$t('please_enter_the_transfer_amount')" type="text">
          </span>
       </span>
+
+      <span class="add_mosaic_button radius" @click="addMosaic"></span>
+    </div>
+
+    <div class="mosaic_list_container radius ">
+      <span class="mosaic_name overflow_ellipsis">{{$t('mosaic')}}</span>
+      <span class="mosaic_amount overflow_ellipsis">{{$t('amount')}}</span>
+      <div class="scroll">
+        <div class="mosaic_list_item radius" v-for="(m,index) in formItem.mosaicTransferList">
+          <span class="mosaic_name overflow_ellipsis">{{m.id.id.toHex()}}</span>
+          <span class="mosaic_amount overflow_ellipsis">{{m.amount.compact()}}</span>
+          <span class="icon_delete" @click="removeMosaic(index)"></span>
+        </div>
+      </div>
     </div>
 
     <div class="remark flex_center">

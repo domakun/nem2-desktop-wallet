@@ -13,7 +13,7 @@ export class WalletAliasTs extends Vue {
     isShowDialog = false
     isShowDeleteIcon = false
     showCheckPWDialog = false
-    isCompleteForm = false
+    isCompleteForm = true
     formItem = {
         address: '',
         alias: '',
@@ -173,12 +173,12 @@ export class WalletAliasTs extends Vue {
         this.initData()
     }
 
-    @Watch('formItem', {immediate: true, deep: true})
-    onFormItemChange() {
-        const {address, alias, password, fee} = this.formItem
-        // isCompleteForm
-        this.isCompleteForm = address !== '' && alias !== '' && password !== '' && fee > 0
-    }
+    // @Watch('formItem', {immediate: true, deep: true})
+    // onFormItemChange() {
+    //     const {address, alias, password, fee} = this.formItem
+    //     // isCompleteForm
+    //     this.isCompleteForm = address !== '' && alias !== '' && password !== '' && fee > 0
+    // }
 
     created() {
         this.initData()

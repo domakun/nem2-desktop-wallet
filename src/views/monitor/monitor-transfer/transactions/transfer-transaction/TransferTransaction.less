@@ -1,6 +1,52 @@
 .transfer {
   position: relative;
 
+
+  .mosaic_list_container {
+    width: 560px;
+    height: 250px;
+    padding: 20px 10px 10px 10px;
+    margin-left: 100px;
+    border: 1px solid #20B5AC;
+
+    .mosaic_list_item {
+      padding: 10px 0;
+      background: rgba(247, 251, 252, 1);
+     margin-bottom: 10px;
+    }
+
+    .scroll {
+      margin: 0 5px;
+      height: 190px;
+    }
+
+    span {
+      display: inline-block;
+    }
+
+    .mosaic_name {
+      width: 280px;
+      padding-left: 50px;
+    }
+
+    .mosaic_amount {
+      width: 150px;
+    }
+
+    .icon_delete {
+      display: inline-block;
+      background-image: url("../../../../../common/img/wallet/wallet-detail/walletDetailsdelete.png");
+      background-repeat: no-repeat;
+      background-size: contain;
+      width: 15px;
+      height: 15px;
+    }
+
+    .icon_delete:hover {
+      background-image: url("../../../../../common/img/wallet/wallet-detail/walletDetailsdeleteHover.png");
+    }
+  }
+
   .title {
     display: inline-block;
     width: 80px;
@@ -38,8 +84,9 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  input::placeholder{
-    color:rgba(204,204,204,1);
+
+  input::placeholder {
+    color: rgba(204, 204, 204, 1);
   }
 
   .address {
@@ -66,10 +113,12 @@
     .title {
       margin-bottom: 15px;
     }
+
     .type {
-      width: 240px;
+      width: 180px;
       display: inline-block;
     }
+
     .amount {
       width: 300px;
       display: inline-block;
@@ -77,8 +126,24 @@
 
     }
   }
+
+  .add_mosaic_button {
+    display: inline-block;
+    width: 40px;
+    height: 44px;
+    position: relative;
+    left: 20px;
+    border: 10px solid #20B5AC;
+    background-color: #20B5AC;
+    background-image: url("../../../../../common/img/wallet/wallet-detail/walletDetailAdd.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+
   .remark {
     margin-top: 20px;
+
     .title {
       position: relative;
       bottom: 15px;
@@ -107,7 +172,7 @@
   textarea::placeholder {
     font-size: 14px;
     font-weight: 400;
-    color:rgba(204,204,204,1);
+    color: rgba(204, 204, 204, 1);
   }
 
   .fee {
@@ -125,7 +190,7 @@
     margin-left: 105px;
     display: inline-block;
     padding-top: 10px;
-    color:rgba(153,153,153,1);
+    color: rgba(153, 153, 153, 1);
   }
 
   .send_button {

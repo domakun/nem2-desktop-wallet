@@ -3,13 +3,22 @@ import {formatDate} from '@/core/utils/utils.ts'
 import {blog} from "@/core/api/logicApi.ts"
 import {Component, Vue, Watch} from 'vue-property-decorator'
 import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
+import {mapState} from "vuex";
 
 @Component({
     components: {
         CheckPWDialog
+    },
+    computed: {
+        ...mapState({
+            activeAccount: 'account',
+            app: 'app',
+        })
     }
 })
 export class informationTs extends Vue {
+    activeAccount: any
+    app: any
     startPage = 0
     articleList = []
     commentList = []
@@ -25,6 +34,18 @@ export class informationTs extends Vue {
     currentArticle: any = {
         title: 'null',
         content: 'null'
+    }
+
+    get address() {
+        return this.activeAccount.wallet.address
+    }
+
+    get nickName() {
+        return this.activeAccount.wallet.name
+    }
+
+    get abbreviation() {
+        return this.app.local.abbr
     }
 
     closeCheckPWDialog() {
@@ -85,8 +106,7 @@ export class informationTs extends Vue {
         const that = this
         const comment = this.commentContent
         const cid = this.currentArticle.cid
-        const address = this.$store.state.account.wallet.address
-        const nickName = this.$store.state.account.wallet.name
+        const {address, nickName} = this
         const gtmCreate = new Date()
         try {
             await blog.commentSave({
@@ -104,7 +124,7 @@ export class informationTs extends Vue {
     }
 
     switchLanguege() {
-        const abbreviation = this.$store.state.app.local.abbr
+        const {abbreviation} = this
         let languageNumber = 1
         switch (abbreviation) {
             case 'zh-CN':

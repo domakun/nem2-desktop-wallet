@@ -13,9 +13,6 @@ import {TransferType} from '@/config/index.ts'
 })
 export class MonitorTransferTs extends Vue {
     TransferType = TransferType
-    accountPublicKey = ''
-    accountAddress = ''
-    node = ''
     transferTypeList = [
         {
             name: 'ordinary_transfer',
@@ -41,6 +38,18 @@ export class MonitorTransferTs extends Vue {
         return this.$store.state.account.wallet
     }
 
+    get accountPublicKey() {
+        return this.$store.state.account.wallet.publicKey
+    }
+
+    get accountAddress() {
+        return this.$store.state.account.wallet.address
+    }
+
+    get node() {
+        return this.$store.state.account.node
+    }
+
     showSearchDetail() {
         // this.isShowSearchDetail = true
     }
@@ -62,16 +71,4 @@ export class MonitorTransferTs extends Vue {
         this.transferTypeList = list
     }
 
-
-    initData() {
-        if (!this.getWallet) return
-        this.accountPublicKey = this.getWallet.publicKey
-        this.accountAddress = this.getWallet.address
-        this.node = this.$store.state.account.node
-    }
-
-
-    created() {
-        this.initData()
-    }
 }

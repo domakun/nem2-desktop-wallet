@@ -34,8 +34,10 @@ export class MultisigTransferTransactionTs extends Vue {
     isShowSubAlias = false
     showCheckPWDialog = false
     otherDetails: any = {}
-    isCompleteForm = false
+    isCompleteForm = true
     currentCosignatoryList = []
+    currentMosaic: string = ''
+    currentAmount: number = 0
     mosaicList = [{
         label: 'no data',
         value: 'no data'
@@ -46,13 +48,12 @@ export class MultisigTransferTransactionTs extends Vue {
     }]
     formItem = {
         address: 'SCSXIT-R36DCY-JRVSNE-NY5BUA-HXSL7I-E6ULEY-UYRC',
-        mosaic: '',
-        amount: 0,
         remark: '',
         multisigPublickey: '',
         bondedFee: 10000000,
         lockFee: 10000000,
         aggregateFee: 10000000,
+        mosaicTransferList: []
     }
 
     get getWallet() {
@@ -62,14 +63,23 @@ export class MultisigTransferTransactionTs extends Vue {
     initForm() {
         this.formItem = {
             address: '',
-            mosaic: '',
-            amount: 0,
+            mosaicTransferList: [],
             remark: '',
             multisigPublickey: '',
             bondedFee: 10000000,
             lockFee: 10000000,
             aggregateFee: 10000000,
         }
+    }
+
+
+    addMosaic() {
+        const {currentMosaic, currentAmount} = this
+        this.formItem.mosaicTransferList.push(new Mosaic(new MosaicId(currentMosaic), UInt64.fromUint(currentAmount)))
+    }
+
+    removeMosaic(index) {
+        this.formItem.mosaicTransferList.splice(index, 1)
     }
 
     checkInfo() {
@@ -80,13 +90,15 @@ export class MultisigTransferTransactionTs extends Vue {
     }
 
     showDialog() {
-        const {address, mosaic, amount, remark, bondedFee, lockFee, aggregateFee, multisigPublickey} = this.formItem
+        const {address, remark, mosaicTransferList, bondedFee, lockFee, aggregateFee, multisigPublickey} = this.formItem
+
         this.transactionDetail = {
             "transaction_type": 'Multisign_transfer',
             "Public_account": multisigPublickey,
             "transfer_target": address,
-            "asset_type": mosaic,
-            "quantity": amount,
+            "mosaic": mosaicTransferList.map(item => {
+                return item.id.id.toHex() + `(${item.amount.compact()})`
+            }).join(','),
             "fee": bondedFee + lockFee + aggregateFee + 'gas',
             "remarks": remark
         }
@@ -104,12 +116,12 @@ export class MultisigTransferTransactionTs extends Vue {
         const that = this
         const {networkType} = this.$store.state.account.wallet
         const {node} = this.$store.state.account
-        let {address, bondedFee, lockFee, aggregateFee, mosaic, amount, remark, multisigPublickey} = this.formItem
+        let {address, bondedFee, lockFee, aggregateFee, mosaicTransferList, remark, multisigPublickey} = this.formItem
         const listener = new Listener(node.replace('http', 'ws'), WebSocket)
         const transaction = TransferTransaction.create(
             Deadline.create(),
             Address.createFromRawAddress(address),
-            [new Mosaic(new MosaicId(mosaic), UInt64.fromUint(amount))],
+            mosaicTransferList,
             PlainMessage.create(remark),
             networkType,
             UInt64.fromUint(aggregateFee)
@@ -154,7 +166,7 @@ export class MultisigTransferTransactionTs extends Vue {
     }
 
     checkForm() {
-        const {address, mosaic, amount, remark, bondedFee, lockFee, aggregateFee, multisigPublickey} = this.formItem
+        const {address, remark, bondedFee, lockFee, aggregateFee, multisigPublickey} = this.formItem
 
         // multisig check
         if (multisigPublickey.length !== 64) {
@@ -165,14 +177,7 @@ export class MultisigTransferTransactionTs extends Vue {
             this.showErrorMessage(this.$t(Message.ADDRESS_FORMAT_ERROR))
             return false
         }
-        if (mosaic == '' || mosaic.trim() == '') {
-            this.showErrorMessage(this.$t(Message.INPUT_EMPTY_ERROR))
-            return false
-        }
-        if ((!Number(amount) && Number(amount) !== 0) || Number(amount) < 0) {
-            this.showErrorMessage(this.$t(Message.AMOUNT_LESS_THAN_0_ERROR))
-            return false
-        }
+
 
         if ((!Number(aggregateFee) && Number(aggregateFee) !== 0) || Number(aggregateFee) < 0) {
             this.showErrorMessage(this.$t(Message.FEE_LESS_THAN_0_ERROR))
@@ -280,13 +285,13 @@ export class MultisigTransferTransactionTs extends Vue {
         })
     }
 
-    @Watch('formItem', {immediate: true, deep: true})
-    onFormItemChange() {
-        const {address, mosaic, amount, bondedFee, lockFee, aggregateFee, multisigPublickey} = this.formItem
-        // isCompleteForm
-        this.isCompleteForm = address !== '' && mosaic !== '' && parseInt(amount.toString()) >= 0 && multisigPublickey !== '' &&
-            bondedFee > 0 && lockFee > 0 && aggregateFee > 0
-    }
+    // @Watch('formItem', {immediate: true, deep: true})
+    // onFormItemChange() {
+    //     const {address, mosaic, amount, bondedFee, lockFee, aggregateFee, multisigPublickey} = this.formItem
+    //     // isCompleteForm
+    //     this.isCompleteForm = address !== '' && mosaic !== '' && parseInt(amount.toString()) >= 0 && multisigPublickey !== '' &&
+    //         bondedFee > 0 && lockFee > 0 && aggregateFee > 0
+    // }
 
     created() {
         this.initData()

@@ -23,23 +23,23 @@
             <span class="type value radius flex_center">
               <Select
                       data-vv-name="mosaic"
-                      v-model="formModel.mosaic"
+                      v-model="currentMosaic"
                       v-validate="'required'"
                       :data-vv-as="$t('asset_type')"
                       :placeholder="$t('asset_type')"
-                      class="asset_type"
-              >
+                      class="asset_type">
                 <Option v-for="item in mosaicList" :value="item.value" :key="item.value">
-                  {{ item.label }}
+                 {{ item.label }}
                 </Option>
               </Select>
             </span>
           </ErrorTooltip>
+
           <span class="amount value radius flex_center">
             <ErrorTooltip fieldName="amount">
               <input
                       data-vv-name="amount"
-                      v-model="formModel.amount"
+                      v-model="currentAmount"
                       v-validate="`required|${standardFields.amount.validation}`"
                       :data-vv-as="$t('amount')"
                       number
@@ -48,7 +48,20 @@
               />
             </ErrorTooltip>
           </span>
+          <span class="add_mosaic_button radius" @click="addMosaic"></span>
         </span>
+      </div>
+
+      <div class="mosaic_list_container radius ">
+        <span class="mosaic_name overflow_ellipsis">{{$t('mosaic')}}</span>
+        <span class="mosaic_amount overflow_ellipsis">{{$t('amount')}}</span>
+        <div class="scroll">
+          <div class="mosaic_list_item radius" v-for="(m,index) in formModel.mosaicTransferList">
+            <span class="mosaic_name overflow_ellipsis">{{m.id.id.toHex()}}</span>
+            <span class="mosaic_amount overflow_ellipsis">{{m.amount.compact()}}</span>
+            <span class="icon_delete" @click="removeMosaic(index)"></span>
+          </div>
+        </div>
       </div>
       <div class="remark flex_center">
         <span class="title">{{$t('remarks')}}</span>

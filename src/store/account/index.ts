@@ -11,7 +11,7 @@ declare interface account {
     namespace: any[],
     UnconfirmedTx: any,
     ConfirmedTx: any,
-    errorTx: any,
+    errorTx: Array<any>,
     generationHash: string
 }
 
@@ -60,5 +60,15 @@ export default {
         SET_NODE(state: account, node: string): void {
             state.node = node
         },
+        SET_GENERATE_HASH(state: account, generationHash: string): void {
+            state.generationHash = generationHash
+        },
+        SET_ERROR_TEXT(state: account, errorTx: Array<any>): void {
+            state.errorTx = errorTx
+        },
+        SET_CURRENT_XEM_1(state: account, currentXEM1: string): void {
+            state.currentXEM1 = currentXEM1
+        },
+
     },
 }

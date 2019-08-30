@@ -1,6 +1,6 @@
-import { WebClient } from "@/core/utils/web.ts"
-import { AppConfig } from "@/config/index.ts"
-import { api } from "@/core/api/apis.d.ts"
+import {WebClient} from "@/core/utils/web.ts";
+import {AppConfig} from "@/config/index.ts";
+import {api} from "@/core/api/apis.d.ts";
 
 export const market: api.market = {
 
@@ -15,10 +15,10 @@ export const market: api.market = {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
-        })
+        });
         return {
             rst: resStr
-        }
+        };
     },
     detail: async (params) => {
         const symbol = params.symbol;
@@ -28,10 +28,10 @@ export const market: api.market = {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
-        })
+        });
         return {
             rst: resStr
-        }
+        };
     },
 
     trade: async (params) => {
@@ -43,13 +43,13 @@ export const market: api.market = {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
-        })
+        });
         return {
             rst: resStr
-        }
+        };
     },
 
-}
+};
 
 export const blog: api.blog = {
 
@@ -64,10 +64,10 @@ export const blog: api.blog = {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
-        })
+        });
         return {
             rst: resStr
-        }
+        };
     },
     commentSave: async (params) => {
         const cid = params.cid;
@@ -82,10 +82,10 @@ export const blog: api.blog = {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
-        })
+        });
         return {
             rst: resStr
-        }
+        };
     },
     list: async (params) => {
         const offset = params.offset;
@@ -98,9 +98,9 @@ export const blog: api.blog = {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
-        })
+        });
         return {
             rst: resStr
-        }
+        };
     },
-}
+};

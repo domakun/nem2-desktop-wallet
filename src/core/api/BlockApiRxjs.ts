@@ -1,5 +1,5 @@
-import { from as observableFrom } from "rxjs"
-import { BlockHttp, ChainHttp } from 'nem2-sdk'
+import {from as observableFrom} from "rxjs";
+import {BlockHttp, ChainHttp} from 'nem2-sdk';
 
 
 export class BlockApiRxjs {
@@ -10,7 +10,7 @@ export class BlockApiRxjs {
      * @param height
      */
     public getBlockByHeight(node: string, height: number) {
-        return observableFrom(new BlockHttp(node).getBlockByHeight(height))
+        return observableFrom(new BlockHttp(node).getBlockByHeight(height));
     }
 
     /**
@@ -20,7 +20,7 @@ export class BlockApiRxjs {
      * @param limit
      */
     public getBlocksByHeightWithLimit(node: string, height: number, limit: number) {
-        return observableFrom(new BlockHttp(node).getBlocksByHeightWithLimit(height, limit))
+        return observableFrom(new BlockHttp(node).getBlocksByHeightWithLimit(height, limit));
     }
 
     /**
@@ -30,12 +30,12 @@ export class BlockApiRxjs {
      * @param queryParams
      */
     public getBlockTransactions(node: string, height: number, queryParams: any) {
-        return observableFrom(new BlockHttp(node).getBlockTransactions(height, queryParams))
+        return observableFrom(new BlockHttp(node).getBlockTransactions(height, queryParams));
     }
 
     // get current block height
     getBlockchainHeight(node: string) {
-        return (new ChainHttp(node).getBlockchainHeight())
+        return (new ChainHttp(node).getBlockchainHeight());
     }
 
 }

@@ -14,26 +14,25 @@ import dashboardPublickey from '@/common/img/monitor/dash-board/dashboardPublick
 import dashboardBlockHeight from '@/common/img/monitor/dash-board/dashboardBlockHeight.png'
 import dashboardPointAmount from '@/common/img/monitor/dash-board/dashboardPointAmount.png'
 import dashboardTransactionAmount from '@/common/img/monitor/dash-board/dashboardTransactionAmount.png'
+import {mapState} from "vuex";
 
 
 @Component({
+    computed: {...mapState({activeAccount: 'account', app: 'app'})},
     components: {
         LineChart,
         numberGrow
     }
 })
 export class MonitorDashBoardTs extends Vue {
-    node = ''
-    currentXem = ''
-    accountAddress = ''
+    app: any
+    activeAccount: any
     updateAnimation = ''
     isShowDialog = false
     isShowInnerDialog = false
     currentInnerTransaction = {}
-    accountPublicKey = ''
     currentDataAmount = 0
     currentPrice: any = 0
-    accountPrivateKey = ''
     transferListLength = 0
     receiptListLength = 0
     currentTransactionList = []
@@ -76,17 +75,45 @@ export class MonitorDashBoardTs extends Vue {
 
 
     get getWallet() {
-        return this.$store.state.account.wallet
+        return this.activeAccount.wallet
+    }
+
+    get accountPrivateKey() {
+        return this.activeAccount.wallet.privateKey
+    }
+
+    get accountPublicKey() {
+        return this.activeAccount.wallet.publicKey
+    }
+
+    get accountAddress() {
+        return this.activeAccount.wallet.address
     }
 
     get ConfirmedTxList() {
-        return this.$store.state.account.ConfirmedTx
+        return this.activeAccount.ConfirmedTx
     }
 
+    get currentXem() {
+        return this.activeAccount.currentXem
+    }
+
+    get currentXEM1() {
+        return this.activeAccount.currentXEM1
+    }
+
+    get node() {
+        return this.activeAccount.node
+    }
 
     get currentHeight() {
-        return this.$store.state.app.chainStatus.currentHeight
+        return this.app.chainStatus.currentHeight
     }
+
+    get timeZone() {
+        return this.app.timeZone
+    }
+
     showDialog(transaction) {
         this.isShowDialog = true
         this.transactionDetails = transaction
@@ -114,7 +141,6 @@ export class MonitorDashBoardTs extends Vue {
             openPrice: result
         }
         localSave('openPriceOneMinute', JSON.stringify(openPriceOneMinute))
-
     }
 
     switchTransactionPanel(flag) {
@@ -125,8 +151,7 @@ export class MonitorDashBoardTs extends Vue {
 
     getPointInfo() {
         const that = this
-        const node = this.$store.state.account.node
-        const {currentBlockInfo, preBlockInfo} = this.$store.state.app.chainStatus
+        const {node} = this
         new BlockApiRxjs().getBlockchainHeight(node).subscribe((res) => {
             const height = Number.parseInt(res.toHex(), 16)
             that.$store.commit('SET_CHAIN_STATUS', {currentHeight: height})
@@ -146,7 +171,7 @@ export class MonitorDashBoardTs extends Vue {
 
     refreshTransferTransactionList() {
         const that = this
-        let {accountPrivateKey, accountPublicKey, currentXem, accountAddress, node} = this
+        let {accountPublicKey, node} = this
         if (!accountPublicKey || accountPublicKey.length < 64) return
         const publicAccount = PublicAccount.createFromPublicKey(accountPublicKey, NetworkType.MIJIN_TEST)
         new TransactionApiRxjs().transactions(
@@ -167,7 +192,7 @@ export class MonitorDashBoardTs extends Vue {
 
     refreshReceiptList() {
         const that = this
-        let {accountPrivateKey, accountPublicKey, currentXem, accountAddress, node} = this
+        let {accountPublicKey, node} = this
         if (!accountPublicKey || accountPublicKey.length < 64) return
         const publicAccount = PublicAccount.createFromPublicKey(accountPublicKey, NetworkType.MIJIN_TEST)
         new TransactionApiRxjs().unconfirmedTransactions(
@@ -191,16 +216,6 @@ export class MonitorDashBoardTs extends Vue {
         })
     }
 
-    initData() {
-        if (!this.getWallet) {
-            return
-        }
-        this.accountPrivateKey = this.getWallet.privateKey
-        this.accountPublicKey = this.getWallet.publicKey
-        this.accountAddress = this.getWallet.address
-        this.node = this.$store.state.account.node
-        this.currentXem = this.$store.state.account.currentXem
-    }
 
     changePage(page) {
         const pageSize = 10
@@ -216,14 +231,13 @@ export class MonitorDashBoardTs extends Vue {
 
 
     getBlockInfoByTransactionList(transactionList, node) {
-        const offset = this.$store.state.app.timeZone
-        getBlockInfoByTransactionList(transactionList, node, offset)
+        const {timeZone} = this
+        getBlockInfoByTransactionList(transactionList, node, timeZone)
     }
 
 
     @Watch('getWallet')
     onGetWalletChange() {
-        this.initData()
         this.refreshReceiptList()
         this.refreshTransferTransactionList()
         this.getMarketOpenPrice()
@@ -239,9 +253,9 @@ export class MonitorDashBoardTs extends Vue {
 
     @Watch('allTransacrionList')
     onAllTransacrionListChange() {
-        const currentXEM = this.$store.state.account.currentXEM1
+        const {currentXEM1} = this
         const {allTransacrionList, accountAddress, showConfirmedTransactions} = this
-        const transactionList = transactionFormat(allTransacrionList, accountAddress, currentXEM)
+        const transactionList = transactionFormat(allTransacrionList, accountAddress, currentXEM1)
         this.transferTransactionList = transactionList.transferTransactionList
         this.receiptList = transactionList.receiptList
         this.changePage(1)
@@ -261,8 +275,6 @@ export class MonitorDashBoardTs extends Vue {
     }
 
     created() {
-
-        this.initData()
         this.getMarketOpenPrice()
         this.refreshTransferTransactionList()
         this.refreshReceiptList()

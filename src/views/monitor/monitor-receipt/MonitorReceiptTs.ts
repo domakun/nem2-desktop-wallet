@@ -11,16 +11,12 @@ import {TransferType} from '@/config/index.ts'
     }
 })
 export class MonitorReceiptTs extends Vue {
-    node = ''
     assetType = ''
-    currentXem = ''
     assetAmount = 0
-    accountAddress = ''
     QRCode: string = ''
     transactionHash = ''
     TransferType = TransferType
     isShowDialog = false
-    accountPublicKey = ''
     mosaicList = [
         {
             value: 'xem',
@@ -49,9 +45,33 @@ export class MonitorReceiptTs extends Vue {
         }
     ]
 
+    get accountPublicKey() {
+        return this.$store.state.account.wallet.publicKey
+    }
+
+    get accountAddress() {
+        return this.$store.state.account.wallet.address
+    }
+
+    get node() {
+        return this.$store.state.account.node
+    }
+
+    get currentXem() {
+        return this.$store.state.account.currentXem
+    }
+
 
     get getWallet() {
         return this.$store.state.account.wallet
+    }
+
+    get generationHash() {
+        return this.$store.state.account.generationHash
+    }
+
+    get networkType() {
+        return this.$store.state.account.wallet.networkType
     }
 
     hideSetAmountDetail() {
@@ -79,18 +99,16 @@ export class MonitorReceiptTs extends Vue {
         if (!this.checkForm()) {
             return
         }
-
+        const {generationHash, networkType} = this
         this.isShowDialog = false
         const QRCodeData = {
             type: 1002,
             address: this.accountAddress,
             timestamp: new Date().getTime().toString(),
             amount: this.assetAmount,
-            amountId: '321d45sa4das4d5ad',
-            reason: '5454564d54as5d4a56d'
+            amountId: '',
+            reason: ''
         }
-        const {networkType} = this.getWallet
-        const {generationHash} = this.$store.state.account
         this.QRCode = QRCodeGenerator
             .createExportObject(QRCodeData, networkType, generationHash)
             .toBase64()
@@ -137,19 +155,10 @@ export class MonitorReceiptTs extends Vue {
         })
     }
 
-    initData() {
-        if (!this.getWallet) return
-        this.accountPublicKey = this.getWallet.publicKey
-        this.accountAddress = this.getWallet.address
-        this.node = this.$store.state.account.node
-        this.currentXem = this.$store.state.account.currentXem
-    }
-
     createQRCode() {
         if (!this.getWallet) return
+        const {generationHash, networkType} = this
         const QRCodeData = {publickKey: this.accountPublicKey}
-        const {networkType} = this.getWallet
-        const {generationHash} = this.$store.state.account
         this.QRCode = QRCodeGenerator
             .createExportObject(QRCodeData, networkType, generationHash)
             .toBase64()
@@ -157,12 +166,10 @@ export class MonitorReceiptTs extends Vue {
 
     @Watch('getWallet')
     onGetWalletChange() {
-        this.initData()
         this.createQRCode()
     }
 
     created() {
-        this.initData()
         this.createQRCode()
 
     }

@@ -61,7 +61,7 @@ export const en_US = {
     number_of_voters: 'Number of voters',
     yes: 'Yes',
     no: 'No',
-    aggregate_hash:'aggregate hash',
+    aggregate_hash: 'aggregate hash',
     //monitor-dashboard
     transaction_detail: 'Transaction detail',
     XEM_market_trend_nearly_7_days: 'XEM market trend nearly 7 days',
@@ -141,7 +141,6 @@ export const en_US = {
     crosschain_transfer: 'Crosschain',
     aggregate_transfer: 'Aggregate',
     QR_code_generation_failed: 'QR code generation failed',
-
     //monitor-remote
     Remote_title_recipt: 'Accumulated delegated harvesting income',
     Remote_state: 'Current state',
@@ -661,4 +660,4 @@ export const en_US = {
 
     inner_transaction: 'inner',
 
-}
+};
