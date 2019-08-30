@@ -1,8 +1,8 @@
-import {Message} from "@/config/index.ts"
-import {formatDate} from '@/core/utils/utils.ts'
-import {blog} from "@/core/api/logicApi.ts"
-import {Component, Vue, Watch} from 'vue-property-decorator'
-import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
+import {Message} from "@/config/index.ts";
+import {formatDate} from '@/core/utils/utils.ts';
+import {blog} from "@/core/api/logicApi.ts";
+import {Component, Vue, Watch} from 'vue-property-decorator';
+import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue';
 import {mapState} from "vuex";
 
 @Component({
@@ -17,69 +17,69 @@ import {mapState} from "vuex";
     }
 })
 export class informationTs extends Vue {
-    activeAccount: any
-    app: any
-    startPage = 0
-    articleList = []
-    commentList = []
-    totalComment = 0
-    commentContent = ''
-    loadAllData = false
-    remainingWords = 300
-    commentStartPage = 0
-    showCheckPWDialog = false
-    loadAllCommentData = false
-    isLoadingConfirmedTx = true
-    scroll: any
+    activeAccount: any;
+    app: any;
+    startPage = 0;
+    articleList = [];
+    commentList = [];
+    totalComment = 0;
+    commentContent = '';
+    loadAllData = false;
+    remainingWords = 300;
+    commentStartPage = 0;
+    showCheckPWDialog = false;
+    loadAllCommentData = false;
+    isLoadingConfirmedTx = true;
+    scroll: any;
     currentArticle: any = {
         title: 'null',
         content: 'null'
-    }
+    };
 
     get address() {
-        return this.activeAccount.wallet.address
+        return this.activeAccount.wallet.address;
     }
 
     get nickName() {
-        return this.activeAccount.wallet.name
+        return this.activeAccount.wallet.name;
     }
 
     get abbreviation() {
-        return this.app.local.abbr
+        return this.$i18n.locale;
     }
 
     closeCheckPWDialog() {
-        this.showCheckPWDialog = false
+        this.showCheckPWDialog = false;
     }
 
     checkEnd(flag) {
         if (flag) {
-            this.sendComment()
+            this.sendComment();
         }
     }
 
     addArticleStartIndex() {
-        this.startPage += 10
+        this.startPage += 10;
     }
 
     addCommentStartIndex() {
-        this.commentStartPage += 10
+        this.commentStartPage += 10;
     }
 
     formatDate(timestamp) {
-        return formatDate(timestamp)
+        return formatDate(timestamp);
     }
 
     switchArticle(index) {
-        let list = this.articleList
-        this.currentArticle = list[index]
+        let list = this.articleList;
+        this.currentArticle = list[index];
         list = list.map((item) => {
-            item.isSelect = false
-            return item
-        })
-        list[index].isSelect = true
-        this.articleList = list
-        this.scrollTop()
+            item.isSelect = false;
+            return item;
+        });
+        list[index].isSelect = true;
+        this.articleList = list;
+        this.scrollTop();
     }
 
     divScroll(div) {
@@ -92,22 +92,22 @@ export class informationTs extends Vue {
 
 
     checkForm() {
-        const {commentContent} = this
+        const {commentContent} = this;
         if (!commentContent || commentContent.trim() == '') {
             this.$Notice.error({
                 title: '' + this.$t(Message.INPUT_EMPTY_ERROR)
-            })
-            return false
+            });
+            return false;
         }
-        this.showCheckPWDialog = true
+        this.showCheckPWDialog = true;
     }
 
     async sendComment() {
-        const that = this
-        const comment = this.commentContent
-        const cid = this.currentArticle.cid
-        const {address, nickName} = this
-        const gtmCreate = new Date()
+        const that = this;
+        const comment = this.commentContent;
+        const cid = this.currentArticle.cid;
+        const {address, nickName} = this;
+        const gtmCreate = new Date();
         try {
             await blog.commentSave({
                 cid: cid,
@@ -120,12 +120,12 @@ export class informationTs extends Vue {
         } catch (e) {
             that.$Notice.error({title: that.$t(Message.OPERATION_FAILED_ERROR) + ''});
         }
-        this.onCurrentArticleChange()
+        this.onCurrentArticleChange();
     }
 
     switchLanguege() {
-        const {abbreviation} = this
-        let languageNumber = 1
+        const {abbreviation} = this;
+        let languageNumber = 1;
         switch (abbreviation) {
             case 'zh-CN':
                 languageNumber = 1;
@@ -138,29 +138,29 @@ export class informationTs extends Vue {
     }
 
     automaticLoadingArticla(e) {
-        const allHeight = this.$refs.listContainer['scrollHeight']
-        const scrollHeight = this.$refs.listContainer['offsetHeight'] + this.$refs['listContainer']['scrollTop']
+        const allHeight = this.$refs.listContainer['scrollHeight'];
+        const scrollHeight = this.$refs.listContainer['offsetHeight'] + this.$refs['listContainer']['scrollTop'];
         if (allHeight <= scrollHeight) {
-            this.getArticleByPage()
+            this.getArticleByPage();
         }
     }
 
     automaticLoadingComment() {
-        const allHeight = this.$refs.articleContainer['scrollHeight']
-        const scrollHeight = this.$refs.articleContainer['offsetHeight'] + this.$refs.articleContainer['scrollTop']
+        const allHeight = this.$refs.articleContainer['scrollHeight'];
+        const scrollHeight = this.$refs.articleContainer['offsetHeight'] + this.$refs.articleContainer['scrollTop'];
         if (allHeight <= scrollHeight) {
-            this.getCommentByPage()
+            this.getCommentByPage();
         }
     }
 
 
     async getArticleByPage() {
         if (this.loadAllData) {
-            return
+            return;
         }
-        const languageNumber = this.switchLanguege()
-        const that = this
-        const {startPage} = this
+        const languageNumber = this.switchLanguege();
+        const that = this;
+        const {startPage} = this;
         const rstStr = await blog.list({
             offset: startPage.toString(),
             limit: "10",
@@ -168,62 +168,62 @@ export class informationTs extends Vue {
         });
         const rstQuery = JSON.parse(rstStr.rst);
 
-        let articleList = that.articleList.concat(rstQuery.rows)
+        let articleList = that.articleList.concat(rstQuery.rows);
         articleList.map((item) => {
-            item.summary = item.title
-            return item
-        })
-        that.articleList = articleList
+            item.summary = item.title;
+            return item;
+        });
+        that.articleList = articleList;
         if (rstQuery.total <= that.articleList.length) {
-            that.loadAllData = true
+            that.loadAllData = true;
         }
-        this.isLoadingConfirmedTx = false
-        this.addArticleStartIndex()
-        this.articleList[0].isSelect = true
+        this.isLoadingConfirmedTx = false;
+        this.addArticleStartIndex();
+        this.articleList[0].isSelect = true;
     }
 
     async getCommentByPage() {
         if (this.loadAllCommentData) {
-            return
+            return;
         }
-        const that = this
-        const cid = this.currentArticle.cid
-        const offset = this.commentStartPage
+        const that = this;
+        const cid = this.currentArticle.cid;
+        const offset = this.commentStartPage;
         const rstStr = await blog.commentList({cid: cid, limit: "10", offset: offset.toString()});
         const rstQuery = JSON.parse(rstStr.rst);
-        that.commentList.push(...rstQuery.rows)
-        that.totalComment = rstQuery.total
+        that.commentList.push(...rstQuery.rows);
+        that.totalComment = rstQuery.total;
         if (rstQuery.total <= that.commentList.length) {
-            that.loadAllCommentData = true
+            that.loadAllCommentData = true;
         }
-        this.addCommentStartIndex()
+        this.addCommentStartIndex();
     }
 
     resetComment() {
-        this.commentList = []
-        this.commentStartPage = 0
-        this.totalComment = 0
-        this.loadAllCommentData = false
+        this.commentList = [];
+        this.commentStartPage = 0;
+        this.totalComment = 0;
+        this.loadAllCommentData = false;
     }
 
     @Watch('currentArticle')
     onCurrentArticleChange() {
-        this.resetComment()
-        this.getCommentByPage()
+        this.resetComment();
+        this.getCommentByPage();
     }
 
     @Watch('commentContent')
     onCommentContent(after, before) {
-        this.remainingWords = 300 - this.commentContent.length
+        this.remainingWords = 300 - this.commentContent.length;
         if (this.commentContent.length > 300) {
-            this.commentContent = before
+            this.commentContent = before;
         }
     }
 
     async created() {
-        const languageNumber = this.switchLanguege()
-        await this.getArticleByPage()
-        this.currentArticle = this.articleList[0]
+        const languageNumber = this.switchLanguege();
+        await this.getArticleByPage();
+        this.currentArticle = this.articleList[0];
         const listContainer = this.$refs.listContainer;
     }
 
