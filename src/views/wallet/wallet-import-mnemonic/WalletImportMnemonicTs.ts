@@ -1,4 +1,4 @@
-import {Message} from "@/config/index.ts"
+import {Message, networkType} from "@/config/index.ts"
 import {NetworkType} from "nem2-sdk"
 import {Component, Vue} from 'vue-property-decorator'
 import {strToHexCharCode} from '@/core/utils/utils.ts'
@@ -23,21 +23,7 @@ export class WalletImportMnemonicTs extends Vue {
         password: '',
         checkPW: '',
     }
-    NetworkTypeList = [
-        {
-            value: NetworkType.MIJIN_TEST,
-            label: 'MIJIN_TEST'
-        }, {
-            value: NetworkType.MAIN_NET,
-            label: 'MAIN_NET'
-        }, {
-            value: NetworkType.TEST_NET,
-            label: 'TEST_NET'
-        }, {
-            value: NetworkType.MIJIN,
-            label: 'MIJIN'
-        },
-    ]
+    NetworkTypeList = networkType
     account = {}
 
     get getNode () {
