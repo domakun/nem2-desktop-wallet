@@ -1,7 +1,7 @@
 import {Message} from "@/config/index.ts";
 import {market} from "@/core/api/logicApi.ts";
 import {KlineQuery} from "@/core/query/klineQuery.ts";
-import {Address, MosaicId, NamespaceHttp, NamespaceId} from 'nem2-sdk';
+import {Address, Alias, MosaicId, NamespaceHttp, NamespaceId} from 'nem2-sdk';
 import {MosaicApiRxjs} from '@/core/api/MosaicApiRxjs.ts';
 import {AccountApiRxjs} from '@/core/api/AccountApiRxjs.ts';
 import {Component, Vue, Watch} from 'vue-property-decorator';
@@ -80,9 +80,6 @@ export class MonitorPanelTs extends Vue {
         return this.$store.state.app.walletList || [];
     }
 
-    get namespaceList() {
-        return this.$store.state.account.namespace;
-    }
 
     get confirmedTxList() {
         return this.$store.state.account.ConfirmedTx;
@@ -117,6 +114,10 @@ export class MonitorPanelTs extends Vue {
 
     get currentXEM1() {
         return this.activeAccount.currentXEM1;
+    }
+
+    get namespaceList() {
+        return this.activeAccount.namespace
     }
 
     switchPanel(index) {
@@ -298,6 +299,10 @@ export class MonitorPanelTs extends Vue {
         that.localMosaicMap = mosaicMap;
         that.mosaicMap = mosaicMap;
         that.isLoadingMosaic = false;
+        console.log(this.namespaceList)
+        this.namespaceList.forEach((item) => {
+            // console.log(item.alias.type == )
+        })
     }
 
     initLeftNavigator() {
