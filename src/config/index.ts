@@ -1,4 +1,4 @@
-import {TransactionType} from 'nem2-sdk';
+import {NetworkType, TransactionType} from 'nem2-sdk';
 import {timeZoneList} from '@/config/TimeZone.ts';
 
 const isWin32 = require('./packgeParam.ts').isWin32;
@@ -34,6 +34,22 @@ export const TransferType = {
     'RECEIVED': 1,
     'SENDED': 0
 };
+export const networkType = [
+    {
+        value: NetworkType.MIJIN_TEST,
+        label: 'MIJIN_TEST'
+    }, {
+        value: NetworkType.MAIN_NET,
+        label: 'MAIN_NET'
+    }, {
+        value: NetworkType.TEST_NET,
+        label: 'TEST_NET'
+    }, {
+        value: NetworkType.MIJIN,
+        label: 'MIJIN'
+    },
+];
+
 //error message
 export const Message = {
     COPY_SUCCESS: 'successful_copy',
@@ -109,7 +125,6 @@ export const transactionTag = {
     MODIFY_ACCOUNT_PROPERTY_ENTITY_TYPE: 'modify_account_property_entity_type',
     LINK_ACCOUNT: 'link_account'
 };
-
 
 export const entityTypeList = {
     'transfer': {

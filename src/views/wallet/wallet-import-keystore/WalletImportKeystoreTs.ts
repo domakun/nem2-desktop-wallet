@@ -1,4 +1,4 @@
-import {Message} from "@/config/index.ts"
+import {Message, networkType} from "@/config/index.ts"
 import {Account, NetworkType} from "nem2-sdk"
 import {Component, Vue} from 'vue-property-decorator'
 import {
@@ -21,21 +21,7 @@ export class WalletImportKeystoreTs extends Vue {
     ALLOWED_SPECIAL_CHAR = ALLOWED_SPECIAL_CHAR
     file = ''
     fileList = []
-    NetworkTypeList = [
-        {
-            value: NetworkType.MIJIN_TEST,
-            label: 'MIJIN_TEST'
-        }, {
-            value: NetworkType.MAIN_NET,
-            label: 'MAIN_NET'
-        }, {
-            value: NetworkType.TEST_NET,
-            label: 'TEST_NET'
-        }, {
-            value: NetworkType.MIJIN,
-            label: 'MIJIN'
-        },
-    ]
+    NetworkTypeList = networkType
     formItem = {
         walletName: 'wak',
         networkType: NetworkType.MIJIN_TEST,

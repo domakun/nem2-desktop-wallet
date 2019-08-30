@@ -1,5 +1,5 @@
 
-import {Message} from "@/config/index.ts"
+import {Message, networkType} from "@/config/index.ts"
 import {NetworkType} from "nem2-sdk"
 import {Component, Prop, Vue} from 'vue-property-decorator'
 import {strToHexCharCode} from '@/core/utils/utils.ts'
@@ -20,21 +20,7 @@ export class WalletCreatedTs extends Vue{
         password: '',
         checkPW: '',
     }
-    netType = [
-        {
-            value: NetworkType.MIJIN_TEST,
-            label: 'MIJIN_TEST'
-        }, {
-            value: NetworkType.MAIN_NET,
-            label: 'MAIN_NET'
-        }, {
-            value: NetworkType.TEST_NET,
-            label: 'TEST_NET'
-        }, {
-            value: NetworkType.MIJIN,
-            label: 'MIJIN'
-        },
-    ]
+    netType = networkType;
 
 
     @Prop({default:{}})
