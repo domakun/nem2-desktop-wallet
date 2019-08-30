@@ -14,7 +14,7 @@ import {
     Deadline,
     Listener,
 } from 'nem2-sdk'
-import {createBondedMultisigTransaction, createCompleteMultisigTransaction} from "@/core/utils/wallet.ts"
+import {createBondedMultisigTransaction, createCompleteMultisigTransaction, getMosaicList, buildMosaicList} from "@/core/utils/wallet.ts"
 
 @Component({
     components: {
@@ -202,45 +202,12 @@ export class MultisigTransferTransactionTs extends Vue {
         })
     }
 
-    async getMosaicList(accountAddress) {
+    async initMosaic(accountAddress:string){
         const that = this
-        const {node, currentXem} = this
+        const {node} = this
         const {currentXEM1, currentXEM2} = this.$store.state.account
-        let mosaicIdList = []
-        await new AccountApiRxjs().getAccountInfo(accountAddress, node).subscribe((accountInfo) => {
-            let mosaicList = []
-            // set mosaicList
-            mosaicList = accountInfo.mosaics.map((item: any) => {
-                item._amount = item.amount.compact()
-                item.value = item.id.toHex()
-                if (item.value == currentXEM1 || item.value == currentXEM2) {
-                    item.label = 'nem.xem' + ' (' + item._amount + ')'
-                } else {
-                    item.label = item.id.toHex() + ' (' + item._amount + ')'
-                }
-                return item
-            })
-            let isCrrentXEMExists = mosaicList.every((item) => {
-                if (item.value == currentXEM1 || item.value == currentXEM2) {
-                    return false
-                }
-                return true
-            })
-            if (isCrrentXEMExists) {
-                mosaicList.unshift({
-                    value: currentXEM1,
-                    label: 'nem.xem'
-                })
-            }
-            that.mosaicList = mosaicList
-        }, () => {
-            let mosaicList = []
-            mosaicList.unshift({
-                value: currentXEM1,
-                label: 'nem.xem'
-            })
-            that.mosaicList = mosaicList
-        })
+        const mosaicList:Mosaic[] = await getMosaicList(accountAddress,node)
+        that.mosaicList  = await buildMosaicList(mosaicList,currentXEM1,currentXEM2)
     }
 
     initData() {
@@ -278,7 +245,7 @@ export class MultisigTransferTransactionTs extends Vue {
         const {node} = this.$store.state.account
         const {networkType} = this.$store.state.account.wallet
         let address = Address.createFromPublicKey(multisigPublickey, networkType)['address']
-        await this.getMosaicList(address)
+        await this.initMosaic(address)
         new MultisigApiRxjs().getMultisigAccountInfo(address, node).subscribe((multisigInfo) => {
             that.currentMinApproval = multisigInfo.minApproval
             that.currentCosignatoryList = multisigInfo.cosignatories

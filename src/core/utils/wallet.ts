@@ -5,7 +5,7 @@ import {
     Crypto,
     NetworkType,
     Transaction,
-    Listener
+    Listener, Mosaic, MosaicInfo, MosaicId
 } from 'nem2-sdk'
 import CryptoJS from 'crypto-js'
 import {WalletApiRxjs} from "@/core/api/WalletApiRxjs.ts";
@@ -15,6 +15,8 @@ import {MultisigApiRxjs} from "@/core/api/MultisigApiRxjs.ts";
 import {BlockApiRxjs} from "@/core/api/BlockApiRxjs.ts";
 import {formateNemTimestamp} from "@/core/utils/utils.ts";
 import {TransactionApiRxjs} from '@/core/api/TransactionApiRxjs.ts'
+import {MosaicApiRxjs} from "@/core/api/MosaicApiRxjs";
+import { async } from 'rxjs/internal/scheduler/async';
 
 export const saveLocalWallet = (wallet, encryptObj, index, mnemonicEnCodeObj?) => {
     let localData: any[] = []
@@ -247,5 +249,55 @@ export const signAndAnnounceBonded = (
         lockFee,
         currentXEM1,
     )
+}
+
+export const getMosaicList = async (address: string, node: string) => {
+    let mosaicList: Mosaic[] = [];
+    await new AccountApiRxjs().getAccountInfo(address, node).toPromise().then(accountInfo => {
+        mosaicList = accountInfo.mosaics;
+    }).catch((_) => {
+        return ;
+    })
+    return mosaicList;
+}
+
+export const getMosaicInfoList = async (node: string, mosaicList: Mosaic[]) => {
+    let mosaicInfoList: MosaicInfo[] = [];
+
+    let mosaicIds: any = mosaicList.map((item) => {
+        return item.id
+    })
+    await new MosaicApiRxjs().getMosaics(node, mosaicIds).toPromise().then(mosaics => {
+        mosaicInfoList =  mosaics
+    }).catch((_) => {
+        return ;
+    })
+    return mosaicInfoList;
+}
+
+export const buildMosaicList = (mosaicList: Mosaic[], coin1: string, coin2: string): any => {
+    const mosaicListRst = mosaicList.map((mosaic: any) => {
+        mosaic._amount = mosaic.amount.compact()
+        mosaic.value = mosaic.id.toHex()
+        if (mosaic.value == coin1 || mosaic.value == coin2) {
+            mosaic.label = 'nem.xem' + ' (' + mosaic._amount + ')'
+        } else {
+            mosaic.label = mosaic.id.toHex() + ' (' + mosaic._amount + ')'
+        }
+        return mosaic;
+    })
+    let isCoinExist = mosaicListRst.every((mosaic) => {
+        if (mosaic.value == coin1 || mosaic.value == coin2) {
+            return false
+        }
+        return true
+    })
+    if (isCoinExist) {
+        mosaicListRst.unshift({
+            value: coin1,
+            label: 'nem.xem'
+        })
+    }
+    return mosaicListRst;
 }
 
