@@ -252,7 +252,7 @@ export const en_US = {
     overdue: 'overdue ',
     forever: 'Forever',
     alias: 'Alias',
-
+    Time_zone_setting: 'Time zone setting',
     // edit dialog
     modify_supply: 'Modify supply',
     binding_alias: 'Binding alias',
@@ -662,6 +662,6 @@ export const en_US = {
 
     inner_transaction: 'inner',
 
-    Node_not_available_please_check_your_node_or_network_settings :'Node not available, please check your node or network settings.'
+    Node_not_available_please_check_your_node_or_network_settings: 'Node not available, please check your node or network settings.'
 
 };

@@ -3,7 +3,7 @@ import {Mosaic, MosaicId, UInt64} from 'nem2-sdk'
 import {Component, Vue, Watch, Provide} from 'vue-property-decorator'
 import {TransactionApiRxjs} from '@/core/api/TransactionApiRxjs.ts'
 import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
-import {clone} from '@/core/utils/utils'
+import {cloneData} from '@/core/utils/utils'
 import ErrorTooltip from '@/views/other/forms/errorTooltip/ErrorTooltip.vue'
 import {standardFields} from '@/core/validation'
 import {mapState} from 'vuex';
@@ -33,7 +33,7 @@ export default class TransferTransactionTs extends Vue {
         mosaicTransferList: []
     }
 
-    formModel = clone(this.formFields)
+    formModel = cloneData(this.formFields)
 
     get wallet() {
         return this.activeAccount.wallet
@@ -69,7 +69,7 @@ export default class TransferTransactionTs extends Vue {
     }
 
     resetFields() {
-        this.formModel = clone(this.formFields)
+        this.formModel = cloneData(this.formFields)
         this.$nextTick(() => this.$validator.reset())
     }
 

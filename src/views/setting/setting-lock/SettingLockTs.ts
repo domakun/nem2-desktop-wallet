@@ -1,6 +1,6 @@
 import { Component, Vue, Provide, Watch } from 'vue-property-decorator'
 import { Message } from "@/config"
-import { clone } from '@/core/utils/utils'
+import { cloneData } from '@/core/utils/utils'
 import { standardFields } from '@/core/validation'
 import { AppLock } from '@/core/utils/AppLock'
 import FormInput from '../../other/forms/input/FormInput.vue'
@@ -21,12 +21,12 @@ export class SettingLockTs extends Vue {
       hint: standardFields.hint.default,
   }
 
-  formModel = clone(this.formFields)
+  formModel = cloneData(this.formFields)
 
   @Watch('errors')
   onErrorsChanged() { this.submitDisabled = this.errors.items.length > 0 }
-  
-  resetFields() { this.formModel = clone(this.formFields) }
+
+  resetFields() { this.formModel = cloneData(this.formFields) }
 
   submit() {
     this.$validator
