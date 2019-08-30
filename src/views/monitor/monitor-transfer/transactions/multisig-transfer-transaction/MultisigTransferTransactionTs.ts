@@ -4,7 +4,6 @@ import {MultisigApiRxjs} from '@/core/api/MultisigApiRxjs.ts';
 import {Component, Vue, Watch} from 'vue-property-decorator';
 import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue';
 import {
-    Account,
     Mosaic,
     MosaicId,
     UInt64,
@@ -20,6 +19,8 @@ import {
     getMosaicList,
     buildMosaicList
 } from "@/core/utils/wallet.ts";
+import {TransactionApiRxjs} from "@/core/api/TransactionApiRxjs";
+import {MessageType} from "nem2-sdk/dist/src/model/transaction/MessageType";
 
 @Component({
     components: {
@@ -49,10 +50,11 @@ export class MultisigTransferTransactionTs extends Vue {
         address: 'SCSXIT-R36DCY-JRVSNE-NY5BUA-HXSL7I-E6ULEY-UYRC',
         remark: '',
         multisigPublickey: '',
-        bondedFee: 1000000,
+        innerFee: 1000000,
         lockFee: 10000000,
         aggregateFee: 1000000,
-        mosaicTransferList: []
+        mosaicTransferList: [],
+        isEncryption: true
     };
 
     get getWallet() {
@@ -65,8 +67,9 @@ export class MultisigTransferTransactionTs extends Vue {
             mosaicTransferList: [],
             remark: '',
             multisigPublickey: '',
-            bondedFee: 10000000,
+            innerFee: 10000000,
             lockFee: 10000000,
+            isEncryption: true,
             aggregateFee: 10000000,
         };
     }
@@ -89,7 +92,7 @@ export class MultisigTransferTransactionTs extends Vue {
     }
 
     showDialog() {
-        const {address, remark, mosaicTransferList, bondedFee, lockFee, aggregateFee, multisigPublickey} = this.formItem;
+        const {address, remark, mosaicTransferList, isEncryption, innerFee, lockFee, aggregateFee, multisigPublickey} = this.formItem;
 
         this.transactionDetail = {
             "transaction_type": 'Multisign_transfer',
@@ -98,8 +101,9 @@ export class MultisigTransferTransactionTs extends Vue {
             "mosaic": mosaicTransferList.map(item => {
                 return item.id.id.toHex() + `(${item.amount.compact()})`;
             }).join(','),
-            "fee": bondedFee + lockFee + aggregateFee + 'gas',
-            "remarks": remark
+            "fee": innerFee + lockFee + aggregateFee + 'gas',
+            "remarks": remark,
+            "encryption": isEncryption,
         };
         this.otherDetails = {
             lockFee: lockFee
@@ -115,15 +119,15 @@ export class MultisigTransferTransactionTs extends Vue {
         const that = this;
         const {networkType} = this.$store.state.account.wallet;
         const {node} = this.$store.state.account;
-        let {address, bondedFee, lockFee, aggregateFee, mosaicTransferList, remark, multisigPublickey} = this.formItem;
+        let {address, innerFee, lockFee, aggregateFee, mosaicTransferList, isEncryption, remark, multisigPublickey} = this.formItem;
         const listener = new Listener(node.replace('http', 'ws'), WebSocket);
-        const transaction = TransferTransaction.create(
-            Deadline.create(),
-            Address.createFromRawAddress(address),
-            mosaicTransferList,
-            PlainMessage.create(remark),
+        const transaction = new TransactionApiRxjs().transferTransaction(
             networkType,
-            UInt64.fromUint(aggregateFee)
+            innerFee,
+            address,
+            mosaicTransferList,
+            isEncryption ? MessageType.EncryptedMessage : MessageType.PlainMessage,
+            remark
         );
 
         if (this.currentMinApproval > 1) {
@@ -131,7 +135,7 @@ export class MultisigTransferTransactionTs extends Vue {
                 [transaction],
                 multisigPublickey,
                 networkType,
-                bondedFee
+                innerFee
             );
             this.transactionList = [aggregateTransaction];
             return;
@@ -165,7 +169,7 @@ export class MultisigTransferTransactionTs extends Vue {
     }
 
     checkForm() {
-        const {address, remark, bondedFee, lockFee, aggregateFee, multisigPublickey} = this.formItem;
+        const {address, remark, innerFee, lockFee, aggregateFee, multisigPublickey} = this.formItem;
 
         // multisig check
         if (multisigPublickey.length !== 64) {
@@ -183,7 +187,7 @@ export class MultisigTransferTransactionTs extends Vue {
             return false;
         }
 
-        if ((!Number(bondedFee) && Number(bondedFee) !== 0) || Number(bondedFee) < 0) {
+        if ((!Number(innerFee) && Number(innerFee) !== 0) || Number(innerFee) < 0) {
             this.showErrorMessage(this.$t(Message.FEE_LESS_THAN_0_ERROR));
             return false;
         }

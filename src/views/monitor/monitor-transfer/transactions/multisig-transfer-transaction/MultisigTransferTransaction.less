@@ -3,7 +3,8 @@
 
   .no_data {
     text-align: center;
-    line-height: 100px;
+    line-height: 50px;
+    color: #999;
   }
 
 
@@ -204,12 +205,42 @@
   background-position: center center;
 }
 
+.encryption_item {
+  margin-left: 10px;
+  margin-top: 20px;
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border-radius: 10px;
+  background-size: contain;
+  background-position: center;
+  margin-left: 10px;
+  margin-right: 30px;
+  background-repeat: no-repeat;
+}
+
+.encryption {
+  background-image: url("../../../../../common/img/monitor/transaction/txUnselected.png");
+}
+
+.not_encryption {
+  background-image: url("../../../../../common/img/monitor/transaction/txSelected.png");
+}
+
+encryption_container {
+  margin-right: 20px;
+  display: flex;
+  align-items: center;
+}
+
+
 .mosaic_list_container {
   width: 560px;
-  height: 250px;
+  height: 150px;
+  color: #999;
   padding: 20px 10px 10px 10px;
   margin-left: 110px;
-  border: 1px solid #20B5AC;
+  border: 1px solid #ccc;
 
   .mosaic_list_item {
     padding: 10px 0;

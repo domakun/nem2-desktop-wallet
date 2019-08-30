@@ -66,6 +66,7 @@
           </div>
         </div>
       </div>
+
       <div class="remark flex_center">
         <span class="title">{{$t('remarks')}}</span>
         <ErrorTooltip fieldName="remark">
@@ -81,6 +82,25 @@
           </span>
         </ErrorTooltip>
       </div>
+
+      <div>
+        <span class="title">{{$t('encryption')}}</span>
+
+        <span>
+          <span class="encryption_container">{{$t('encryption')}}</span><span
+                @click="formModel.isEncryption = false"
+                :class="['encryption_item',formModel.isEncryption?'encryption':'not_encryption']">
+        </span>
+
+          <span class="not_encryption_container">{{$t('Not_encrypted')}}</span>
+          <span
+                  @click="formModel.isEncryption = true"
+                  :class="['encryption_item',formModel.isEncryption?'not_encryption':'encryption']">
+        </span>
+
+        </span>
+      </div>
+
       <div class="fee flex_center">
         <span class="title">{{$t('fee')}}</span>
         <span class="value radius flex_center">

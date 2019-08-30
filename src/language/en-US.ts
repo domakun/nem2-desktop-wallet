@@ -662,6 +662,8 @@ export const en_US = {
 
     inner_transaction: 'inner',
 
-    Node_not_available_please_check_your_node_or_network_settings: 'Node not available, please check your node or network settings.'
+    Node_not_available_please_check_your_node_or_network_settings: 'Node not available, please check your node or network settings.',
+    encryption:'encryption',
+    Not_encrypted:'Not encrypted'
 
 };

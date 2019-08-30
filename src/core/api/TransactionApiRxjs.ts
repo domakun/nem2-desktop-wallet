@@ -11,15 +11,15 @@ import {
     Mosaic,
     MosaicId,
     Transaction, Account, PublicAccount, Listener
-} from 'nem2-sdk'
-import {filter, mergeMap} from "rxjs/operators"
+} from 'nem2-sdk';
+import {filter, mergeMap} from "rxjs/operators";
 import {from as observableFrom} from "rxjs";
 
-export class TransactionApiRxjs  {
+export class TransactionApiRxjs {
 
     announce(signature: any,
              node: string) {
-        return observableFrom(new TransactionHttp(node).announce(signature))
+        return observableFrom(new TransactionHttp(node).announce(signature));
 
     }
 
@@ -30,7 +30,7 @@ export class TransactionApiRxjs  {
         generationHash: string
     ) {
         const signedTransaction = account.sign(transaction, generationHash);
-        return observableFrom(new TransactionHttp(node).announce(signedTransaction))
+        return observableFrom(new TransactionHttp(node).announce(signedTransaction));
 
     }
 
@@ -40,15 +40,15 @@ export class TransactionApiRxjs  {
         MaxFee: number,
         receive: any,
         mosaics: any,
-        MessageType: number,
+        messageType: number,
         message: string
     ) {
         const deadline = Deadline.create();
         const MaxFeeUInt = UInt64.fromUint(MaxFee);
         receive = Address.createFromRawAddress(receive);
         // @ts-ignore
-        const msg = new Message(MessageType, message);
-        return TransferTransaction.create(deadline, receive, mosaics, msg, network, MaxFeeUInt)
+        const msg = new Message(messageType, message);
+        return TransferTransaction.create(deadline, receive, mosaics, msg, network, MaxFeeUInt);
     }
 
     aggregateCompleteTransaction(network: number,
@@ -67,7 +67,7 @@ export class TransactionApiRxjs  {
 
     aggregateBondedTransaction(network: number,
                                transactions: any) {
-        const deadline = Deadline.create()
+        const deadline = Deadline.create();
         return AggregateTransaction.createBonded(
             deadline,
             transactions,
@@ -78,50 +78,50 @@ export class TransactionApiRxjs  {
 
     getTransaction(transactionId: string,
                    node: string) {
-        return observableFrom(new TransactionHttp(node).getTransaction(transactionId))
+        return observableFrom(new TransactionHttp(node).getTransaction(transactionId));
     }
 
     getTransactionStatus(hash: string,
                          node: string) {
-        return observableFrom(new TransactionHttp(node).getTransactionStatus(hash))
+        return observableFrom(new TransactionHttp(node).getTransactionStatus(hash));
 
     }
 
     transactions(publicAccount: PublicAccount,
                  queryParams: any,
                  node: string) {
-        return observableFrom(new AccountHttp(node).transactions(publicAccount, queryParams))
+        return observableFrom(new AccountHttp(node).transactions(publicAccount, queryParams));
     }
 
     incomingTransactions(publicAccount: PublicAccount,
                          queryParams: any,
                          node: string) {
-        return observableFrom(new AccountHttp(node).incomingTransactions(publicAccount, queryParams))
+        return observableFrom(new AccountHttp(node).incomingTransactions(publicAccount, queryParams));
     }
 
     outgoingTransactions(publicAccount: PublicAccount,
                          queryParams: any,
                          node: string) {
 
-        return observableFrom(new AccountHttp(node).outgoingTransactions(publicAccount, queryParams))
+        return observableFrom(new AccountHttp(node).outgoingTransactions(publicAccount, queryParams));
     }
 
     unconfirmedTransactions(publicAccount: PublicAccount,
                             queryParams: any,
                             node: string) {
 
-        return observableFrom(new AccountHttp(node).unconfirmedTransactions(publicAccount, queryParams))
+        return observableFrom(new AccountHttp(node).unconfirmedTransactions(publicAccount, queryParams));
     }
 
     getAggregateBondedTransactions(publicAccount: any,
                                    queryParams: any,
                                    node: string) {
-        return observableFrom(new AccountHttp(node).aggregateBondedTransactions(publicAccount, queryParams))
+        return observableFrom(new AccountHttp(node).aggregateBondedTransactions(publicAccount, queryParams));
     }
 
     announceAggregateBonded(signedTransaction: any,
                             node: string) {
-        return observableFrom(new TransactionHttp(node).announceAggregateBonded(signedTransaction))
+        return observableFrom(new TransactionHttp(node).announceAggregateBonded(signedTransaction));
 
     }
 
@@ -158,14 +158,14 @@ export class TransactionApiRxjs  {
                 .subscribe(announcedAggregateBonded => console.log(announcedAggregateBonded),
                     err => console.error(err));
         }).catch((error) => {
-            console.log(error)
-        })
+            console.log(error);
+        });
     }
 
     getTransactionEffectiveFee(node: string,
                                hash: string) {
-        const transactionHttp = new TransactionHttp(node)
-        return observableFrom(transactionHttp.getTransactionEffectiveFee(hash))
+        const transactionHttp = new TransactionHttp(node);
+        return observableFrom(transactionHttp.getTransactionEffectiveFee(hash));
 
     }
 }

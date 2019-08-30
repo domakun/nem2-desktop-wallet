@@ -70,11 +70,28 @@
     <span class="xem_tips">{{$t('the_more_you_set_the_cost_the_higher_the_processing_priority')}}</span>
     <span class="xem_tips">{{formItem.aggregateFee / 1000000}} xem </span>
 
+    <div>
+      <span class="title">{{$t('encryption')}}</span>
+
+      <span>
+          <span class="encryption_container">{{$t('encryption')}}</span><span
+              @click="formItem.isEncryption = false"
+              :class="['encryption_item',formItem.isEncryption?'encryption':'not_encryption']">
+        </span>
+
+          <span class="not_encryption_container">{{$t('Not_encrypted')}}</span>
+          <span
+                  @click="formItem.isEncryption = true"
+                  :class="['encryption_item',formItem.isEncryption?'not_encryption':'encryption']">
+        </span>
+
+        </span>
+    </div>
 
     <div class="fee flex_center">
-      <span class="title">{{$t('bonded_fee')}}</span>
+      <span class="title">{{$t('inner_fee')}}</span>
       <span class="value radius flex_center">
-        <input v-model="formItem.bondedFee" placeholder="50000" type="text">
+        <input v-model="formItem.inner_fee" placeholder="50000" type="text">
         <span class="uint">gas</span>
       </span>
     </div>
@@ -83,9 +100,9 @@
 
 
     <div class="fee flex_center">
-      <span class="title">{{$t('lock_fee')}}</span>
+      <span class="title">{{$t('bondedFee')}}</span>
       <span class="value radius flex_center">
-        <input v-model="formItem.lockFee" placeholder="50000" type="text">
+        <input v-model="formItem.bondedFee" placeholder="50000" type="text">
         <span class="uint">gas</span>
       </span>
     </div>
@@ -97,7 +114,7 @@
       <div class="fee flex_center">
         <span class="title">{{$t('lock_fee')}}</span>
         <span class="value radius flex_center">
-              <input v-model="formItem.lockFee" placeholder="50000" type="text">
+              <input v-model="formItem.lock_fee" placeholder="50000" type="text">
               <span class="uint">gas</span>
             </span>
       </div>
