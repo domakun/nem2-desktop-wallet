@@ -197,8 +197,8 @@ export const en_US = {
     about_us: 'About us',
 
     //setting-lock
-    old_password: 'old password',
-    please_enter_the_original_password: 'Please enter the old password',
+    old_password: 'Old password',
+    please_enter_the_original_password: 'Please enter the Old password',
     set_password: 'Set new password',
     this_password_is_used_to_lock_the_desktop_wallet_Once_lost_you_will_lose_the_right_to_enter_the_desktop_wallet: 'This password is used to lock the desktop wallet .Once lost you will lose the right to enter the desktop wallet.',
     please_enter_a_new_password: 'Please enter a new password',
@@ -307,12 +307,12 @@ export const en_US = {
     mnemonic_describle: 'The mnemonic is a 12-word seed file. By importing this seed file, you can restore your wallet. Please keep it safe and keep it confidential.',
     input_mnemonic: 'Input mnemonic',
     enter_12_words_please_pay_attention_to_the_order_separated_by_a_space_between_each_word: 'Enter 12 words, please pay attention to the order, separated by a space between each word',
-    mnemonic_describle_tips: 'This password is a private key password and will be used when you pay. If the password is forgotten, you can use the mnemonic to recover the wallet.',
+    mnemonic_describle_tips: 'This password is a wallet password and will be used when you pay. If the password is forgotten, you can use the mnemonic to recover the wallet.',
     the_private_key_is_a_string_of_256_bit_random_strings_which_is_the_absolute_control_of_the_account_Please_keep_it_safe: 'The private key is a string of 256-bit random strings, which is the absolute control of the account. Please keep it safe.',
     private_key_string: 'Private key string',
     Please_paste_the_private_key_string_in_the_input_box_below: 'Please paste the private key string in the input box below',
     Paste_the_private_key_string_in_the_input_box: 'Paste the private key string in the input box',
-    This_password_is_a_private_key_password_and_will_be_used_when_you_pay: 'This password is a private key password and will be used when you pay. If the password is forgotten, you can use the private key to recover the wallet.',
+    This_password_is_a_private_key_password_and_will_be_used_when_you_pay: 'This password is a wallet password and will be used when you pay. If the password is forgotten, you can use the private key to recover the wallet.',
     please_set_your_password: 'Please set your password',
     please_enter_your_wallet_password_again: 'Please enter your wallet password again',
     keyStore_describle: 'KeyStore is the storage file after the private key is encrypted. When importing this file, you need your KeyStore password to succeed.',
@@ -409,8 +409,8 @@ export const en_US = {
     choose_network: 'Choose network',
     In_the_nem2_ecosystem_you_can_build_your_own_home_wallet_or_private_network_wallet_or_test_the_network_such_as_Mainnet_Testnet_different_wallet_address_prefixes_generated_under_different_networks: 'In the \'nem2 ecosystem, you can build your own home wallet, or private network wallet, or test the network.',
     set_the_wallet_name: 'Set the wallet name',
-    The_name_of_the_wallet_can_be_convenient_for_you_to_use_you_can_distinguish_different_wallets_etc_for_better_management_after_entering_the_system_you_can_also_modify_the_wallet_details: 'The name of the wallet can be convenient for you to use, you can distinguish different wallets, etc., for better management; after entering the system, you can also modify the wallet details.',
-    This_password_is_used_to_encrypt_your_private_key: 'This password is used to encrypt your private key. The more complicated it is, the better the encryption will be.',
+    The_name_of_the_wallet_can_be_convenient_for_you_to_use_you_can_distinguish_different_wallets_etc_for_better_management_after_entering_the_system_you_can_also_modify_the_wallet_details: 'The name of the wallet can be convenient for you to use, you can distinguish different wallets, etc., for better management。',
+    This_password_is_used_to_encrypt_your_private_key: 'This password is used to encrypt your wallet. The more complicated it is, the better the encryption will be.',
     password_hint: 'Between %{min} and %{max} characters. Allowed special characters: %{specialChar}',
     please_set_your_wallet_password: 'Please set your wallet password',
     please_enter_your_password_again: 'Please enter your password again',
@@ -428,7 +428,7 @@ export const en_US = {
     previous: 'Previous',
     Confirm_mnemonic: 'Confirm mnemonic',
     Please_select_each_phrase_to_make_sure_the_mnemonic_is_correct: 'Please select each phrase to make sure the mnemonic is correct',
-    If_you_have_a_record_to_back_up_your_own_supporting_words_be_sure_to_verify_it_with_the_left_program_to_ensure_that_there_are_no_errors_in_the_auxiliary_words_Once_you_are_mistaken_you_may_never_be_able_to_get_it_back_You_pay_attention_to_and_understand_the_risks_involved_If_you_dont_want_to_back_up_or_verify_now: 'If you have a record to back up your own supporting words, be sure to verify it with the left program to ensure that there are no errors in the auxiliary words. Once you are mistaken, you may never be able to get it back. You pay attention to and understand the risks involved. If you don\'t want to back up or verify now,',
+    If_you_have_a_record_to_back_up_your_own_supporting_words_be_sure_to_verify_it_with_the_left_program_to_ensure_that_there_are_no_errors_in_the_auxiliary_words_Once_you_are_mistaken_you_may_never_be_able_to_get_it_back_You_pay_attention_to_and_understand_the_risks_involved_If_you_dont_want_to_back_up_or_verify_now: 'If you have a record to back up your own supporting words, be sure to verify it with the below program to ensure that there are no errors in the auxiliary words. Once you are mistaken, you may never be able to get it back. You pay attention to and understand the risks involved. If you don\'t want to back up or verify now,',
     click: 'Click',
     Skip_this_action_but_please_confirm_your_risk_If_you_need_to_back_up_the_mnemonic_again_you_can_find_it_in_the_Wallet_Details_Export_mnemonic: 'To skip this action, but please confirm your risk. If you need to back up the mnemonic again, you can find it in the Wallet Details - Export mnemonic.',
     Congratulations_on_creating_a_wallet: 'Congratulations on creating a wallet.',
@@ -663,7 +663,7 @@ export const en_US = {
     inner_transaction: 'inner',
 
     Node_not_available_please_check_your_node_or_network_settings: 'Node not available, please check your node or network settings.',
-    encryption:'encryption',
-    Not_encrypted:'Not encrypted'
+    encryption: 'encryption',
+    Not_encrypted: 'Not encrypted'
 
 };

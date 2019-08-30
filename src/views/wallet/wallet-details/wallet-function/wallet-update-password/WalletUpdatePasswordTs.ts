@@ -23,31 +23,33 @@ export class WalletUpdatePasswordTs extends Vue {
     checkInfo() {
         const {prePassword, newPassword, repeatPassword} = this
 
+        console.log(prePassword, newPassword, repeatPassword)
+
         if (prePassword == '') {
-            this.$Notice.error({
-                title: '' + this.$t(Message.INPUT_EMPTY_ERROR)
-            })
+            this.showNotice('' + this.$t(Message.INPUT_EMPTY_ERROR))
             return false
         }
         if (newPassword == '') {
-            this.$Notice.error({
-                title: '' + this.$t(Message.INPUT_EMPTY_ERROR)
-            })
+            this.showNotice('' + this.$t(Message.INPUT_EMPTY_ERROR))
             return false
         }
         if (repeatPassword == '') {
-            this.$Notice.error({
-                title: '' + this.$t(Message.INPUT_EMPTY_ERROR)
-            })
+            this.showNotice('' + this.$t(Message.INPUT_EMPTY_ERROR))
             return false
         }
         if (newPassword !== repeatPassword) {
-            this.$Notice.error({
-                title: '' + this.$t(Message.INCONSISTENT_PASSWORD_ERROR)
-            })
+            this.showNotice('' + this.$t(Message.INCONSISTENT_PASSWORD_ERROR))
             return false
         }
         return true
+    }
+
+
+    showNotice(text) {
+        this.$Notice.destroy()
+        this.$Notice.error({
+            title: '' + this.$t(Message.INCONSISTENT_PASSWORD_ERROR)
+        })
     }
 
     confirmUpdate() {
