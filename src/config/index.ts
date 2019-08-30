@@ -1,23 +1,22 @@
-import {NetworkType, TransactionType} from 'nem2-sdk';
-import {timeZoneList} from '@/config/timeZone.js';
+import {NetworkType, TransactionType} from 'nem2-sdk'
+import {timeZoneList} from '@/config/timeZone.ts'
+const isWin32 = require('./packge.ts').isWin32
 
-const isWin32 = require('./packge.js').isWin32;
+export const apiUrl = process.env.NODE_ENV === 'production' ? 'http://120.79.181.170' : 'http://120.79.181.170'
 
-export const apiUrl = process.env.NODE_ENV === 'production' ? 'http://120.79.181.170' : 'http://120.79.181.170';
+export const bandedNamespace = ['nem', 'user', 'account', 'org', 'com', 'biz', 'net', 'edu', 'mil', 'gov ', 'info']
 
-export const bandedNamespace = ['nem', 'user', 'account', 'org', 'com', 'biz', 'net', 'edu', 'mil', 'gov ', 'info'];
-
-export const isWindows = isWin32;
+export const isWindows = isWin32
 
 export const AppConfig = {
     apiUrl: 'http://120.79.181.170',
     marketUrl: 'http://app.nemcn.io',
-};
+}
 
 export const localesMap: any = {
     'zh-CN': '中文',
     'en-US': 'English'
-};
+}
 
 export const languageList: Array<any> = [
     {
@@ -28,12 +27,12 @@ export const languageList: Array<any> = [
         value: 'en-US',
         label: 'English'
     }
-];
+]
 
 export const TransferType = {
     'RECEIVED': 1,
     'SENDED': 0
-};
+}
 export const networkType = [
     {
         value: NetworkType.MIJIN_TEST,
@@ -48,7 +47,7 @@ export const networkType = [
         value: NetworkType.MIJIN,
         label: 'MIJIN'
     },
-];
+]
 
 //error message
 export const Message = {
@@ -104,7 +103,7 @@ export const Message = {
     NODE_CONNECTION_ERROR: 'Node_connection_failed',
     KEYSTORE_DECRYPTION_FAILED: 'Keystore_decryption_failed',
 
-};
+}
 
 export const transactionTag = {
     GATHERING: 'gathering',
@@ -124,7 +123,7 @@ export const transactionTag = {
     MODIFY_ACCOUNT_PROPERTY_MOSAIC: 'modify_account_property_mosaic',
     MODIFY_ACCOUNT_PROPERTY_ENTITY_TYPE: 'modify_account_property_entity_type',
     LINK_ACCOUNT: 'link_account'
-};
+}
 
 export const entityTypeList = {
     'transfer': {
@@ -192,8 +191,8 @@ export const entityTypeList = {
         label: 'link_account',
         value: TransactionType.LINK_ACCOUNT
     }
-};
+}
 
-export const timeZoneListData = timeZoneList;
+export const timeZoneListData = timeZoneList
 
 
