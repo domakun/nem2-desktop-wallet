@@ -107,7 +107,7 @@ export class MosaicListTs extends Vue {
     }
 
 
-    async getMosaicList() {
+    async initMosaic() {
         const that = this
         let { accountPublicKey, accountAddress, node, currentXem } = this
         let mosaicMapInfo: any = {}
@@ -162,16 +162,16 @@ export class MosaicListTs extends Vue {
     @Watch('getWallet')
     onGetWalletChange() {
         this.initData()
-        this.getMosaicList()
+        this.initMosaic()
     }
 
     @Watch('ConfirmedTxList')
     onConfirmedTxChange() {
-        this.getMosaicList()
+        this.initMosaic()
     }
 
     created() {
         this.initData()
-        this.getMosaicList()
+        this.initMosaic()
     }
 }
