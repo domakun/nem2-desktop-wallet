@@ -192,6 +192,31 @@ export const entityTypeList = {
     }
 }
 
+export const nodeList = [
+    {
+        value: 'http://192.168.0.105:3000',
+        name: 'my-8',
+        url: '192.168.0.105',
+        isSelected: false,
+    },
+    {
+        value: 'http://3.0.78.183:3000',
+        name: 'my-8',
+        url: '3.0.78.183',
+        isSelected: false,
+    }, {
+        value: 'http://13.114.200.132:3000',
+        name: 'jp-5',
+        url: '13.114.200.132',
+        isSelected: false,
+    }, {
+        value: 'http://47.107.245.217:3000',
+        name: 'cn-2',
+        url: '47.107.245.217',
+        isSelected: true,
+    }
+];
+
 export const timeZoneListData = timeZoneList
 
 

@@ -1,5 +1,5 @@
 import routers from '@/router/routers.ts';
-import {Message, isWindows, languageList, localesMap} from "@/config/index.ts";
+import {Message, isWindows, languageList, localesMap, nodeList} from "@/config/index.ts";
 import {ListenerApiRxjs} from "@/core/api/ListenerApiRxjs.ts";
 import {BlockApiRxjs} from '@/core/api/BlockApiRxjs.ts';
 import monitorSeleted from '@/common/img/window/windowSelected.png';
@@ -24,30 +24,7 @@ export class MenuBarTs extends Vue {
     isShowNodeList = false;
     isWindows = isWindows;
     inputNodeValue = '';
-    nodeList = [
-        {
-            value: 'http://192.168.0.105:3000',
-            name: 'my-8',
-            url: '192.168.0.105',
-            isSelected: false,
-        },
-        {
-            value: 'http://3.0.78.183:3000',
-            name: 'my-8',
-            url: '3.0.78.183',
-            isSelected: false,
-        }, {
-            value: 'http://13.114.200.132:3000',
-            name: 'jp-5',
-            url: '13.114.200.132',
-            isSelected: false,
-        }, {
-            value: 'http://47.107.245.217:3000',
-            name: 'cn-2',
-            url: '47.107.245.217',
-            isSelected: true,
-        }
-    ];
+    nodeList = nodeList
     isNowWindowMax = false;
     isShowDialog = true;
     activePanelList = [false, false, false, false, false];
@@ -55,8 +32,6 @@ export class MenuBarTs extends Vue {
     showSelectWallet = true;
     monitorSeleted = monitorSeleted;
     monitorUnselected = monitorUnselected;
-    accountPrivateKey = '';
-    accountPublicKey = '';
     accountAddress = '';
     unconfirmedTxListener = null;
     confirmedTxListener = null;
@@ -64,13 +39,14 @@ export class MenuBarTs extends Vue {
     languageList = languageList;
     localesMap = localesMap;
 
-    get isNodeHealthy(){
+    get isNodeHealthy() {
         return this.$store.state.app.isNodeHealthy
     }
 
-    set isNodeHealthy(isNodeHealthy){
-        this.$store.commit('SET_IS_NODE_HEALTHY',isNodeHealthy)
+    set isNodeHealthy(isNodeHealthy) {
+        this.$store.commit('SET_IS_NODE_HEALTHY', isNodeHealthy)
     }
+
     get wallet() {
         return this.activeAccount.wallet || false;
     }
