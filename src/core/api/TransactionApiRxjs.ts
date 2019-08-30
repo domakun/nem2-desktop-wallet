@@ -7,7 +7,6 @@ import {
     UInt64,
     Message,
     AggregateTransaction,
-    TransactionType,
     HashLockTransaction,
     Mosaic,
     MosaicId,

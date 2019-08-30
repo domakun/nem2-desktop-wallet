@@ -2,8 +2,6 @@ import {zh_CN} from '@/language/zh-CN.ts';
 import {en_US} from '@/language/en-US.ts';
 import VueI18n from 'vue-i18n';
 import Vue from 'vue';
-import zh from 'iview/dist/locale/zh-CN';
-import en from 'iview/dist/locale/en-US';
 
 Vue.use(VueI18n);
 // @ts-ignore
