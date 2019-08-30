@@ -5,8 +5,7 @@ import {encryptKey, getAccountDefault, saveLocalWallet} from "@/core/utils/walle
 import {
     ALLOWED_SPECIAL_CHAR,
     MAX_PASSWORD_LENGTH,
-    MIN_PASSWORD_LENGTH,
-    passwordValidator
+    MIN_PASSWORD_LENGTH
 } from "@/core/validation";
 
 @Component

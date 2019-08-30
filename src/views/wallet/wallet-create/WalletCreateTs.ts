@@ -1,5 +1,4 @@
 import {NetworkType} from "nem2-sdk"
-import {localRead} from '@/core/utils/utils.ts'
 import {Message} from "@/config/index.ts"
 import {Component, Vue} from 'vue-property-decorator'
 import {createMnemonic} from "@/core/utils/hdWallet.ts"

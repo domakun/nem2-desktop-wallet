@@ -2,7 +2,7 @@ import {Message} from "@/config/index.ts"
 import {Component, Vue, Watch} from 'vue-property-decorator'
 import {EmptyAlias} from "nem2-sdk/dist/src/model/namespace/EmptyAlias"
 import {NamespaceApiRxjs} from "@/core/api/NamespaceApiRxjs.ts"
-import {Account, Address, AddressAlias, AliasActionType, MosaicId, NamespaceId} from "nem2-sdk";
+import {Account, Address, AddressAlias, AliasActionType, NamespaceId} from "nem2-sdk";
 import {TransactionApiRxjs} from "@/core/api/TransactionApiRxjs.ts"
 import {decryptKey} from "@/core/utils/wallet.ts"
 import {WalletApiRxjs} from "@/core/api/WalletApiRxjs.ts"

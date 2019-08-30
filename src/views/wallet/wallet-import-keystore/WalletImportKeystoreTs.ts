@@ -9,7 +9,6 @@ import {
     saveLocalWallet
 } from "@/core/utils/wallet.ts"
 import {
-    passwordValidator,
     ALLOWED_SPECIAL_CHAR,
     MAX_PASSWORD_LENGTH,
     MIN_PASSWORD_LENGTH
