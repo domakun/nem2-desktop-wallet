@@ -1,7 +1,7 @@
 import {Message} from "@/config/index.ts";
 import {market} from "@/core/api/logicApi.ts";
 import {KlineQuery} from "@/core/query/klineQuery.ts";
-import {Address, MosaicId, Mosaic, MosaicInfo, NamespaceHttp, NamespaceId} from 'nem2-sdk';
+import {Address, MosaicId, NamespaceHttp, NamespaceId} from 'nem2-sdk';
 import {MosaicApiRxjs} from '@/core/api/MosaicApiRxjs.ts';
 import {AccountApiRxjs} from '@/core/api/AccountApiRxjs.ts';
 import {Component, Vue, Watch} from 'vue-property-decorator';
