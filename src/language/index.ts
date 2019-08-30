@@ -18,8 +18,8 @@ window.localStorage.setItem('locale', lang);
 
 
 const messages = {
-    'zh-CN': Object.assign(zh, zh_CN),
-    'en-US': Object.assign(zh, en_US)
+    'zh-CN': zh_CN,
+    'en-US': en_US
 };
 const i18n = new VueI18n({
     locale: lang,
