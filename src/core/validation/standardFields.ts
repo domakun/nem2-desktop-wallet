@@ -26,11 +26,6 @@ const {
 const { availableNetworkTypes, mosaicSupplyTypes } = SDK_PARAMS;
 const { MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH, PASSWORD_SPECIAL_CHAR } = APP_PARAMS
 
-// set_password
-// this_password_is_used_to_lock_the_desktop_wallet_Once_lost_you_will_lose_the_right_to_enter_the_desktop_wallet
-// please_enter_a_new_password
-// confirm_password
-// please_enter_your_new_password_again
 
 export const standardFields = {
  previousPassword: {

@@ -20,7 +20,11 @@ import {MosaicApiRxjs} from "@/core/api/MosaicApiRxjs";
 export const saveLocalWallet = (wallet, encryptObj, index, mnemonicEnCodeObj?) => {
     let localData: any[] = []
     let isExist: boolean = false
-    localData = JSON.parse(localRead('wallets'))
+       try {
+        localData = JSON.parse(localRead('wallets'))
+    } catch (e) {
+        localData = []
+    }
     let saveData = {
         name: wallet.name,
         ciphertext: encryptObj ? encryptObj.ciphertext : localData[index].ciphertext,
@@ -202,10 +206,18 @@ export const getBlockInfoByTransactionList = (transactionList: Array<any>, node:
 
 
 export const signAndAnnounceNormal = (account: Account, node: string, generationHash: string, transactionList: Array<any>, callBack: any) => {
-    const signature = account.sign(transactionList[0], generationHash)
-    new TransactionApiRxjs().announce(signature, node).subscribe(() => {
-        callBack()
-    });
+    try {
+        const signature = account.sign(transactionList[0], generationHash)
+        console.log(signature)
+        new TransactionApiRxjs().announce(signature, node).subscribe(() => {
+                callBack()
+            }, (error) => {
+                console.log(error)
+            }
+        )
+    } catch (e) {
+        console.log(e)
+    }
 }
 
 export const signAndAnnounceBonded = (
