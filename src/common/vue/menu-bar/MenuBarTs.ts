@@ -55,7 +55,6 @@ export class MenuBarTs extends Vue {
     showSelectWallet = true;
     monitorSeleted = monitorSeleted;
     monitorUnselected = monitorUnselected;
-    isNodeHealthy = true;
     accountPrivateKey = '';
     accountPublicKey = '';
     accountAddress = '';
@@ -65,12 +64,23 @@ export class MenuBarTs extends Vue {
     languageList = languageList;
     localesMap = localesMap;
 
+    get isNodeHealthy(){
+        return this.$store.state.app.isNodeHealthy
+    }
+
+    set isNodeHealthy(isNodeHealthy){
+        this.$store.commit('SET_IS_NODE_HEALTHY',isNodeHealthy)
+    }
     get wallet() {
         return this.activeAccount.wallet || false;
     }
 
     get walletList() {
         return this.app.walletList || [];
+    }
+
+    get networkType() {
+        return this.$store.state.account.wallet.networkType;
     }
 
     get node() {
@@ -267,6 +277,10 @@ export class MenuBarTs extends Vue {
         this.confirmedListener();
         this.txErrorListener();
 
+        that.$Notice.destroy();
+        that.$Notice.error({
+            title: that.$t(Message.NODE_CONNECTION_ERROR) + ''
+        });
         new BlockApiRxjs().getBlockchainHeight(currentNode).subscribe((info) => {
             that.isNodeHealthy = true;
             that.getGenerationHash(currentNode);
@@ -276,10 +290,6 @@ export class MenuBarTs extends Vue {
             });
         }, () => {
             that.isNodeHealthy = false;
-            that.$Notice.destroy();
-            that.$Notice.error({
-                title: that.$t(Message.NODE_CONNECTION_ERROR) + ''
-            });
         });
     }
 

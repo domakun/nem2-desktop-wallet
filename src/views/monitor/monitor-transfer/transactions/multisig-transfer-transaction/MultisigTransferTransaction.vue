@@ -60,23 +60,37 @@
     <div class="fee flex_center">
       <span class="title">{{$t('inner_fee')}}</span>
       <span class="value radius flex_center">
-              <input v-model="formItem.aggregateFee" placeholder="50000" type="text">
-              <span class="uint">gas</span>
-            </span>
-
+        <input v-model="formItem.aggregateFee" placeholder="50000" type="text">
+        <span class="uint">gas</span>
+      </span>
     </div>
     <span class="xem_tips">{{$t('the_more_you_set_the_cost_the_higher_the_processing_priority')}}</span>
     <span class="xem_tips">{{formItem.aggregateFee / 1000000}} xem </span>
+
+
     <div class="fee flex_center">
       <span class="title">{{$t('bonded_fee')}}</span>
       <span class="value radius flex_center">
-              <input v-model="formItem.bondedFee" placeholder="50000" type="text">
-              <span class="uint">gas</span>
-            </span>
-
+        <input v-model="formItem.bondedFee" placeholder="50000" type="text">
+        <span class="uint">gas</span>
+      </span>
     </div>
     <span class="xem_tips">{{$t('the_more_you_set_the_cost_the_higher_the_processing_priority')}}</span>
     <span class="xem_tips">{{formItem.bondedFee / 1000000}} xem </span>
+
+
+
+    <div class="fee flex_center">
+      <span class="title">{{$t('lock_fee')}}</span>
+      <span class="value radius flex_center">
+        <input v-model="formItem.lockFee" placeholder="50000" type="text">
+        <span class="uint">gas</span>
+      </span>
+    </div>
+    <span class="xem_tips">{{$t('the_more_you_set_the_cost_the_higher_the_processing_priority')}}</span>
+    <span class="xem_tips">{{formItem.bondedFee / 1000000}} xem </span>
+
+
 
     <div v-if="currentMinApproval > 1">
       <div class="fee flex_center">
@@ -110,7 +124,7 @@
 </template>
 
 <script lang="ts">
-    import {MultisigTransferTransactionTs} from '@/views/monitor/monitor-transfer/transactions/multisig-transfer-transaction/MultisigTransferTransactionTs.ts'
+    import {MultisigTransferTransactionTs} from '@/views/monitor/monitor-transfer/transactions/multisig-transfer-transaction/MultisigTransferTransactionTs.ts';
 
     export default class MultisigTransferTransaction extends MultisigTransferTransactionTs {
 
