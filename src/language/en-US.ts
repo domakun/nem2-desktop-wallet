@@ -49,7 +49,7 @@ export const en_US = {
     enter_the_date_for_example: 'Enter the date ,for example：',
     fee: 'Fee',
     the_default_is: 'Default',
-    the_more_you_set_the_cost_the_higher_the_processing_priority: 'Increasing the fee makes the transaction processing quicker.(1000000 microxem = 1.0xem)',
+    the_more_you_set_the_cost_the_higher_the_processing_priority: 'Increasing the fee makes the transaction processing quicker.(1000000 gas = 1.0xem)',
     create: 'Create',
     all: 'All',
     processing: 'Processing',
@@ -61,7 +61,7 @@ export const en_US = {
     number_of_voters: 'Number of voters',
     yes: 'Yes',
     no: 'No',
-
+    aggregate_hash:'aggregate hash',
     //monitor-dashboard
     transaction_detail: 'Transaction detail',
     XEM_market_trend_nearly_7_days: 'XEM market trend nearly 7 days',
@@ -248,7 +248,7 @@ export const en_US = {
     transportability: 'Transportability',
     variable_supply: 'Supply',
     effective_time: 'Duration(block)',
-    overdue: 'Overdue',
+    overdue: 'Will lost ownership in ',
     forever: 'Forever',
     alias: 'Alias',
 
@@ -280,6 +280,10 @@ export const en_US = {
     select_root_namespace: 'Choose root namespace',
     select_parent_namespace: 'Choose parent namespace',
     subspace: 'Subspace',
+    is_active: 'active',
+    true: 'true',
+    false: 'false',
+
     input_space_name: 'Input space name',
     the_duration_is_calculated_in_blocks_one_block_is_12_seconds: 'The duration is calculated in blocks one block is 12 seconds.',
     space_list: 'Space list',
