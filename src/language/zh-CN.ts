@@ -41,6 +41,8 @@ export const zh_CN = {
     radio: '单选',
     enter_the_date_for_example: '输入日期,例如：',
     fee: '费用',
+    Unlink_now: '去解绑',
+    Link_now: '去绑定',
     the_default_is: '默认为',
     the_more_you_set_the_cost_the_higher_the_processing_priority: '设置的费用越多，处理优先级越高 (1000000 gas = 1.0xem)',
     create: '创建',
@@ -236,7 +238,7 @@ export const zh_CN = {
     transportability: '可传输性',
     variable_supply: '可变供应量',
     effective_time: '有效时间(块)',
-    overdue: '剩余持有时间',
+    overdue: '已过期',
     forever: '永远',
     alias: '别名',
     supply_can_not_less_than_0: '供应量不可小于零',
@@ -641,6 +643,6 @@ export const zh_CN = {
     timestamp: '时间戳',
     sender: '发送者',
     inner_transaction: '内部交易',
-
+    Node_not_available_please_check_your_node_or_network_settings: '节点不可用，请检查您的节点或网络设置。',
     amount: '金额'
-}
+};

@@ -165,6 +165,8 @@ export const en_US = {
     remote_modal_cancel: 'cancel',
     remote_modal_place1: 'Please enter or paste a remote public key',
     remote_modal_place2: 'Please enter your wallet password',
+    Unlink_now: 'Unlink now',
+    Link_now: 'Link now',
     //monitor-relogin
     welcome_back_to_the_CATAPULT_beta: 'WELCOME BACK TO THE CATAPULT BETA',
     welcome_to_the_CATAPULT_beta: 'WELCOME TO USE THE CATAPULT BETA',
@@ -247,7 +249,7 @@ export const en_US = {
     transportability: 'Transportability',
     variable_supply: 'Supply',
     effective_time: 'Duration(block)',
-    overdue: 'Will lost ownership in ',
+    overdue: 'overdue ',
     forever: 'Forever',
     alias: 'Alias',
 
@@ -659,5 +661,7 @@ export const en_US = {
     sender: 'sender',
 
     inner_transaction: 'inner',
+
+    Node_not_available_please_check_your_node_or_network_settings :'Node not available, please check your node or network settings.'
 
 };

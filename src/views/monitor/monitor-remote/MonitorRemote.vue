@@ -10,8 +10,10 @@
           <div class="div_cer">
             <span class="remote_public_key">{{$t('Remote_state')}}：</span>
             <span>{{isLinked?'Linked':'Unlink'}}</span>
-            <i-switch v-model="isLinked" @on-change="toggleSwitch"/>
-            <button>{{isLinked?'Linked':'Unlink'}}</button>
+            <!--            <i-switch v-model="isLinked" @on-change="toggleSwitch"/>-->
+            <button :class="isLinked?'toggle_link_button_to_unlink':'toggle_link_button_to_link'" @click="toggleSwitch">
+              {{isLinked?$t('Unlink_now'):$t('Link_now')}}
+            </button>
 
           </div>
           <div class="top_class_div">

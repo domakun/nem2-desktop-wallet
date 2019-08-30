@@ -12,6 +12,7 @@ import {isWindows} from "@/config/index.ts"
 import {resetFontSize} from '@/core/utils/electron.ts'
 import VeeValidate from 'vee-validate';
 
+
 Vue.use(require('vue-moment'))
 Vue.use(Router)
 //Introduced the global
