@@ -2,7 +2,7 @@ import { Component, Vue, Provide, Watch } from 'vue-property-decorator'
 import { Message } from "@/config"
 import { cloneData } from '@/core/utils/utils'
 import { standardFields } from '@/core/validation'
-import { AppLock } from '@/core/utils/AppLock'
+import { AppLock } from '@/core/utils/appLock'
 import FormInput from '../../other/forms/input/FormInput.vue'
 
 @Component({ components: { FormInput } })

@@ -1,5 +1,5 @@
 import {Component, Vue} from 'vue-property-decorator'
-import {AppLock, StoredCipher} from '@/core/utils/AppLock'
+import {AppLock, StoredCipher} from '@/core/utils/appLock'
 import {standardFields} from '@/core/validation'
 import {mapState} from "vuex";
 

@@ -1,5 +1,5 @@
 import { Address, MosaicId } from 'nem2-sdk'
-import { AppLock } from '@/core/utils/AppLock'
+import { AppLock } from '@/core/utils/appLock'
 
 const getOtherFieldValue = (otherField, validator) => {
   const validatorFields = validator.Validator.$vee._validator.fields.items
@@ -9,7 +9,7 @@ const getOtherFieldValue = (otherField, validator) => {
 }
 
 export const CUSTOM_VALIDATORS_NAMES = {
-  address: 'address', 
+  address: 'address',
   confirmPassword: 'confirmPassword',
   confirmLock: 'confirmLock',
   mosaicId: 'mosaicId',
