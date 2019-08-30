@@ -30,12 +30,7 @@ export class SubNamespaceTs extends Vue {
         aggregateFee: 50000,
         lockFee: 50000,
     }
-    multisigPublickeyList = [
-        {
-            value: 'no data',
-            label: 'no data'
-        },
-    ]
+    multisigPublickeyList = []
 
     typeList = [
         {
@@ -60,11 +55,7 @@ export class SubNamespaceTs extends Vue {
     }
 
     get namespaceList() {
-        return this.$store.state.account.namespace ? this.$store.state.account.namespace : [{
-            label: 'no data',
-            value: 'no data',
-            levels: '0'
-        }]
+        return this.$store.state.account.namespace ? this.$store.state.account.namespace : []
     }
 
 

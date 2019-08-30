@@ -43,14 +43,8 @@ export class MultisigTransferTransactionTs extends Vue {
     currentCosignatoryList = [];
     currentMosaic: string = '';
     currentAmount: number = 0;
-    mosaicList = [{
-        label: 'no data',
-        value: 'no data'
-    }];
-    multisigPublickeyList: any = [{
-        label: 'no data',
-        value: 'no data'
-    }];
+    mosaicList = [];
+    multisigPublickeyList: any = [];
     formItem = {
         address: 'SCSXIT-R36DCY-JRVSNE-NY5BUA-HXSL7I-E6ULEY-UYRC',
         remark: '',

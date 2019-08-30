@@ -21,10 +21,7 @@ export class WalletImportKeystoreTs extends Vue {
     MAX_PASSWORD_LENGTH = MAX_PASSWORD_LENGTH
     ALLOWED_SPECIAL_CHAR = ALLOWED_SPECIAL_CHAR
     file = ''
-    fileList = [{
-        value: 'no data',
-        label: 'no data'
-    }]
+    fileList = []
     NetworkTypeList = [
         {
             value: NetworkType.MIJIN_TEST,

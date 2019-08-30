@@ -4,6 +4,7 @@
       <Icon type="ios-alert-outline"/>
       {{$t('Node_not_available_please_check_your_node_or_network_settings')}}
     </Alert>
+
     <div class="left_navigator">
       <div class="navigator_icon">
         <div :key="index"
