@@ -14,7 +14,7 @@ import {
     Transaction, Account, PublicAccount, Listener
 } from 'nem2-sdk'
 import {filter, mergeMap} from "rxjs/operators"
-import {from as observableFrom, Observable} from "rxjs";
+import {from as observableFrom} from "rxjs";
 
 export class TransactionApiRxjs  {
 
@@ -44,7 +44,6 @@ export class TransactionApiRxjs  {
         MessageType: number,
         message: string
     ) {
-        const transactionType = TransactionType.TRANSFER;
         const deadline = Deadline.create();
         const MaxFeeUInt = UInt64.fromUint(MaxFee);
         receive = Address.createFromRawAddress(receive);

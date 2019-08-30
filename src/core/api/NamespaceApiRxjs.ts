@@ -5,9 +5,8 @@ import {
     UInt64,
     MosaicAliasTransaction,
     AddressAliasTransaction,
-    NamespaceHttp, NetworkType, AliasActionType, MosaicId, Address, Namespace,
+    NamespaceHttp, NetworkType, AliasActionType, MosaicId, Address,
 } from 'nem2-sdk'
-import {from as observableFrom, Observable} from "rxjs";
 
 export class NamespaceApiRxjs  {
 

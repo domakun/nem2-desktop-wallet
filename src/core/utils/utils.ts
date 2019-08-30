@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import QRCode from 'qrcode'
 import i18n from '@/language/index.ts'
 import {AliasActionType, Deadline, TransactionType} from 'nem2-sdk'
 

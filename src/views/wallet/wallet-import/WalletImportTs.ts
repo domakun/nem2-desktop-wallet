@@ -1,9 +1,8 @@
-
-import {NetworkType} from "nem2-sdk"
 import { Component, Vue } from 'vue-property-decorator'
 import WalletImportKeystore from '@/views/wallet/wallet-import-keystore/WalletImportKeystore.vue'
 import WalletImportMnemonic from '@/views/wallet/wallet-import-mnemonic/WalletImportMnemonic.vue'
 import WalletImportPrivatekey from '@/views/wallet/wallet-import-privatekey/WalletImportPrivatekey.vue'
+import { networkType } from '@/config';
 
 @Component({
     components: {
@@ -28,21 +27,7 @@ export class WalletImportTs extends Vue{
         keystore:'',
         password: '',
     }
-    netType = [
-        {
-            value:NetworkType.MIJIN_TEST,
-            label:'MIJIN_TEST'
-        },{
-            value:NetworkType.MAIN_NET,
-            label:'MAIN_NET'
-        },{
-            value:NetworkType.TEST_NET,
-            label:'TEST_NET'
-        },{
-            value:NetworkType.MIJIN,
-            label:'MIJIN'
-        },
-    ]
+    netType = networkType
 
     navagatorList = [
         {

@@ -10,7 +10,7 @@ export class AccountApiRxjs {
      * @param node
      */
     public getAccountsNames(addressList: Array<Address>, node: string): Observable<any> {
-        const namespaceList = (new AccountHttp(node)).getAccountsNames(addressList);
+        (new AccountHttp(node)).getAccountsNames(addressList);
         return observableFrom(
             new AccountHttp(node).getAccountsNames(addressList)
         );
@@ -77,7 +77,7 @@ export class AccountApiRxjs {
 
     getLinkedPublickey(node: string, address: string) {
         const url = `${node}/account/${address}`;
-        const resStr: any = WebClient.request('', {
+        WebClient.request('', {
             url: url,
             method: 'GET',
             headers: {

@@ -1,12 +1,11 @@
-import {Message} from "@/config/index.ts"
+import {Message, networkType} from "@/config/index.ts"
 import {Component, Vue} from 'vue-property-decorator'
 import {Account, NetworkType} from "nem2-sdk"
 import {encryptKey, getAccountDefault, saveLocalWallet} from "@/core/utils/wallet.ts"
 import {
     ALLOWED_SPECIAL_CHAR,
     MAX_PASSWORD_LENGTH,
-    MIN_PASSWORD_LENGTH,
-    passwordValidator
+    MIN_PASSWORD_LENGTH
 } from "@/core/validation";
 
 @Component
@@ -22,21 +21,7 @@ export class WalletImportPrivatekeyTs extends Vue {
         password: '',
         checkPW: '',
     }
-    NetworkTypeList = [
-        {
-            value: NetworkType.MIJIN_TEST,
-            label: 'MIJIN_TEST'
-        }, {
-            value: NetworkType.MAIN_NET,
-            label: 'MAIN_NET'
-        }, {
-            value: NetworkType.TEST_NET,
-            label: 'TEST_NET'
-        }, {
-            value: NetworkType.MIJIN,
-            label: 'MIJIN'
-        },
-    ]
+    NetworkTypeList = networkType
 
     get getNode() {
         return this.$store.state.account.node
