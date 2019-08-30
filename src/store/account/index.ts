@@ -1,4 +1,5 @@
 import {Account} from 'nem2-sdk'
+import { nodeConfig } from '@/config';
 
 declare interface account {
     node: string,
@@ -17,10 +18,10 @@ declare interface account {
 
 export default {
     state: {
-        node: 'http://47.107.245.217:3000',
-        currentXem: 'nem.xem',
-        currentXEM1: '577cba5470751c05',
-        currentXEM2: '1B47399ABD2C1E49',
+        node: nodeConfig.node,
+        currentXem: nodeConfig.currentXem,
+        currentXEM1: nodeConfig.currentXEM1,
+        currentXEM2: nodeConfig.currentXEM2,
         account: {},
         wallet: {},
         mosaic: [],

@@ -3,13 +3,11 @@ import {timeZoneList} from '@/config/timeZone.ts'
 
 const isWin32 = require('./packge.ts').isWin32
 
-export const apiUrl = process.env.NODE_ENV === 'production' ? 'http://120.79.181.170' : 'http://120.79.181.170'
-
 export const bandedNamespace = ['nem', 'user', 'account', 'org', 'com', 'biz', 'net', 'edu', 'mil', 'gov ', 'info']
 
 export const isWindows = isWin32
 
-export const AppConfig = {
+export const apiServerConfig = {
     apiUrl: 'http://120.79.181.170',
     marketUrl: 'http://app.nemcn.io',
 }
@@ -222,3 +220,9 @@ export const nodeList = [
 export const timeZoneListData = timeZoneList
 
 
+export const nodeConfig= {
+    node: 'http://47.107.245.217:3000',
+    currentXem: 'nem.xem',
+    currentXEM1: '577cba5470751c05',
+    currentXEM2: '1B47399ABD2C1E49'
+}

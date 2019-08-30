@@ -87,12 +87,12 @@ export class NamespaceApiRxjs  {
         let namespaces: any = []
         const namespaceHttp = new NamespaceHttp(url)
         let namespaceInfo = await namespaceHttp.getNamespacesFromAccount(address).toPromise()
-        let namespaceIds = namespaceInfo.map((item, index, arr) => {
+        let namespaceIds = namespaceInfo.map((item) => {
             namespaces[item.id.toHex().toUpperCase()] = {namespaceInfo: item};
             return item.id
         })
         const namespaceName = await namespaceHttp.getNamespacesName(namespaceIds).toPromise()
-        namespaces = namespaceName.map((item, index, arr) => {
+        namespaces = namespaceName.map((item) => {
             const namespace = namespaces[item.namespaceId.toHex().toUpperCase()];
             namespace.namespaceName = item.name;
             return namespace
