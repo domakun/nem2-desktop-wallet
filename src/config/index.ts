@@ -220,9 +220,15 @@ export const nodeList = [
 export const timeZoneListData = timeZoneList
 
 
-export const nodeConfig= {
+export const nodeConfig = {
     node: 'http://47.107.245.217:3000',
     currentXem: 'nem.xem',
     currentXEM1: '577cba5470751c05',
     currentXEM2: '1B47399ABD2C1E49'
+}
+export const aliasType = {
+    noAlias: 0,
+    mosaicAlias:1,
+    addressAlias:2
+
 }

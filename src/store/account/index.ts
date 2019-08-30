@@ -1,5 +1,5 @@
 import {Account} from 'nem2-sdk'
-import { nodeConfig } from '@/config';
+import {nodeConfig} from "@/config/index.ts"
 
 declare interface account {
     node: string,
@@ -13,7 +13,9 @@ declare interface account {
     UnconfirmedTx: any,
     ConfirmedTx: any,
     errorTx: Array<any>,
-    generationHash: string
+    mosaicMap: any,
+    generationHash: string,
+
 }
 
 export default {
@@ -29,6 +31,7 @@ export default {
         UnconfirmedTx: [],
         ConfirmedTx: [],
         errorTx: [],
+        mosaicMap: {},
         generationHash: ''
     },
     getters: {
@@ -70,6 +73,8 @@ export default {
         SET_CURRENT_XEM_1(state: account, currentXEM1: string): void {
             state.currentXEM1 = currentXEM1
         },
-
+        SET_MOSAIC_MAP(state: account, mosaicMap: any): void {
+            state.mosaicMap = mosaicMap
+        },
     },
 }

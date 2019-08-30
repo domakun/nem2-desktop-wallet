@@ -1,10 +1,11 @@
 import {Message} from "@/config/index.ts";
 import {market} from "@/core/api/logicApi.ts";
 import {KlineQuery} from "@/core/query/klineQuery.ts";
-import {Address, Alias, MosaicId, NamespaceHttp, NamespaceId} from 'nem2-sdk';
+import {Address, MosaicId, NamespaceHttp, NamespaceId} from 'nem2-sdk';
 import {MosaicApiRxjs} from '@/core/api/MosaicApiRxjs.ts';
 import {AccountApiRxjs} from '@/core/api/AccountApiRxjs.ts';
 import {Component, Vue, Watch} from 'vue-property-decorator';
+import {aliasType} from '@/config/index.ts'
 import monitorSeleted from '@/common/img/monitor/monitorSeleted.png';
 import monitorUnselected from '@/common/img/monitor/monitorUnselected.png';
 import {getNamespaces, setWalletMosaic, getMosaicList, getMosaicInfoList} from "@/core/utils/wallet.ts";
@@ -289,6 +290,15 @@ export class MonitorPanelTs extends Vue {
                     showInManage: true
                 };
             });
+            this.namespaceList.forEach((item) => {
+                if (item.alias.type == aliasType.mosaicAlias) {
+                    const mosaicHex = new MosaicId(item.alias.mosaicId).toHex()
+                    if (mosaicMap[mosaicHex]) {
+                        mosaicMap[mosaicHex].name = item.label
+                    }
+
+                }
+            })
         });
         if (mosaicList.length > 0) {
             this.$store.commit('SET_MOSAICS', mosaicList);
@@ -298,11 +308,8 @@ export class MonitorPanelTs extends Vue {
         }
         that.localMosaicMap = mosaicMap;
         that.mosaicMap = mosaicMap;
+        that.$store.commit('SET_MOSAIC_MAP',mosaicMap)
         that.isLoadingMosaic = false;
-        console.log(this.namespaceList)
-        this.namespaceList.forEach((item) => {
-            // console.log(item.alias.type == )
-        })
     }
 
     initLeftNavigator() {

@@ -61,6 +61,10 @@ export default class TransferTransactionTs extends Vue {
         return this.activeAccount.generationHash;
     }
 
+    get mosaicMap() {
+        return this.activeAccount.mosaicMap;
+    }
+
     addMosaic() {
         const {currentMosaic, currentAmount} = this;
         this.formModel.mosaicTransferList.push(new Mosaic(new MosaicId(currentMosaic), UInt64.fromUint(currentAmount)));
@@ -117,12 +121,13 @@ export default class TransferTransactionTs extends Vue {
     }
 
     async initMosaic() {
-        this.mosaicList = [];
-        const that = this;
-        let {accountAddress, node} = this;
-        const {currentXEM1, currentXEM2} = this.activeAccount;
-        const mosaicList: Mosaic[] = await getMosaicList(accountAddress, node);
-        that.mosaicList = await buildMosaicList(mosaicList, currentXEM1, currentXEM2);
+        const {mosaicMap} = this
+        for (let key in mosaicMap) {
+            this.mosaicList.push({
+                label: mosaicMap[key].name + `(${mosaicMap[key].amount})`,
+                value: mosaicMap[key].hex,
+            })
+        }
     }
 
     closeCheckPWDialog() {
