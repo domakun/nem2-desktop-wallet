@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import i18n from '@/language/index.ts';
-import {AliasActionType, Deadline, TransactionType} from 'nem2-sdk';
+import {Address, AliasActionType, Deadline, TransactionType} from 'nem2-sdk';
 
 const vueInstance = new Vue({i18n});
 
@@ -274,22 +274,7 @@ export const covertOffset = (timestamp, offset) => {
 
 export const formatAddress = function (address) {
     if (!address) return;
-    let txt = '';
-    let formatAress = [];
-    address.split('').map((item, index) => {
-        if ((index + 1) % 6 === 0) {
-            txt += item + '-';
-            formatAress.push(txt);
-            txt = '';
-        } else if (index === address.length - 1) {
-            txt += item;
-            formatAress.push(txt);
-        } else {
-            txt += item;
-        }
-
-    });
-    return formatAress.join('');
+    return  Address.createFromRawAddress(address).pretty();
 };
 
 export const getCurrentMonthFirst = function (date) {
@@ -307,7 +292,7 @@ export const getCurrentMonthLast = function (date) {
 };
 
 export const isRefreshData = function (localstorageName, refreshTime, borderlineTime) {
-    if (!localRead(localstorageName)) {
+    if (localRead(localstorageName) === '') {
         return true;
     }
     const currentTime = new Date();

@@ -64,7 +64,7 @@ export default {
         SET_NODE(state: account, node: string): void {
             state.node = node
         },
-        SET_GENERATE_HASH(state: account, generationHash: string): void {
+        SET_GENERATION_HASH(state: account, generationHash: string): void {
             state.generationHash = generationHash
         },
         SET_ERROR_TEXT(state: account, errorTx: Array<any>): void {
@@ -75,6 +75,12 @@ export default {
         },
         SET_MOSAIC_MAP(state: account, mosaicMap: any): void {
             state.mosaicMap = mosaicMap
+        },
+        SET_UNCONFIRMED_TX(state: account, UnconfirmedTx: any): void {
+            state.UnconfirmedTx = UnconfirmedTx
+        },
+        SET_CONFIRMED_TX(state: account, ConfirmedTx: any): void {
+            state.ConfirmedTx = ConfirmedTx
         },
     },
 }

@@ -157,7 +157,7 @@ export class WalletAliasTs extends Vue {
     initData() {
         let list = []
         let addressAliasList = []
-        this.namespaceList.map((item, index) => {
+        this.namespaceList.map((item) => {
             if (item.alias instanceof EmptyAlias) {
                 list.push(item)
             } else if (item.alias instanceof AddressAlias) {

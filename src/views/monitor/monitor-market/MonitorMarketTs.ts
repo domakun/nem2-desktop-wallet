@@ -137,7 +137,6 @@ export class MonitorMarketTs extends Vue {
             return
         }
         const that = this
-
         const rstStr = await market.trade({symbol: "xemusdt", size: "50"});
         const rstQuery = JSON.parse(rstStr.rst);
         let recentTransactionList = []

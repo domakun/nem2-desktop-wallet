@@ -63,7 +63,8 @@
       <div class="tableCell" v-for="(item,index) in aliasList" :key="index" v-if="aliasList.length>0">
         <Row>
           <Col span="4">{{item.name}}</Col>
-          <Col span="12">{{formatAddress(item.alias.address)}}</Col>
+<!--          <Col span="12">{{formatAddress(item.alias.address)}}</Col>-->
+          <Col span="12">{{item.alias.address}}</Col>
           <Col span="5">{{computeDuration(item.duration) === 'Expired' ? $t('overdue') :
             computeDuration(item.duration)}}
           </Col>

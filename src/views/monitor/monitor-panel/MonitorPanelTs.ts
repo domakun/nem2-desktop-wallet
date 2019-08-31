@@ -74,16 +74,16 @@ export class MonitorPanelTs extends Vue {
     };
 
     get getWallet() {
-        return this.$store.state.account.wallet;
+        return this.activeAccount.wallet;
     }
 
     get getWalletList() {
-        return this.$store.state.app.walletList || [];
+        return this.app.walletList || [];
     }
 
 
     get confirmedTxList() {
-        return this.$store.state.account.ConfirmedTx;
+        return this.activeAccount.ConfirmedTx;
     }
 
 
@@ -360,7 +360,7 @@ export class MonitorPanelTs extends Vue {
         return formatXEMamount(text);
     }
 
-    @Watch('getWallet')
+    @Watch('getWallet.address')
     onGetWalletChange() {
         this.initData();
         this.initMosaic();

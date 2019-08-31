@@ -1,9 +1,13 @@
 import {timeZoneListData, languageList} from '@/config/index.ts';
 import {Component, Vue, Watch} from 'vue-property-decorator';
 import {localSave, getCurrentTimeZone} from '@/core/utils/utils.ts';
+import {mapState} from "vuex"
 
-@Component
+@Component({
+    computed: {...mapState({app: 'app'})},
+})
 export class SettingNormalTs extends Vue {
+    app:any
     languageList: any = languageList;
     coin = 'USD';
     timeZoneListData = timeZoneListData;
@@ -19,7 +23,7 @@ export class SettingNormalTs extends Vue {
     }
 
     get timeZone() {
-        return this.$store.state.app.timeZone;
+        return this.app.timeZone;
     }
 
     set timeZone(timeZone) {

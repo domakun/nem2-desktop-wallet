@@ -333,7 +333,7 @@ export class LineChartTs extends Vue {
         rstQuery.data.forEach((item, index) => {
             index % 4 == 0 ? dataList.push(item) : dataList;
         });
-        let marketPriceDataObject = localRead('marketPriceDataObject') ? JSON.parse(localRead('marketPriceDataObject')) : {};
+        let marketPriceDataObject = localRead('marketPriceDataObject')!== '' ? JSON.parse(localRead('marketPriceDataObject')) : {};
         marketPriceDataObject.timestamp = new Date().getTime();
         if (coin == 'xem') {
             that.xemDataList = dataList;
@@ -361,17 +361,15 @@ export class LineChartTs extends Vue {
     }
 
     async refreshData() {
-        try {
-            if (isRefreshData('marketPriceDataObject', 1000 * 60 * 15, new Date().getMinutes())) {
+        if (isRefreshData('marketPriceDataObject', 1000 * 60 * 15, new Date().getMinutes())) {
+            await this.getChartData().catch(async (e)=> {
+                console.log(e)
                 await this.getChartData();
-                return;
-            }
-            this.btcDataList = (JSON.parse(localRead('marketPriceDataObject'))).btc.dataList;
-            this.xemDataList = (JSON.parse(localRead('marketPriceDataObject'))).xem.dataList;
-        } catch (e) {
-            console.log('refresh');
-            await this.getChartData();
+            })
+            return;
         }
+        this.btcDataList = (JSON.parse(localRead('marketPriceDataObject'))).btc.dataList;
+        this.xemDataList = (JSON.parse(localRead('marketPriceDataObject'))).xem.dataList;
     }
 
     mouseoutLine() {

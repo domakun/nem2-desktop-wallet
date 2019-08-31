@@ -6,9 +6,17 @@ import {AccountLinkTransaction, UInt64, LinkAction, NetworkType, Deadline, Accou
 import {decryptKey} from "@/core/utils/wallet.ts";
 import {AccountApiRxjs} from "@/core/api/AccountApiRxjs.ts";
 import {signAndAnnounceNormal} from '@/core/utils/wallet.ts';
+import {mapState} from "vuex"
 
-@Component
+@Component({
+    computed: {
+        ...mapState({
+            activeAccount: 'account',
+        })
+    }
+})
 export class MonitorRemoteTs extends Vue {
+    activeAccount:any
     isLinked = false;
     harvestBlockList = [];
     isLinkToRemote = false;
@@ -21,23 +29,23 @@ export class MonitorRemoteTs extends Vue {
     };
 
     get getWallet() {
-        return this.$store.state.account.wallet;
+        return this.activeAccount.wallet;
     }
 
     get generationHash() {
-        return this.$store.state.account.generationHash;
+        return this.activeAccount.generationHash;
     }
 
     get node() {
-        return this.$store.state.account.node;
+        return this.activeAccount.node;
     }
 
     get networkType() {
-        return this.$store.state.account.wallet.networkType;
+        return this.activeAccount.wallet.networkType;
     }
 
     get address() {
-        return this.$store.state.account.wallet.address;
+        return this.activeAccount.wallet.address;
     }
 
     initForm() {

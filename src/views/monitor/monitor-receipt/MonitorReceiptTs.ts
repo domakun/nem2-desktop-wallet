@@ -4,13 +4,20 @@ import {copyTxt} from '@/core/utils/utils.ts'
 import {Component, Vue, Watch} from 'vue-property-decorator'
 import CollectionRecord from '@/common/vue/collection-record/CollectionRecord.vue'
 import {TransferType} from '@/config/index.ts'
+import {mapState} from "vuex"
 
 @Component({
     components: {
         CollectionRecord
+    },
+    computed: {
+        ...mapState({
+            activeAccount: 'account',
+        })
     }
 })
 export class MonitorReceiptTs extends Vue {
+    activeAccount:any
     assetType = ''
     assetAmount = 0
     QRCode: string = ''
@@ -46,32 +53,32 @@ export class MonitorReceiptTs extends Vue {
     ]
 
     get accountPublicKey() {
-        return this.$store.state.account.wallet.publicKey
+        return this.activeAccount.wallet.publicKey
     }
 
     get accountAddress() {
-        return this.$store.state.account.wallet.address
+        return this.activeAccount.wallet.address
     }
 
     get node() {
-        return this.$store.state.account.node
+        return this.activeAccount.node
     }
 
     get currentXem() {
-        return this.$store.state.account.currentXem
+        return this.activeAccount.currentXem
     }
 
 
     get getWallet() {
-        return this.$store.state.account.wallet
+        return this.activeAccount.wallet
     }
 
     get generationHash() {
-        return this.$store.state.account.generationHash
+        return this.activeAccount.generationHash
     }
 
     get networkType() {
-        return this.$store.state.account.wallet.networkType
+        return this.activeAccount.wallet.networkType
     }
 
     hideSetAmountDetail() {
@@ -164,7 +171,7 @@ export class MonitorReceiptTs extends Vue {
             .toBase64()
     }
 
-    @Watch('getWallet')
+    @Watch('getWallet.address')
     onGetWalletChange() {
         this.createQRCode()
     }

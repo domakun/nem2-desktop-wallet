@@ -1,5 +1,4 @@
 import {Message} from "@/config/index.ts";
-import {AccountApiRxjs} from '@/core/api/AccountApiRxjs.ts';
 import {MultisigApiRxjs} from '@/core/api/MultisigApiRxjs.ts';
 import {Component, Vue, Watch} from 'vue-property-decorator';
 import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue';
@@ -7,10 +6,7 @@ import {
     Mosaic,
     MosaicId,
     UInt64,
-    TransferTransaction,
-    PlainMessage,
     Address,
-    Deadline,
     Listener,
 } from 'nem2-sdk';
 import {
@@ -21,20 +17,18 @@ import {
 } from "@/core/utils/wallet.ts";
 import {TransactionApiRxjs} from "@/core/api/TransactionApiRxjs";
 import {MessageType} from "nem2-sdk/dist/src/model/transaction/MessageType";
+import {mapState} from "vuex"
 
 @Component({
     components: {
         CheckPWDialog,
-    }
+    },
+    computed: {...mapState({activeAccount: 'account'})},
 })
 export class MultisigTransferTransactionTs extends Vue {
-    node = '';
-    currentXem = '';
+    activeAccount:any
     isShowPanel = true;
-    accountAddress = '';
-    generationHash = '';
     transactionList = [];
-    accountPublicKey = '';
     transactionDetail = {};
     currentMinApproval = 0;
     isShowSubAlias = false;
@@ -57,10 +51,44 @@ export class MultisigTransferTransactionTs extends Vue {
         isEncryption: true
     };
 
-    get getWallet() {
-        return this.$store.state.account.wallet;
+
+    get generationHash() {
+        return this.activeAccount.generationHash;
     }
 
+
+    get currentXem() {
+        return this.activeAccount.currentXem;
+    }
+
+
+
+    get accountAddress() {
+        return this.activeAccount.wallet.address;
+    }
+
+
+    get accountPublicKey() {
+        return this.activeAccount.wallet.publicKey;
+    }
+    get currentXEM1(){
+        return this.activeAccount.currentXEM1;
+    }
+
+    get currentXEM2(){
+        return this.activeAccount.currentXEM2;
+    }
+
+    get getWallet() {
+        return this.activeAccount.wallet;
+    }
+
+    get node() {
+        return this.activeAccount.node;
+    }
+    get networkType(){
+        return this.activeAccount.wallet.networkType
+    }
     initForm() {
         this.formItem = {
             address: '',
@@ -117,8 +145,7 @@ export class MultisigTransferTransactionTs extends Vue {
             return;
         }
         const that = this;
-        const {networkType} = this.$store.state.account.wallet;
-        const {node} = this.$store.state.account;
+        const {networkType,node} = this
         let {address, innerFee, lockFee, aggregateFee, mosaicTransferList, isEncryption, remark, multisigPublickey} = this.formItem;
         const listener = new Listener(node.replace('http', 'ws'), WebSocket);
         const transaction = new TransactionApiRxjs().transferTransaction(
@@ -153,7 +180,7 @@ export class MultisigTransferTransactionTs extends Vue {
         const that = this;
         if (!this.getWallet) return;
         const {address} = this.getWallet;
-        const {node} = this.$store.state.account;
+        const {node} = this
 
         new MultisigApiRxjs().getMultisigAccountInfo(address, node).subscribe((multisigInfo) => {
             if (multisigInfo.multisigAccounts.length == 0) {
@@ -169,7 +196,7 @@ export class MultisigTransferTransactionTs extends Vue {
     }
 
     checkForm() {
-        const {address, remark, innerFee, lockFee, aggregateFee, multisigPublickey} = this.formItem;
+        const {address,innerFee, lockFee, aggregateFee, multisigPublickey} = this.formItem;
 
         // multisig check
         if (multisigPublickey.length !== 64) {
@@ -207,20 +234,11 @@ export class MultisigTransferTransactionTs extends Vue {
 
     async initMosaic(accountAddress: string) {
         const that = this;
-        const {node} = this;
-        const {currentXEM1, currentXEM2} = this.$store.state.account;
+        const {currentXEM1, currentXEM2,node} = this;
         const mosaicList: Mosaic[] = await getMosaicList(accountAddress, node);
         that.mosaicList = await buildMosaicList(mosaicList, currentXEM1, currentXEM2);
     }
 
-    initData() {
-        if (!this.getWallet) return;
-        this.accountPublicKey = this.getWallet.publicKey;
-        this.accountAddress = this.getWallet.address;
-        this.node = this.$store.state.account.node;
-        this.currentXem = this.$store.state.account.currentXem;
-        this.generationHash = this.$store.state.account.generationHash;
-    }
 
     closeCheckPWDialog() {
         this.showCheckPWDialog = false;
@@ -236,17 +254,11 @@ export class MultisigTransferTransactionTs extends Vue {
     }
 
 
-    @Watch('getWallet')
-    onGetWalletChange() {
-        this.initData();
-    }
-
     @Watch('formItem.multisigPublickey')
     async onMultisigPublickeyChange() {
         const that = this;
         const {multisigPublickey} = this.formItem;
-        const {node} = this.$store.state.account;
-        const {networkType} = this.$store.state.account.wallet;
+        const {node,networkType} = this;
         let address = Address.createFromPublicKey(multisigPublickey, networkType)['address'];
         await this.initMosaic(address);
         new MultisigApiRxjs().getMultisigAccountInfo(address, node).subscribe((multisigInfo) => {
@@ -264,7 +276,6 @@ export class MultisigTransferTransactionTs extends Vue {
     // }
 
     created() {
-        this.initData();
         this.getMultisigAccountList();
     }
 

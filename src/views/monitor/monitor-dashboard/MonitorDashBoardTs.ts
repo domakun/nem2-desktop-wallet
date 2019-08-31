@@ -37,7 +37,7 @@ export class MonitorDashBoardTs extends Vue {
     receiptListLength = 0;
     currentTransactionList = [];
     xemNum: number = 8999999999;
-    allTransacrionList = [];
+    allTransactionsList= [];
     transferTransactionList = [];
     isLoadingTransactions = false;
     receiptList = [];
@@ -181,9 +181,9 @@ export class MonitorDashBoardTs extends Vue {
             },
             node,
         ).subscribe(async (transactionsInfo) => {
-            that.allTransacrionList.push(...transactionsInfo);
+            that.allTransactionsList.push(...transactionsInfo);
             try {
-                await that.getBlockInfoByTransactionList(that.allTransacrionList, node);
+                await that.getBlockInfoByTransactionList(that.allTransactionsList, node);
             } catch (e) {
                 console.log(e);
             }
@@ -207,9 +207,9 @@ export class MonitorDashBoardTs extends Vue {
                 unconfirmedtransaction.isTxUnconfirmed = true;
                 return unconfirmedtransaction;
             });
-            that.allTransacrionList.push(...unconfirmedtransactionsInfo);
+            that.allTransactionsList.push(...unconfirmedtransactionsInfo);
             try {
-                await that.getBlockInfoByTransactionList(that.allTransacrionList, node);
+                await that.getBlockInfoByTransactionList(that.allTransactionsList, node);
             } catch (e) {
                 console.log(e);
             }
@@ -246,16 +246,16 @@ export class MonitorDashBoardTs extends Vue {
 
     @Watch('ConfirmedTxList')
     onConfirmedTxChange() {
-        this.allTransacrionList = [];
+        this.allTransactionsList= [];
         this.refreshReceiptList();
         this.refreshTransferTransactionList();
     }
 
-    @Watch('allTransacrionList')
+    @Watch('allTransactionsList')
     onAllTransacrionListChange() {
         const {currentXEM1} = this;
-        const {allTransacrionList, accountAddress, showConfirmedTransactions} = this;
-        const transactionList = transactionFormat(allTransacrionList, accountAddress, currentXEM1);
+        const {allTransactionsList, accountAddress, showConfirmedTransactions} = this;
+        const transactionList = transactionFormat(allTransactionsList, accountAddress, currentXEM1);
         this.transferTransactionList = transactionList.transferTransactionList;
         this.receiptList = transactionList.receiptList;
         this.changePage(1);

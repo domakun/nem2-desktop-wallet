@@ -7,7 +7,6 @@ import {cloneData} from '@/core/utils/utils';
 import ErrorTooltip from '@/views/other/forms/errorTooltip/ErrorTooltip.vue';
 import {standardFields} from '@/core/validation';
 import {mapState} from 'vuex';
-import {getMosaicList, buildMosaicList} from '@/core/utils/wallet';
 import {MessageType} from "nem2-sdk/dist/src/model/transaction/MessageType";
 
 @Component({
@@ -32,7 +31,7 @@ export default class TransferTransactionTs extends Vue {
         remark: '',
         address: '',
         mosaicTransferList: [],
-        isEncryption: true
+        isEncrypted: true
     };
 
     formModel = cloneData(this.formFields);
@@ -89,8 +88,7 @@ export default class TransferTransactionTs extends Vue {
     }
 
     showDialog() {
-        const {address, mosaicTransferList, remark, fee, isEncryption} = this.formModel;
-        console.log(mosaicTransferList);
+        const {address, mosaicTransferList, remark, fee, isEncrypted} = this.formModel;
         this.transactionDetail = {
             "transaction_type": 'ordinary_transfer',
             "transfer_target": address,
@@ -99,7 +97,7 @@ export default class TransferTransactionTs extends Vue {
             }).join(','),
             "fee": fee + 'gas',
             "remarks": remark,
-            "encryption": isEncryption,
+            "encryption": isEncrypted,
         };
         this.showCheckPWDialog = true;
         this.generateTransaction();
@@ -107,14 +105,14 @@ export default class TransferTransactionTs extends Vue {
 
     generateTransaction() {
         const that = this;
-        let {address, remark, fee, mosaicTransferList, isEncryption} = this.formModel;
+        let {address, remark, fee, mosaicTransferList, isEncrypted} = this.formModel;
         const {networkType} = this.wallet;
         const transaction = new TransactionApiRxjs().transferTransaction(
             networkType,
             fee,
             address,
             mosaicTransferList,
-            isEncryption ? MessageType.EncryptedMessage : MessageType.PlainMessage,
+            isEncrypted ? MessageType.EncryptedMessage : MessageType.PlainMessage,
             remark
         );
         this.transactionList = [transaction];

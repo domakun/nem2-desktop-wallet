@@ -42,11 +42,6 @@ export class MenuBarTs extends Vue {
     get isNodeHealthy() {
         return this.$store.state.app.isNodeHealthy
     }
-
-    set isNodeHealthy(isNodeHealthy) {
-        this.$store.commit('SET_IS_NODE_HEALTHY', isNodeHealthy)
-    }
-
     get wallet() {
         return this.activeAccount.wallet || false;
     }
@@ -56,7 +51,7 @@ export class MenuBarTs extends Vue {
     }
 
     get networkType() {
-        return this.$store.state.account.wallet.networkType;
+        return this.activeAccount.wallet.networkType;
     }
 
     get node() {
@@ -83,6 +78,28 @@ export class MenuBarTs extends Vue {
         return this.$i18n.locale;
     }
 
+    get confirmedTxList() {
+        return this.activeAccount.ConfirmedTx
+    }
+
+    get unconfirmedTxList () {
+        return this.activeAccount.UnconfirmedTx
+    }
+
+    set confirmedTxList(confirmedTx) {
+        this.$store.commit('SET_CONFIRMED_TX',confirmedTx)
+    }
+
+    set isNodeHealthy(isNodeHealthy) {
+        this.$store.commit('SET_IS_NODE_HEALTHY', isNodeHealthy)
+    }
+    set unconfirmedTxList(unconfirmedTx) {
+        this.$store.commit('SET_UNCONFIRMED_TX',unconfirmedTx)
+    }
+
+    set wallet(wallet){
+        this.$store.commit(' SET_WALLET',wallet)
+    }
     set language(lang) {
         this.$i18n.locale = lang;
         localSave('locale', lang);
@@ -142,7 +159,7 @@ export class MenuBarTs extends Vue {
         let list = [...this.walletList];
         walletList.forEach((item, index) => {
             if (item.address === address) {
-                that.$store.state.account.wallet = item;
+                that.wallet = item;
                 list.splice(index, 1);
                 list.unshift(item);
             }
@@ -163,7 +180,7 @@ export class MenuBarTs extends Vue {
     async getGenerationHash(node) {
         const that = this;
         await new BlockApiRxjs().getBlockByHeight(node, 1).subscribe((blockInfo) => {
-            that.$store.commit('SET_GENERATE_HASH', blockInfo.generationHash);
+            that.$store.commit('SET_GENERATION_HASH', blockInfo.generationHash);
         });
     }
 
@@ -195,10 +212,10 @@ export class MenuBarTs extends Vue {
     }
 
     disposeUnconfirmed(transaction) {
-        let list = this.UnconfirmedTxList;
+        let list = this.unconfirmedTxList;
         if (!list.includes(transaction.transactionInfo.hash)) {
             list.push(transaction.transactionInfo.hash);
-            this.$store.state.account.UnconfirmedTx = list;
+            this.unconfirmedTxList = list;
             this.$Notice.success({
                 title: this.$t('Transaction_sending').toString(),
                 duration: 20,
@@ -207,15 +224,15 @@ export class MenuBarTs extends Vue {
     }
 
     disposeConfirmed(transaction) {
-        let list = this.ConfirmedTxList;
-        let unList = this.UnconfirmedTxList;
+        let list = this.confirmedTxList;
+        let unList = this.unconfirmedTxList;
         if (!list.includes(transaction.transactionInfo.hash)) {
             list.push(transaction.transactionInfo.hash);
             if (unList.includes(transaction.transactionInfo.hash)) {
                 unList.splice(unList.indexOf(transaction.transactionInfo.hash), 1);
             }
-            this.$store.state.account.ConfirmedTx = list;
-            this.$store.state.account.UnconfirmedTx = unList;
+            this.confirmedTxList = list;
+            this.unconfirmedTxList = unList;
             this.$Notice.destroy();
             this.$Notice.success({
                 title: this.$t('Transaction_Reception').toString(),
