@@ -5,8 +5,8 @@ import {Component, Vue, Watch} from 'vue-property-decorator'
 import {NamespaceApiRxjs} from "@/core/api/NamespaceApiRxjs.ts"
 import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
 import {MultisigApiRxjs} from "@/core/api/MultisigApiRxjs.ts"
-import {Address, Listener} from "nem2-sdk";
-import {createBondedMultisigTransaction, createCompleteMultisigTransaction} from "@/core/utils/wallet";
+import {Address, Listener} from "nem2-sdk"
+import {createBondedMultisigTransaction, createCompleteMultisigTransaction} from "@/core/utils/wallet"
 
 @Component({
     components: {

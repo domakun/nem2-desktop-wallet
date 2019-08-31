@@ -18,7 +18,7 @@ import {mapState} from "vuex"
     }
 })
 export class MonitorTransferTs extends Vue {
-    activeAccount:any
+    activeAccount: any
     TransferType = TransferType
     transferTypeList = [
         {

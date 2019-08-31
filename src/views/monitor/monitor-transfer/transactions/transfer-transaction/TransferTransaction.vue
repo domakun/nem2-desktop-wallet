@@ -52,18 +52,17 @@
         </span>
       </div>
 
-
+      <ErrorTooltip fieldName="mosaicListLength" placementOverride="top">
+        <input
+                data-vv-name="mosaicListLength"
+                number
+                type="text"
+                v-validate="standardFields.mosaicListLength.validation"
+                style="display: none"
+                v-model="formModel.mosaicTransferList.length"
+        />
+      </ErrorTooltip>
       <div class="mosaic_list_container radius ">
-        <ErrorTooltip fieldName="mosaicListLength" placementOverride="top">
-          <input
-                  data-vv-name="mosaicListLength"
-                  number
-                  type="text"
-                  v-validate="standardFields.mosaicListLength.validation"
-                  style="display: none"
-                  v-model="formModel.mosaicTransferList.length"
-          />
-        </ErrorTooltip>
         <span class="mosaic_name overflow_ellipsis">{{$t('mosaic')}}</span>
         <span class="mosaic_amount overflow_ellipsis">{{$t('amount')}}</span>
         <div class="scroll">

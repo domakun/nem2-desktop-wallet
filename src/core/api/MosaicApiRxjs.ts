@@ -12,32 +12,32 @@ import {
     Convert,
     NetworkCurrencyMosaic,
     MosaicSupplyType, PublicAccount
-} from 'nem2-sdk';
-import {from as observableFrom} from "rxjs";
+} from 'nem2-sdk'
+import {from as observableFrom} from "rxjs"
 
 export class MosaicApiRxjs {
     getMosaicByNamespace(namespace: string) {
-        const uintArray = NamespaceMosaicIdGenerator.namespaceId(namespace);
-        return new MosaicId(uintArray);
+        const uintArray = NamespaceMosaicIdGenerator.namespaceId(namespace)
+        return new MosaicId(uintArray)
     }
 
     getcurrentXEM() {
-        return NetworkCurrencyMosaic.createRelative(0);
+        return NetworkCurrencyMosaic.createRelative(0)
     }
 
     createMosaicNonce(nonce?: Uint8Array) {
-        nonce = nonce || convertNonce(Math.ceil(Math.random() * 1000));
-        return (new MosaicNonce(nonce));
+        nonce = nonce || convertNonce(Math.ceil(Math.random() * 1000))
+        return (new MosaicNonce(nonce))
 
         function convertNonce(input: number) {
-            const hex = input.toString(16);
-            const hex2 = '0000000'.concat(hex).substr(-8);
-            return Convert.hexToUint8(hex2).reverse();
+            const hex = input.toString(16)
+            const hex2 = '0000000'.concat(hex).substr(-8)
+            return Convert.hexToUint8(hex2).reverse()
         }
     }
 
     createMosaicId(publicAccount: PublicAccount, mosaicNonce: any) {
-        return MosaicId.createFromNonce(mosaicNonce, publicAccount);
+        return MosaicId.createFromNonce(mosaicNonce, publicAccount)
     }
 
     createMosaic(mosaicNonce: any,
@@ -62,14 +62,14 @@ export class MosaicApiRxjs {
             }),
             netWorkType,
             maxFee ? UInt64.fromUint(maxFee) : undefined
-        );
+        )
         const mosaicSupplyChangeTx = MosaicSupplyChangeTransaction.create(
             Deadline.create(),
             mosaicDefinitionTx.mosaicId,
             MosaicSupplyType.Increase,
             UInt64.fromUint(supply),
             netWorkType
-        );
+        )
         return AggregateTransaction.createComplete(
             Deadline.create(),
             [
@@ -79,7 +79,7 @@ export class MosaicApiRxjs {
             netWorkType,
             [],
             UInt64.fromUint(maxFee)
-        );
+        )
     }
 
     mosaicSupplyChange(mosaicId: any,
@@ -94,15 +94,15 @@ export class MosaicApiRxjs {
             UInt64.fromUint(delta),
             netWorkType,
             maxFee ? UInt64.fromUint(maxFee) : undefined
-        );
+        )
     }
 
     getMosaics(node: string, mosaicIdList: MosaicId[]) {
-        return observableFrom(new MosaicHttp(node).getMosaics(mosaicIdList));
+        return observableFrom(new MosaicHttp(node).getMosaics(mosaicIdList))
     }
 
     getMosaicsNames(node: string, mosaicIds: any[]) {
-        return observableFrom(new MosaicHttp(node).getMosaicsNames(mosaicIds));
+        return observableFrom(new MosaicHttp(node).getMosaicsNames(mosaicIds))
     }
 
 

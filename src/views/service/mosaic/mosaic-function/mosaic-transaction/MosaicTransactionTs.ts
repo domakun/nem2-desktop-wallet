@@ -1,11 +1,11 @@
-import {Message} from "@/config/index.ts";
-import {multisigAccountInfo} from "@/core/utils/wallet.ts";
-import {MosaicApiRxjs} from '@/core/api/MosaicApiRxjs.ts';
-import {formatSeconds, formatAddress} from '@/core/utils/utils.ts';
-import {Component, Vue, Watch} from 'vue-property-decorator';
-import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue';
-import {createBondedMultisigTransaction, createCompleteMultisigTransaction} from '@/core/utils/wallet.ts';
-import {MultisigApiRxjs} from "@/core/api/MultisigApiRxjs";
+import {Message} from "@/config/index.ts"
+import {multisigAccountInfo} from "@/core/utils/wallet.ts"
+import {MosaicApiRxjs} from '@/core/api/MosaicApiRxjs.ts'
+import {formatSeconds, formatAddress} from '@/core/utils/utils.ts'
+import {Component, Vue, Watch} from 'vue-property-decorator'
+import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
+import {createBondedMultisigTransaction, createCompleteMultisigTransaction} from '@/core/utils/wallet.ts'
+import {MultisigApiRxjs} from "@/core/api/MultisigApiRxjs"
 import {
     MosaicId,
     MosaicNonce,
@@ -18,7 +18,7 @@ import {
     UInt64,
     MosaicSupplyChangeTransaction,
     MosaicSupplyType
-} from 'nem2-sdk';
+} from 'nem2-sdk'
 
 @Component({
     components: {
@@ -26,21 +26,21 @@ import {
     }
 })
 export class MosaicTransactionTs extends Vue {
-    duration = 0;
-    otherDetails: any = {};
-    durationIntoDate: any = 0;
-    currentTab: number = 0;
-    currentMinApproval = -1;
-    mosaicMapInfo: any = {};
-    transactionDetail = {};
-    showCheckPWDialog = false;
-    isMultisigAccount = false;
-    transactionList = [];
-    showMosaicEditDialog = false;
-    showMosaicAliasDialog = false;
-    isCompleteForm = true;
+    duration = 0
+    otherDetails: any = {}
+    durationIntoDate: any = 0
+    currentTab: number = 0
+    currentMinApproval = -1
+    mosaicMapInfo: any = {}
+    transactionDetail = {}
+    showCheckPWDialog = false
+    isMultisigAccount = false
+    transactionList = []
+    showMosaicEditDialog = false
+    showMosaicAliasDialog = false
+    isCompleteForm = true
 
-    multisigPublickeyList = [];
+    multisigPublickeyList = []
     typeList = [
         {
             name: 'ordinary_account',
@@ -49,7 +49,7 @@ export class MosaicTransactionTs extends Vue {
             name: 'multi_sign_account',
             isSelected: false
         }
-    ];
+    ]
     formItem: any = {
         supply: 500000000,
         divisibility: 6,
@@ -61,43 +61,43 @@ export class MosaicTransactionTs extends Vue {
         aggregateFee: 50000,
         lockFee: 50000,
         multisigPublickey: ''
-    };
+    }
 
     get getWallet() {
-        return this.$store.state.account.wallet;
+        return this.$store.state.account.wallet
     }
 
     get networkType() {
-        return this.$store.state.account.wallet.networkType;
+        return this.$store.state.account.wallet.networkType
     }
 
     get accountPublicKey() {
-        return this.$store.state.account.wallet.publicKey;
+        return this.$store.state.account.wallet.publicKey
     }
 
     get generationHash() {
-        return this.$store.state.account.generationHash;
+        return this.$store.state.account.generationHash
     }
 
     get currentXEM1() {
-        return this.$store.state.account.currentXEM1;
+        return this.$store.state.account.currentXEM1
     }
 
     get currentXEM2() {
-        return this.$store.state.account.currentXEM2;
+        return this.$store.state.account.currentXEM2
     }
 
     get currentXem() {
-        return this.$store.state.account.currentXem;
+        return this.$store.state.account.currentXem
     }
 
 
     get accountAddress() {
-        return this.$store.state.account.wallet.address;
+        return this.$store.state.account.wallet.address
     }
 
     get node() {
-        return this.$store.state.account.node;
+        return this.$store.state.account.node
     }
 
     initForm() {
@@ -112,43 +112,43 @@ export class MosaicTransactionTs extends Vue {
             aggregateFee: 50000,
             lockFee: 50000,
             multisigPublickey: ''
-        };
+        }
     }
 
     formatAddress(address) {
-        return formatAddress(address);
+        return formatAddress(address)
     }
 
     addSeverabilityAmount() {
-        this.formItem.divisibility = Number(this.formItem.divisibility) + 1;
+        this.formItem.divisibility = Number(this.formItem.divisibility) + 1
     }
 
     cutSeverabilityAmount() {
-        this.formItem.divisibility = this.formItem.divisibility >= 1 ? Number(this.formItem.divisibility - 1) : Number(this.formItem.divisibility);
+        this.formItem.divisibility = this.formItem.divisibility >= 1 ? Number(this.formItem.divisibility - 1) : Number(this.formItem.divisibility)
     }
 
     addSupplyAmount() {
-        this.formItem.supply = Number(this.formItem.supply + 1);
+        this.formItem.supply = Number(this.formItem.supply + 1)
     }
 
     cutSupplyAmount() {
-        this.formItem.supply = this.formItem.supply >= 2 ? Number(this.formItem.supply - 1) : Number(this.formItem.supply);
+        this.formItem.supply = this.formItem.supply >= 2 ? Number(this.formItem.supply - 1) : Number(this.formItem.supply)
     }
 
     switchType(index) {
-        this.initForm();
-        let list = this.typeList;
+        this.initForm()
+        let list = this.typeList
         list = list.map((item) => {
-            item.isSelected = false;
-            return item;
-        });
-        list[index].isSelected = true;
-        this.typeList = list;
+            item.isSelected = false
+            return item
+        })
+        list[index].isSelected = true
+        this.typeList = list
     }
 
     showCheckDialog() {
-        const {supply, divisibility, transferable, supplyMutable, duration, lockFee, innerFee} = this.formItem;
-        const address = this.getWallet.address;
+        const {supply, divisibility, transferable, supplyMutable, duration, lockFee, innerFee} = this.formItem
+        const address = this.getWallet.address
         this.transactionDetail = {
             "address": address,
             "supply": supply,
@@ -157,58 +157,58 @@ export class MosaicTransactionTs extends Vue {
             "fee": innerFee,
             'transmittable': transferable,
             'variable_upply': supplyMutable
-        };
+        }
         this.otherDetails = {
             lockFee: lockFee
-        };
-        if (this.isMultisigAccount) {
-            this.createByMultisig();
-            this.showCheckPWDialog = true;
-            return;
         }
-        this.createBySelf();
-        this.showCheckPWDialog = true;
+        if (this.isMultisigAccount) {
+            this.createByMultisig()
+            this.showCheckPWDialog = true
+            return
+        }
+        this.createBySelf()
+        this.showCheckPWDialog = true
     }
 
     closeCheckPWDialog() {
-        this.showCheckPWDialog = false;
+        this.showCheckPWDialog = false
     }
 
     showAliasDialog() {
-        document.body.click();
+        document.body.click()
         setTimeout(() => {
-            this.showMosaicAliasDialog = true;
-        });
+            this.showMosaicAliasDialog = true
+        })
     }
 
     closeMosaicAliasDialog() {
-        this.showMosaicAliasDialog = false;
+        this.showMosaicAliasDialog = false
     }
 
     showEditDialog() {
-        this.showMosaicEditDialog = true;
+        this.showMosaicEditDialog = true
     }
 
     closeMosaicEditDialog() {
-        this.showMosaicEditDialog = false;
+        this.showMosaicEditDialog = false
     }
 
     checkEnd(isPasswordRight) {
         if (!isPasswordRight) {
-            this.$Notice.destroy();
+            this.$Notice.destroy()
             this.$Notice.error({
                 title: this.$t(Message.WRONG_PASSWORD_ERROR) + ''
-            });
+            })
         }
     }
 
     createBySelf() {
-        let {accountPublicKey, networkType} = this;
-        const {supply, divisibility, transferable, supplyMutable, duration, innerFee} = this.formItem;
-        const that = this;
-        const nonce = MosaicNonce.createRandom();
-        const publicAccount = PublicAccount.createFromPublicKey(accountPublicKey, networkType);
-        const mosaicId = MosaicId.createFromNonce(nonce, PublicAccount.createFromPublicKey(accountPublicKey, this.getWallet.networkType));
+        let {accountPublicKey, networkType} = this
+        const {supply, divisibility, transferable, supplyMutable, duration, innerFee} = this.formItem
+        const that = this
+        const nonce = MosaicNonce.createRandom()
+        const publicAccount = PublicAccount.createFromPublicKey(accountPublicKey, networkType)
+        const mosaicId = MosaicId.createFromNonce(nonce, PublicAccount.createFromPublicKey(accountPublicKey, this.getWallet.networkType))
         this.transactionList = [
             new MosaicApiRxjs().createMosaic(
                 nonce,
@@ -221,19 +221,19 @@ export class MosaicTransactionTs extends Vue {
                 supply,
                 publicAccount,
                 Number(innerFee))
-        ];
-        that.initForm();
+        ]
+        that.initForm()
     }
 
 
     createByMultisig() {
-        const {networkType} = this;
-        const {node} = this.$store.state.account;
-        const listener = new Listener(node.replace('http', 'ws'), WebSocket);
-        const {supply, divisibility, transferable, supplyMutable, duration, innerFee, aggregateFee, multisigPublickey} = this.formItem;
-        const that = this;
-        const nonce = MosaicNonce.createRandom();
-        const mosaicId = MosaicId.createFromNonce(nonce, PublicAccount.createFromPublicKey(multisigPublickey, this.getWallet.networkType));
+        const {networkType} = this
+        const {node} = this.$store.state.account
+        const listener = new Listener(node.replace('http', 'ws'), WebSocket)
+        const {supply, divisibility, transferable, supplyMutable, duration, innerFee, aggregateFee, multisigPublickey} = this.formItem
+        const that = this
+        const nonce = MosaicNonce.createRandom()
+        const mosaicId = MosaicId.createFromNonce(nonce, PublicAccount.createFromPublicKey(multisigPublickey, this.getWallet.networkType))
         const mosaicDefinitionTx = MosaicDefinitionTransaction.create(
             Deadline.create(),
             nonce,
@@ -246,7 +246,7 @@ export class MosaicTransactionTs extends Vue {
             }),
             networkType,
             innerFee ? UInt64.fromUint(innerFee) : undefined
-        );
+        )
 
         const mosaicSupplyChangeTx = MosaicSupplyChangeTransaction.create(
             Deadline.create(),
@@ -254,7 +254,7 @@ export class MosaicTransactionTs extends Vue {
             MosaicSupplyType.Increase,
             UInt64.fromUint(supply),
             networkType
-        );
+        )
 
         if (that.currentMinApproval > 1) {
             const aggregateTransaction = createBondedMultisigTransaction(
@@ -262,110 +262,110 @@ export class MosaicTransactionTs extends Vue {
                 multisigPublickey,
                 networkType,
                 aggregateFee
-            );
-            this.transactionList = [aggregateTransaction];
-            return;
+            )
+            this.transactionList = [aggregateTransaction]
+            return
         }
         const aggregateTransaction = createCompleteMultisigTransaction(
             [mosaicDefinitionTx, mosaicSupplyChangeTx],
             multisigPublickey,
             networkType,
             aggregateFee,
-        );
-        this.transactionList = [aggregateTransaction];
+        )
+        this.transactionList = [aggregateTransaction]
     }
 
     checkForm() {
-        const {supply, divisibility, duration, innerFee, aggregateFee, lockFee, multisigPublickey} = this.formItem;
+        const {supply, divisibility, duration, innerFee, aggregateFee, lockFee, multisigPublickey} = this.formItem
         // multisigApi check
         if (this.isMultisigAccount) {
             if (!multisigPublickey) {
                 this.$Notice.error({
                     title: this.$t(Message.INPUT_EMPTY_ERROR) + ''
-                });
-                return false;
+                })
+                return false
             }
 
             if (!Number(aggregateFee) || aggregateFee < 0) {
                 this.$Notice.error({
                     title: this.$t(Message.FEE_LESS_THAN_0_ERROR) + ''
-                });
-                return false;
+                })
+                return false
             }
 
             if (!Number(lockFee) || lockFee < 0) {
                 this.$Notice.error({
                     title: this.$t(Message.FEE_LESS_THAN_0_ERROR) + ''
-                });
-                return false;
+                })
+                return false
             }
         }
         // common check
         if (!Number(supply) || supply < 0) {
             this.$Notice.error({
                 title: this.$t(Message.SUPPLY_LESS_THAN_0_ERROR) + ''
-            });
-            return false;
+            })
+            return false
         }
         if (!Number(divisibility) || divisibility < 0) {
             this.$Notice.error({
                 title: this.$t(Message.DIVISIBILITY_LESS_THAN_0_ERROR) + ''
-            });
-            return false;
+            })
+            return false
         }
         if (!Number(duration) || duration <= 0) {
             this.$Notice.error({
                 title: this.$t(Message.DURATION_LESS_THAN_0_ERROR) + ''
-            });
-            return false;
+            })
+            return false
         }
         if (!Number(innerFee) || innerFee < 0) {
             this.$Notice.error({
                 title: this.$t(Message.FEE_LESS_THAN_0_ERROR) + ''
-            });
-            return false;
+            })
+            return false
         }
-        return true;
+        return true
     }
 
 
     createMosaic(isMultisigAccount) {
-        if (!this.isCompleteForm) return;
-        this.isMultisigAccount = isMultisigAccount;
-        if (!this.checkForm()) return;
-        this.showCheckDialog();
+        if (!this.isCompleteForm) return
+        this.isMultisigAccount = isMultisigAccount
+        if (!this.checkForm()) return
+        this.showCheckDialog()
     }
 
 
     getMultisigAccountList() {
-        const that = this;
-        if (!this.$store.state.account.wallet) return;
-        const {address} = this.$store.state.account.wallet;
-        const {node} = this.$store.state.account;
+        const that = this
+        if (!this.$store.state.account.wallet) return
+        const {address} = this.$store.state.account.wallet
+        const {node} = this.$store.state.account
         new MultisigApiRxjs().getMultisigAccountInfo(address, node).subscribe((multisigInfo) => {
             that.multisigPublickeyList = multisigInfo.multisigAccounts.map((item: any) => {
-                item.value = item.publicKey;
-                item.label = item.publicKey;
-                return item;
-            });
-        });
+                item.value = item.publicKey
+                item.label = item.publicKey
+                return item
+            })
+        })
     }
 
     @Watch('formItem.multisigPublickey')
     async onMultisigPublickeyChange() {
-        const that = this;
-        const {multisigPublickey} = this.formItem;
+        const that = this
+        const {multisigPublickey} = this.formItem
         if (multisigPublickey.length !== 64) {
-            return;
+            return
         }
         if (multisigPublickey.length !== 64) {
-            return;
+            return
         }
-        const {node} = this.$store.state.account;
-        const {networkType} = this.$store.state.account.wallet;
-        let address = Address.createFromPublicKey(multisigPublickey, networkType)['address'];
-        const multisigInfo = multisigAccountInfo(address, node);
-        that.currentMinApproval = multisigInfo['minApproval'];
+        const {node} = this.$store.state.account
+        const {networkType} = this.$store.state.account.wallet
+        let address = Address.createFromPublicKey(multisigPublickey, networkType)['address']
+        const multisigInfo = multisigAccountInfo(address, node)
+        that.currentMinApproval = multisigInfo['minApproval']
 
     }
 
@@ -381,27 +381,27 @@ export class MosaicTransactionTs extends Vue {
     // }
 
     initData() {
-        this.durationChange();
+        this.durationChange()
     }
 
     durationChange() {
-        const duration = Number(this.formItem.duration);
+        const duration = Number(this.formItem.duration)
         if (Number.isNaN(duration)) {
-            this.formItem.duration = 0;
-            this.durationIntoDate = 0;
-            return;
+            this.formItem.duration = 0
+            this.durationIntoDate = 0
+            return
         }
         if (duration * 12 >= 60 * 60 * 24 * 3650) {
             this.$Notice.error({
                 title: this.$t(Message.DURATION_MORE_THAN_10_YEARS_ERROR) + ''
-            });
-            this.formItem.duration = 0;
+            })
+            this.formItem.duration = 0
         }
-        this.durationIntoDate = formatSeconds(duration * 12);
+        this.durationIntoDate = formatSeconds(duration * 12)
     }
 
     created() {
-        this.initData();
-        this.getMultisigAccountList();
+        this.initData()
+        this.getMultisigAccountList()
     }
 }

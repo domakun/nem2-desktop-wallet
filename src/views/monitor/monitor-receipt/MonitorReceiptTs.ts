@@ -17,7 +17,7 @@ import {mapState} from "vuex"
     }
 })
 export class MonitorReceiptTs extends Vue {
-    activeAccount:any
+    activeAccount: any
     assetType = ''
     assetAmount = 0
     QRCode: string = ''

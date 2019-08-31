@@ -49,7 +49,7 @@ export class WalletUpdatePasswordTs extends Vue {
     updatePW() {
         let encryptObj = encryptKey(this.privateKey, this.formItem.newPassword)
         let wallet = this.getWallet
-        let walletList = this.$store.state.app.walletList;
+        let walletList = this.$store.state.app.walletList
         wallet.ciphertext = encryptObj['ciphertext']
         wallet.iv = encryptObj['iv']
         walletList[0] = wallet

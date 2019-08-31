@@ -659,12 +659,12 @@ export const en_US = {
     This_password_is_used_for_importing_the_keystore_file: 'This password is the password for decrypting the Keystore and is used for importing the keystore file. Please remember it.',
     timestamp: 'Timestamp',
     sender: 'sender',
-    HINT_mosaic_list:'Mosaics for sending',
+    HINT_mosaic_list: 'Mosaics for sending',
     inner_transaction: 'Inner',
-    LABEL_mosaic_list:'Mosaic list',
-    The_mosaic_to_be_sent_is_empty:'The mosaic to be sent is empty',
+    LABEL_mosaic_list: 'Mosaic list',
+    The_mosaic_to_be_sent_is_empty: 'The mosaic to be sent is empty',
     Node_not_available_please_check_your_node_or_network_settings: 'Node not available, please check your node or network settings.',
     encryption: 'Encryption',
     Not_encrypted: 'Not encrypted'
 
-};
+}

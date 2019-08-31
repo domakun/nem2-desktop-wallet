@@ -1,5 +1,5 @@
 import {Component, Vue} from 'vue-property-decorator'
-import {mapState} from "vuex";
+import {mapState} from "vuex"
 
 
 @Component({
@@ -11,7 +11,7 @@ import {mapState} from "vuex";
 })
 export class CommunityPanelTs extends Vue {
     walletList = []
-    app:any
+    app: any
     navList = [
         {name: 'news', to: '/information', active: true},
         {name: 'vote', to: '/vote', active: false,},

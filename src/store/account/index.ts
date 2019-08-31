@@ -36,16 +36,16 @@ export default {
     },
     getters: {
         Address(state) {
-            return state.account.address;
+            return state.account.address
         },
         PublicAccount(state) {
-            return state.account.publicAccount;
+            return state.account.publicAccount
         },
         privateKey(state) {
-            return state.account.privateKey;
+            return state.account.privateKey
         },
         publicKey(state) {
-            return state.account.publicKey;
+            return state.account.publicKey
         }
     },
     mutations: {

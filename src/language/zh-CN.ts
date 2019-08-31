@@ -639,9 +639,9 @@ export const zh_CN = {
     HINT_previous_password: '用于登入程序的密码',
     PLACEHOLDER_previous_password: 'My FiRst Pa$$word!',
     HINT_cipher_hint1: '应该在 1 到 32 字符。',
-    LABEL_mosaic_list:'马赛克列表',
-    HINT_mosaic_list:'用于发送的马赛克',
-    The_mosaic_to_be_sent_is_empty:'待发送马赛克为空',
+    LABEL_mosaic_list: '马赛克列表',
+    HINT_mosaic_list: '用于发送的马赛克',
+    The_mosaic_to_be_sent_is_empty: '待发送马赛克为空',
     timestamp: '时间戳',
     sender: '发送者',
     inner_transaction: '内部交易',
@@ -649,4 +649,4 @@ export const zh_CN = {
     amount: '金额',
     encryption: '加密',
     Not_encrypted: '不加密'
-};
+}

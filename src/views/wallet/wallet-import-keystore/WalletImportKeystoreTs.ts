@@ -68,7 +68,7 @@ export class WalletImportKeystoreTs extends Vue {
     loginWallet(account) {
         const {networkType, walletName, walletPassword} = this.formItem
         const that = this
-        const netType: NetworkType = networkType;
+        const netType: NetworkType = networkType
         const walletList = this.$store.state.app.walletList
         const style = 'walletItem_bg_' + walletList.length % 3
         getAccountDefault(walletName, account, netType, this.getNode, this.currentXEM1, this.currentXEM2)
@@ -85,7 +85,7 @@ export class WalletImportKeystoreTs extends Vue {
     toWalletDetails() {
         this.$Notice.success({
             title: this['$t']('Imported_wallet_successfully') + ''
-        });
+        })
         this.$store.commit('SET_HAS_WALLET', true)
         this.$emit('toWalletDetails')
     }

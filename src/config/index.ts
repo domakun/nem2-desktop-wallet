@@ -101,7 +101,7 @@ export const Message = {
     SUB_NAMESPACE_LENGTH_LONGER_THAN_64_ERROR: 'The_sub_namespace_cannot_be_longer_than_16',
     NODE_CONNECTION_ERROR: 'Node_connection_failed',
     KEYSTORE_DECRYPTION_FAILED: 'Keystore_decryption_failed',
-    MOSACI_LIST_NULL_ERROR:'The_mosaic_to_be_sent_is_empty',
+    MOSACI_LIST_NULL_ERROR: 'The_mosaic_to_be_sent_is_empty',
 
 }
 
@@ -216,7 +216,7 @@ export const nodeList = [
         url: '47.107.245.217',
         isSelected: true,
     }
-];
+]
 
 export const timeZoneListData = timeZoneList
 
@@ -229,7 +229,7 @@ export const nodeConfig = {
 }
 export const aliasType = {
     noAlias: 0,
-    mosaicAlias:1,
-    addressAlias:2
+    mosaicAlias: 1,
+    addressAlias: 2
 
 }

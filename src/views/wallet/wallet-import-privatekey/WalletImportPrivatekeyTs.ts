@@ -6,7 +6,7 @@ import {
     ALLOWED_SPECIAL_CHAR,
     MAX_PASSWORD_LENGTH,
     MIN_PASSWORD_LENGTH
-} from "@/core/validation";
+} from "@/core/validation"
 
 @Component
 export class WalletImportPrivatekeyTs extends Vue {
@@ -97,8 +97,8 @@ export class WalletImportPrivatekeyTs extends Vue {
 
     loginWallet(account) {
         const that = this
-        const walletName: any = this.form.walletName;
-        const netType: NetworkType = this.form.networkType;
+        const walletName: any = this.form.walletName
+        const netType: NetworkType = this.form.networkType
         const walletList = this.$store.state.app.walletList
         const style = 'walletItem_bg_' + walletList.length % 3
         getAccountDefault(walletName, account, netType, this.getNode, this.currentXEM1, this.currentXEM2)
@@ -117,7 +117,7 @@ export class WalletImportPrivatekeyTs extends Vue {
     toWalletDetails() {
         this.$Notice.success({
             title: this['$t']('Import_private_key_operation') + '',
-        });
+        })
         this.$store.commit('SET_HAS_WALLET', true)
         this.$emit('toWalletDetails')
     }

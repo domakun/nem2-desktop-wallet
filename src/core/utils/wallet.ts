@@ -8,19 +8,19 @@ import {
     Listener, Mosaic, MosaicInfo
 } from 'nem2-sdk'
 import CryptoJS from 'crypto-js'
-import {WalletApiRxjs} from "@/core/api/WalletApiRxjs.ts";
-import {AccountApiRxjs} from "@/core/api/AccountApiRxjs.ts";
-import {NamespaceApiRxjs} from "@/core/api/NamespaceApiRxjs.ts";
-import {MultisigApiRxjs} from "@/core/api/MultisigApiRxjs.ts";
-import {BlockApiRxjs} from "@/core/api/BlockApiRxjs.ts";
-import {formateNemTimestamp} from "@/core/utils/utils.ts";
+import {WalletApiRxjs} from "@/core/api/WalletApiRxjs.ts"
+import {AccountApiRxjs} from "@/core/api/AccountApiRxjs.ts"
+import {NamespaceApiRxjs} from "@/core/api/NamespaceApiRxjs.ts"
+import {MultisigApiRxjs} from "@/core/api/MultisigApiRxjs.ts"
+import {BlockApiRxjs} from "@/core/api/BlockApiRxjs.ts"
+import {formateNemTimestamp} from "@/core/utils/utils.ts"
 import {TransactionApiRxjs} from '@/core/api/TransactionApiRxjs.ts'
-import {MosaicApiRxjs} from "@/core/api/MosaicApiRxjs";
+import {MosaicApiRxjs} from "@/core/api/MosaicApiRxjs"
 
 export const saveLocalWallet = (wallet, encryptObj, index, mnemonicEnCodeObj?) => {
     let localData: any[] = []
     let isExist: boolean = false
-       try {
+    try {
         localData = JSON.parse(localRead('wallets'))
     } catch (e) {
         localData = []
@@ -243,27 +243,27 @@ export const signAndAnnounceBonded = (
 }
 
 export const getMosaicList = async (address: string, node: string) => {
-    let mosaicList: Mosaic[] = [];
+    let mosaicList: Mosaic[] = []
     await new AccountApiRxjs().getAccountInfo(address, node).toPromise().then(accountInfo => {
-        mosaicList = accountInfo.mosaics;
+        mosaicList = accountInfo.mosaics
     }).catch((_) => {
-        return ;
+        return
     })
-    return mosaicList;
+    return mosaicList
 }
 
 export const getMosaicInfoList = async (node: string, mosaicList: Mosaic[]) => {
-    let mosaicInfoList: MosaicInfo[] = [];
+    let mosaicInfoList: MosaicInfo[] = []
 
     let mosaicIds: any = mosaicList.map((item) => {
         return item.id
     })
     await new MosaicApiRxjs().getMosaics(node, mosaicIds).toPromise().then(mosaics => {
-        mosaicInfoList =  mosaics
+        mosaicInfoList = mosaics
     }).catch((_) => {
-        return ;
+        return
     })
-    return mosaicInfoList;
+    return mosaicInfoList
 }
 
 export const buildMosaicList = (mosaicList: Mosaic[], coin1: string, coin2: string): any => {
@@ -275,7 +275,7 @@ export const buildMosaicList = (mosaicList: Mosaic[], coin1: string, coin2: stri
         } else {
             mosaic.label = mosaic.id.toHex() + ' (' + mosaic._amount + ')'
         }
-        return mosaic;
+        return mosaic
     })
     let isCoinExist = mosaicListRst.every((mosaic) => {
         if (mosaic.value == coin1 || mosaic.value == coin2) {
@@ -289,6 +289,6 @@ export const buildMosaicList = (mosaicList: Mosaic[], coin1: string, coin2: stri
             label: 'nem.xem'
         })
     }
-    return mosaicListRst;
+    return mosaicListRst
 }
 
