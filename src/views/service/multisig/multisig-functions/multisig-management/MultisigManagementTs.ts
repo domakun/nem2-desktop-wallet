@@ -84,11 +84,9 @@ export class MultisigManagementTs extends Vue {
             return
         }
         if (this.currentMinApproval > 1 || hasAddCosigner) {
-            console.log('bonded')
             this.createBondedModifyTransaction();
             return
         }
-        console.log('complete')
         this.createCompleteModifyTransaction();
         this.showCheckPWDialog = true
     }

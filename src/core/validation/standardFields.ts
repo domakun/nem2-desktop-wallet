@@ -37,6 +37,7 @@ export const standardFields = {
   hint: ['HINT_previous_password'],
   placeholder: 'PLACEHOLDER_previous_password'
  },
+
  newPassword: {
   default: '',
   label: 'LABEL_new_password',
@@ -107,7 +108,15 @@ export const standardFields = {
    hint: 'HINT_amount',
    placeholder: 'PLACEHOLDER_amount',
  },
-
+    mosaicListLength: {
+        default: 0,
+        label: 'mosaicListLength',
+        name: 'mosaicListLength',
+        type: 'text',
+        validation: `min_value:1`,
+        hint: 'HINT_mosaic_list',
+        placeholder: '',
+    },
  divisibility: {
    default: 1,
    label: 'divisibility',

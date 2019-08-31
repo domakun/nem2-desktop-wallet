@@ -43,8 +43,6 @@ export class MultisigCosignTs extends Vue {
         };
         const cosignatureTransaction = CosignatureTransaction.create(this.aggregatedTransactionList[index]);
         const cosignedTx = account.signCosignatureTransaction(cosignatureTransaction);
-        console.log(account, cosignatureTransaction)
-        console.log(cosignedTx)
         transactionHttp.announceAggregateBondedCosignature(cosignedTx).subscribe((x) => {
             console.log(x)
         });

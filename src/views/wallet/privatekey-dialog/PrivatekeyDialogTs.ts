@@ -36,7 +36,6 @@ export class PrivatekeyDialogTs extends Vue {
     checkPassword() {
         if (!this.checkInput()) return
         const DeTxt = decryptKey(this.getWallet, this.wallet.password).trim()
-        console.log(DeTxt)
         try {
             new WalletApiRxjs().getWallet(
                 this.getWallet.name,

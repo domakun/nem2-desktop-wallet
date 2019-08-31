@@ -632,38 +632,39 @@ export const en_US = {
     modify_account_property_mosaic: 'Mosaic restriction',
     modify_account_property_entity_type: 'Entity restriction',
     link_account: 'Link account',
-    please_choose_entity_type: 'please choose entity type',
+    please_choose_entity_type: 'Please choose entity type',
     Node_connection_failed: 'Node connection failed',
     // Forms
-    newPassword: 'new password',
+    newPassword: 'New password',
     LABEL_new_password: 'New password',
-    HINT_new_password1: 'should be between 6 and 32 chars.',
-    HINT_new_password2: 'allowed special chars: - _ ! @ # $ & * " ~ + = %',
+    HINT_new_password1: 'Should be between 6 and 32 chars.',
+    HINT_new_password2: 'Allowed special chars: - _ ! @ # $ & * " ~ + = %',
     PLACEHOLDER_new_password: '9_pass-WORD',
 
-    previousPassword: 'previous password',
+    previousPassword: 'Previous password',
     LABEL_previous_password: 'Previous password',
     HINT_previous_password: 'The password used to log into the application',
     PLACEHOLDER_previous_password: 'My FiRst Pa$$word!',
 
-    confirmPassword: 'confirm password',
+    confirmPassword: 'Confirm password',
     LABEL_confirm_password: 'Confirm your new password',
     PLACEHOLDER_confirm_password: '9_pass-WORD',
-    cipher: 'cipher',
+    cipher: 'Cipher',
 
-    HINT_cipher_hint1: 'should be between 1 and 32 chars.',
+    HINT_cipher_hint1: 'Should be between 1 and 32 chars.',
 
-    amount: 'amount',
+    amount: 'Amount',
     Node_connection_succeeded: 'Node connection succeeded',
 
     This_password_is_used_for_importing_the_keystore_file: 'This password is the password for decrypting the Keystore and is used for importing the keystore file. Please remember it.',
-    timestamp: 'timestamp',
+    timestamp: 'Timestamp',
     sender: 'sender',
-
-    inner_transaction: 'inner',
-
+    HINT_mosaic_list:'Mosaics for sending',
+    inner_transaction: 'Inner',
+    LABEL_mosaic_list:'Mosaic list',
+    The_mosaic_to_be_sent_is_empty:'The mosaic to be sent is empty',
     Node_not_available_please_check_your_node_or_network_settings: 'Node not available, please check your node or network settings.',
-    encryption: 'encryption',
+    encryption: 'Encryption',
     Not_encrypted: 'Not encrypted'
 
 };

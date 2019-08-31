@@ -101,6 +101,7 @@ export const Message = {
     SUB_NAMESPACE_LENGTH_LONGER_THAN_64_ERROR: 'The_sub_namespace_cannot_be_longer_than_16',
     NODE_CONNECTION_ERROR: 'Node_connection_failed',
     KEYSTORE_DECRYPTION_FAILED: 'Keystore_decryption_failed',
+    MOSACI_LIST_NULL_ERROR:'The_mosaic_to_be_sent_is_empty',
 
 }
 

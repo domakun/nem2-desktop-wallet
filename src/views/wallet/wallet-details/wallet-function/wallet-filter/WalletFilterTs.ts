@@ -190,7 +190,6 @@ export class WalletFilterTs extends Vue {
         const mosaicRestriction = filterList.map((item) => {
             return AccountRestrictionModification.createForMosaic(item.modificationType, new MosaicId(item.value));
         })
-        console.log(mosaicRestriction)
         const addressRestrictionTransaction = AccountRestrictionTransaction.createMosaicRestrictionModificationTransaction(
             Deadline.create(),
             filterType,
