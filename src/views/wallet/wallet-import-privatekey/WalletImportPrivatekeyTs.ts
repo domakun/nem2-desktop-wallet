@@ -56,16 +56,9 @@ export class WalletImportPrivatekeyTs extends Vue {
     }
 
     checkImport() {
-        if (this.form.networkType == 0) {
-            this.$Notice.error({
-                title: this.$t(Message.PLEASE_SWITCH_NETWORK) + ''
-            })
-            return false
-        }
-        if (!this.form.walletName || this.form.walletName == '') {
-            this.$Notice.error({
-                title: this.$t(Message.WALLET_NAME_INPUT_ERROR) + ''
-            })
+        const {walletName, password, privateKey, checkPW} = this.form
+        if (!walletName || walletName == '') {
+            this.showNotice(this.$t(Message.WALLET_NAME_INPUT_ERROR))
             return false
         }
         // if (!passwordValidator(this.form.password)) {
@@ -75,38 +68,44 @@ export class WalletImportPrivatekeyTs extends Vue {
         //     return false
         // }
 
-        if (!this.form.password || this.form.password.length < 6 || this.form.password.length > 32) {
-            this.$Notice.error({
-                title: this.$t(Message.PASSWORD_SETTING_INPUT_ERROR) + ''
-            })
+        if (!password || password.length < 6 || password.length > 32) {
+            this.showNotice(this.$t(Message.PASSWORD_SETTING_INPUT_ERROR))
             return false
         }
-        if (this.form.password !== this.form.checkPW) {
-            this.$Notice.error({
-                title: this.$t(Message.INCONSISTENT_PASSWORD_ERROR) + ''
-            })
+        if (password !== checkPW) {
+            this.showNotice(this.$t(Message.INCONSISTENT_PASSWORD_ERROR))
             return false
         }
         return true
     }
 
     checkPrivateKey() {
+        const {privateKey, networkType} = this.form
+
+        if (!networkType) {
+            this.showNotice(this.$t(Message.PLEASE_SWITCH_NETWORK))
+            return false
+        }
+
+        if (!privateKey || privateKey === '') {
+            this.showNotice(this.$t(Message.PASSWORD_SETTING_INPUT_ERROR))
+            return false
+        }
         try {
-            if (!this.form.privateKey || this.form.privateKey === '') {
-                this.$Notice.error({
-                    title: this.$t(Message.PASSWORD_SETTING_INPUT_ERROR) + ''
-                })
-                return false
-            }
-            const account = Account.createFromPrivateKey(this.form.privateKey, this.form.networkType)
+            const account = Account.createFromPrivateKey(privateKey, networkType)
             this.account = account
             return true
         } catch (e) {
-            this.$Notice.error({
-                title: this.$t(Message.PASSWORD_SETTING_INPUT_ERROR) + ''
-            })
+            this.showNotice(this.$t(Message.PASSWORD_SETTING_INPUT_ERROR))
             return false
         }
+    }
+
+    showNotice(text){
+        this.$Notice.destroy()
+        this.$Notice.error({
+            title: text + ''
+        })
     }
 
     loginWallet(account) {

@@ -1,6 +1,6 @@
 import {NetworkType, TransactionType} from 'nem2-sdk'
 import {timeZoneList} from '@/config/timeZone.ts'
-import {formatDate} from "@/core/utils/utils"
+import {formData as formDataObject} from '@/config/formData.ts'
 import dashboardBlockHeight from "@/common/img/monitor/dash-board/dashboardBlockHeight.png"
 import dashboardBlockTime from "@/common/img/monitor/dash-board/dashboardBlockTime.png"
 import dashboardPointAmount from "@/common/img/monitor/dash-board/dashboardPointAmount.png"
@@ -14,6 +14,11 @@ import namespace1Icon from "@/common/img/service/namespace1.png"
 import namespace2Icon from "@/common/img/service/namespace2.png"
 import apostille1Icon from "@/common/img/service/apostille1.png"
 import apostille2Icon from "@/common/img/service/apostille2.png"
+import {echartsConfigure as echartsConfigureData} from '@/config/echarts.ts'
+
+export const echartsConfigure = echartsConfigureData
+
+export const formData = formDataObject
 
 const isWin32 = require('./packge.ts').isWin32
 
@@ -277,7 +282,7 @@ export const voteSelectionList = [
         value: '2'
     }
 ]
-export const  voteActionList = [
+export const voteActionList = [
     {
         name: 'choose_to_vote',
         isSelect: true
@@ -286,7 +291,7 @@ export const  voteActionList = [
         isSelect: false
     }
 ]
-export const  networkStatusList = [
+export const networkStatusList = [
     {
         icon: dashboardBlockHeight,
         descript: 'block_height',
@@ -352,7 +357,7 @@ export const monitorRecaeiptMosaicList = [
     }
 ]
 
-export const monitorRecaeiptTransferTypeList =  [
+export const monitorRecaeiptTransferTypeList = [
     {
         name: 'ordinary_transfer',
         isSelect: true,
@@ -461,7 +466,7 @@ export const rootNamespaceTypelist = [
     }
 ]
 
-export const namespaceButtonList =  [
+export const namespaceButtonList = [
     {
         name: 'Create_namespace',
         isSelected: true
@@ -473,7 +478,7 @@ export const namespaceButtonList =  [
         isSelected: false
     }
 ]
-export const serviceSwitchFnList =  [
+export const serviceSwitchFnList = [
     {
         name: 'mosaic',
         to: '/mosaic',
@@ -533,9 +538,9 @@ export const settingNetworkPointList = [
     }
 ]
 
-export const settingNetworkColorList =  ['green_point', 'pink_point', 'purple_point', 'yellow_point']
+export const settingNetworkColorList = ['green_point', 'pink_point', 'purple_point', 'yellow_point']
 
-export const settingPanelNavigationBar =  [
+export const settingPanelNavigationBar = [
     {
         title: 'general_settings',
         name: 'settingNormal',
@@ -555,11 +560,11 @@ export const settingPanelNavigationBar =  [
         isSelected: false
     }
 ]
-export const     walletFnNavList = [
+export const walletFnNavList = [
     {name: 'create', to: '/walletCreate', active: true},
     {name: 'import', to: '/walletImportKeystore', active: false},
 ]
-export const walletImportNavagatorList =  [
+export const walletImportNavagatorList = [
     {
         title: 'mnemonic',
         name: 'walletImportMnemonic',
@@ -575,12 +580,12 @@ export const walletImportNavagatorList =  [
     }
 ]
 
-
-export const importKeystoreDefault =  {
+export const xemTotalSupply = 9000000000
+export const importKeystoreDefault = {
     walletName: 'keystore-wallet',
     networkType: NetworkType.MIJIN_TEST,
     keystoreStr: 'eyJuYW1lIjoiMzIxMzIxMzEyIiwiY2lwaGVydGV4dCI6eyJ3b3JkcyI6Wzg1NDY0MjkyNSwyMDMwOTQ2OTg5LC0xMTYzOTM0MCwxMjYzMTEzOTQyLDE1OTgyNzY0MjMsLTEzNDMwODUyMDgsLTEwMTM2MDI4NzAsMTIxNDI5ODg2LC0xNTkyNDUzNzg0LDE1OTU5OTEwMDYsLTEwMzkxMTQ1NjQsNzI4MjgxODc3XSwic2lnQnl0ZXMiOjQ4fSwiaXYiOnsidHlwZSI6IkJ1ZmZlciIsImRhdGEiOlsxODAsMTk2LDIyNywxNjYsMTc4LDIzNSw4OSwxNDUsMjI4LDY2LDExMiw2MSwyNCwyNSwzOCwxNjZdfSwibmV0d29ya1R5cGUiOjE0NCwiYWRkcmVzcyI6IlNBVUE1SlFSUDJGQk5QQU8zRlFJUlRKUlM1UEhKVjdDTFpTT1lMS0YiLCJwdWJsaWNLZXkiOiI2MjMyM0JDMkQwNzVDRDgxNUU0QTcxQjE4NzQ3MDhDOEVBQUVGRUMyOTVDNkYxQTgyRTZCOTE4MjJCQjJEREJCIiwibW5lbW9uaWNFbkNvZGVPYmoiOnt9fQ==',
-    walletPassword: '111111',
-    walletPasswordAgain: '111111',
-    keystorePassword: '123'
+    walletPassword: '',
+    walletPasswordAgain: '',
+    keystorePassword: '111111'
 }

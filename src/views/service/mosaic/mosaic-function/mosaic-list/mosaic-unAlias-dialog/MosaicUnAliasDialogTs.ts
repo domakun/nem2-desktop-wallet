@@ -1,4 +1,4 @@
-import {Message} from "@/config/index.ts"
+import {Message, formData} from "@/config/index.ts"
 import {decryptKey} from "@/core/utils/wallet.ts"
 import {WalletApiRxjs} from "@/core/api/WalletApiRxjs.ts"
 import {NamespaceApiRxjs} from "@/core/api/NamespaceApiRxjs.ts"
@@ -12,10 +12,7 @@ export class MosaicUnAliasDialogTs extends Vue {
     show = false
     isCompleteForm = false
     aliasNameList: any[] = []
-    mosaic = {
-        fee: 50000,
-        password: ''
-    }
+    mosaic = formData.mosaicUnaliasForm
 
     @Prop()
     showMosaicUnAliasDialog: boolean

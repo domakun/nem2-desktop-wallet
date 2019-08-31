@@ -33,11 +33,7 @@ export class CollectionRecordTs extends Vue {
     transacrionAssetIcon = transacrionAssetIcon
     transactionDetails: any = []
 
-    @Prop({
-        default: () => {
-            return 0
-        }
-    })
+    @Prop({default: 0})
     transactionType
 
     get getWallet() {

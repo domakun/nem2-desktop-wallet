@@ -1,5 +1,4 @@
-import {Message} from "@/config/index.ts"
-import {TransactionApiRxjs} from "@/core/api/TransactionApiRxjs.ts"
+import {Message,formData} from "@/config/index.ts"
 import {Component, Vue, Watch} from 'vue-property-decorator'
 import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
 import {
@@ -46,15 +45,7 @@ export class MultisigManagementTs extends Vue {
     MultisigCosignatoryModificationType = MultisigCosignatoryModificationType
     publickeyList = []
 
-    formItem = {
-        minApprovalDelta: 0,
-        minRemovalDelta: 0,
-        bondedFee: 10000000,
-        lockFee: 10000000,
-        innerFee: 10000000,
-        cosignerList: [],
-        multisigPublickey: ''
-    }
+    formItem = formData.multisigManagementForm
 
     get currentXEM1() {
         return this.activeAccount.currentXEM1
@@ -147,7 +138,7 @@ export class MultisigManagementTs extends Vue {
     }
 
     createBondedModifyTransaction() {
-        const {cosignerList, bondedFee, lockFee, innerFee, minApprovalDelta, minRemovalDelta} = this.formItem
+        const {cosignerList, bondedFee, innerFee, minApprovalDelta, minRemovalDelta} = this.formItem
         const {networkType, node, publicKey} = this
         const multisigCosignatoryModificationList = cosignerList.map(cosigner => new MultisigCosignatoryModification(
             cosigner.type,

@@ -37,7 +37,7 @@ export class MultisigCosignTs extends Vue {
     }
 
     async getCosignTransactions() {
-        const {publickey, networkType, generationHash, node} = this
+        const {publickey, node} = this
         const accountHttp = new AccountHttp(node)
 
         const publicAccount = PublicAccount.createFromPublicKey(
@@ -49,7 +49,7 @@ export class MultisigCosignTs extends Vue {
 
     cosignTransaction(index) {
 
-        const {publickey, networkType, generationHash, node, privatekey} = this
+        const {publickey, node, privatekey} = this
         const endpoint = node
         const account = Account.createFromPrivateKey(privatekey, NetworkType.MIJIN_TEST)
         const transactionHttp = new TransactionHttp(endpoint)

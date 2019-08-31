@@ -1,4 +1,4 @@
-import {Message} from "@/config/index.ts"
+import {Message,formData} from "@/config/index.ts"
 import {Component, Vue, Watch} from 'vue-property-decorator'
 import {MultisigApiRxjs} from '@/core/api/MultisigApiRxjs.ts'
 import {createBondedMultisigTransaction} from "@/core/utils/wallet.ts"
@@ -31,14 +31,7 @@ export class MultisigConversionTs extends Vue {
     transactionDetail = {}
     otherDetails = {}
     transactionList = []
-    formItem = {
-        publickeyList: [],
-        minApproval: 1,
-        minRemoval: 1,
-        bondedFee: 10000000,
-        lockFee: 10000000,
-        innerFee: 10000000
-    }
+    formItem = formData.multisigConversionForm
 
     get publickey() {
         return this.activeAccount.wallet.publicKey

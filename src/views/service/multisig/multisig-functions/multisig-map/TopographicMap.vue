@@ -10,70 +10,20 @@
 
 <script lang="ts">
     import echarts from 'echarts'
-    import {Message} from "@/config/index.ts"
+    import {Message, echartsConfigure} from "@/config/index.ts"
     import {copyTxt} from '@/core/utils/utils.ts'
     import {Component, Vue} from 'vue-property-decorator'
     import multisignSelfIcon from '@/common/img/service/multisig/multisignSelfIcon.png'
     import multisignCosignerIcon from '@/common/img/service/multisig/multisignCosignerIcon.png'
     import multisignMultisignerIcon from '@/common/img/service/multisig/multisignMultisignerIcon.png'
-    import {MultisigApiRxjs} from "@/core/api/MultisigApiRxjs";
+    import {MultisigApiRxjs} from "@/core/api/MultisigApiRxjs"
 
     @Component
     export default class LineChart extends Vue {
-        dom: any = {};
+        dom: any = {}
         spinShow = true
         notMultisigNorCosigner = true
-        option = {
-            tooltip: {
-                alwaysShowContent: true,
-                padding: 0,
-                position: 'right',
-                formatter: (params: any, copyIcon) => {
-                    if (params.dataType == 'edge') {
-                        return
-                    }
-                    const template = `<div class="tooltip" >
-                                        <div>${params.data.address.address}</div>
-                                    </div>`
-                    return template
-                }
-            },
-            animationDurationUpdate: 1500,
-            animationEasingUpdate: 'quinticInOut',
-            series: [
-                {
-                    left: 60,
-                    type: 'graph',
-                    layout: 'none',
-                    symbolSize: 70,
-                    roam: false,
-                    label: {
-                        normal: {
-                            show: true
-                        }
-                    },
-                    edgeSymbol: ['none', 'arrow'],
-                    edgeSymbolSize: [4, 10],
-                    edgeLabel: {
-                        normal: {
-                            textStyle: {
-                                fontSize: 20
-                            }
-                        }
-                    },
-                    data: [],
-                    links: [],
-                    lineStyle: {
-                        normal: {
-                            width: 2,
-                            curveness: 0,
-                            color: '#4DC2BF',
-                            type: 'dotted'
-                        }
-                    }
-                }
-            ]
-        };
+        option = echartsConfigure.multisigMapOption
 
         mounted() {
             this.refresh()
@@ -82,7 +32,6 @@
         async refresh() {
             const that = this
             await this.getMultisigInfo()
-
         }
 
         copyAddress(params) {

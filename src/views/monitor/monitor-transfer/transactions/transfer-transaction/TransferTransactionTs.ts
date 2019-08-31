@@ -88,20 +88,7 @@ export default class TransferTransactionTs extends Vue {
             })
     }
 
-    // checkMosaicTransferList(){
-    //     const { mosaicTransferList} = this.formModel;
-    //     if(mosaicTransferList.length <1){
-    //         this.$Notice.destroy()
-    //         this.$Notice.error({
-    //             title: this.$t(Message.MOSACI_LIST_NULL_ERROR) + ''
-    //         });
-    //         return false
-    //     }
-    //     return true
-    // }
-
     showDialog() {
-        // if(!this.checkMosaicTransferList()) return
         const {address, mosaicTransferList, remark, fee, isEncrypted} = this.formModel
         this.transactionDetail = {
             "transaction_type": 'ordinary_transfer',

@@ -648,5 +648,6 @@ export const zh_CN = {
     Node_not_available_please_check_your_node_or_network_settings: '节点不可用，请检查您的节点或网络设置。',
     amount: '金额',
     encryption: '加密',
-    Not_encrypted: '不加密'
+    Not_encrypted: '不加密',
+    bondedFee: '绑定费用'
 }

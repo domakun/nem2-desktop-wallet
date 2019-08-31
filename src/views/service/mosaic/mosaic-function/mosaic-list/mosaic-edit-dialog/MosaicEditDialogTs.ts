@@ -1,5 +1,5 @@
-import {Account, Crypto} from 'nem2-sdk'
-import {Message} from "@/config/index.ts"
+import {Account} from 'nem2-sdk'
+import {Message, formData, xemTotalSupply} from "@/config/index.ts"
 import {WalletApiRxjs} from "@/core/api/WalletApiRxjs.ts"
 import {MosaicApiRxjs} from "@/core/api/MosaicApiRxjs.ts"
 import {decryptKey} from "@/core/utils/wallet.ts"
@@ -15,21 +15,12 @@ import {mapState} from "vuex"
 })
 export class MosaicEditDialogTs extends Vue {
     show = false
-    activeAccount:any
-    app:any
+    activeAccount: any
+    app: any
     isCompleteForm = false
     changedSupply = 0
-    totalSupply = 9000000000
-    mosaic = {
-        id: '',
-        aliasName: '',
-        delta: 0,
-        supplyType: 1,
-        changeDelta: 0,
-        duration: '',
-        fee: 50000,
-        password: ''
-    }
+    totalSupply = xemTotalSupply
+    mosaic = formData.mosaicEditForm
 
     @Prop()
     showMosaicEditDialog: boolean
@@ -135,7 +126,13 @@ export class MosaicEditDialogTs extends Vue {
     updateMosaic(key) {
         const that = this
         const {node, generationHash} = this
-        const transaction = new MosaicApiRxjs().mosaicSupplyChange(this.mosaic['mosaicId'], this.mosaic.changeDelta, this.mosaic.supplyType, this.getWallet.networkType, this.mosaic.fee)
+        const transaction = new MosaicApiRxjs().mosaicSupplyChange(
+            this.mosaic['mosaicId'],
+            this.mosaic.changeDelta,
+            this.mosaic.supplyType,
+            this.getWallet.networkType,
+            this.mosaic.fee
+        )
         const account = Account.createFromPrivateKey(key, this.getWallet.networkType)
         signAndAnnounceNormal(account, node, generationHash, [transaction], this.showNotice())
     }

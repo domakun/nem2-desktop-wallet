@@ -356,6 +356,7 @@ export class MonitorPanelTs extends Vue {
     }
 
     created() {
+        this.switchPanel(0)
         this.setLeftSwitchIcon()
         this.initLeftNavigator()
         this.initData()
