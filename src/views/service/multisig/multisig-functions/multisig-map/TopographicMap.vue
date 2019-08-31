@@ -10,6 +10,7 @@
 
 <script lang="ts">
     import echarts from 'echarts'
+    import {mapState} from 'vuex'
     import {Message, echartsConfigure} from "@/config/index.ts"
     import {copyTxt} from '@/core/utils/utils.ts'
     import {Component, Vue} from 'vue-property-decorator'
@@ -18,12 +19,31 @@
     import multisignMultisignerIcon from '@/common/img/service/multisig/multisignMultisignerIcon.png'
     import {MultisigApiRxjs} from "@/core/api/MultisigApiRxjs"
 
-    @Component
+    @Component({
+        computed: {
+            ...mapState({
+                activeAccount: 'account',
+            })
+        }
+    })
     export default class LineChart extends Vue {
         dom: any = {}
+        activeAccount: any
         spinShow = true
         notMultisigNorCosigner = true
         option = echartsConfigure.multisigMapOption
+
+        get address() {
+            return this.activeAccount.wallet.address
+        }
+
+        get publicAccount() {
+            return this.activeAccount.wallet.publicAccount
+        }
+
+        get node() {
+            return this.activeAccount.node
+        }
 
         mounted() {
             this.refresh()
@@ -49,8 +69,7 @@
 
         getMultisigInfo() {
             const that = this
-            const {address, publicAccount} = this.$store.state.account.wallet
-            const {node} = this.$store.state.account
+            const {address, publicAccount, node} = this
 
             let cosignerList = []
             let multisigList = []

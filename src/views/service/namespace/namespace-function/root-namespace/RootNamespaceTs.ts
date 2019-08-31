@@ -1,9 +1,9 @@
-import {Account, Address, Listener} from "nem2-sdk"
+import { Address} from "nem2-sdk"
 import {NamespaceApiRxjs} from "@/core/api/NamespaceApiRxjs.ts"
 import {MultisigApiRxjs} from '@/core/api/MultisigApiRxjs.ts'
 import {formatSeconds, formatAddress} from '@/core/utils/utils.ts'
 import {Component, Vue, Watch} from 'vue-property-decorator'
-import {Message, bandedNamespace as BandedNamespaceList,rootNamespaceTypelist} from "@/config/index.ts"
+import {Message, bandedNamespace as BandedNamespaceList,rootNamespaceTypelist,formData} from "@/config/index.ts"
 import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
 import {createBondedMultisigTransaction, createCompleteMultisigTransaction} from "@/core/utils/wallet.ts"
 import {mapState} from "vuex"
@@ -32,14 +32,7 @@ export class RootNamespaceTs extends Vue {
     otherDetails: any = {}
     multisigPublickeyList: Array<any> = []
     typeList = rootNamespaceTypelist
-    form = {
-        duration: 1000,
-        rootNamespaceName: '',
-        multisigPublickey: '',
-        innerFee: 50000,
-        aggregateFee: 50000,
-        lockFee: 50000
-    }
+    form = formData.rootNamespaceForm
 
 
     get generationHash() {

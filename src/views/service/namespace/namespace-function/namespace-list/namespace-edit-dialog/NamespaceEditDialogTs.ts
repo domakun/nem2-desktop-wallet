@@ -1,5 +1,5 @@
 import './NamespaceEditDialog.less'
-import {Message} from "@/config/index.ts"
+import {Message, formData} from "@/config/index.ts"
 import {Account} from 'nem2-sdk'
 import {WalletApiRxjs} from "@/core/api/WalletApiRxjs.ts"
 import {formatSeconds} from '@/core/utils/utils.ts'
@@ -21,12 +21,7 @@ export class NamespaceEditDialogTs extends Vue {
     isCompleteForm = false
     stepIndex = 0
     durationIntoDate: string = '0'
-    namespace = {
-        name: '',
-        duration: 0,
-        fee: 50000,
-        password: ''
-    }
+    namespace = formData.namesapceEditForm
 
     @Prop({default: false})
     showNamespaceEditDialog: boolean
@@ -77,26 +72,18 @@ export class NamespaceEditDialogTs extends Vue {
 
     checkInfo() {
         const {namespace} = this
-
-        if (namespace.fee === 0) {
-            this.$Notice.error({
-                title: '' + this.$t(Message.INPUT_EMPTY_ERROR)
-            })
-            return false
-        }
-        if (namespace.duration === 0) {
-            this.$Notice.error({
-                title: '' + this.$t(Message.INPUT_EMPTY_ERROR)
-            })
-            return false
-        }
-        if (namespace.password === '') {
-            this.$Notice.error({
-                title: '' + this.$t(Message.INPUT_EMPTY_ERROR)
-            })
+        if (namespace.password === '' || namespace.duration === 0 || namespace.fee === 0) {
+            this.showErrorNotice(this.$t(Message.INPUT_EMPTY_ERROR))
             return false
         }
         return true
+    }
+
+    showErrorNotice(text) {
+        this.$Notice.destroy()
+        this.$Notice.error({
+            title: '' + text
+        })
     }
 
     checkNamespaceForm() {
@@ -115,7 +102,7 @@ export class NamespaceEditDialogTs extends Vue {
             this.updateMosaic(DeTxt)
         } catch (e) {
             that.$Notice.error({
-                title: this.$t('password_error') + ''
+                title: this.$t(Message.WRONG_PASSWORD_ERROR) + ''
             })
         }
 

@@ -6,9 +6,14 @@ import {TransactionApiRxjs} from "@/core/api/TransactionApiRxjs.ts"
 import {Component, Vue, Prop, Watch} from 'vue-property-decorator'
 import {Account, AliasActionType, NamespaceId, MosaicId} from "nem2-sdk"
 import {signAndAnnounceNormal} from "@/core/utils/wallet"
+import {mapState} from "vuex"
 
-@Component
+@Component({
+        computed: {...mapState({activeAccount: 'account'})},
+    }
+)
 export class MosaicUnAliasDialogTs extends Vue {
+    activeAccount: any
     show = false
     isCompleteForm = false
     aliasNameList: any[] = []
@@ -20,15 +25,15 @@ export class MosaicUnAliasDialogTs extends Vue {
     itemMosaic: any
 
     get getWallet() {
-        return this.$store.state.account.wallet
+        return this.activeAccount.wallet
     }
 
     get generationHash() {
-        return this.$store.state.account.generationHash
+        return this.activeAccount.generationHash
     }
 
     get node() {
-        return this.$store.state.account.node
+        return this.activeAccount.node
     }
 
     mosaicAliasDialogCancel() {

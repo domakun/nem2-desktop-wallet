@@ -1,4 +1,4 @@
-import {Message, networkTypeList} from "@/config/index.ts"
+import {Message, networkTypeList, formData} from "@/config/index.ts"
 import {NetworkType} from "nem2-sdk"
 import {Component, Vue} from 'vue-property-decorator'
 import {strToHexCharCode} from '@/core/utils/utils.ts'
@@ -26,13 +26,7 @@ export class WalletImportMnemonicTs extends Vue {
     MIN_PASSWORD_LENGTH = MIN_PASSWORD_LENGTH
     MAX_PASSWORD_LENGTH = MAX_PASSWORD_LENGTH
     ALLOWED_SPECIAL_CHAR = ALLOWED_SPECIAL_CHAR
-    form = {
-        mnemonic: '',
-        networkType: 0,
-        walletName: '',
-        password: '',
-        checkPW: '',
-    }
+    form = formData.walletImportMnemonicForm
     NetworkTypeList = networkTypeList
     account = {}
 

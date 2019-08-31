@@ -51,6 +51,10 @@ export class MenuBarTs extends Vue {
         return this.app.walletList || []
     }
 
+    get currentPanelIndex() {
+        return this.app.currentPanelIndex
+    }
+
     get networkType() {
         return this.activeAccount.wallet.networkType
     }

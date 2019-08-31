@@ -63,6 +63,34 @@ export const formData = {
         innerFee: 10000000,
         cosignerList: [],
         multisigPublickey: ''
+    },
+    namesapceEditForm:{
+        name: '',
+        duration: 0,
+        fee: 50000,
+        password: ''
+    },
+    rootNamespaceForm:{
+        duration: 1000,
+        rootNamespaceName: '',
+        multisigPublickey: '',
+        innerFee: 50000,
+        aggregateFee: 50000,
+        lockFee: 50000
+    },
+    walletImportMnemonicForm:{
+        mnemonic: '',
+        networkType: 0,
+        walletName: '',
+        password: '',
+        checkPW: '',
+    },
+    walletImportPrivateKeyForm: {
+        privateKey: 'FB628AF4276F696AD1FA85B7AB1E49CFD896E5EC85000E3179EEEA59717DD8DE',
+        networkType: 0,
+        walletName: '',
+        password: '',
+        checkPW: '',
     }
 
 }

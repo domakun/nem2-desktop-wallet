@@ -1,4 +1,4 @@
-import {Message, networkTypeList} from "@/config/index.ts"
+import {Message, networkTypeList, formData} from "@/config/index.ts"
 import {Component, Vue} from 'vue-property-decorator'
 import {Account, NetworkType} from "nem2-sdk"
 import {encryptKey, getAccountDefault, saveLocalWallet} from "@/core/utils/wallet.ts"
@@ -24,13 +24,7 @@ export class WalletImportPrivatekeyTs extends Vue {
     activeAccount: any
     app: any
     account = {}
-    form = {
-        privateKey: 'FB628AF4276F696AD1FA85B7AB1E49CFD896E5EC85000E3179EEEA59717DD8DE',
-        networkType: 0,
-        walletName: '',
-        password: '',
-        checkPW: '',
-    }
+    form = formData.walletImportPrivateKeyForm
     NetworkTypeList = networkTypeList
 
     get getNode() {
@@ -101,7 +95,7 @@ export class WalletImportPrivatekeyTs extends Vue {
         }
     }
 
-    showNotice(text){
+    showNotice(text) {
         this.$Notice.destroy()
         this.$Notice.error({
             title: text + ''

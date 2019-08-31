@@ -43,6 +43,10 @@ export class WalletImportKeystoreTs extends Vue {
         return this.activeAccount.currentXEM1
     }
 
+    get walletList() {
+        return this.app.walletList
+    }
+
     get currentXEM2() {
         return this.activeAccount.currentXEM2
     }
@@ -68,11 +72,12 @@ export class WalletImportKeystoreTs extends Vue {
         this.loginWallet(account)
     }
 
+
     loginWallet(account) {
         const {networkType, walletName, walletPassword} = this.formItem
         const that = this
         const netType: NetworkType = networkType
-        const walletList = this.$store.state.app.walletList
+        const {walletList} = this
         const style = 'walletItem_bg_' + walletList.length % 3
         getAccountDefault(walletName, account, netType, this.getNode, this.currentXEM1, this.currentXEM2)
             .then((wallet) => {

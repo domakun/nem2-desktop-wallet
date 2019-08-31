@@ -50,6 +50,14 @@ export class WalletFilterTs extends Vue {
         return this.activeAccount.node
     }
 
+    get wallet() {
+        return this.activeAccount.wallet
+    }
+
+    get address() {
+        return this.activeAccount.wallet.address
+    }
+
     get generationHash() {
         return this.activeAccount.generationHash
     }
@@ -240,18 +248,12 @@ export class WalletFilterTs extends Vue {
 
     getAccountRestriction() {
         // TODO update while sdk complete
-        if (!this.$store.state.account.wallet) {
+        if (!this.wallet) {
             return
         }
-        const {node} = this.$store.state.account
-        const {address} = this.$store.state.account.wallet
+        const {node, address} = this
         new RestrictionApiRxjs().getRestrictionInfo(node, address).subscribe((restrictionInfo) => {
         })
-    }
-
-
-    created() {
-
     }
 
 }
