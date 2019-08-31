@@ -248,13 +248,11 @@ export class CollectionRecordTs extends Vue {
         this.currentMonthLast = getCurrentMonthLast(currentMonth)
         const {currentMonthFirst, currentMonthLast, localConfirmedTransactions, localUnConfirmedTransactions} = this
         localConfirmedTransactions.forEach((item) => {
-            console.log(item.date <= currentMonthLast, item.date >= currentMonthFirst)
             if (item.date <= currentMonthLast && item.date >= currentMonthFirst) {
                 currentConfirmedTxList.push(item)
             }
         })
         that.confirmedTransactionList = currentConfirmedTxList
-        console.log(that.confirmedTransactionList)
         localUnConfirmedTransactions.forEach((item) => {
             if (item.date <= currentMonthLast && item.date >= currentMonthFirst) {
                 currentUnConfirmedTxList.push(item)
