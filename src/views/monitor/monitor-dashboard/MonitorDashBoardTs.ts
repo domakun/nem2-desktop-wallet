@@ -15,7 +15,7 @@ import dashboardPublickey from '@/common/img/monitor/dash-board/dashboardPublick
 import dashboardBlockHeight from '@/common/img/monitor/dash-board/dashboardBlockHeight.png'
 import dashboardPointAmount from '@/common/img/monitor/dash-board/dashboardPointAmount.png'
 import dashboardTransactionAmount from '@/common/img/monitor/dash-board/dashboardTransactionAmount.png'
-
+import {networkStatusList} from '@/config/index.ts'
 
 @Component({
     computed: {...mapState({activeAccount: 'account', app: 'app'})},
@@ -43,35 +43,7 @@ export class MonitorDashBoardTs extends Vue {
     receiptList = []
     showConfirmedTransactions = true
     transactionDetails = {}
-    networkStatusList = [
-        {
-            icon: dashboardBlockHeight,
-            descript: 'block_height',
-            data: 1978365,
-            variable: 'currentHeight'
-
-        }, {
-            icon: dashboardBlockTime,
-            descript: 'average_block_time',
-            data: 12,
-            variable: 'currentGenerateTime'
-        }, {
-            icon: dashboardPointAmount,
-            descript: 'point',
-            data: 4,
-            variable: 'nodeAmount'
-        }, {
-            icon: dashboardTransactionAmount,
-            descript: 'number_of_transactions',
-            data: 0,
-            variable: 'numTransactions'
-        }, {
-            icon: dashboardPublickey,
-            descript: 'Harvester',
-            data: 0,
-            variable: 'signerPublicKey'
-        }
-    ]
+    networkStatusList = networkStatusList
 
 
     get getWallet() {

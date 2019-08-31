@@ -201,8 +201,8 @@ export class WalletFilterTs extends Vue {
     }
 
     switchRestrictionType(privatekey) {
-        let {filterType, filterList} = this.formItem
-        const {networkType} = this.$store.state.account.wallet
+        let {filterType} = this.formItem
+        const {networkType} = this.getWallet
         const account = Account.createFromPrivateKey(privatekey, networkType)
         switch (filterType) {
             case RestrictionType.AllowAddress:

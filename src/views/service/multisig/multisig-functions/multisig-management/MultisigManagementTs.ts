@@ -17,13 +17,20 @@ import {
     createCompleteMultisigTransaction,
     multisigAccountInfo
 } from "@/core/utils/wallet.ts"
+import {mapState} from "vuex"
 
 @Component({
     components: {
         CheckPWDialog
+    },
+    computed: {
+        ...mapState({
+            activeAccount: 'account',
+        })
     }
 })
 export class MultisigManagementTs extends Vue {
+    activeAccount: any
     isShowPanel = true
     transactionList = []
     currentPublickey = ''
@@ -49,6 +56,29 @@ export class MultisigManagementTs extends Vue {
         multisigPublickey: ''
     }
 
+    get currentXEM1() {
+        return this.activeAccount.currentXEM1
+    }
+
+    get publicKey() {
+        return this.activeAccount.wallet.publicKey
+    }
+
+    get networkType() {
+        return this.activeAccount.wallet.networkType
+    }
+
+    get generationHash() {
+        return this.activeAccount.generationHash
+    }
+
+    get address() {
+        return this.activeAccount.wallet.address
+    }
+
+    get node() {
+        return this.activeAccount.node
+    }
 
     addCosigner(flag) {
         const {currentPublickey} = this
@@ -94,8 +124,7 @@ export class MultisigManagementTs extends Vue {
 
     createCompleteModifyTransaction() {
         const {multisigPublickey, cosignerList, innerFee, minApprovalDelta, minRemovalDelta} = this.formItem
-        const {networkType} = this.$store.state.account.wallet
-        const {generationHash, node} = this.$store.state.account
+        const {networkType} = this
         const multisigCosignatoryModificationList = cosignerList.map(cosigner => new MultisigCosignatoryModification(
             cosigner.type,
             PublicAccount.createFromPublicKey(cosigner.publickey, networkType),
@@ -119,9 +148,7 @@ export class MultisigManagementTs extends Vue {
 
     createBondedModifyTransaction() {
         const {cosignerList, bondedFee, lockFee, innerFee, minApprovalDelta, minRemovalDelta} = this.formItem
-        const {networkType} = this.$store.state.account.wallet
-        const {generationHash, node} = this.$store.state.account
-        const mosaicHex = this.$store.state.account.currentXEM1
+        const {networkType, node, publicKey} = this
         const multisigCosignatoryModificationList = cosignerList.map(cosigner => new MultisigCosignatoryModification(
             cosigner.type,
             PublicAccount.createFromPublicKey(cosigner.publickey, networkType),
@@ -137,7 +164,7 @@ export class MultisigManagementTs extends Vue {
         )
         const aggregateTransaction = createBondedMultisigTransaction(
             [modifyMultisigAccountTransaction],
-            this.$store.state.account.wallet.publicKey,
+            publicKey,
             networkType,
             bondedFee
         )
@@ -224,8 +251,7 @@ export class MultisigManagementTs extends Vue {
 
     async getMultisigAccountList() {
         const that = this
-        const {address} = this.$store.state.account.wallet
-        const {node} = this.$store.state.account
+        const {address, node} = this
         const multisigInfo = await multisigAccountInfo(address, node)
         if (multisigInfo['multisigAccounts'].length == 0) {
             that.isShowPanel = false
@@ -245,8 +271,7 @@ export class MultisigManagementTs extends Vue {
         if (multisigPublickey.length !== 64) {
             return
         }
-        const {networkType} = this.$store.state.account.wallet
-        const {node} = this.$store.state.account
+        const {networkType, node} = this
         let address = Address.createFromPublicKey(multisigPublickey, networkType)['address']
         const multisigInfo = await multisigAccountInfo(address, node)
         that.existsCosignerList = multisigInfo['cosignatories'].map((item) => {

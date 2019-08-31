@@ -1,4 +1,4 @@
-import {Message} from "@/config/index.ts"
+import {Message, mosaicTransactionTypeList} from "@/config/index.ts"
 import {multisigAccountInfo} from "@/core/utils/wallet.ts"
 import {MosaicApiRxjs} from '@/core/api/MosaicApiRxjs.ts'
 import {formatSeconds, formatAddress} from '@/core/utils/utils.ts'
@@ -39,17 +39,8 @@ export class MosaicTransactionTs extends Vue {
     showMosaicEditDialog = false
     showMosaicAliasDialog = false
     isCompleteForm = true
-
     multisigPublickeyList = []
-    typeList = [
-        {
-            name: 'ordinary_account',
-            isSelected: true
-        }, {
-            name: 'multi_sign_account',
-            isSelected: false
-        }
-    ]
+    typeList = mosaicTransactionTypeList
     formItem: any = {
         supply: 500000000,
         divisibility: 6,

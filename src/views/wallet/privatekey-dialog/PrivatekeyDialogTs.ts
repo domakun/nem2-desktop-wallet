@@ -3,12 +3,20 @@ import {WalletApiRxjs} from "@/core/api/WalletApiRxjs.ts"
 import {decryptKey} from "@/core/utils/wallet.ts"
 import {Component, Vue, Prop, Watch} from 'vue-property-decorator'
 import {Message} from "@/config"
+import {mapState} from "vuex"
 
-@Component
+@Component({
+    computed: {
+        ...mapState({
+            activeAccount: 'account',
+        })
+    }
+})
 export class PrivatekeyDialogTs extends Vue {
     QRCode = ''
     show = false
     stepIndex = 0
+    activeAccount:any
     wallet = {
         password: '',
         privatekey: ''
@@ -18,7 +26,10 @@ export class PrivatekeyDialogTs extends Vue {
     showPrivatekeyDialog: boolean
 
     get getWallet() {
-        return this.$store.state.account.wallet
+        return this.activeAccount.wallet
+    }
+    get account (){
+        return this.activeAccount
     }
 
     privatekeyDialogCancel() {

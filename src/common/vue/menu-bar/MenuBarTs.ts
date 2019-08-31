@@ -40,7 +40,7 @@ export class MenuBarTs extends Vue {
     localesMap = localesMap
 
     get isNodeHealthy() {
-        return this.$store.state.app.isNodeHealthy
+        return this.app.isNodeHealthy
     }
 
     get wallet() {

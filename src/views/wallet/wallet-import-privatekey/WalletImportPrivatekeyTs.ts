@@ -1,4 +1,4 @@
-import {Message, networkType} from "@/config/index.ts"
+import {Message, networkTypeList} from "@/config/index.ts"
 import {Component, Vue} from 'vue-property-decorator'
 import {Account, NetworkType} from "nem2-sdk"
 import {encryptKey, getAccountDefault, saveLocalWallet} from "@/core/utils/wallet.ts"
@@ -7,12 +7,22 @@ import {
     MAX_PASSWORD_LENGTH,
     MIN_PASSWORD_LENGTH
 } from "@/core/validation"
+import {mapState} from "vuex"
 
-@Component
+@Component({
+    computed: {
+        ...mapState({
+            activeAccount: 'account',
+            app: 'app'
+        })
+    }
+})
 export class WalletImportPrivatekeyTs extends Vue {
     MIN_PASSWORD_LENGTH = MIN_PASSWORD_LENGTH
     MAX_PASSWORD_LENGTH = MAX_PASSWORD_LENGTH
     ALLOWED_SPECIAL_CHAR = ALLOWED_SPECIAL_CHAR
+    activeAccount: any
+    app: any
     account = {}
     form = {
         privateKey: 'FB628AF4276F696AD1FA85B7AB1E49CFD896E5EC85000E3179EEEA59717DD8DE',
@@ -21,18 +31,22 @@ export class WalletImportPrivatekeyTs extends Vue {
         password: '',
         checkPW: '',
     }
-    NetworkTypeList = networkType
+    NetworkTypeList = networkTypeList
 
     get getNode() {
-        return this.$store.state.account.node
+        return this.activeAccount.node
     }
 
     get currentXEM1() {
-        return this.$store.state.account.currentXEM1
+        return this.activeAccount.currentXEM1
     }
 
     get currentXEM2() {
-        return this.$store.state.account.currentXEM2
+        return this.activeAccount.currentXEM2
+    }
+
+    get walletList() {
+        return this.app.walletList
     }
 
     importWallet() {
@@ -99,7 +113,7 @@ export class WalletImportPrivatekeyTs extends Vue {
         const that = this
         const walletName: any = this.form.walletName
         const netType: NetworkType = this.form.networkType
-        const walletList = this.$store.state.app.walletList
+        const {walletList} = this
         const style = 'walletItem_bg_' + walletList.length % 3
         getAccountDefault(walletName, account, netType, this.getNode, this.currentXEM1, this.currentXEM2)
             .then((wallet) => {

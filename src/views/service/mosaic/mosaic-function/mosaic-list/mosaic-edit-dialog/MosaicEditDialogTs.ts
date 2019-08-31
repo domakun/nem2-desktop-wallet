@@ -3,13 +3,20 @@ import {Message} from "@/config/index.ts"
 import {WalletApiRxjs} from "@/core/api/WalletApiRxjs.ts"
 import {MosaicApiRxjs} from "@/core/api/MosaicApiRxjs.ts"
 import {decryptKey} from "@/core/utils/wallet.ts"
-import {TransactionApiRxjs} from "@/core/api/TransactionApiRxjs.ts"
 import {Component, Vue, Prop, Watch} from 'vue-property-decorator'
 import {signAndAnnounceNormal} from "@/core/utils/wallet"
+import {mapState} from "vuex"
 
-@Component
+@Component({
+    ...mapState({
+        activeAccount: 'account',
+        app: 'app',
+    })
+})
 export class MosaicEditDialogTs extends Vue {
     show = false
+    activeAccount:any
+    app:any
     isCompleteForm = false
     changedSupply = 0
     totalSupply = 9000000000
@@ -39,15 +46,15 @@ export class MosaicEditDialogTs extends Vue {
     }
 
     get getWallet() {
-        return this.$store.state.account.wallet
+        return this.activeAccount.wallet
     }
 
     get generationHash() {
-        return this.$store.state.account.generationHash
+        return this.activeAccount.generationHash
     }
 
     get node() {
-        return this.$store.state.account.node
+        return this.activeAccount.node
     }
 
     mosaicEditDialogCancel() {

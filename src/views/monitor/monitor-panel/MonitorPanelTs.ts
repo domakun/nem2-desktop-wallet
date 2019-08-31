@@ -11,6 +11,7 @@ import monitorUnselected from '@/common/img/monitor/monitorUnselected.png'
 import {getNamespaces, setWalletMosaic, getMosaicList, getMosaicInfoList} from "@/core/utils/wallet.ts"
 import {copyTxt, localSave, formatXEMamount} from '@/core/utils/utils.ts'
 import {mapState} from "vuex"
+import {minitorPanelNavigatorList} from '@/config/index.ts'
 
 @Component({
     computed: {
@@ -34,44 +35,8 @@ export class MonitorPanelTs extends Vue {
     isShowManageMosaicIcon = false
     monitorSeleted = monitorSeleted
     monitorUnselected = monitorUnselected
-    navigatorList: any = [
-        {
-            name: 'dash_board',
-            isSelect: true,
-            path: 'dashBoard'
-        },
-        {
-            name: 'transfer',
-            isSelect: false,
-            path: 'transfer'
-        },
-        {
-            name: 'receive',
-            isSelect: false,
-            path: 'receipt'
-        },
-
-        {
-            name: 'remote',
-            isSelect: false,
-            path: 'remote',
-        },
-        {
-            name: 'market',
-            isSelect: false,
-            path: 'market'
-        },
-    ]
-
-    mosaicMap: any = {
-        aabby: {
-            name: 'nem.xem',
-            hex: 'nem.xem',
-            amount: 0.265874,
-            show: true,
-            showInManage: true
-        }
-    }
+    navigatorList: any = minitorPanelNavigatorList
+    mosaicMap: any = {}
 
     get getWallet() {
         return this.activeAccount.wallet

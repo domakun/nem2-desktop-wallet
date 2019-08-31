@@ -664,7 +664,7 @@ export const en_US = {
     LABEL_mosaic_list: 'Mosaic list',
     The_mosaic_to_be_sent_is_empty: 'The mosaic to be sent is empty',
     Node_not_available_please_check_your_node_or_network_settings: 'Node not available, please check your node or network settings.',
-    encryption: 'Encryption',
+    encryption: 'Encrypted',
     Not_encrypted: 'Not encrypted'
 
 }

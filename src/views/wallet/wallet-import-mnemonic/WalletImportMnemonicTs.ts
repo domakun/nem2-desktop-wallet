@@ -1,4 +1,4 @@
-import {Message, networkType} from "@/config/index.ts"
+import {Message, networkTypeList} from "@/config/index.ts"
 import {NetworkType} from "nem2-sdk"
 import {Component, Vue} from 'vue-property-decorator'
 import {strToHexCharCode} from '@/core/utils/utils.ts'
@@ -10,9 +10,19 @@ import {
     MIN_PASSWORD_LENGTH,
     passwordValidator
 } from "@/core/validation"
+import {mapState} from "vuex"
 
-@Component
+@Component({
+    computed: {
+        ...mapState({
+            activeAccount: 'account',
+            app: 'app'
+        })
+    }
+})
 export class WalletImportMnemonicTs extends Vue {
+    activeAccount: any
+    app: any
     MIN_PASSWORD_LENGTH = MIN_PASSWORD_LENGTH
     MAX_PASSWORD_LENGTH = MAX_PASSWORD_LENGTH
     ALLOWED_SPECIAL_CHAR = ALLOWED_SPECIAL_CHAR
@@ -23,19 +33,23 @@ export class WalletImportMnemonicTs extends Vue {
         password: '',
         checkPW: '',
     }
-    NetworkTypeList = networkType
+    NetworkTypeList = networkTypeList
     account = {}
 
     get getNode() {
-        return this.$store.state.account.node
+        return this.activeAccount.node
     }
 
     get currentXEM1() {
-        return this.$store.state.account.currentXEM1
+        return this.activeAccount.currentXEM1
     }
 
     get currentXEM2() {
-        return this.$store.state.account.currentXEM2
+        return this.activeAccount.currentXEM2
+    }
+
+    get walletList() {
+        return this.app.walletList
     }
 
     importWallet() {
@@ -97,7 +111,7 @@ export class WalletImportMnemonicTs extends Vue {
         const that = this
         const walletName: any = this.form.walletName
         const netType: NetworkType = this.form.networkType
-        const walletList = this.$store.state.app.walletList
+        const {walletList} = this
         const style = 'walletItem_bg_' + walletList.length % 3
         getAccountDefault(walletName, account, netType, this.getNode, this.currentXEM1, this.currentXEM2)
             .then((wallet) => {
