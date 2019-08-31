@@ -8,10 +8,13 @@ import {signAndAnnounceNormal} from "@/core/utils/wallet"
 import {mapState} from "vuex"
 
 @Component({
-    ...mapState({
-        activeAccount: 'account',
-        app: 'app',
-    })
+    computed: {
+        ...mapState({
+            activeAccount: 'account',
+            app: 'app',
+        })
+    }
+
 })
 export class MosaicEditDialogTs extends Vue {
     show = false
@@ -36,7 +39,8 @@ export class MosaicEditDialogTs extends Vue {
         return this.mosaic['supply']
     }
 
-    get getWallet() {
+    get wallet() {
+        console.log(this.activeAccount)
         return this.activeAccount.wallet
     }
 
@@ -104,16 +108,16 @@ export class MosaicEditDialogTs extends Vue {
     }
 
     decryptKey() {
-        this.checkPrivateKey(decryptKey(this.getWallet, this.mosaic.password))
+        this.checkPrivateKey(decryptKey(this.wallet, this.mosaic.password))
     }
 
     checkPrivateKey(DeTxt) {
         const that = this
         try {
             new WalletApiRxjs().getWallet(
-                this.getWallet.name,
+                this.wallet.name,
                 DeTxt.length === 64 ? DeTxt : '',
-                this.getWallet.networkType,
+                this.wallet.networkType,
             )
             this.updateMosaic(DeTxt)
         } catch (e) {
@@ -130,10 +134,10 @@ export class MosaicEditDialogTs extends Vue {
             this.mosaic['mosaicId'],
             this.mosaic.changeDelta,
             this.mosaic.supplyType,
-            this.getWallet.networkType,
+            this.wallet.networkType,
             this.mosaic.fee
         )
-        const account = Account.createFromPrivateKey(key, this.getWallet.networkType)
+        const account = Account.createFromPrivateKey(key, this.wallet.networkType)
         signAndAnnounceNormal(account, node, generationHash, [transaction], this.showNotice())
     }
 

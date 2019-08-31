@@ -187,6 +187,7 @@ export class MonitorPanelTs extends Vue {
         const that = this
         let {accountAddress, node, currentXEM1, currentXem, currentXEM2} = this
         let mosaicMap = {}
+        let addressMap = {}
         let mosaicHexIds = []
         let getWallet = this.getWallet
         let walletList = this.getWalletList
@@ -256,12 +257,18 @@ export class MonitorPanelTs extends Vue {
                 }
             })
             this.namespaceList.forEach((item) => {
-                if (item.alias.type == aliasType.mosaicAlias) {
-                    const mosaicHex = new MosaicId(item.alias.mosaicId).toHex()
-                    if (mosaicMap[mosaicHex]) {
-                        mosaicMap[mosaicHex].name = item.label
-                    }
-
+                switch (item.alias.type) {
+                    case aliasType.mosaicAlias:
+                        const mosaicHex = new MosaicId(item.alias.mosaicId).toHex()
+                        if (mosaicMap[mosaicHex]) {
+                            mosaicMap[mosaicHex].name = item.label
+                        }
+                        break
+                    case  aliasType.addressAlias:
+                        //@ts-ignore
+                        const address = Address.createFromEncoded(item.alias.address).address
+                        addressMap[address] = item
+                        break
                 }
             })
         })
@@ -274,6 +281,7 @@ export class MonitorPanelTs extends Vue {
         that.localMosaicMap = mosaicMap
         that.mosaicMap = mosaicMap
         that.$store.commit('SET_MOSAIC_MAP', mosaicMap)
+        that.$store.commit('SET_ADDRESS_ALIAS_MAP', addressMap)
         that.isLoadingMosaic = false
     }
 

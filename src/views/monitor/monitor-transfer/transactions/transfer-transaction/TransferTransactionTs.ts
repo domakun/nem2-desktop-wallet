@@ -1,4 +1,4 @@
-import {Message} from "@/config/index.ts"
+import {Message, formData} from "@/config/index.ts"
 import {Mosaic, MosaicId, UInt64} from 'nem2-sdk'
 import {Component, Vue, Watch, Provide} from 'vue-property-decorator'
 import {TransactionApiRxjs} from '@/core/api/TransactionApiRxjs.ts'
@@ -16,6 +16,7 @@ import {MessageType} from "nem2-sdk/dist/src/model/transaction/MessageType"
 export default class TransferTransactionTs extends Vue {
     @Provide() validator: any = this.$validator
     activeAccount: any
+    isShowSubAlias = false
     standardFields: object = standardFields
     errors: any
     submitDisabled: boolean = false
@@ -26,13 +27,7 @@ export default class TransferTransactionTs extends Vue {
     isCompleteForm = false
     currentMosaic: string = ''
     currentAmount: number = 0
-    formFields = {
-        fee: 50000,
-        remark: '',
-        address: '',
-        mosaicTransferList: [],
-        isEncrypted: true
-    }
+    formFields = formData.transferForm
 
     formModel = cloneData(this.formFields)
 
@@ -63,6 +58,10 @@ export default class TransferTransactionTs extends Vue {
 
     get mosaicMap() {
         return this.activeAccount.mosaicMap
+    }
+
+    get addresAliasMap() {
+        return this.activeAccount.addresAliasMap
     }
 
     addMosaic() {
@@ -153,6 +152,7 @@ export default class TransferTransactionTs extends Vue {
     }
 
     created() {
+        console.log(this.addresAliasMap)
         this.initMosaic()
     }
 
