@@ -1,5 +1,5 @@
 <template>
-  <div class="dash_board_container fade_in_animation" >
+  <div class="dash_board_container secondary_page_animate" >
     <Modal
             :title="$t('transaction_detail')"
             v-model="isShowDialog"

@@ -11,7 +11,7 @@
         </div>
 
         <div class="split"></div>
-        <div class="XEM_amount"><span>XEM</span><span class="amount">{{formatNumber(Number(formatXEMamount(XEMamount))?formatXEMamount(XEMamount + ''):0)}}</span>
+        <div class="XEM_amount overflow_ellipsis"><span>XEM</span><span class="amount">{{formatNumber(Number(formatXEMamount(XEMamount))?formatXEMamount(XEMamount + ''):0)}}</span>
         </div>
         <div class="exchange">${{XEMamount*currentPrice?(XEMamount*currentPrice).toFixed(2):'0.00'}}</div>
 
@@ -27,7 +27,7 @@
               <img @click="manageMosaicList()" class="asset_list pointer"
                    src="@/common/img/monitor/monitorAssetList.png">
               <!--        all       -->
-              <div class="mosaicList">
+              <div class="mosaicList secondary_page_animate">
                 <div class="mosaic_data" v-if="value.show" v-for="(value,key,index) in mosaicMap"
                      :key="index">
                 <span class="img_container">
@@ -44,7 +44,7 @@
           </Tabs>
 
           <!--        sevral      -->
-          <div v-if="isShowManageMosaicIcon" class="searchMosaic">
+          <div v-if="isShowManageMosaicIcon" class="searchMosaic secondary_page_animate">
             <div class="asset_setting_tit pointer" @click="showMosaicMap">
               <img src="@/common/img/monitor/monitorLeftArrow.png" alt="">
               <span>{{$t('asset_setting')}}</span>

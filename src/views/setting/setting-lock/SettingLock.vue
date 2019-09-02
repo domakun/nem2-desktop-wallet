@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="validateForm('setting-lock')">
-    <div class="lock_content">
+    <div class="lock_content secondary_page_animate">
       <ul>
         <li>
           <FormInput fieldName="previousPassword" :formModel="formModel"/>

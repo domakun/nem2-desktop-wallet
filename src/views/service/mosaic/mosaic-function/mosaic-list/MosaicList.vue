@@ -1,5 +1,5 @@
 <template>
-  <div class="mosaicList ">
+  <div class="mosaicList secondary_page_animate">
     <div class="mosaicListBody scroll">
       <div class="listTit">
         <Row>

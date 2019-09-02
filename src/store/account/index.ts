@@ -87,5 +87,8 @@ export default {
         SET_CONFIRMED_TX(state: account, ConfirmedTx: any): void {
             state.ConfirmedTx = ConfirmedTx
         },
+        SET_WALLET_BALANCE(state: account, balance: number): void {
+            state.wallet.balance = balance
+        },
     },
 }
