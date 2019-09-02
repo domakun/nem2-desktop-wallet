@@ -54,7 +54,7 @@
         <span class="trend">{{$t('XEM_market_trend_nearly_7_days')}}</span>
         <span class="right">
           <span>{{$t('The_total_market_capitalization')}}（USD）</span>
-          <span class="black">{{currentPrice}}</span>
+          <span class="black">{{formatNumber(currentPrice)}}</span>
         </span>
         <LineChart></LineChart>
       </div>

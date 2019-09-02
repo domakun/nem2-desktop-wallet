@@ -13,7 +13,7 @@
         <div class="split"></div>
         <div class="XEM_amount overflow_ellipsis"><span>XEM</span><span class="amount">{{formatNumber(Number(formatXEMamount(XEMamount))?formatXEMamount(XEMamount + ''):0)}}</span>
         </div>
-        <div class="exchange">${{XEMamount*currentPrice?(XEMamount*currentPrice).toFixed(2):'0.00'}}</div>
+        <div class="exchange">${{formatNumber(XEMamount*currentPrice?(XEMamount*currentPrice).toFixed(2):'0.00')}}</div>
 
         <div class="account_alias" v-show="isShowAccountAlias">
           {{$t('alias')}}：wallet.name
@@ -36,7 +36,7 @@
                 </span>
                   <span class="mosaic_name">{{value.name?value.name:key}}</span>
                   <span class="mosaic_value">
-                  <div>{{value.amount.lower?value.amount.compact():value.amount}}</div>
+                  <div>{{formatNumber(value.amount.lower?value.amount.compact():value.amount)}}</div>
                 </span>
                 </div>
               </div>
