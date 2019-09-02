@@ -1,7 +1,7 @@
 import PieChart from './PieChart.vue'
 import {Component, Vue, Watch} from 'vue-property-decorator'
 import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
-import {voteFilterList, voteSelectionList,voteActionList} from '@/config/index.ts'
+import {voteFilterList, voteSelectionList, voteActionList} from '@/config/index.ts'
 
 @Component({
         components: {
@@ -27,28 +27,28 @@ export class VoteTs extends Vue {
     selectionList = voteSelectionList
     voteList = [
         // TODO data structure
-        // {
-        //     initiator: 'TCTEXC-5TGXD7-OQCHBB-MNU3LS-2GFCB4-2KD75D-5VCN',
-        //     vote: 'NAMESP-ACEWH4-MKFMBC-VFERDP-OOP4FK-7MTBXD-PZZA',
-        //     title: 'Encrypted messages cannot currently be read and captured in mode. This is an unacceptable condition. The developer should fix it. Do you agree?',
-        //     deadline: '2019-05-21 14:00',
-        //     startTimestamp: '1537333994',
-        //     endTimestamp: '1571462284',
-        //     content: 'Encrypted messages cannot currently be read and captured in mode. This is an unacceptable condition. The developer should fix it. Do you agree?',
-        //     isMultiple: true,
-        //     voteStatus: 3,
-        //     selctions: [
-        //         {
-        //             name: 'yes',
-        //             value: 99
-        //         }, {
-        //             name: 'no',
-        //             value: 59
-        //         },
-        //     ],
-        //     isSelect: true,
-        //     max: 2,
-        // }
+        {
+            initiator: 'TCTEXC-5TGXD7-OQCHBB-MNU3LS-2GFCB4-2KD75D-5VCN',
+            vote: 'NAMESP-ACEWH4-MKFMBC-VFERDP-OOP4FK-7MTBXD-PZZA',
+            title: 'Encrypted messages cannot currently be read and captured in mode. This is an unacceptable condition. The developer should fix it. Do you agree?',
+            deadline: '2019-05-21 14:00',
+            startTimestamp: '1537333994',
+            endTimestamp: '1571462284',
+            content: 'Encrypted messages cannot currently be read and captured in mode. This is an unacceptable condition. The developer should fix it. Do you agree?',
+            isMultiple: true,
+            voteStatus: 3,
+            selctions: [
+                {
+                    name: 'yes',
+                    value: 99
+                }, {
+                    name: 'no',
+                    value: 59
+                },
+            ],
+            isSelect: true,
+            max: 2,
+        }
     ]
 
     voteActionList = voteActionList
@@ -120,8 +120,8 @@ export class VoteTs extends Vue {
         })
     }
 
-    created() {
-        // this.currentVote = this.voteList[0]
+    mounted() {
+        this.currentVote = this.voteList[0]
         this.currentVoteFilter = this.voteFilterList[0].value
         this.currentTimestamp = Number((new Date()).valueOf() / 1000).toFixed(0)
         this.currentVoteList = this.voteList

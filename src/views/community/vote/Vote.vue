@@ -1,8 +1,5 @@
 <template>
   <div class="vote_container radius">
-
-    <div class="fake_content" v-if="voteActionList[1].isSelect"></div>
-
     <div class="top_button letter_spacing">
       <span
               @click="swicthVoteAction(index)"
@@ -10,7 +7,7 @@
               v-for="(t,index) in voteActionList">
         {{$t(t.name)}}
         </span>
-      <div v-show="false">
+      <div>
         <Select v-show="voteActionList[0]" class="vote_filter" v-model="currentVoteFilter" style="width:100px">
           <Option class="pointer" v-for="(item,index) in voteFilterList" :value="item.value" :key="index">
             {{ $t(item.label)}}
@@ -43,39 +40,38 @@
         </div>
 
         <div class="right_article_detail radius  right">
-          <div v-if="0 == 0" class="noData">
-            <i><img src="@/common/img/wallet/no_data.png"></i>
-            <p>{{$t('not_yet_open')}}</p>
-          </div>
+          <!--          <div v-if="0 == 0" class="noData">-->
+          <!--            <i><img src="@/common/img/wallet/no_data.png"></i>-->
+          <!--            <p>{{$t('not_yet_open')}}</p>-->
+          <!--          </div>-->
           <div class="right_container scroll">
 
-
-            <!--            <div class="initor">-->
-            <!--              <span class="blue">{{$t('initiation_address')}}</span>-->
-            <!--              <span>  f65sf5s5af65as6df5sa5f6s5f6s5af65sa6f5s6af5s6a5f6f</span>-->
-            <!--            </div>-->
-            <!--            <div class="vote_address">-->
-            <!--              <span class="blue">{{$t('voting_address')}}</span>-->
-            <!--              <span>ad5as4d5a4d5as4d5as5d45asd54sa5d45as4d5as4d5a</span>-->
-            <!--            </div>-->
-            <!--            <div class="title">{{currentVote.title}}</div>-->
-            <!--            <div class="date letter_spacing"><span class="orange"> {{$t('deadline')}} </span>:-->
-            <!--              <span>2019/7/10 16:33</span></div>-->
-            <!--            <div class="content">{{currentVote.title}}</div>-->
-            <!--            <div class="selection">-->
-            <!--              <RadioGroup v-model="sigleSelection" v-if="!currentVote.isMultiple">-->
-            <!--                <Radio v-for="(i,index) in currentVote.selctions" :label="alphabet[index] + ' : '+i.name"></Radio>-->
-            <!--              </RadioGroup>-->
-            <!--              <CheckboxGroup v-model="multiSelectionList" v-else>-->
-            <!--                <Checkbox v-for="(i,index) in currentVote.selctions" :label="alphabet[index] + ' : '+i.name"></Checkbox>-->
-            <!--              </CheckboxGroup>-->
-            <!--            </div>-->
-            <!--            <div class="pie_chart">-->
-            <!--              <PieChart :currentVote="currentVote"></PieChart>-->
-            <!--            </div>-->
-            <!--            <div @click="sendVote" class="click_to_vote un_click">-->
-            <!--              {{$t('confirm_vote')}}-->
-            <!--            </div>-->
+            <div class="initor">
+              <span class="blue">{{$t('initiation_address')}}</span>
+              <span>  f65sf5s5af65as6df5sa5f6s5f6s5af65sa6f5s6af5s6a5f6f</span>
+            </div>
+            <div class="vote_address">
+              <span class="blue">{{$t('voting_address')}}</span>
+              <span>ad5as4d5a4d5as4d5as5d45asd54sa5d45as4d5as4d5a</span>
+            </div>
+            <div class="title">{{currentVote.title}}</div>
+            <div class="date letter_spacing"><span class="orange"> {{$t('deadline')}} </span>:
+              <span>2019/7/10 16:33</span></div>
+            <div class="content">{{currentVote.title}}</div>
+            <div class="selection">
+              <RadioGroup v-model="sigleSelection" v-if="!currentVote.isMultiple">
+                <Radio v-for="(i,index) in currentVote.selctions" :label="alphabet[index] + ' : '+i.name"></Radio>
+              </RadioGroup>
+              <CheckboxGroup v-model="multiSelectionList" v-else>
+                <Checkbox v-for="(i,index) in currentVote.selctions" :label="alphabet[index] + ' : '+i.name"></Checkbox>
+              </CheckboxGroup>
+            </div>
+            <div class="pie_chart">
+              <PieChart :currentVote="currentVote"></PieChart>
+            </div>
+            <div @click="sendVote" class="click_to_vote un_click">
+              {{$t('confirm_vote')}}
+            </div>
           </div>
         </div>
       </div>
