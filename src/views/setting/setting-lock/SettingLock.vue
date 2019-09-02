@@ -10,13 +10,14 @@
         </li>
         <li>
           <FormInput fieldName="confirmPassword" :formModel="formModel"/>
-          <span
-                  :class="`submit-button${submitDisabled ? ' submit-button-disabled' : ''}`"
-                  @click="submit"
-          >{{$t('confirm')}}</span>
+        </li>
+        <li>
+          <FormInput fieldName="hint" :formModel="formModel"/>
         </li>
         <FormInput style="display:none" fieldName="cipher" :formModel="formModel"/>
       </ul>
+      <span :class="`submit-button${submitDisabled ? ' submit-button-disabled' : ''}`"
+            @click="submit">{{$t('confirm')}}</span>
     </div>
   </form>
 </template>
