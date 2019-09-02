@@ -273,7 +273,6 @@ export class MultisigTransferTransactionTs extends Vue {
     // }
 
     created() {
-        console.log(this.activeAccount)
         this.getMultisigAccountList()
     }
 
