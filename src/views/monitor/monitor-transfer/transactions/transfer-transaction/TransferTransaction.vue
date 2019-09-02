@@ -16,7 +16,7 @@
           </ErrorTooltip>
           <span class="pointer" @click.stop="isShowSubAlias =!isShowSubAlias">@</span>
            <div v-if="isShowSubAlias" class="selections selection_animate ">
-             <div class="selection_container scroll" v-if="isAddressMapNull">
+             <div class="selection_container scroll" v-if="!isAddressMapNull">
                <div @click="formModel.address =key " class="overflow_ellipsis"
                     v-for="(value,key) in addresAliasMap">
                  {{value.label?value.label:''}}({{key}})

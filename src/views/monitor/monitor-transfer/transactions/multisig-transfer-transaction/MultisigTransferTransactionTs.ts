@@ -31,7 +31,7 @@ export class MultisigTransferTransactionTs extends Vue {
     transactionList = []
     transactionDetail = {}
     currentMinApproval = 0
-    isShowSubAlias = true
+    isShowSubAlias = false
     showCheckPWDialog = false
     otherDetails: any = {}
     isCompleteForm = true

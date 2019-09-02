@@ -62,7 +62,6 @@ export default class TransferTransactionTs extends Vue {
     }
 
     get addresAliasMap() {
-        console.log(this.activeAccount.addresAliasMap, '//////////////////////////')
         const addresAliasMap = this.activeAccount.addresAliasMap
         for (let item in addresAliasMap) {
             this.isAddressMapNull = false
@@ -71,6 +70,7 @@ export default class TransferTransactionTs extends Vue {
         this.isAddressMapNull = true
         return addresAliasMap
     }
+
 
     addMosaic() {
         const {currentMosaic, currentAmount} = this
