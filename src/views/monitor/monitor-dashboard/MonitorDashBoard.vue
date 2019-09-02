@@ -1,5 +1,5 @@
 <template>
-  <div class="dash_board_container ">
+  <div class="dash_board_container fade_in_animation" >
     <Modal
             :title="$t('transaction_detail')"
             v-model="isShowDialog"
@@ -7,8 +7,9 @@
             class-name="dash_board_dialog scroll">
       <div class="transfer_type ">
         <span class="title">{{$t('transfer_type')}}</span>
-        <span class="value overflow_ellipsis">{{transactionDetails.dialogDetailMap
-          ? $t(transactionDetails.dialogDetailMap.transfer_type) :'-'}}</span>
+        <span class="value overflow_ellipsis">
+          {{transactionDetails.dialogDetailMap ? $t(transactionDetails.dialogDetailMap.transfer_type) :'-'}}
+        </span>
       </div>
       <div>
         <div v-if="key !=='transfer_type'" v-for="(value,key,index) in transactionDetails.dialogDetailMap"
