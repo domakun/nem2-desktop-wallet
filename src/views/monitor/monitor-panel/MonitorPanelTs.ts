@@ -1,7 +1,7 @@
 import {Message} from "@/config/index.ts"
 import {market} from "@/core/api/logicApi.ts"
 import {KlineQuery} from "@/core/query/klineQuery.ts"
-import {Address, MosaicId, NamespaceHttp, NamespaceId} from 'nem2-sdk'
+import {Address, MosaicHttp, MosaicId, MosaicInfo, NamespaceHttp, NamespaceId} from 'nem2-sdk'
 import {MosaicApiRxjs} from '@/core/api/MosaicApiRxjs.ts'
 import {AccountApiRxjs} from '@/core/api/AccountApiRxjs.ts'
 import {Component, Vue, Watch} from 'vue-property-decorator'
@@ -196,9 +196,14 @@ export class MonitorPanelTs extends Vue {
             return item.id
         })
         const mosaicInfoList = await getMosaicInfoList(node, mosaicList)
-        new NamespaceHttp(node).getLinkedMosaicId(new NamespaceId(nodeConfig.currentXem)).subscribe((mosaic) => {
-            this.$store.commit('SET_CURRENT_XEM_1', mosaic.toHex())
-            currentXEM1 = mosaic.toHex()
+        new NamespaceHttp(node).getLinkedMosaicId(new NamespaceId(nodeConfig.currentXem)).subscribe((mosaicId) => {
+            // set current xem hex
+            currentXEM1 = mosaicId.toHex()
+            this.$store.commit('SET_CURRENT_XEM_1', currentXEM1)
+            // set current xem divisibility
+            new MosaicHttp(node).getMosaic(mosaicId).subscribe((mosaic: any) => {
+                that.$store.commit('SET_XEM_DIVISIBILITY', mosaic.properties.divisibility)
+            })
             mosaicList = mosaicInfoList.map((item) => {
                 const mosaicItem: any = mosaicList[mosaicHexIds.indexOf(item.mosaicId.toHex())]
                 mosaicItem.hex = item.mosaicId.toHex()

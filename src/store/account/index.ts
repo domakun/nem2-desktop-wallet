@@ -15,7 +15,8 @@ declare interface account {
     errorTx: Array<any>,
     mosaicMap: any,
     generationHash: string,
-    addresAliasMap:any
+    addresAliasMap: any,
+    xemDivisibility: number
 
 }
 
@@ -33,8 +34,9 @@ export default {
         ConfirmedTx: [],
         errorTx: [],
         mosaicMap: {},
-        addresAliasMap:{},
-        generationHash: ''
+        addresAliasMap: {},
+        generationHash: '',
+        xemDivisibility: 6
     },
     getters: {
         Address(state) {
@@ -89,6 +91,9 @@ export default {
         },
         SET_WALLET_BALANCE(state: account, balance: number): void {
             state.wallet.balance = balance
+        },
+        SET_XEM_DIVISIBILITY(state: account, xemDivisibility: number): void {
+            state.xemDivisibility = xemDivisibility
         },
     },
 }
