@@ -7,6 +7,7 @@ import {
     formatTransactions,
     getCurrentMonthFirst,
     getCurrentMonthLast,
+    formatNumber
 } from '@/core/utils/utils.ts'
 import {getBlockInfoByTransactionList} from '@/core/utils/wallet.ts'
 import {mapState} from "vuex"
@@ -84,6 +85,10 @@ export class CollectionRecordTs extends Vue {
 
     changeCurrentMonth(e) {
         this.currentMonth = e
+    }
+
+    formatNumber(number) {
+        return formatNumber(number)
     }
 
     showDialog(transaction) {

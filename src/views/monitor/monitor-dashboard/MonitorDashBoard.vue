@@ -54,7 +54,7 @@
         <span class="trend">{{$t('XEM_market_trend_nearly_7_days')}}</span>
         <span class="right">
           <span>{{$t('The_total_market_capitalization')}}（USD）</span>
-          <span class="black">{{formatNumber(currentPrice)}}</span>
+          <span class="black">{{formatNumber(currentPrice.toFixed(0))}}</span>
         </span>
         <LineChart></LineChart>
       </div>
@@ -108,7 +108,7 @@
                      alt="">
                 <span class="account overflow_ellipsis">{{c.infoFirst}}</span>
                 <span class="transfer_type overflow_ellipsis">{{c.infoSecond?c.infoSecond:null}}</span>
-                <span :class="['amount','overflow_ellipsis',!c.isReceipt?'orange':'blue']" v-if="c.infoThird">{{c.infoThird}}</span>
+                <span :class="['amount','overflow_ellipsis',!c.isReceipt?'orange':'blue']" v-if="c.infoThird">{{formatNumber(c.infoThird)}}</span>
                 <span v-else class="amount overflow_ellipsis"> 0</span>
                 <span class="date overflow_ellipsis">{{c.time}}</span>
                 <img v-if="c.isTxUnconfirmed" src="@/common/img/monitor/dash-board/dashboardUnconfirmed.png"
@@ -140,8 +140,8 @@
                 <img class="mosaic_action"
                      :src="u.icon" alt="">
                 <span class="account overflow_ellipsis">{{$t(u.tag)}}</span>
-                <span class="transfer_type overflow_ellipsis">{{u.infoSecond}}</span>
-                <span class="amount overflow_ellipsis">{{u.infoThird}}</span>
+                <span class="transfer_type overflow_ellipsis">{{formatNumber(u.infoSecond)}}</span>
+                <span class="amount overflow_ellipsis">{{formatNumber(u.infoThird)}}</span>
                 <span class="date overflow_ellipsis">{{u.time}}</span>
                 <img v-if="u.isTxUnconfirmed" src="@/common/img/monitor/dash-board/dashboardUnconfirmed.png"
                      class="expand_mosaic_info">

@@ -79,7 +79,6 @@ export const copyTxt = (txt) => {
 export const formatNumber = (number) => {
     {
         if (!/^(\+|-)?(\d+)(\.\d+)?$/.test(number)) {
-            alert("wrong!")
             return number
         }
         var a = RegExp.$1, b = RegExp.$2, c = RegExp.$3
@@ -110,7 +109,6 @@ export const hexCharCodeToStr = (hexCharCodeStr) => {
             trimedStr
     var len = rawStr.length
     if (len % 2 !== 0) {
-        alert("Illegal Format ASCII Code!")
         return ""
     }
     var curCharCode

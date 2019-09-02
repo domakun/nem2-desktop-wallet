@@ -4,14 +4,15 @@
       <div class="remote_total">
         <strong class="trend"> {{$t('Remote_title_recipt')}}</strong>
         <div class="num_class">
-          <span class="trend_red"> 0.000</span>
+          <span class="trend_red"> {{$t('not_yet_open')}}</span>
         </div>
         <div class="state_class">
           <div class="div_cer">
             <span class="remote_public_key">{{$t('Remote_state')}}：</span>
             <span>{{isLinked?'Linked':'Unlink'}}</span>
             <!--            <i-switch v-model="isLinked" @on-change="toggleSwitch"/>-->
-            <button :class="[isLinked?'toggle_link_button_to_unlink':'toggle_link_button_to_link','pointer']" @click="toggleSwitch">
+            <button :class="[isLinked?'toggle_link_button_to_unlink':'toggle_link_button_to_link','pointer']"
+                    @click="toggleSwitch">
               {{isLinked?$t('Unlink_now'):$t('Link_now')}}
             </button>
 
@@ -109,9 +110,9 @@
 </template>
 
 <script lang="ts">
-    import "./MonitorRemote.less";
+    import "./MonitorRemote.less"
     // @ts-ignore
-    import {MonitorRemoteTs} from '@/views/monitor/monitor-remote/MonitorRemoteTs.ts';
+    import {MonitorRemoteTs} from '@/views/monitor/monitor-remote/MonitorRemoteTs.ts'
 
     export default class MonitorRemote extends MonitorRemoteTs {
 

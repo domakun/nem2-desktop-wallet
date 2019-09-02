@@ -60,9 +60,9 @@
             <div class="bottom"> {{c.time.slice(0, c.time.length - 3)}}</div>
           </div>
           <div class="right">
-            <div class="top">{{c.mosaic?c.mosaic.amount.compact():0}}</div>
+            <div class="top">{{c.mosaic?formatNumber(c.mosaic.amount.compact()):0}}</div>
             <div class="bottom">
-              {{c.transactionInfo && c.transactionInfo.height.compact()}}
+              {{formatNumber(c.transactionInfo && c.transactionInfo.height.compact())}}
             </div>
           </div>
         </div>
@@ -76,9 +76,9 @@
             <div class="bottom"> {{c.time.slice(0, c.time.length - 3)}}</div>
           </div>
           <div class="right">
-            <div class="top">{{c.mosaic?c.mosaic.amount.compact():0}}</div>
+            <div class="top">{{formatNumber(c.mosaic?c.mosaic.amount.compact():0)}}</div>
             <div class="bottom">
-              {{c.transactionInfo && c.transactionInfo.height.compact()}}
+              {{formatNumber(c.transactionInfo && c.transactionInfo.height.compact())}}
             </div>
           </div>
         </div>

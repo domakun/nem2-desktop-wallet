@@ -9,9 +9,8 @@ import LineChart from '@/common/vue/line-chart/LineChart.vue'
 import numberGrow from '@/common/vue/number-grow/NumberGrow.vue'
 import {getBlockInfoByTransactionList} from "@/core/utils/wallet"
 import {TransactionApiRxjs} from '@/core/api/TransactionApiRxjs.ts'
-import {isRefreshData, localSave, localRead} from '@/core/utils/utils.ts'
+import {isRefreshData, localSave, localRead, formatNumber} from '@/core/utils/utils.ts'
 import {networkStatusList, xemTotalSupply} from '@/config/index.ts'
-import {formatNumber} from "@/core/utils/utils"
 
 @Component({
     computed: {...mapState({activeAccount: 'account', app: 'app'})},
