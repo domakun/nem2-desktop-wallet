@@ -1,5 +1,4 @@
 import {Component, Vue, Prop, Watch} from 'vue-property-decorator'
-import {formatNumber} from "@/core/utils/utils"
 
 @Component
 export class NumberGrowTs extends Vue {
@@ -32,9 +31,6 @@ export class NumberGrowTs extends Vue {
             current = Number(Number(start).toFixed(0))
             ele.innerHTML = current.toString().replace(/(\d)(?=(?:\d{3}[+]?)+$)/g, '$1,')
         }, 10)
-    }
-    formatNumber(number) {
-        return formatNumber(number)
     }
 
     mounted() {

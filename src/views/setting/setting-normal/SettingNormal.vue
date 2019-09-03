@@ -1,5 +1,5 @@
 <template>
-  <div class="normal_set secondary_page_animate">
+  <div class="normal_set">
     <ul>
       <li>
         {{$t('switch_language')}}

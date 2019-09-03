@@ -27,7 +27,6 @@ export default class TransferTransactionTs extends Vue {
     isCompleteForm = false
     currentMosaic: string = ''
     currentAmount: number = 0
-    isAddressMapNull = true
     formFields = formData.transferForm
 
     formModel = cloneData(this.formFields)
@@ -62,15 +61,8 @@ export default class TransferTransactionTs extends Vue {
     }
 
     get addresAliasMap() {
-        const addresAliasMap = this.activeAccount.addresAliasMap
-        for (let item in addresAliasMap) {
-            this.isAddressMapNull = false
-            return addresAliasMap
-        }
-        this.isAddressMapNull = true
-        return addresAliasMap
+        return this.activeAccount.addresAliasMap
     }
-
 
     addMosaic() {
         const {currentMosaic, currentAmount} = this

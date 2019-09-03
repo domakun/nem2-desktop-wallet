@@ -11,7 +11,7 @@ import {getBlockInfoByTransactionList, getMosaicInfoList} from "@/core/utils/wal
 import {TransactionApiRxjs} from '@/core/api/TransactionApiRxjs.ts'
 import {isRefreshData, localSave, localRead} from '@/core/utils/utils.ts'
 import {networkStatusList, xemTotalSupply} from '@/config/index.ts'
-import {formatNumber, getRelativeMosaicAmount} from "@/core/utils/utils"
+import {formatNumber} from "@/core/utils/utils"
 import {MosaicApiRxjs} from "@/core/api/MosaicApiRxjs"
 
 @Component({
@@ -44,7 +44,7 @@ export class MonitorDashBoardTs extends Vue {
     networkStatusList = networkStatusList
 
 
-    get wallet() {
+    get getWallet() {
         return this.activeAccount.wallet
     }
 
@@ -79,7 +79,6 @@ export class MonitorDashBoardTs extends Vue {
     get chainStatus() {
         return this.app.chainStatus
     }
-
     get currentHeight() {
         return this.app.chainStatus.currentHeight
     }
@@ -129,9 +128,6 @@ export class MonitorDashBoardTs extends Vue {
         return amount / Math.pow(10, divisibility)
     }
 
-    formatNumber(number) {
-        return formatNumber(number)
-    }
 
     showInnerDialog(currentInnerTransaction) {
         this.isShowInnerDialog = true
@@ -211,6 +207,7 @@ export class MonitorDashBoardTs extends Vue {
         const publicAccount = PublicAccount.createFromPublicKey(accountPublicKey, NetworkType.MIJIN_TEST)
         new TransactionApiRxjs().unconfirmedTransactions(
             publicAccount,
+
             {
                 pageSize: 100
             },
@@ -272,9 +269,8 @@ export class MonitorDashBoardTs extends Vue {
     }
 
 
-    @Watch('wallet.address')
+    @Watch('getWallet')
     onGetWalletChange() {
-        this.allTransactionsList = []
         this.refreshReceiptList()
         this.refreshTransferTransactionList()
         this.getMarketOpenPrice()

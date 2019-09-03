@@ -584,7 +584,7 @@ export const walletImportNavagatorList = [
     }
 ]
 
-export const xemTotalSupply = 8999999999
+export const xemTotalSupply =  8999999999
 export const importKeystoreDefault = {
     walletName: 'keystore-wallet',
     networkType: NetworkType.MIJIN_TEST,

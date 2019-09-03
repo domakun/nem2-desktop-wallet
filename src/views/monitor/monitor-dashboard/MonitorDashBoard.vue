@@ -8,9 +8,8 @@
       <Spin v-if="isLoadingModalDetailsInfo" size="large" fix class="absolute"></Spin>
       <div class="transfer_type ">
         <span class="title">{{$t('transfer_type')}}</span>
-        <span class="value overflow_ellipsis">
-          {{transactionDetails.dialogDetailMap ? $t(transactionDetails.dialogDetailMap.transfer_type) :'-'}}
-        </span>
+        <span class="value overflow_ellipsis">{{transactionDetails.dialogDetailMap
+          ? $t(transactionDetails.dialogDetailMap.transfer_type) :'-'}}</span>
       </div>
       <div>
         <div v-if="key !=='transfer_type'" v-for="(value,key,index) in transactionDetails.dialogDetailMap"

@@ -1,5 +1,5 @@
 <template>
-  <div class="qr_content secondary_page_animate">
+  <div class="qr_content">
     <Modal
             :title="$t('set_amount')"
             v-model="isShowDialog"

@@ -1,5 +1,7 @@
 <template>
   <div>
+
+
     <div>{{privatekey}}</div>
     <div>
       privatekey cosigner
@@ -12,7 +14,7 @@
     </div>
 
 
-    <div @click="getCosignTransactions" style="width: 60px;height: 30px ; background-color: #4DC2BF">search</div>
+    <div @click="getCosignTransactions" style="width: 60px;height: 30px ; background-color: #4DC2BF">查询</div>
 
     <div>
       <div v-for="(a,index) in aggregatedTransactionList">

@@ -8,7 +8,7 @@
       </div>
       <Icon type="ios-help-circle-outline" class="tip-icon"/>
     </Tooltip>
-    <div class="field_container">
+    <div class="field_container" style="overflow:">
       <Tooltip
         :always="errored"
         :disabled="!errored"
