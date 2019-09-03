@@ -358,8 +358,3 @@ export const getCurrentTimeZone = () => {
 }
 
 export const cloneData = object => JSON.parse(JSON.stringify(object))
-
-export const getRelativeMosaicAmount = (amount: number, divisibility: number) => {
-    if (!amount) return 0
-    return amount / Math.pow(10, divisibility)
-}

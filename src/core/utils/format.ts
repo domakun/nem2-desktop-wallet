@@ -1,5 +1,5 @@
-import {transactionTag, nodeConfig} from '@/config/index.ts'
-import {formatNemDeadline, getRelativeMosaicAmount} from "@/core/utils/utils.ts"
+import {transactionTag} from '@/config/index.ts'
+import {formatNemDeadline} from "@/core/utils/utils.ts"
 import {Transaction, TransactionType} from 'nem2-sdk'
 import dashboardAddressAlias from '@/common/img/monitor/dash-board/dashboardAddressAlias.png'
 import dashboardAggregate from '@/common/img/monitor/dash-board/dashboardAggregate.png'
@@ -11,7 +11,6 @@ import dashboardModify from '@/common/img/monitor/dash-board/dashboardModify.png
 import dashboardMosaicAlias from '@/common/img/monitor/dash-board/dashboardMosaicAlias.png'
 import dashboardNamespace from '@/common/img/monitor/dash-board/dashboardNamespace.png'
 import dashboardSecret from '@/common/img/monitor/dash-board/dashboardSecret.png'
-import {MosaicApiRxjs} from "@/core/api/MosaicApiRxjs"
 
 const iconMap = {
     dashboardAddressAlias,
@@ -26,7 +25,7 @@ const iconMap = {
     dashboardSecret
 }
 
-const formatAggregateCompelete = (innerTransactionList: Array<any>, accountAddress: string, xemDivisibility: number) => {
+const formatAggregateCompelete = (innerTransactionList: Array<any>, accountAddress: string) => {
     innerTransactionList = innerTransactionList.map((item) => {
         const type = item.type
         switch (type) {
@@ -36,7 +35,7 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>, accountAddre
                 item.time = formatNemDeadline(item.deadline)
                 item.dialogDetailMap = {
                     'transfer_type': item.tag,
-                    'fee': getRelativeMosaicAmount(item.maxFee.compact(), xemDivisibility) + nodeConfig.XEM,
+                    'fee': item.maxFee.compact() * 0.0000001 + ' XEM',
                     'block': item.transactionInfo.height.compact(),
                     'aggregate_hash': item.transactionInfo.aggregateHash,
                     'message': item.message.payload
@@ -51,8 +50,8 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>, accountAddre
                     'root_namespace': item.parentId ? item.parentId.id.toHex() : '-',
                     'sender': item.signer.publicKey,
                     'duration': item.duration ? item.duration.compact() : 0,
-                    'rent': (item.duration ? item.duration.compact() : '0') / nodeConfig.GasToXemMultiple + nodeConfig.XEM,
-                    'fee': getRelativeMosaicAmount(item.maxFee.compact(), xemDivisibility) + nodeConfig.XEM,
+                    'rent': (item.duration ? item.duration.compact() : '0') * 0.00005 + ' XEM',
+                    'fee': item.maxFee.compact() * 0.0000001 + ' XEM',
                     'block': item.transactionInfo.height.compact(),
                     'aggregate_hash': item.transactionInfo.aggregateHash,
                 }
@@ -62,7 +61,7 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>, accountAddre
                 item.tag = transactionTag.ADDRESS_ALIAS
                 item.dialogDetailMap = {
                     'transfer_type': item.tag,
-                    'fee': getRelativeMosaicAmount(item.maxFee.compact(), xemDivisibility) + nodeConfig.XEM,
+                    'fee': item.maxFee.compact() * 0.0000001 + ' XEM',
                     'block': item.transactionInfo.height.compact(),
                     'aggregate_hash': item.transactionInfo.aggregateHash,
                 }
@@ -71,7 +70,7 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>, accountAddre
                 item.tag = transactionTag.MOSAIC_ALIAS
                 item.dialogDetailMap = {
                     'transfer_type': item.tag,
-                    'fee': getRelativeMosaicAmount(item.maxFee.compact(), xemDivisibility) + nodeConfig.XEM,
+                    'fee': item.maxFee.compact() * 0.0000001 + ' XEM',
                     'block': item.transactionInfo.height.compact(),
                     'aggregate_hash': item.transactionInfo.aggregateHash,
                 }
@@ -81,7 +80,7 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>, accountAddre
                 item.tag = transactionTag.MOSAIC_DEFINITION
                 item.dialogDetailMap = {
                     'transfer_type': item.tag,
-                    'fee': getRelativeMosaicAmount(item.maxFee.compact(), xemDivisibility) + nodeConfig.XEM,
+                    'fee': item.maxFee.compact() * 0.0000001 + ' XEM',
                     'block': item.transactionInfo.height.compact(),
                     'aggregate_hash': item.transactionInfo.aggregateHash,
                 }
@@ -91,7 +90,7 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>, accountAddre
                 item.tag = transactionTag.MOSAIC_SUPPLY_CHANGE
                 item.dialogDetailMap = {
                     'transfer_type': item.tag,
-                    'fee': getRelativeMosaicAmount(item.maxFee.compact(), xemDivisibility) + nodeConfig.XEM,
+                    'fee': item.maxFee.compact() * 0.0000001 + ' XEM',
                     'block': item.transactionInfo.height.compact(),
                     'aggregate_hash': item.transactionInfo.aggregateHash,
                 }
@@ -102,7 +101,7 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>, accountAddre
                 item.tag = transactionTag.MODIFY_MULTISIG_ACCOUNT
                 item.dialogDetailMap = {
                     'transfer_type': item.tag,
-                    'fee': getRelativeMosaicAmount(item.maxFee.compact(), xemDivisibility) + nodeConfig.XEM,
+                    'fee': item.maxFee.compact() * 0.0000001 + ' XEM',
                     'block': item.transactionInfo.height.compact(),
                     'aggregate_hash': item.transactionInfo.aggregateHash,
                 }
@@ -114,7 +113,8 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>, accountAddre
             //     item.tag = transactionTag.AGGREGATE_COMPLETE
             //     item.dialogDetailMap = {
             //         'transfer_type': item.tag,
-            //         'fee': getRelativeMosaicAmount(item.maxFee.compact(), xemDivisibility) + nodeConfig.XEM,//         'block': item.transactionInfo.height.compact(),
+            //         'fee': item.maxFee.compact() * 0.0000001 + ' XEM',
+            //         'block': item.transactionInfo.height.compact(),
             //         'aggregate_hash': item.transactionInfo.hash,
             //     }
             //     break;
@@ -123,7 +123,7 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>, accountAddre
                 item.tag = transactionTag.AGGREGATE_BONDED
                 item.dialogDetailMap = {
                     'transfer_type': item.tag,
-                    'fee': getRelativeMosaicAmount(item.maxFee.compact(), xemDivisibility) + nodeConfig.XEM,
+                    'fee': item.maxFee.compact() * 0.0000001 + ' XEM',
                     'block': item.transactionInfo.height.compact(),
                     'aggregate_hash': item.transactionInfo.aggregateHash,
                 }
@@ -136,7 +136,7 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>, accountAddre
                     'mosaic_ID': 'nem.xem' + `(${item.mosaic.id.toHex()})`,
                     'quantity': item.mosaic.amount.compact(),
                     'timestamp': item.time,
-                    'fee': getRelativeMosaicAmount(item.maxFee.compact(), xemDivisibility) + nodeConfig.XEM,
+                    'fee': item.maxFee.compact() * 0.0000001 + ' XEM',
                     'block': item.transactionInfo.height.compact(),
                     'aggregate_hash': item.transactionInfo.aggregateHash,
                 }
@@ -146,7 +146,7 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>, accountAddre
                 item.icon = iconMap.dashboardSecret
                 item.dialogDetailMap = {
                     'transfer_type': item.tag,
-                    'fee': getRelativeMosaicAmount(item.maxFee.compact(), xemDivisibility) + nodeConfig.XEM,
+                    'fee': item.maxFee.compact() * 0.0000001 + ' XEM',
                     'block': item.transactionInfo.height.compact(),
                     'aggregate_hash': item.transactionInfo.aggregateHash,
                 }
@@ -156,7 +156,7 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>, accountAddre
                 item.tag = transactionTag.SECRET_PROOF
                 item.dialogDetailMap = {
                     'transfer_type': item.tag,
-                    'fee': getRelativeMosaicAmount(item.maxFee.compact(), xemDivisibility) + nodeConfig.XEM,
+                    'fee': item.maxFee.compact() * 0.0000001 + ' XEM',
                     'block': item.transactionInfo.height.compact(),
                     'aggregate_hash': item.transactionInfo.aggregateHash,
                 }
@@ -166,7 +166,7 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>, accountAddre
                 item.tag = transactionTag.MODIFY_ACCOUNT_PROPERTY_ADDRESS
                 item.dialogDetailMap = {
                     'transfer_type': item.tag,
-                    'fee': getRelativeMosaicAmount(item.maxFee.compact(), xemDivisibility) + nodeConfig.XEM,
+                    'fee': item.maxFee.compact() * 0.0000001 + ' XEM',
                     'block': item.transactionInfo.height.compact(),
                     'aggregate_hash': item.transactionInfo.aggregateHash,
                 }
@@ -176,7 +176,7 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>, accountAddre
                 item.tag = transactionTag.MODIFY_ACCOUNT_PROPERTY_MOSAIC
                 item.dialogDetailMap = {
                     'transfer_type': item.tag,
-                    'fee': getRelativeMosaicAmount(item.maxFee.compact(), xemDivisibility) + nodeConfig.XEM,
+                    'fee': item.maxFee.compact() * 0.0000001 + ' XEM',
                     'block': item.transactionInfo.height.compact(),
                     'aggregate_hash': item.transactionInfo.aggregateHash,
                 }
@@ -186,7 +186,7 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>, accountAddre
                 item.tag = transactionTag.MODIFY_ACCOUNT_PROPERTY_ENTITY_TYPE
                 item.dialogDetailMap = {
                     'transfer_type': item.tag,
-                    'fee': getRelativeMosaicAmount(item.maxFee.compact(), xemDivisibility) + nodeConfig.XEM,
+                    'fee': item.maxFee.compact() * 0.0000001 + ' XEM',
                     'block': item.transactionInfo.height.compact(),
                     'aggregate_hash': item.transactionInfo.aggregateHash,
                 }
@@ -196,7 +196,7 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>, accountAddre
                 item.tag = transactionTag.LINK_ACCOUNT
                 item.dialogDetailMap = {
                     'transfer_type': item.tag,
-                    'fee': getRelativeMosaicAmount(item.maxFee.compact(), xemDivisibility) + nodeConfig.XEM,
+                    'fee': item.maxFee.compact() * 0.0000001 + ' XEM',
                     'block': item.transactionInfo.height.compact(),
                     'aggregate_hash': item.transactionInfo.aggregateHash,
                 }
@@ -208,7 +208,7 @@ const formatAggregateCompelete = (innerTransactionList: Array<any>, accountAddre
 }
 
 
-const formatTransferTransactions = function (transaction, accountAddress, currentXEM, xemDivisibility: number, node: string) {
+const formatTransferTransactions = function (transaction, accountAddress, currentXEM) {
     transaction.isReceipt = transaction.recipient.address == accountAddress
     transaction.tag = transaction.isReceipt ? transactionTag.GATHERING : transactionTag.PAYMENT
     transaction.infoFirst = transaction.isReceipt ? transaction.signer.address.address : transaction.recipient.address
@@ -216,20 +216,26 @@ const formatTransferTransactions = function (transaction, accountAddress, curren
         transaction.mosaics.map(item => {
             const hex = item.id.id.toHex()
             if (hex == currentXEM) {
-                return nodeConfig.currentXem
+                return 'nem.xem'
             }
             return item.id.id.toHex()
-        }).join(',') : nodeConfig.currentXem
-    transaction.infoThird = 'mix'
-    if (transaction.mosaics.length == 1) {
-        transaction.infoThird = transaction.isReceipt ? '+' : '-'
-    }
+        }).join(',') : 'nem.xem'
+
+    const mosaic = transaction.mosaics.map(item => {
+        const hex = item.id.id.toHex()
+        if (hex == currentXEM) {
+            return 'nem.xem' + `(${item.amount.compact()})`
+        }
+        return item.id.id.toHex() + `(${item.amount.compact()})`
+    }).join(',')
+
+    transaction.infoThird = transaction.mosaics.length <= 1 ? (transaction.isReceipt ? '+' : '-') + (transaction.mosaics && transaction.mosaics[0] ? transaction.mosaics[0].amount.compact() : '0') : 'mix'
     transaction.time = formatNemDeadline(transaction.deadline)
     transaction.dialogDetailMap = {
         'transfer_type': transaction.tag,
         'from': transaction.infoFirst,
-        'mosaic': '-',
-        'fee': getRelativeMosaicAmount(transaction.maxFee.compact(), xemDivisibility) + nodeConfig.XEM,
+        'mosaic': mosaic,
+        'fee': transaction.maxFee.compact() * 0.0000001 + ' XEM',
         'block': transaction.transactionInfo.height.compact(),
         'hash': transaction.transactionInfo.hash,
         'message': transaction.message.payload
@@ -238,7 +244,7 @@ const formatTransferTransactions = function (transaction, accountAddress, curren
 }
 
 
-function formatOtherTransaction(transaction: any, accountAddress: string, xemDivisibility: number) {
+function formatOtherTransaction(transaction: any, accountAddress: string) {
     const {type} = transaction
     transaction.time = formatNemDeadline(transaction.deadline)
     transaction.isReceipt = false
@@ -254,8 +260,8 @@ function formatOtherTransaction(transaction: any, accountAddress: string, xemDiv
                 'root_namespace': transaction.parentId ? transaction.parentId.id.toHex() : '-',
                 'sender': transaction.signer.publicKey,
                 'duration': transaction.duration ? transaction.duration.compact() : 0,
-                'rent': (transaction.duration ? transaction.duration.compact() : '0') / nodeConfig.GasToXemMultiple + nodeConfig.XEM,
-                'fee': getRelativeMosaicAmount(transaction.maxFee.compact(), xemDivisibility) + nodeConfig.XEM,
+                'rent': (transaction.duration ? transaction.duration.compact() : '0') * 0.00005 + ' XEM',
+                'fee': transaction.maxFee.compact() * 0.0000001 + ' XEM',
                 'block': transaction.transactionInfo.height.compact(),
                 'hash': transaction.transactionInfo.hash,
             }
@@ -265,7 +271,7 @@ function formatOtherTransaction(transaction: any, accountAddress: string, xemDiv
             transaction.tag = transactionTag.ADDRESS_ALIAS
             transaction.dialogDetailMap = {
                 'transfer_type': transaction.tag,
-                'fee': getRelativeMosaicAmount(transaction.maxFee.compact(), xemDivisibility) + nodeConfig.XEM,
+                'fee': transaction.maxFee.compact() * 0.0000001 + ' XEM',
                 'block': transaction.transactionInfo.height.compact(),
                 'hash': transaction.transactionInfo.hash,
             }
@@ -274,7 +280,7 @@ function formatOtherTransaction(transaction: any, accountAddress: string, xemDiv
             transaction.tag = transactionTag.MOSAIC_ALIAS
             transaction.dialogDetailMap = {
                 'transfer_type': transaction.tag,
-                'fee': getRelativeMosaicAmount(transaction.maxFee.compact(), xemDivisibility) + nodeConfig.XEM,
+                'fee': transaction.maxFee.compact() * 0.0000001 + ' XEM',
                 'block': transaction.transactionInfo.height.compact(),
                 'hash': transaction.transactionInfo.hash,
             }
@@ -284,7 +290,7 @@ function formatOtherTransaction(transaction: any, accountAddress: string, xemDiv
             transaction.tag = transactionTag.MOSAIC_DEFINITION
             transaction.dialogDetailMap = {
                 'transfer_type': transaction.tag,
-                'fee': getRelativeMosaicAmount(transaction.maxFee.compact(), xemDivisibility) + nodeConfig.XEM,
+                'fee': transaction.maxFee.compact() * 0.0000001 + ' XEM',
                 'block': transaction.transactionInfo.height.compact(),
                 'hash': transaction.transactionInfo.hash,
             }
@@ -294,7 +300,7 @@ function formatOtherTransaction(transaction: any, accountAddress: string, xemDiv
             transaction.tag = transactionTag.MOSAIC_SUPPLY_CHANGE
             transaction.dialogDetailMap = {
                 'transfer_type': transaction.tag,
-                'fee': getRelativeMosaicAmount(transaction.maxFee.compact(), xemDivisibility) + nodeConfig.XEM,
+                'fee': transaction.maxFee.compact() * 0.0000001 + ' XEM',
                 'block': transaction.transactionInfo.height.compact(),
                 'hash': transaction.transactionInfo.hash,
             }
@@ -305,19 +311,19 @@ function formatOtherTransaction(transaction: any, accountAddress: string, xemDiv
             transaction.tag = transactionTag.MODIFY_MULTISIG_ACCOUNT
             transaction.dialogDetailMap = {
                 'transfer_type': transaction.tag,
-                'fee': getRelativeMosaicAmount(transaction.maxFee.compact(), xemDivisibility) + nodeConfig.XEM,
+                'fee': transaction.maxFee.compact() * 0.0000001 + ' XEM',
                 'block': transaction.transactionInfo.height.compact(),
                 'hash': transaction.transactionInfo.hash,
             }
             break
         case TransactionType.AGGREGATE_COMPLETE:
             const innerTransactionList = transaction.innerTransactions
-            transaction.formatAggregateCompelete = formatAggregateCompelete(innerTransactionList, accountAddress, xemDivisibility)
+            transaction.formatAggregateCompelete = formatAggregateCompelete(innerTransactionList, accountAddress)
             transaction.icon = iconMap.dashboardAggregate
             transaction.tag = transactionTag.AGGREGATE_COMPLETE
             transaction.dialogDetailMap = {
                 'transfer_type': transaction.tag,
-                'fee': getRelativeMosaicAmount(transaction.maxFee.compact(), xemDivisibility) + nodeConfig.XEM,
+                'fee': transaction.maxFee.compact() * 0.0000001 + ' XEM',
                 'block': transaction.transactionInfo.height.compact(),
                 'hash': transaction.transactionInfo.hash,
             }
@@ -327,7 +333,7 @@ function formatOtherTransaction(transaction: any, accountAddress: string, xemDiv
             transaction.tag = transactionTag.AGGREGATE_BONDED
             transaction.dialogDetailMap = {
                 'transfer_type': transaction.tag,
-                'fee': getRelativeMosaicAmount(transaction.maxFee.compact(), xemDivisibility) + nodeConfig.XEM,
+                'fee': transaction.maxFee.compact() * 0.0000001 + ' XEM',
                 'block': transaction.transactionInfo.height.compact(),
                 'hash': transaction.transactionInfo.hash,
             }
@@ -340,7 +346,7 @@ function formatOtherTransaction(transaction: any, accountAddress: string, xemDiv
                 'mosaic_ID': 'nem.xem' + `(${transaction.mosaic.id.toHex()})`,
                 'quantity': transaction.mosaic.amount.compact(),
                 'timestamp': transaction.time,
-                'fee': getRelativeMosaicAmount(transaction.maxFee.compact(), xemDivisibility) + nodeConfig.XEM,
+                'fee': transaction.maxFee.compact() * 0.0000001 + ' XEM',
                 'block': transaction.transactionInfo.height.compact(),
                 'hash': transaction.transactionInfo.hash,
             }
@@ -350,7 +356,7 @@ function formatOtherTransaction(transaction: any, accountAddress: string, xemDiv
             transaction.icon = iconMap.dashboardSecret
             transaction.dialogDetailMap = {
                 'transfer_type': transaction.tag,
-                'fee': getRelativeMosaicAmount(transaction.maxFee.compact(), xemDivisibility) + nodeConfig.XEM,
+                'fee': transaction.maxFee.compact() * 0.0000001 + ' XEM',
                 'block': transaction.transactionInfo.height.compact(),
                 'hash': transaction.transactionInfo.hash,
             }
@@ -360,7 +366,7 @@ function formatOtherTransaction(transaction: any, accountAddress: string, xemDiv
             transaction.tag = transactionTag.SECRET_PROOF
             transaction.dialogDetailMap = {
                 'transfer_type': transaction.tag,
-                'fee': getRelativeMosaicAmount(transaction.maxFee.compact(), xemDivisibility) + nodeConfig.XEM,
+                'fee': transaction.maxFee.compact() * 0.0000001 + ' XEM',
                 'block': transaction.transactionInfo.height.compact(),
                 'hash': transaction.transactionInfo.hash,
             }
@@ -370,7 +376,7 @@ function formatOtherTransaction(transaction: any, accountAddress: string, xemDiv
             transaction.tag = transactionTag.MODIFY_ACCOUNT_PROPERTY_ADDRESS
             transaction.dialogDetailMap = {
                 'transfer_type': transaction.tag,
-                'fee': getRelativeMosaicAmount(transaction.maxFee.compact(), xemDivisibility) + nodeConfig.XEM,
+                'fee': transaction.maxFee.compact() * 0.0000001 + ' XEM',
                 'block': transaction.transactionInfo.height.compact(),
                 'hash': transaction.transactionInfo.hash,
             }
@@ -380,7 +386,7 @@ function formatOtherTransaction(transaction: any, accountAddress: string, xemDiv
             transaction.tag = transactionTag.MODIFY_ACCOUNT_PROPERTY_MOSAIC
             transaction.dialogDetailMap = {
                 'transfer_type': transaction.tag,
-                'fee': getRelativeMosaicAmount(transaction.maxFee.compact(), xemDivisibility) + nodeConfig.XEM,
+                'fee': transaction.maxFee.compact() * 0.0000001 + ' XEM',
                 'block': transaction.transactionInfo.height.compact(),
                 'hash': transaction.transactionInfo.hash,
             }
@@ -390,7 +396,7 @@ function formatOtherTransaction(transaction: any, accountAddress: string, xemDiv
             transaction.tag = transactionTag.MODIFY_ACCOUNT_PROPERTY_ENTITY_TYPE
             transaction.dialogDetailMap = {
                 'transfer_type': transaction.tag,
-                'fee': getRelativeMosaicAmount(transaction.maxFee.compact(), xemDivisibility) + nodeConfig.XEM,
+                'fee': transaction.maxFee.compact() * 0.0000001 + ' XEM',
                 'block': transaction.transactionInfo.height.compact(),
                 'hash': transaction.transactionInfo.hash,
             }
@@ -400,7 +406,7 @@ function formatOtherTransaction(transaction: any, accountAddress: string, xemDiv
             transaction.tag = transactionTag.LINK_ACCOUNT
             transaction.dialogDetailMap = {
                 'transfer_type': transaction.tag,
-                'fee': getRelativeMosaicAmount(transaction.maxFee.compact(), xemDivisibility) + nodeConfig.XEM,
+                'fee': transaction.maxFee.compact() * 0.0000001 + ' XEM',
                 'block': transaction.transactionInfo.height.compact(),
                 'hash': transaction.transactionInfo.hash,
             }
@@ -410,16 +416,16 @@ function formatOtherTransaction(transaction: any, accountAddress: string, xemDiv
 }
 
 
-export const transactionFormat = (transactionList: Array<Transaction>, accountAddress: string, currentXEM: string, xemDivisibility: number, node: string, namespaceList?: Array<any>) => {
+export const transactionFormat = (transactionList: Array<Transaction>, accountAddress: string, currentXEM: string, namespaceList?: Array<any>) => {
     const transferTransactionList = []
     const receiptList = []
     transactionList.forEach((item) => {
         if (item.type !== TransactionType.TRANSFER) {
-            item = formatOtherTransaction(item, accountAddress, xemDivisibility)
+            item = formatOtherTransaction(item, accountAddress)
             receiptList.push(item)
             return
         }
-        item = formatTransferTransactions(item, accountAddress, currentXEM, xemDivisibility, node)
+        item = formatTransferTransactions(item, accountAddress, currentXEM)
         transferTransactionList.push(item)
     })
     const result = {
