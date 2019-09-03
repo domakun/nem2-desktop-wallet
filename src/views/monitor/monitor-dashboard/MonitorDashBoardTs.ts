@@ -79,6 +79,7 @@ export class MonitorDashBoardTs extends Vue {
     get chainStatus() {
         return this.app.chainStatus
     }
+
     get currentHeight() {
         return this.app.chainStatus.currentHeight
     }
@@ -247,7 +248,7 @@ export class MonitorDashBoardTs extends Vue {
                         const mosaicInfo: any = mosaicInfoList[0]
                         resultList[index].infoThird = item.isReceipt ? '+' : '-' + that.getRelativeMosaicAmount(amount, mosaicInfo.properties.divisibility)
                     }
-                })).then(()=>{
+                })).then(() => {
                     that.currentTransactionList = [...resultList]
                     that.isLoadingTransactions = false
                 })
@@ -305,6 +306,10 @@ export class MonitorDashBoardTs extends Vue {
         setTimeout(() => {
             this.updateAnimation = 'appear'
         }, 500)
+    }
+
+    formatNumber(number) {
+        return formatNumber(number)
     }
 
     mounted() {

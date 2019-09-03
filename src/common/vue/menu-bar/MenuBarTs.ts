@@ -55,32 +55,33 @@ export class MenuBarTs extends Vue {
     }
 
     get networkType() {
-        if(!this.wallet) return false
+        if (!this.wallet) return false
         return this.activeAccount.wallet.networkType
     }
+
     // @TODO: the !this.wallet are quickfixes
     get node() {
-        if(!this.wallet) return false
+        if (!this.wallet) return false
         return this.activeAccount.node
     }
 
     get UnconfirmedTxList() {
-        if(!this.wallet) return false
+        if (!this.wallet) return false
         return this.activeAccount.UnconfirmedTx
     }
 
     get ConfirmedTxList() {
-        if(!this.wallet) return false
+        if (!this.wallet) return false
         return this.activeAccount.ConfirmedTx
     }
 
     get errorTxList() {
-        if(!this.wallet) return false
+        if (!this.wallet) return false
         return this.activeAccount.errorTx
     }
 
     get currentNode() {
-        if(!this.wallet) return false
+        if (!this.wallet) return false
         return this.activeAccount.node
     }
 
@@ -89,12 +90,12 @@ export class MenuBarTs extends Vue {
     }
 
     get confirmedTxList() {
-        if(!this.wallet) return false
+        if (!this.wallet) return false
         return this.activeAccount.ConfirmedTx
     }
 
     get unconfirmedTxList() {
-        if(!this.wallet) return false
+        if (!this.wallet) return false
         return this.activeAccount.UnconfirmedTx
     }
 
@@ -116,12 +117,12 @@ export class MenuBarTs extends Vue {
     }
 
     get currentWalletAddress() {
-      if(!this.wallet) return false
-      return this.activeAccount.wallet.address
+        if (!this.wallet) return false
+        return this.activeAccount.wallet.address
     }
 
     set currentWalletAddress(newActiveWalletAddress) {
-      AppWallet.switchWallet(newActiveWalletAddress, this.walletList, this.$store)
+        AppWallet.switchWallet(newActiveWalletAddress, this.walletList, this.$store)
     }
 
     closeWindow() {
@@ -181,6 +182,7 @@ export class MenuBarTs extends Vue {
             }
         })
     }
+
     // @TODO: make sure generationHash is set at the right place
     async getGenerationHash(node) {
         const that = this
@@ -204,7 +206,7 @@ export class MenuBarTs extends Vue {
         this.confirmedTxListener && this.confirmedTxListener.close()
         this.confirmedTxListener = new Listener(node, WebSocket)
         new ListenerApiRxjs().listenerConfirmed(this.confirmedTxListener,
-          Address.createFromRawAddress(this.wallet.address), this.disposeConfirmed)
+            Address.createFromRawAddress(this.wallet.address), this.disposeConfirmed)
     }
 
     txErrorListener() {
@@ -278,7 +280,7 @@ export class MenuBarTs extends Vue {
         that.$Notice.error({
             title: that.$t(Message.NODE_CONNECTION_ERROR) + ''
         })
-        new BlockApiRxjs().getBlockchainHeight(currentNode).subscribe((info) => {
+        new BlockApiRxjs().getBlockchainHeight(currentNode ? currentNode : 1).subscribe((info) => {
             that.isNodeHealthy = true
             that.getGenerationHash(currentNode)
             that.$Notice.destroy()

@@ -244,7 +244,10 @@ export const nodeConfig = {
     node: 'http://47.107.245.217:3000',
     currentXem: 'nem.xem',
     currentXEM1: '77a1969932d987d7',
-    currentXEM2: '1B47399ABD2C1E49'
+    currentXEM2: '1B47399ABD2C1E49',
+    XEM: 'XEM',
+    GasToXemMultiple: 20000   //  1xem=20000gas
+
 }
 
 export const aliasType = {
