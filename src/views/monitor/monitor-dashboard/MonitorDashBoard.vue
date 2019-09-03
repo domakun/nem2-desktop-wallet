@@ -1,10 +1,11 @@
 <template>
-  <div class="dash_board_container secondary_page_animate" >
+  <div class="dash_board_container secondary_page_animate">
     <Modal
             :title="$t('transaction_detail')"
             v-model="isShowDialog"
             :transfer="false"
             class-name="dash_board_dialog scroll">
+      <Spin v-if="isLoadingModalDetailsInfo" size="large" fix class="absolute"></Spin>
       <div class="transfer_type ">
         <span class="title">{{$t('transfer_type')}}</span>
         <span class="value overflow_ellipsis">
@@ -80,17 +81,17 @@
 
       <div class="label_page">
         <span @click="switchTransactionPanel(true)"
-              :class="['pointer',showConfirmedTransactions?'selected':'','page_title']">
+              :class="['pointer',isShowTransferTransactions?'selected':'','page_title']">
           {{$t('transfer_record')}} ({{transferListLength}})
         </span>
         <span class="line">|</span>
         <span @click="switchTransactionPanel(false)"
-              :class="['pointer',showConfirmedTransactions?'':'selected','page_title']">
+              :class="['pointer',isShowTransferTransactions?'':'selected','page_title']">
           {{$t('receipt')}} ({{receiptListLength}})
         </span>
       </div>
 
-      <div class="table_container" v-if="showConfirmedTransactions">
+      <div class="table_container" v-if="isShowTransferTransactions">
         <div class="all_transaction">
           <div class="table_head">
             <span class="account">{{$t('account')}}</span>
@@ -101,7 +102,7 @@
           <div class="confirmed_transactions">
             <Spin v-if="isLoadingTransactions" size="large" fix class="absolute"></Spin>
             <div class="table_body hide_scroll" ref="confirmedTableBody">
-              <div class="table_item pointer" @click="showDialog(c)" v-for="c in currentTransactionList">
+              <div class="table_item pointer" @click="showDialog(c,true)" v-for="c in currentTransactionList">
                 <img class="mosaic_action" v-if="!c.isReceipt"
                      src="@/common/img/monitor/dash-board/dashboardMosaicOut.png" alt="">
                 <img class="mosaic_action" v-else src="@/common/img/monitor/dash-board/dashboardMosaicIn.png"
@@ -124,7 +125,7 @@
         </div>
       </div>
 
-      <div class="table_container_unconfirmed table_container" v-if="!showConfirmedTransactions">
+      <div class="table_container_unconfirmed table_container" v-if="!isShowTransferTransactions">
         <div class="all_transaction">
           <div class="table_head">
             <span class="account">{{$t('transaction_type')}}</span>
@@ -135,7 +136,7 @@
           <div class="unconfirmed_transactions">
             <Spin v-if="isLoadingTransactions" size="large" fix class="absolute"></Spin>
             <div class="table_body hide_scroll" ref="unconfirmedTableBody">
-              <div class="table_item pointer" @click="showDialog(u)" v-for="(u,index) in currentTransactionList"
+              <div class="table_item pointer" @click="showDialog(u,false)" v-for="(u,index) in currentTransactionList"
                    :key="index">
                 <img class="mosaic_action"
                      :src="u.icon" alt="">
@@ -161,7 +162,7 @@
 
 <script lang="ts">
     // @ts-ignore
-    import {MonitorDashBoardTs} from '@/views/monitor/monitor-dashboard/MonitorDashBoardTs.ts';
+    import {MonitorDashBoardTs} from '@/views/monitor/monitor-dashboard/MonitorDashBoardTs.ts'
 
     export default class DashBoard extends MonitorDashBoardTs {
 

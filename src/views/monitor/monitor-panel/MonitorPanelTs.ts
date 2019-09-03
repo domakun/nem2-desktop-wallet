@@ -9,7 +9,7 @@ import {aliasType} from '@/config/index.ts'
 import monitorSeleted from '@/common/img/monitor/monitorSeleted.png'
 import monitorUnselected from '@/common/img/monitor/monitorUnselected.png'
 import {getNamespaces, getMosaicList, getMosaicInfoList, AppWallet} from "@/core/utils/wallet.ts"
-import {copyTxt, localSave, formatXEMamount, formatNumber} from '@/core/utils/utils.ts'
+import {copyTxt, localSave, formatXEMamount, formatNumber, getRelativeMosaicAmount} from '@/core/utils/utils.ts'
 import {mapState} from "vuex"
 import {minitorPanelNavigatorList, nodeConfig} from '@/config/index.ts'
 
@@ -43,10 +43,6 @@ export class MonitorPanelTs extends Vue {
 
     get XEMamount() {
         return this.activeAccount.wallet.balance
-    }
-
-    get getWalletList() {
-        return this.app.walletList || []
     }
 
     get confirmedTxList() {
@@ -191,7 +187,7 @@ export class MonitorPanelTs extends Vue {
             showInManage: true
         }
         let mosaicList: any = await getMosaicList(accountAddress, node)
-        mosaicList.map((item, index) => {
+        const mosaicIdList = mosaicList.map((item, index) => {
             mosaicHexIds[index] = item.id.toHex()
             return item.id
         })
@@ -209,13 +205,13 @@ export class MonitorPanelTs extends Vue {
                 mosaicItem.hex = item.mosaicId.toHex()
                 if (mosaicItem.hex == currentXEM2 || mosaicItem.hex == currentXEM1) {
                     mosaicItem.name = currentXem
-                    mosaicItem.amount = mosaicItem.amount.compact()
+                    mosaicItem.amount = getRelativeMosaicAmount(mosaicItem.amount.compact(), item.divisibility)
                     mosaicItem.show = true
                     mosaicItem.showInManage = true
                     return mosaicItem
                 }
                 mosaicItem.name = item.mosaicId.toHex()
-                mosaicItem.amount = mosaicItem.amount.compact()
+                mosaicItem.amount = getRelativeMosaicAmount(mosaicItem.amount.compact(), item.divisibility)
                 mosaicItem.show = true
                 mosaicItem.showInManage = true
                 return mosaicItem

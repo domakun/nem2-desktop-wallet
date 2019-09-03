@@ -7,10 +7,12 @@ import {transactionFormat} from '@/core/utils/format.ts'
 import {Component, Vue, Watch} from 'vue-property-decorator'
 import LineChart from '@/common/vue/line-chart/LineChart.vue'
 import numberGrow from '@/common/vue/number-grow/NumberGrow.vue'
-import {getBlockInfoByTransactionList} from "@/core/utils/wallet"
+import {getBlockInfoByTransactionList, getMosaicInfoList} from "@/core/utils/wallet"
 import {TransactionApiRxjs} from '@/core/api/TransactionApiRxjs.ts'
-import {isRefreshData, localSave, localRead, formatNumber} from '@/core/utils/utils.ts'
+import {isRefreshData, localSave, localRead} from '@/core/utils/utils.ts'
 import {networkStatusList, xemTotalSupply} from '@/config/index.ts'
+import {formatNumber, getRelativeMosaicAmount} from "@/core/utils/utils"
+import {MosaicApiRxjs} from "@/core/api/MosaicApiRxjs"
 
 @Component({
     computed: {...mapState({activeAccount: 'account', app: 'app'})},
@@ -36,8 +38,9 @@ export class MonitorDashBoardTs extends Vue {
     transferTransactionList = []
     isLoadingTransactions = false
     receiptList = []
-    showConfirmedTransactions = true
-    transactionDetails = {}
+    isShowTransferTransactions = true
+    transactionDetails: any = {}
+    isLoadingModalDetailsInfo = false
     networkStatusList = networkStatusList
 
 
@@ -81,13 +84,49 @@ export class MonitorDashBoardTs extends Vue {
         return this.app.chainStatus.currentHeight
     }
 
+    get xemDivisibility() {
+        return this.activeAccount.xemDivisibility
+    }
+
     get timeZone() {
         return this.app.timeZone
     }
 
-    showDialog(transaction) {
+    // getRelativeMosaicAmount
+    showDialog(transaction, isTransferTransaction?: boolean) {
+        let MosaicDivisibilityMap = {}
+        const that = this
+        const {node} = this
+        this.isLoadingModalDetailsInfo = true
         this.isShowDialog = true
-        this.transactionDetails = transaction
+        const transactionMosaicList = transaction.mosaics
+        that.transactionDetails = transaction
+        if (isTransferTransaction) {
+            const mosaicIdList = transactionMosaicList.map((item) => {
+                return item.id
+            })
+            new MosaicApiRxjs().getMosaics(node, mosaicIdList).subscribe((mosaicInfoList: any) => {
+                //  todo format alias and mosaic
+                mosaicInfoList.forEach(mosaicInfo => {
+                    MosaicDivisibilityMap[mosaicInfo.mosaicId.toHex()] = {
+                        divisibility: mosaicInfo.properties.divisibility
+                    }
+                })
+                transaction.dialogDetailMap.mosaic = transactionMosaicList.map((item) => {
+                    const mosaicHex = item.id.id.toHex() + ''
+                    return '' + mosaicHex + `(${that.getRelativeMosaicAmount(item.amount.compact(), MosaicDivisibilityMap[mosaicHex].divisibility)})`
+                }).join(',')
+                that.transactionDetails = transaction
+                that.isLoadingModalDetailsInfo = false
+            })
+        } else {
+            this.isLoadingModalDetailsInfo = false
+        }
+    }
+
+    getRelativeMosaicAmount(amount, divisibility) {
+        if (!amount) return 0
+        return amount / Math.pow(10, divisibility)
     }
 
     formatNumber(number) {
@@ -118,7 +157,7 @@ export class MonitorDashBoardTs extends Vue {
     }
 
     switchTransactionPanel(flag) {
-        this.showConfirmedTransactions = flag
+        this.isShowTransferTransactions = flag
         this.currentDataAmount = flag ? this.transferListLength : this.receiptListLength
         this.changePage(1)
     }
@@ -191,18 +230,41 @@ export class MonitorDashBoardTs extends Vue {
     }
 
 
-    changePage(page) {
+    async changePage(page) {
+        this.isLoadingTransactions = true
         const pageSize = 10
-        const {showConfirmedTransactions, node} = this
+        const {isShowTransferTransactions, node} = this
         const start = (page - 1) * pageSize
+        const that = this
         const end = page * pageSize
-        if (showConfirmedTransactions) {
-            this.currentTransactionList = this.transferTransactionList.slice(start, end)
-            return
+        if (isShowTransferTransactions) {
+            let transactionList = this.transferTransactionList.slice(start, end)
+            let resultList = transactionList
+            that.currentTransactionList = transactionList
+            if (transactionList.length > 0) {
+                Promise.all(transactionList.map(async (item, index) => {
+                    if (item.mosaics.length == 1) {
+                        //infoThird
+                        const amount = item.mosaics[0].amount.compact()
+                        const mosaicInfoList = await getMosaicInfoList(node, [item.mosaics[0].id])
+                        const mosaicInfo: any = mosaicInfoList[0]
+                        resultList[index].infoThird = item.isReceipt ? '+' : '-' + that.getRelativeMosaicAmount(amount, mosaicInfo.properties.divisibility)
+                    }
+                })).then(()=>{
+                    that.currentTransactionList = [...resultList]
+                    that.isLoadingTransactions = false
+                })
+
+                return
+            } else {
+                that.currentTransactionList = []
+                this.isLoadingTransactions = false
+                return
+            }
         }
+        this.isLoadingTransactions = false
         this.currentTransactionList = this.receiptList.slice(start, end)
     }
-
 
     getBlockInfoByTransactionList(transactionList, node) {
         const {timeZone} = this
@@ -228,16 +290,16 @@ export class MonitorDashBoardTs extends Vue {
 
     @Watch('allTransactionsList')
     onAllTransacrionListChange() {
-        const {currentXEM1} = this
-        const {allTransactionsList, accountAddress, showConfirmedTransactions} = this
-        const transactionList = transactionFormat(allTransactionsList, accountAddress, currentXEM1)
+        const {currentXEM1, node} = this
+        const {allTransactionsList, accountAddress, isShowTransferTransactions, xemDivisibility} = this
+        const transactionList = transactionFormat(allTransactionsList, accountAddress, currentXEM1, xemDivisibility, node)
         this.transferTransactionList = transactionList.transferTransactionList
         this.receiptList = transactionList.receiptList
         this.changePage(1)
         this.transferListLength = this.transferTransactionList.length
         this.receiptListLength = this.receiptList.length
-        this.currentDataAmount = showConfirmedTransactions ? this.transferListLength : this.receiptListLength
-        this.isLoadingTransactions = false
+        this.currentDataAmount = isShowTransferTransactions ? this.transferListLength : this.receiptListLength
+
     }
 
 
