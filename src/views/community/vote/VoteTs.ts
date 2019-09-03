@@ -2,6 +2,7 @@ import PieChart from './PieChart.vue'
 import {Component, Vue, Watch} from 'vue-property-decorator'
 import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
 import {voteFilterList, voteSelectionList, voteActionList} from '@/config/index.ts'
+import {createMnemonic} from "@/core/utils/hdWallet";
 
 @Component({
         components: {
@@ -103,6 +104,9 @@ export class VoteTs extends Vue {
 
     sendVote() {
         this.showCheckPWDialog = true
+    }
+    createVote() {
+
     }
 
     @Watch('currentVoteFilter')

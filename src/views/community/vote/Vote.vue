@@ -146,7 +146,7 @@
           {{$t('the_default_is')}}:50000gas，{{$t('the_more_you_set_the_cost_the_higher_the_processing_priority')}}
         </div>
 
-        <div class="create_button">
+        <div class="create_button"  @click="createVote">
           {{$t('create')}}
         </div>
       </div>

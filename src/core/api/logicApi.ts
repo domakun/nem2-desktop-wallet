@@ -104,3 +104,78 @@ export const blog: api.blog = {
         }
     },
 }
+
+
+export const vote: api.vote = {
+    list: async (params) => {
+        const limit = params.limit
+        const offset = params.offset
+        const resStr = await WebClient.request('', {
+            url: `${apiServerConfig.apiUrl}/rest/vote/list?&limit=${limit}&offset=${offset}`,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
+        return {
+            rst: resStr
+        }
+    },
+    listData: async (params) => {
+        const voteid = params.voteid
+        const resStr = await WebClient.request('', {
+            url: `${apiServerConfig.apiUrl}/rest/vote/list/data?&voteid=${voteid}`,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
+        return {
+            rst: resStr
+        }
+    },
+    saveVote: async (params) => {
+        const vote = params.vote
+
+        const resStr = await WebClient.request(JSON.stringify(vote), {
+            url: `${apiServerConfig.apiUrl}/rest/vote/save`,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
+        return {
+            rst: resStr
+        }
+    },
+    addVote: async (params) => {
+        const address = params.address
+        const voteId = params.voteId
+        const voteDataIds = params.voteDataIds
+        const resStr = await WebClient.request('', {
+            url: `${apiServerConfig.apiUrl}/rest/vote/add/${address}/${voteId}/${voteDataIds}`,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
+        return {
+            rst: resStr
+        }
+    },
+    userAlready: async (params) => {
+        const limit = params.limit
+        const offset = params.offset
+        const address = params.address
+        const resStr = await WebClient.request('', {
+            url: `${apiServerConfig.apiUrl}/rest/vote/list/user?&limit=${limit}&offset=${offset}&address=${address}`,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
+        return {
+            rst: resStr
+        }
+    },
+}
