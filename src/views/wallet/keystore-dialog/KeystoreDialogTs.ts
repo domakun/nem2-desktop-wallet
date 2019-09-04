@@ -1,8 +1,9 @@
 import {Message} from "@/config/index.ts"
-import {decryptKey, encryptKeystore} from "@/core/utils/wallet.ts"
+import {AppWallet} from "@/core/utils/wallet.ts"
 import {copyTxt, localRead} from "@/core/utils/utils.ts"
 import {Component, Vue, Prop, Watch} from 'vue-property-decorator'
 import {mapState} from "vuex"
+import {Password} from "nem2-sdk"
 
 @Component({
     computed: {
@@ -54,39 +55,41 @@ export class KeystoreDialogTs extends Vue {
         }
     }
     
-    // @TODO: move to AppWallet and encode in base 64
     async generateKeystore() {
-        const walletList = localRead('wallets') ? JSON.parse(localRead('wallets')) : []
-        const walletAddress = this.getWallet.address
-        const wallet = walletList.find(({address})=> address === walletAddress)
-        if (wallet === undefined) throw new Error('the wallet was not found in the list')
-        this.keystoreText = JSON.stringify(wallet.simpleWallet)
+        this.keystoreText = new AppWallet(this.getWallet).getKeystore()
         this.stepIndex = 2
     }
 
     // @TODO: VeeValidate
     checkWalletPassword() {
-        // if (!this.checkInput()) return
+        if (!this.checkInput()) return
         this.stepIndex = 1
     }
 
     checkInput() {
-        const {password} = this.wallet
-        if (!password || password == '') {
-            this.$Notice.destroy()
+        if (!this.wallet.password || this.wallet.password == '') {
             this.$Notice.error({
-                title: this.$t(Message.PLEASE_SET_WALLET_PASSWORD_INFO) + ''
+                title: this.$t('please_set_your_wallet_password') + ''
             })
             return false
         }
-        const privatekey = decryptKey(this.getWallet, this.wallet.password) + ''
-        if (privatekey.length !== 64) {
-            this.$Notice.destroy()
+
+        if (this.wallet.password.length < 8) {
             this.$Notice.error({
-                title: this.$t(Message.WRONG_PASSWORD_ERROR) + ''
+                title: this.$t('password_error') + ''
             })
             return false
         }
+
+        const validPassword = new AppWallet(this.getWallet).checkPassword(new Password(this.wallet.password))
+
+        if (!validPassword) {
+            this.$Notice.error({
+                title: this.$t('password_error') + ''
+            })
+            return false
+        }
+        
         return true
     }
 

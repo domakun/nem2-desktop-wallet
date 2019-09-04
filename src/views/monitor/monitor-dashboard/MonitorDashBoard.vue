@@ -1,5 +1,5 @@
 <template>
-  <div class="dash_board_container secondary_page_animate">
+  <div class="dash_board_container secondary_page_animate" >
     <Modal
             :title="$t('transaction_detail')"
             v-model="isShowDialog"
@@ -8,8 +8,9 @@
       <Spin v-if="isLoadingModalDetailsInfo" size="large" fix class="absolute"></Spin>
       <div class="transfer_type ">
         <span class="title">{{$t('transfer_type')}}</span>
-        <span class="value overflow_ellipsis">{{transactionDetails.dialogDetailMap
-          ? $t(transactionDetails.dialogDetailMap.transfer_type) :'-'}}</span>
+        <span class="value overflow_ellipsis">
+          {{transactionDetails.dialogDetailMap ? $t(transactionDetails.dialogDetailMap.transfer_type) :'-'}}
+        </span>
       </div>
       <div>
         <div v-if="key !=='transfer_type'" v-for="(value,key,index) in transactionDetails.dialogDetailMap"
@@ -54,7 +55,7 @@
         <span class="trend">{{$t('XEM_market_trend_nearly_7_days')}}</span>
         <span class="right">
           <span>{{$t('The_total_market_capitalization')}}（USD）</span>
-          <span class="black">{{formatNumber(currentPrice.toFixed(0))}}</span>
+          <span class="black">{{formatNumber(currentPrice)}}</span>
         </span>
         <LineChart></LineChart>
       </div>
@@ -128,7 +129,7 @@
         <div class="all_transaction">
           <div class="table_head">
             <span class="account">{{$t('transaction_type')}}</span>
-            <span class="transfer_type">{{$t('remote_modal_price')}}(Gas)</span>
+            <span class="transfer_type">{{$t('remote_modal_price')}} (Gas)</span>
             <span class="amount">{{$t('block')}}</span>
             <span class="date">{{$t('date')}}</span>
           </div>

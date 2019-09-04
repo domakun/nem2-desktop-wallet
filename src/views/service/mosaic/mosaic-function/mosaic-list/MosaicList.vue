@@ -1,11 +1,11 @@
 <template>
-  <div class="mosaicList ">
+  <div class="mosaicList secondary_page_animate">
     <div class="mosaicListBody scroll">
       <div class="listTit">
         <Row>
           <Col span="1">&nbsp;</Col>
-          <Col span="3">{{$t('mosaic_ID')}}</Col>
-          <Col span="4">{{$t('available_quantity')}}</Col>
+          <Col span="4">{{$t('mosaic_ID')}}</Col>
+          <Col span="3">{{$t('available_quantity')}}</Col>
           <Col span="2">{{$t('mosaic_divisibility')}}</Col>
           <Col span="2">{{$t('transportability')}}</Col>
           <Col span="2">{{$t('variable_supply')}}</Col>

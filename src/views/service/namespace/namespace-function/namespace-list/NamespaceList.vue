@@ -1,5 +1,5 @@
 <template>
-  <div class="namespace_list_container">
+  <div class="namespace_list_container secondary_page_animate">
     <div class="top_text">
       <div class="head_title">{{$t('Update_namespace_prompts')}}</div>
       <div class="tips">{{$t('namespace_list_tips_1')}}</div>
@@ -18,8 +18,7 @@
         <div class="table_body_item radius" v-for="n in namespaceList">
           <span class="namesapce_name">{{n.name}}</span>
           <span class="duration">
-            {{computeDuration(n) === 'Expired' ? $t('overdue') : computeDuration(n.duration)}}
-            ({{durationToTime(n.duration)}})
+            {{computeDuration(n) === 'Expired' ? $t('overdue') : durationToTime(n.duration)}}
           </span>
           <span class="is_active">{{n.isActive?$t('true'):$t('false')}}</span>
           <span class="more" v-if="n.levels === 1">

@@ -3,6 +3,7 @@ import {market} from "@/core/api/logicApi.ts"
 import {PublicAccount, NetworkType} from 'nem2-sdk'
 import {KlineQuery} from "@/core/query/klineQuery.ts"
 import {BlockApiRxjs} from '@/core/api/BlockApiRxjs.ts'
+import {MosaicApiRxjs} from '@/core/api/MosaicApiRxjs.ts'
 import {transactionFormat} from '@/core/utils/format.ts'
 import {Component, Vue, Watch} from 'vue-property-decorator'
 import LineChart from '@/common/vue/line-chart/LineChart.vue'
@@ -12,7 +13,6 @@ import {TransactionApiRxjs} from '@/core/api/TransactionApiRxjs.ts'
 import {isRefreshData, localSave, localRead} from '@/core/utils/utils.ts'
 import {networkStatusList, xemTotalSupply} from '@/config/index.ts'
 import {formatNumber} from "@/core/utils/utils"
-import {MosaicApiRxjs} from "@/core/api/MosaicApiRxjs"
 
 @Component({
     computed: {...mapState({activeAccount: 'account', app: 'app'})},
@@ -44,7 +44,7 @@ export class MonitorDashBoardTs extends Vue {
     networkStatusList = networkStatusList
 
 
-    get getWallet() {
+    get wallet() {
         return this.activeAccount.wallet
     }
 
@@ -129,7 +129,6 @@ export class MonitorDashBoardTs extends Vue {
         return amount / Math.pow(10, divisibility)
     }
 
-
     showInnerDialog(currentInnerTransaction) {
         this.isShowInnerDialog = true
         this.currentInnerTransaction = currentInnerTransaction
@@ -208,7 +207,6 @@ export class MonitorDashBoardTs extends Vue {
         const publicAccount = PublicAccount.createFromPublicKey(accountPublicKey, NetworkType.MIJIN_TEST)
         new TransactionApiRxjs().unconfirmedTransactions(
             publicAccount,
-
             {
                 pageSize: 100
             },
@@ -269,8 +267,9 @@ export class MonitorDashBoardTs extends Vue {
     }
 
 
-    @Watch('getWallet')
+    @Watch('wallet.address')
     onGetWalletChange() {
+        this.allTransactionsList = []
         this.refreshReceiptList()
         this.refreshTransferTransactionList()
         this.getMarketOpenPrice()
