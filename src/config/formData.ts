@@ -10,7 +10,7 @@ export const formData = {
         isEncryption: true
     },
     transferForm: {
-        fee: 50000,
+        fee: 0.5,
         remark: '',
         address: 'SCSXIT-R36DCY-JRVSNE-NY5BUA-HXSL7I-E6ULEY-UYRC',
         mosaicTransferList: [],
