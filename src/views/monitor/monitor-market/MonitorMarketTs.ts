@@ -82,7 +82,10 @@ export class MonitorMarketTs extends Vue {
 
         const that = this
         const rstStr = await market.kline({period: "1day", symbol: "xemusdt", size: "14"})
-        const rstQuery: KlineQuery = JSON.parse(rstStr.rst)
+        if (!rstStr.rst) {
+            return
+        }
+        const rstQuery: KlineQuery = rstStr.rst
         const result = rstQuery.data
         const currentWeek = result.slice(0, 7)
         const preWeek = result.slice(7, 14)
