@@ -7,7 +7,7 @@
             :transfer="false"
             @on-cancel="checkPasswordDialogCancel">
       <div slot="header" class="checkPWDialogHeader">
-        <span class="title">{{$t('delete_wallet')}}</span>
+        <span class="title">{{$t('delete_wallet')}} : {{getWallet.name}}</span>
       </div>
       <div class="checkPWDialogBody">
         <div class="stepItem1">
