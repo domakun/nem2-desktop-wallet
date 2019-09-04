@@ -11,14 +11,12 @@
       </div>
       <div class="checkPWDialogBody">
         <div class="stepItem1">
-
-
           <div class="checkPWImg">
             <img src="@/common/img/wallet/walletDeleteIcon.png">
           </div>
           <p class="checkRemind">
+            {{$t('delete_wallet_tip', {walletName :getWallet.name})}}
             {{$t('delete_wallet_tip')}}</p>
-
           <Form :model="wallet">
             <FormItem>
               <Input v-model="wallet.password" type="password" required

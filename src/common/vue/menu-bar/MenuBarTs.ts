@@ -186,6 +186,7 @@ export class MenuBarTs extends Vue {
         const node = this.node.replace('http', 'ws')
         this.unconfirmedTxListener && this.unconfirmedTxListener.close()
         this.unconfirmedTxListener = new Listener(node, WebSocket)
+        console.log(this.wallet.address)
         new ListenerApiRxjs().listenerUnconfirmed(this.unconfirmedTxListener, Address.createFromRawAddress(this.wallet.address), this.disposeUnconfirmed)
     }
 

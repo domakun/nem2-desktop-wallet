@@ -169,7 +169,7 @@ export const zh_CN = {
     transfer_target: '转账目标',
     send: '发送',
     transfer_record: '转账记录',
-    receive_address_or_alias: '接收地址或别名',
+    receive_address_or_alias: '直接输入接收地址或@+别名（@nem.xem）',
     please_enter_the_transfer_amount: '请输入转账金额',
     please_enter_a_comment: '请输入备注信息',
     password_error: '密码错误',
@@ -608,7 +608,7 @@ export const zh_CN = {
     confirm_infomation: '信息确认',
     please_input_new_account_name: '输入新的账户名',
     Locking_passwords_as_a_form_of_program_protection: '锁定密码作为程序的保护验证形式。 一旦被遗忘，就不会有任何恢复。 请记住您的锁定密码。',
-    delete_wallet_tip: '删除钱包后将删除改钱包数据，请务必确保钱包已备份。 若无妥善备份，删除钱包后将无法找回钱包，请谨慎处理该操作。 同时，为了确保是本人操作，请输入钱包密码。',
+    delete_wallet_tip: '请注意，您正在删除钱包%{walletName},删除钱包后将删除改钱包数据，请务必确保钱包已备份。 若无妥善备份，删除钱包后将无法找回钱包，请谨慎处理该操作。 同时，为了确保是本人操作，请输入钱包密码。',
     delete_wallet: '删除钱包',
 
     regist_namespace: '注册/续费命名空间',

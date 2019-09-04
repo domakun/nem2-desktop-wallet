@@ -48,10 +48,6 @@ export class MonitorDashBoardTs extends Vue {
         return this.activeAccount.wallet
     }
 
-    get accountPrivateKey() {
-        return this.activeAccount.wallet.privateKey
-    }
-
     get accountPublicKey() {
         return this.activeAccount.wallet.publicKey
     }
@@ -142,6 +138,7 @@ export class MonitorDashBoardTs extends Vue {
         }
         const that = this
         const rstStr = await market.kline({period: "1min", symbol: "xemusdt", size: "1"})
+        if (!rstStr.rst) return
         const rstQuery: KlineQuery = JSON.parse(rstStr.rst)
         const result = rstQuery.data ? rstQuery.data[0].close : 0
         that.currentPrice = result * that.xemNum
