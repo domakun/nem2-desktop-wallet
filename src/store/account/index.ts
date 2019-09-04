@@ -15,7 +15,8 @@ declare interface account {
     errorTx: Array<any>,
     mosaicMap: any,
     generationHash: string,
-    addresAliasMap:any
+    addresAliasMap: any,
+    xemDivisibility: number
 
 }
 
@@ -26,6 +27,7 @@ export default {
         currentXEM1: nodeConfig.currentXEM1,
         currentXEM2: nodeConfig.currentXEM2,
         account: {},
+        xemDivisibility: 6,
         wallet: {},
         mosaic: [],
         namespace: [],
@@ -33,7 +35,7 @@ export default {
         ConfirmedTx: [],
         errorTx: [],
         mosaicMap: {},
-        addresAliasMap:{},
+        addresAliasMap: {},
         generationHash: ''
     },
     getters: {
@@ -87,5 +89,8 @@ export default {
         SET_CONFIRMED_TX(state: account, ConfirmedTx: any): void {
             state.ConfirmedTx = ConfirmedTx
         },
+        SET_XEM_DIVISIBILITY(state: account, xemDivisibility: number) {
+            state.xemDivisibility = xemDivisibility
+        }
     },
 }

@@ -78,7 +78,6 @@ export class MosaicTransactionTs extends Vue {
         return this.activeAccount.currentXem
     }
 
-
     get address() {
         return this.activeAccount.wallet.address
     }

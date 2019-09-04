@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import i18n from '@/language/index.ts'
 import {Address, AliasActionType, Deadline, TransactionType} from 'nem2-sdk'
+import {nodeConfig} from "@/config"
 
 const vueInstance = new Vue({i18n})
 
@@ -244,14 +245,27 @@ export const formatTransactions = function (transactionList, accountAddress, cur
     const that = this
     let transferTransaction = []
     transactionList.map((item) => {
+        // TODO if mosaic is null
         if (item.type == TransactionType.TRANSFER) {
             item.isReceipt = item.recipient.address == accountAddress
             item.signerAddress = item.signer.address.address
             item.recipientAddress = item.recipient.address
             item.oppositeAddress = item.isReceipt ? item.signerAddress : item.recipient.address
             item.time = formatNemDeadline(item.deadline)
-            item.mosaic = item.mosaics.length == 0 ? false : item.mosaics[0]
-            item.mosaicName = !item.mosaic || !item.mosaic.id || item.mosaic.id.id.toHex().toUpperCase() == currentXEM.toUpperCase() ? 'nem.xem' : item.mosaic.id.id.toHex().toUpperCase().slice(0, 8) + '...'
+            item.mosaicAmount = 'mix'
+            if (item.mosaics.length == 1) {
+                item.mosaicAmount = (item.isReceipt ? '+' : '-') + item.mosaics[0].amount.compact()
+            }
+            item.mosaic = item.mosaics && item.mosaics[0] && currentXEM.toUpperCase() !== item.mosaics[0].id.id.toHex().toUpperCase() ?
+                item.mosaics.map(item => {
+                    const amount = item.amount.compact()
+                    const hex = item.id.id.toHex()
+                    if (hex == currentXEM) {
+                        return nodeConfig.currentXem + `(${amount})`
+                    }
+                    return item.id.id.toHex() + `(${amount})`
+                }).join(',') : nodeConfig.currentXem
+            // todo get mosaic name like nem.xem(123456)
             item.date = new Date(item.time)
             transferTransaction.push(item)
         }

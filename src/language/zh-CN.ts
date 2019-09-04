@@ -39,6 +39,8 @@ export const zh_CN = {
     option: '选项',
     multiple_selection: '多选',
     radio: '单选',
+    MULTIPLE: '多选',
+    RADIO: '单选',
     enter_the_date_for_example: '输入日期,例如：',
     fee: '费用',
     Unlink_now: '去解绑',
@@ -149,7 +151,7 @@ export const zh_CN = {
     remote_modal_cancel: '取消',
     remote_modal_place1: '请输入或粘贴远程公钥',
     remote_modal_place2: '请输入钱包密码',
-
+    start_time: '开始时间',
     //monitor-relogin
     welcome_back_to_the_CATAPULT_beta: '欢迎回到CATAPULT测试版',
     welcome_to_the_CATAPULT_beta: '欢迎使用CATAPULT测试版',

@@ -15,6 +15,7 @@ import namespace2Icon from "@/common/img/service/namespace2.png"
 import apostille1Icon from "@/common/img/service/apostille1.png"
 import apostille2Icon from "@/common/img/service/apostille2.png"
 import {echartsConfigure as echartsConfigureData} from '@/config/echarts.ts'
+import {veeValidateConfig} from "@/core/validation"
 
 export const echartsConfigure = echartsConfigureData
 
@@ -30,6 +31,7 @@ export const isWindows = isWin32
 export const apiServerConfig = {
     apiUrl: 'http://120.79.181.170',
     marketUrl: 'http://app.nemcn.io',
+    voteUrl: 'http://192.168.0.102'
 }
 
 export const localesMap: any = {
@@ -261,6 +263,7 @@ export const communityPanelNavList = [
     {name: 'vote', to: '/vote', active: false,},
 ]
 
+export const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 export const voteFilterList = [
     {
         value: 0,
@@ -281,9 +284,9 @@ export const voteFilterList = [
 ]
 export const voteSelectionList = [
     {
-        value: '1'
+        description: '1'
     }, {
-        value: '2'
+        description: '2'
     }
 ]
 export const voteActionList = [
@@ -584,7 +587,7 @@ export const walletImportNavagatorList = [
     }
 ]
 
-export const xemTotalSupply =  8999999999
+export const xemTotalSupply = 8999999999
 export const importKeystoreDefault = {
     walletName: 'keystore-wallet',
     networkType: NetworkType.MIJIN_TEST,
@@ -592,4 +595,8 @@ export const importKeystoreDefault = {
     walletPassword: '',
     walletPasswordAgain: '',
     keystorePassword: '111111'
+}
+export const voteType = {
+    RADIO: 0,
+    MULTIPLE: 1
 }

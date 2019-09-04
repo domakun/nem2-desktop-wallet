@@ -111,7 +111,7 @@ export const vote: api.vote = {
         const limit = params.limit
         const offset = params.offset
         const resStr = await WebClient.request('', {
-            url: `${apiServerConfig.apiUrl}/rest/vote/list?&limit=${limit}&offset=${offset}`,
+            url: `${apiServerConfig.voteUrl}/rest/vote/list?&limit=${limit}&offset=${offset}`,
             method: 'GET',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -124,7 +124,7 @@ export const vote: api.vote = {
     listData: async (params) => {
         const voteid = params.voteid
         const resStr = await WebClient.request('', {
-            url: `${apiServerConfig.apiUrl}/rest/vote/list/data?&voteid=${voteid}`,
+            url: `${apiServerConfig.voteUrl}/rest/vote/list/data?&voteid=${voteid}`,
             method: 'GET',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -136,12 +136,15 @@ export const vote: api.vote = {
     },
     saveVote: async (params) => {
         const vote = params.vote
-
+        let {title, address, initiator, content, type, voteDataDOList, endtime, starttime} = vote
+        const list = voteDataDOList.map(item => {
+            return JSON.stringify(item)
+        })
         const resStr = await WebClient.request(JSON.stringify(vote), {
-            url: `${apiServerConfig.apiUrl}/rest/vote/save`,
-            method: 'POST',
+            url: `${apiServerConfig.voteUrl}/rest/vote/save?title=${title}&address=${address}&initiator=${initiator}&content=${content}&type=${type}&endtime=${endtime}&starttime=${starttime}&voteData=${list}`,
+            method: 'GET',
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
+                'Content-Type': 'application/octet-stream;charset=UTF-8'
             }
         })
         return {
@@ -153,7 +156,7 @@ export const vote: api.vote = {
         const voteId = params.voteId
         const voteDataIds = params.voteDataIds
         const resStr = await WebClient.request('', {
-            url: `${apiServerConfig.apiUrl}/rest/vote/add/${address}/${voteId}/${voteDataIds}`,
+            url: `${apiServerConfig.voteUrl}/rest/vote/add/${address}/${voteId}/${voteDataIds}`,
             method: 'GET',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -168,7 +171,7 @@ export const vote: api.vote = {
         const offset = params.offset
         const address = params.address
         const resStr = await WebClient.request('', {
-            url: `${apiServerConfig.apiUrl}/rest/vote/list/user?&limit=${limit}&offset=${offset}&address=${address}`,
+            url: `${apiServerConfig.voteUrl}/rest/vote/list/user?&limit=${limit}&offset=${offset}&address=${address}`,
             method: 'GET',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'

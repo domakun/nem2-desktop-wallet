@@ -223,10 +223,11 @@ export const en_US = {
     account_name: 'Account name',
     the_default_is_Number: 'The default is Nember',
     confirm: 'Confirm',
-
+    MULTIPLE: 'Multiple',
+    RADIO: 'Radio',
     // on_dev
     not_yet_open: 'Not yet open',
-
+    start_time: 'start time',
     //service mosaic
     ordinary_account: 'Ordinary',
     basic_attribute: 'Basic attribute',

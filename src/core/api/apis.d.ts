@@ -1,4 +1,4 @@
-import {VoteQuery} from "@/core/query/voteQuery";
+import {VoteQuery} from "@/core/query/voteQuery"
 
 export declare namespace api {
     interface market {
@@ -63,14 +63,14 @@ export declare namespace api {
             rst: any;
         }>;
         saveVote: (params: {
-            vote: VoteQuery,
+            vote: VoteQuery
         }) => Promise<{
             rst: any;
         }>;
         addVote: (params: {
             address: string,
-            voteId:string,
-            voteDataIds:string[],
+            voteId: string,
+            voteDataIds: string[],
         }) => Promise<{
             rst: any;
         }>;
