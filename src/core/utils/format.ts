@@ -222,7 +222,7 @@ const formatTransferTransactions = function (transaction, accountAddress, curren
         }).join(',') : nodeConfig.currentXem
     transaction.infoThird = 'mix'
     if (transaction.mosaics.length == 1) {
-        transaction.infoThird = transaction.isReceipt ? '+' : '-'
+        transaction.infoThird = 'loading...'
     }
     transaction.time = formatNemDeadline(transaction.deadline)
     transaction.dialogDetailMap = {

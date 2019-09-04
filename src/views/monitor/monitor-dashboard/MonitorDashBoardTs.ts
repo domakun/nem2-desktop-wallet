@@ -229,7 +229,6 @@ export class MonitorDashBoardTs extends Vue {
 
 
     async changePage(page) {
-        this.isLoadingTransactions = true
         const pageSize = 10
         const {isShowTransferTransactions, node} = this
         const start = (page - 1) * pageSize

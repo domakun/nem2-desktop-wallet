@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import i18n from '@/language/index.ts'
-import {Address, AliasActionType, Deadline, TransactionType} from 'nem2-sdk'
+import {Address, AliasActionType, Deadline, TransactionType, UInt64} from 'nem2-sdk'
 import {nodeConfig} from "@/config"
 
 const vueInstance = new Vue({i18n})
@@ -254,7 +254,7 @@ export const formatTransactions = function (transactionList, accountAddress, cur
             item.time = formatNemDeadline(item.deadline)
             item.mosaicAmount = 'mix'
             if (item.mosaics.length == 1) {
-                item.mosaicAmount = (item.isReceipt ? '+' : '-') + item.mosaics[0].amount.compact()
+                item.mosaicAmount = 'loading...'
             }
             item.mosaic = item.mosaics && item.mosaics[0] && currentXEM.toUpperCase() !== item.mosaics[0].id.id.toHex().toUpperCase() ?
                 item.mosaics.map(item => {
@@ -376,4 +376,9 @@ export const cloneData = object => JSON.parse(JSON.stringify(object))
 export const getRelativeMosaicAmount = (amount: number, divisibility: number) => {
     if (!amount) return 0
     return amount / Math.pow(10, divisibility)
+}
+
+export const getAbsoluteMosaicAmount = (amount: number, divisibility: number) => {
+    if (!amount) return 0
+    return amount * Math.pow(10, divisibility)
 }

@@ -155,7 +155,7 @@ export class VoteTs extends Vue {
             voteDataDOList: optionList
         }
         vote.saveVote({
-                vote: voteParam
+            vote: voteParam
         }).then(() => {
             this.$Notice.success({
                 title: Message.SUCCESS
@@ -179,6 +179,7 @@ export class VoteTs extends Vue {
     }
 
     mounted() {
+        this.getVoteList()
         this.currentVote = this.voteList[0]
         this.currentVoteFilter = this.voteFilterList[0].value
         this.currentTimestamp = Number((new Date()).valueOf() / 1000).toFixed(0)

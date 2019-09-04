@@ -81,6 +81,10 @@ export class MonitorPanelTs extends Vue {
         return this.activeAccount.namespace
     }
 
+    get xemDivisibility() {
+        return this.activeAccount.xemDivisibility
+    }
+
     switchPanel(index) {
         if (this.navigatorList[index].disabled) {
             return
@@ -178,16 +182,16 @@ export class MonitorPanelTs extends Vue {
         let mosaicMap = {}
         let addressMap = {}
         let mosaicHexIds = []
-        let getWallet = this.getWallet
         const defaultMosaic = {
             amount: 0,
-            name: 'nem.xem',
+            name: nodeConfig.XEM,
             hex: that.currentXEM1,
             show: true,
+            divisibility: 6,
             showInManage: true
         }
         let mosaicList: any = await getMosaicList(accountAddress, node)
-        const mosaicIdList = mosaicList.map((item, index) => {
+        mosaicList.map((item, index) => {
             mosaicHexIds[index] = item.id.toHex()
             return item.id
         })
@@ -200,19 +204,21 @@ export class MonitorPanelTs extends Vue {
             new MosaicHttp(node).getMosaic(mosaicId).subscribe((mosaic: any) => {
                 that.$store.commit('SET_XEM_DIVISIBILITY', mosaic.properties.divisibility)
             })
-            mosaicList = mosaicInfoList.map((item) => {
+            mosaicList = mosaicInfoList.map((item: any) => {
                 const mosaicItem: any = mosaicList[mosaicHexIds.indexOf(item.mosaicId.toHex())]
                 mosaicItem.hex = item.mosaicId.toHex()
                 if (mosaicItem.hex == currentXEM2 || mosaicItem.hex == currentXEM1) {
                     mosaicItem.name = currentXem
                     mosaicItem.amount = getRelativeMosaicAmount(mosaicItem.amount.compact(), item.divisibility)
                     mosaicItem.show = true
+                    mosaicItem.divisibility = item.properties.divisibility
                     mosaicItem.showInManage = true
                     return mosaicItem
                 }
                 mosaicItem.name = item.mosaicId.toHex()
                 mosaicItem.amount = getRelativeMosaicAmount(mosaicItem.amount.compact(), item.divisibility)
                 mosaicItem.show = true
+                mosaicItem.divisibility = item.properties.divisibility
                 mosaicItem.showInManage = true
                 return mosaicItem
             })
@@ -226,6 +232,7 @@ export class MonitorPanelTs extends Vue {
                 mosaicList.unshift({
                     amount: 0,
                     hex: currentXEM1,
+                    divisibility: that.xemDivisibility,
                     name: nodeConfig.currentXem,
                     id: new MosaicId(currentXEM1),
                     show: true,
@@ -237,6 +244,7 @@ export class MonitorPanelTs extends Vue {
                 mosaicMap[item.hex] = {
                     amount: item.amount,
                     name: item.name,
+                    divisibility: item.divisibility,
                     hex: item.hex,
                     show: true,
                     showInManage: true
@@ -273,7 +281,8 @@ export class MonitorPanelTs extends Vue {
         this.$set(this, 'localMosaicMap', mosaicMap)
         this.$set(this, 'mosaicMap', mosaicMap)
         this.$store.commit('SET_MOSAIC_MAP', mosaicMap)
-        this.$store.commit('SET_ADDRESS_ALIAS_MAP', this)
+        this.$store.commit('SET_ADDRESS_ALIAS_MAP', mosaicMap)
+        this.$store.commit('SET_WALLET_BALANCE', mosaicMap[this.currentXEM1].amount)
     }
 
 

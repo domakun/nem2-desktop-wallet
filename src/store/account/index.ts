@@ -91,6 +91,9 @@ export default {
         },
         SET_XEM_DIVISIBILITY(state: account, xemDivisibility: number) {
             state.xemDivisibility = xemDivisibility
-        }
+        },
+        SET_WALLET_BALANCE(state: account, balance: number) {
+            state.wallet.balance = balance
+        },
     },
 }
