@@ -11,13 +11,13 @@ import {mapState} from "vuex"
     computed: {
         ...mapState({
             activeAccount: 'account',
-            app:'app'
+            app: 'app'
         })
     }
 })
 export class WalletAliasTs extends Vue {
-    activeAccount:any
-    app:any
+    activeAccount: any
+    app: any
     isShowDialog = false
     isShowDeleteIcon = false
     showCheckPWDialog = false
@@ -28,7 +28,7 @@ export class WalletAliasTs extends Vue {
     formItem = {
         address: '',
         alias: '',
-        fee: 50000,
+        fee: 1,
         password: ''
     }
 
@@ -57,7 +57,7 @@ export class WalletAliasTs extends Vue {
         this.formItem = {
             address: this.aliasList[index].alias.address,
             alias: this.aliasList[index].name,
-            fee: 50000,
+            fee: 1,
             password: ''
         }
         this.isShowDialog = true
@@ -69,7 +69,7 @@ export class WalletAliasTs extends Vue {
         this.formItem = {
             address: '',
             alias: '',
-            fee: 50000,
+            fee: 1,
             password: ''
         }
     }
@@ -134,7 +134,7 @@ export class WalletAliasTs extends Vue {
         )
         const {node, generationHash} = this
         const password = new Password(this.formItem.password)
-        
+
         new AppWallet(this.getWallet).signAndAnnounceNormal(password, node, generationHash, [transaction], this)
         this.closeModel()
     }
