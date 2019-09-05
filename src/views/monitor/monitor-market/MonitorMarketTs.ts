@@ -119,7 +119,6 @@ export class MonitorMarketTs extends Vue {
             riseRange: that.riseRange,
             timestamp: new Date().getTime()
         }
-        console.log(oneWeekPrice)
         localSave('oneDayPrice', JSON.stringify(oneWeekPrice))
 
     }
