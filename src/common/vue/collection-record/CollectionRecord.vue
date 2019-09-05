@@ -51,8 +51,9 @@
     </div>
 
 
-    <div class="bottom_transfer_record_list scroll">
-      <Spin v-if="isLoadingTransactionRecord" size="large" fix></Spin>
+    <div :class="['bottom_transfer_record_list','scroll']">
+      <!--      <Spin v-if="isLoadingTransactionRecord" size="large" fix></Spin>-->
+
       <div class="transaction_record_item pointer" @click="showDialog(c)" v-for="c in unConfirmedTransactionList">
         <img src="@/common/img/monitor/transaction/txUnConfirmed.png" alt="">
         <div class="flex_content">

@@ -136,7 +136,7 @@ export class CollectionRecordTs extends Vue {
                 })
                 try {
                     await that.getBlockInfoByTransactionList(that.localConfirmedTransactions, node)
-                    await that.getRelativeMosaiccByTransaction(that.localConfirmedTransactions, node)
+                    await that.getRelativeMosaicByTransaction(that.localConfirmedTransactions, node)
                 } catch (e) {
                     console.log(e)
                 } finally {
@@ -214,26 +214,25 @@ export class CollectionRecordTs extends Vue {
 
     }
 
-    getRelativeMosaiccByTransaction(transactionList, node) {
+    getRelativeMosaicByTransaction(transactionList, node) {
         let resultList = transactionList
         const that = this
-        if (transactionList.length == 0) {
-            that.isLoadingTransactionRecord = false
-            return
+        this.isLoadingTransactionRecord = true
+        if (transactionList.length != 0) {
+            Promise.all(transactionList.map(async (item, index) => {
+                if (item.mosaics.length == 1) {
+                    const amount = item.mosaics[0].amount.compact()
+                    const mosaicInfoList = await getMosaicInfoList(node, [item.mosaics[0].id])
+                    const mosaicInfo: any = mosaicInfoList[0]
+                    resultList[index].mosaicAmount = item.isReceipt ? '+' : '-' + getRelativeMosaicAmount(amount, mosaicInfo.properties.divisibility)
+                }
+            })).then(() => {
+                that.isLoadingTransactionRecord = false
+                that.localConfirmedTransactions = [...resultList]
+            }).catch((e) => {
+                console.log(e)
+            })
         }
-        Promise.all(transactionList.map(async (item, index) => {
-            this.isLoadingTransactionRecord = true
-            if (item.mosaics.length == 1) {
-                const amount = item.mosaics[0].amount.compact()
-                const mosaicInfoList = await getMosaicInfoList(node, [item.mosaics[0].id])
-                const mosaicInfo: any = mosaicInfoList[0]
-                resultList[index].mosaicAmount = item.isReceipt ? '+' : '-' + getRelativeMosaicAmount(amount, mosaicInfo.properties.divisibility)
-            }
-        })).then(() => {
-            that.isLoadingTransactionRecord = false
-            that.localConfirmedTransactions = [...resultList]
-        })
-
     }
 
     getBlockInfoByTransactionList(transactionList, node) {
@@ -261,7 +260,7 @@ export class CollectionRecordTs extends Vue {
                         that.localUnConfirmedTransactions.push(item)
                     }
                 })
-                that.getRelativeMosaiccByTransaction(that.localConfirmedTransactions, node)
+                that.getRelativeMosaicByTransaction(that.localConfirmedTransactions, node)
                 that.onCurrentMonthChange()
                 that.isLoadingTransactionRecord = false
                 return
