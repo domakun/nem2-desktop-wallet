@@ -131,20 +131,20 @@ export class SubNamespaceTs extends Vue {
             this.showErrorMessage(this.$t(Message.NAMESPACE_NULL_ERROR))
             return false
         }
-        if (rootNamespaceName.length > 16) {
-            this.showErrorMessage(this.$t(Message.SUB_NAMESPACE_LENGTH_LONGER_THAN_64_ERROR))
-            return false
-        }
+        // if (rootNamespaceName.length > 16) {
+        //     this.showErrorMessage(this.$t(Message.SUB_NAMESPACE_LENGTH_LONGER_THAN_64_ERROR))
+        //     return false
+        // }
         //^[a-z].*
-        if (!rootNamespaceName.match(/^[a-z].*/)) {
-            this.showErrorMessage(this.$t(Message.NAMESPACE_STARTING_ERROR))
-            return false
-        }
+        // if (!rootNamespaceName.match(/^[a-z].*/)) {
+        //     this.showErrorMessage(this.$t(Message.NAMESPACE_STARTING_ERROR))
+        //     return false
+        // }
         //^[0-9a-zA-Z_-]*$
-        if (!rootNamespaceName.match(/^[0-9a-zA-Z_-]*$/g)) {
-            this.showErrorMessage(this.$t(Message.NAMESPACE_FORMAT_ERROR))
-            return false
-        }
+        // if (!rootNamespaceName.match(/^[0-9a-zA-Z_-]*$/g)) {
+        //     this.showErrorMessage(this.$t(Message.NAMESPACE_FORMAT_ERROR))
+        //     return false
+        // }
         if (!subNamespaceName || !subNamespaceName.trim()) {
             this.showErrorMessage(this.$t(Message.NAMESPACE_NULL_ERROR))
             return false
