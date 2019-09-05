@@ -1,26 +1,32 @@
 import {Message, formData} from "@/config/index.ts"
-import {AppWallet} from "@/core/utils/wallet.ts"
 import {NamespaceApiRxjs} from "@/core/api/NamespaceApiRxjs.ts"
 import {Component, Vue, Prop, Watch} from 'vue-property-decorator'
-import {AliasActionType, NamespaceId, MosaicId, Password, Address} from "nem2-sdk"
+import {EmptyAlias} from "nem2-sdk/dist/src/model/namespace/EmptyAlias"
+import {AliasActionType, NamespaceId, MosaicId, Password} from "nem2-sdk"
+import {AppWallet} from "@/core/utils/wallet.ts"
 import {mapState} from "vuex"
 import {getAbsoluteMosaicAmount} from "@/core/utils/utils"
 
 @Component({
-        computed: {...mapState({activeAccount: 'account'})},
+    computed: {
+        ...mapState({
+            activeAccount: 'account',
+            app: 'app',
+        })
     }
-)
-export class NamespaceUnAliasDialogTs extends Vue {
+})
+export class NamespaceMosaicAliasDialogTs extends Vue {
     activeAccount: any
+    app: any
     show = false
     isCompleteForm = false
-    aliasNameList: any[] = []
-    formItem: any = formData.mosaicUnaliasForm
+    formItem: any = formData.mosaicAliasForm
+    mosaicHexList: any[] = []
 
     @Prop()
-    showUnAliasDialog: boolean
+    showMosaicAliasDialog: boolean
     @Prop()
-    unAliasItem: any
+    itemMosaic: any
 
     get getWallet() {
         return this.activeAccount.wallet
@@ -34,13 +40,31 @@ export class NamespaceUnAliasDialogTs extends Vue {
         return this.activeAccount.node
     }
 
+    get namespaceList() {
+        return this.activeAccount.namespace
+    }
+
     get xemDivisibility() {
         return this.activeAccount.xemDivisibility
     }
 
+    get unlinkMosaicList() {
+        const mosaicMap = this.activeAccount.mosaicMap
+        let unlinkMosaicList = []
+        for (let key in mosaicMap) {
+            if (key === mosaicMap[key].name) {
+                unlinkMosaicList.push({
+                    label: key,
+                    value: key
+                })
+            }
+        }
+        return unlinkMosaicList
+    }
+
     mosaicAliasDialogCancel() {
         this.initForm()
-        this.$emit('closeUnAliasDialog')
+        this.$emit('closeMosaicAliasDialog')
     }
 
     submit() {
@@ -58,6 +82,12 @@ export class NamespaceUnAliasDialogTs extends Vue {
             })
             return false
         }
+        if (formItem.mosaicHex === '') {
+            this.$Notice.error({
+                title: '' + this.$t(Message.INPUT_EMPTY_ERROR)
+            })
+            return false
+        }
         if (formItem.password === '') {
             this.$Notice.error({
                 title: '' + this.$t(Message.INPUT_EMPTY_ERROR)
@@ -67,7 +97,7 @@ export class NamespaceUnAliasDialogTs extends Vue {
 
         if (formItem.password.length < 8) {
             this.$Notice.error({
-                title: '' + this.$t(Message.INPUT_EMPTY_ERROR)
+                title: '' + this.$t('password_error')
             })
             return false
         }
@@ -86,28 +116,19 @@ export class NamespaceUnAliasDialogTs extends Vue {
     async updateMosaic() {
         const {node, generationHash, xemDivisibility} = this
         const {networkType} = this.getWallet
-        const password = new Password(this.formItem.password)
-        let {fee, hex, name} = this.formItem
+        let {fee, name, mosaicHex} = this.formItem
         fee = getAbsoluteMosaicAmount(fee, xemDivisibility)
-        let transaction: any = new NamespaceApiRxjs().mosaicAliasTransaction(
-            AliasActionType.Unlink,
+        const password = new Password(this.formItem.password)
+        let transaction = new NamespaceApiRxjs().mosaicAliasTransaction(
+            AliasActionType.Link,
             new NamespaceId(name),
-            new MosaicId(hex),
+            new MosaicId(mosaicHex),
             networkType,
             fee
         )
-        if (name > 16) {
-            transaction = new NamespaceApiRxjs().addressAliasTransaction(
-                AliasActionType.Unlink,
-                new NamespaceId(name),
-                Address.createFromRawAddress(hex),
-                networkType,
-                fee
-            )
-        }
+        this.initForm()
         new AppWallet(this.getWallet)
             .signAndAnnounceNormal(password, node, generationHash, [transaction], this)
-        this.initForm()
         this.updatedMosaicAlias()
     }
 
@@ -118,21 +139,38 @@ export class NamespaceUnAliasDialogTs extends Vue {
 
     initForm() {
         this.formItem = {
+            mosaicHex: '',
             fee: .5,
             password: ''
         }
     }
 
-    @Watch('showUnAliasDialog')
-    onShowUnAliasDialogChange() {
-        this.show = this.showUnAliasDialog
-        Object.assign(this.formItem, this.unAliasItem)
+    initData() {
+        let list = []
+        this.namespaceList.map((item, index) => {
+            if (item.alias instanceof EmptyAlias) {
+                list.push(item)
+            }
+        })
+        this.mosaicHexList = list
+    }
+
+    @Watch('showMosaicAliasDialog')
+    onShowMosaicAliasDialogChange() {
+        this.show = this.showMosaicAliasDialog
+        Object.assign(this.formItem, this.itemMosaic)
+        this.initData()
+    }
+
+    @Watch('namespaceList')
+    onNamespaceListChange() {
+        this.initData()
     }
 
     @Watch('formItem', {immediate: true, deep: true})
     onFormItemChange() {
-        const {fee, password} = this.formItem
+        const {mosaicHex, fee, password} = this.formItem
         // isCompleteForm
-        this.isCompleteForm = fee > 0 && password !== ''
+        this.isCompleteForm = mosaicHex !== '' && fee > 0 && password !== ''
     }
 }

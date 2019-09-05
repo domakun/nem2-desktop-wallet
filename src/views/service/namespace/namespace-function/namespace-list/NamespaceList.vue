@@ -34,17 +34,17 @@
                   <img src="@/common/img/service/namespace/namespaceRefresh.png">
                   <span>{{$t('update')}}</span>
                 </span>
-               <span v-if="n.isLinked" class="fnItem pointer" @click="unlinkAlias(n)">
+               <span v-if="n.isLinked" class="fnItem pointer" @click="showUnlinkDialog(n)">
                 <img src="@/common/img/service/namespace/namespaceRefresh.png">
                 <span>{{$t('unbind')}}</span>
               </span>
 
-              <span v-if="!n.isLinked" class="fnItem pointer" @click="showEditDialog(n)">
+              <span v-if="!n.isLinked" class="fnItem pointer" @click="showMosaicLinkDialog(n)">
                 <img src="@/common/img/service/namespace/namespaceRefresh.png">
                 <span>{{$t('bind_mosaic')}}</span>
               </span>
 
-                  <span v-if="!n.isLinked" class="fnItem pointer" @click="showEditDialog(n)">
+                  <span v-if="!n.isLinked" class="fnItem pointer" @click="showAddressLinkDialog(n)">
                 <img src="@/common/img/service/namespace/namespaceRefresh.png">
                 <span>{{$t('bind_address')}}</span>
               </span>
@@ -59,10 +59,30 @@
 
       </div>
     </div>
-    <NamespaceEditDialog :currentNamespace="currentNamespace" :showNamespaceEditDialog="showNamespaceEditDialog"
-                         @closeNamespaceEditDialog='closeNamespaceEditDialog'></NamespaceEditDialog>
-    <NamespaceUnAliasDialog :showUnAliasDialog="showUnAliasDialog" :unAliasItem="unAliasItem"
-                            @closeUnAliasDialog="closeUnAliasDialog"></NamespaceUnAliasDialog>
+    <NamespaceEditDialog
+            :currentNamespace="currentNamespace"
+            :showNamespaceEditDialog="showNamespaceEditDialog"
+            @closeNamespaceEditDialog='closeNamespaceEditDialog'
+    ></NamespaceEditDialog>
+
+    <NamespaceUnAliasDialog
+            :showUnAliasDialog="showUnAliasDialog"
+            :unAliasItem="aliasDialogItem"
+            @closeUnAliasDialog="closeUnAliasDialog"
+    ></NamespaceUnAliasDialog>
+
+    <NamespaceMosaicAliasDialog
+            :showMosaicAliasDialog="showMosaicAliasDialog"
+            :itemMosaic="aliasDialogItem"
+            @closeMosaicAliasDialog="closeMosaicAliasDialog"
+    ></NamespaceMosaicAliasDialog>
+
+    <NamespaceAddressAliasDialog
+            :isShowAddressAliasDialog="isShowAddressAliasDialog"
+            :addressAliasItem="aliasDialogItem"
+            @closeAddressAliasDialog="closeAddressAliasDialog"
+    ></NamespaceAddressAliasDialog>
+
   </div>
 </template>
 

@@ -6,11 +6,18 @@ import {aliasType} from '@/config/index.ts'
 import {Address, MosaicId} from "nem2-sdk"
 import NamespaceUnAliasDialog
     from '@/views/service/namespace/namespace-function/namespace-list/namespace-unAlias-dialog/NamespaceUnAliasDialog.vue'
+import NamespaceMosaicAliasDialog
+    from '@/views/service/namespace/namespace-function/namespace-list/namespace-mosaic-alias-dialog/NamespaceMosaicAliasDialog.vue'
+import NamespaceAddressAliasDialog
+    from '@/views/service/namespace/namespace-function/namespace-list/namespace-address-alias-dialog/NamespaceAddressAliasDialog.vue'
 
 @Component({
     components: {
         NamespaceEditDialog,
-        NamespaceUnAliasDialog
+        NamespaceUnAliasDialog,
+        NamespaceMosaicAliasDialog,
+        NamespaceAddressAliasDialog
+
     },
     computed: {
         ...mapState({
@@ -19,13 +26,16 @@ import NamespaceUnAliasDialog
         })
     }
 })
+
 export class NamespaceListTs extends Vue {
     activeAccount: any
     app: any
     currentNamespace = ''
     showNamespaceEditDialog = false
     showUnAliasDialog = false
-    unAliasItem = {}
+    aliasDialogItem = {}
+    showMosaicAliasDialog = false
+    isShowAddressAliasDialog = false
 
     get namespaceList() {
         const namespaceList = this.activeAccount.namespace.map((item) => {
@@ -55,6 +65,10 @@ export class NamespaceListTs extends Vue {
         return this.app.chainStatus.currentHeight
     }
 
+    closeMosaicAliasDialog() {
+        this.showMosaicAliasDialog = false
+    }
+
     closeUnAliasDialog() {
         this.showUnAliasDialog = false
     }
@@ -68,6 +82,10 @@ export class NamespaceListTs extends Vue {
         this.showNamespaceEditDialog = false
     }
 
+    closeAddressAliasDialog() {
+        this.isShowAddressAliasDialog = false
+    }
+
     computeDuration(namespaceInfo) {
         const {duration, isActive} = namespaceInfo
         if (!isActive) {
@@ -77,10 +95,20 @@ export class NamespaceListTs extends Vue {
         return expireTime
     }
 
-    unlinkAlias(aliasItem) {
+    showUnlinkDialog(aliasItem) {
         this.showUnAliasDialog = true
-        console.log(this.showUnAliasDialog)
-        this.unAliasItem = aliasItem
+        this.aliasDialogItem = aliasItem
+    }
+
+    showMosaicLinkDialog(aliasItem) {
+        this.showMosaicAliasDialog = true
+        this.aliasDialogItem = aliasItem
+    }
+
+    showAddressLinkDialog(aliasItem) {
+        this.isShowAddressAliasDialog = true
+        this.aliasDialogItem = aliasItem
+
     }
 
     durationToTime(duration) {
