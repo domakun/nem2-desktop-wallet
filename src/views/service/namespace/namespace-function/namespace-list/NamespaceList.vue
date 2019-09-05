@@ -27,7 +27,7 @@
           <span class="link overflow_ellipsis">{{n.aliasType}}</span>
           <span class="type overflow_ellipsis">{{n.aliasTarget}}</span>
           <span class="more overflow_ellipsis">
-            <Poptip class="poptip_container" placement="top-start">
+            <Poptip class="poptip_container" placement="top-end">
               <i class="moreFn"></i>
               <div slot="content" max-width="150" class="refresh_sub_container">
                 <span class="fnItem pointer" v-if="n.levels === 1" @click="showEditDialog(n)">
