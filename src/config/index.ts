@@ -223,9 +223,9 @@ export const nodeList = [
         isSelected: false,
     },
     {
-        value: 'http://47.108.88.254:3000',
-        name: '交子',
-        url: '47.108.88.254',
+        value: 'http://3.0.78.183:3000',
+        name: 'my-8',
+        url: '3.0.78.183',
         isSelected: false,
     }, {
         value: 'http://13.114.200.132:3000',

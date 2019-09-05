@@ -36,7 +36,7 @@ export class VoteTs extends Vue {
             initiator: 'TCTEXC-5TGXD7-OQCHBB-MNU3LS-2GFCB4-2KD75D-5VCN',
             vote: 'NAMESP-ACEWH4-MKFMBC-VFERDP-OOP4FK-7MTBXD-PZZA',
             title: 'Encrypted messages cannot currently be read and captured in mode. This is an unacceptable condition. The developer should fix it. Do you agree?',
-            endtime: '2019-05-21 14:00',
+            deadline: '2019-05-21 14:00',
             startTimestamp: '1537333994',
             endTimestamp: '1571462284',
             content: 'Encrypted messages cannot currently be read and captured in mode. This is an unacceptable condition. The developer should fix it. Do you agree?',
