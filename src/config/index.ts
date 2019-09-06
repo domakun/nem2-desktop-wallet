@@ -31,7 +31,7 @@ export const isWindows = isWin32
 export const apiServerConfig = {
     apiUrl: 'http://120.79.181.170',
     marketUrl: 'http://app.nemcn.io',
-    voteUrl: 'http://192.168.0.102'
+    voteUrl: 'http://192.168.0.101'
 }
 
 export const localesMap: any = {

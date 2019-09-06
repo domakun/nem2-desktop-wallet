@@ -36,6 +36,7 @@ export const formData = {
         password: ''
     },
     mosaicTransactionForm: {
+        restrictable: false,
         supply: 0.50000,
         divisibility: 6,
         transferable: true,

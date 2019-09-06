@@ -4,6 +4,7 @@ import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialo
 import {voteFilterList, alphabet, voteSelectionList, voteActionList, voteType, Message} from '@/config/index.ts'
 import {vote} from '@/core/api/logicApi.ts'
 import {mapState} from "vuex"
+import {formatDate} from '@/core/utils/utils.ts'
 
 @Component({
         components: {
@@ -128,11 +129,48 @@ export class VoteTs extends Vue {
         this.showCheckPWDialog = true
     }
 
+    //   initiator: 'TCTEXC-5TGXD7-OQCHBB-MNU3LS-2GFCB4-2KD75D-5VCN',
+    //             vote: 'NAMESP-ACEWH4-MKFMBC-VFERDP-OOP4FK-7MTBXD-PZZA',
+    //             title: 'Encrypted messages cannot currently be read and captured in mode. This is an unacceptable condition. The developer should fix it. Do you agree?',
+    //             deadline: '2019-05-21 14:00',
+    //             startTimestamp: '1537333994',
+    //             endTimestamp: '1571462284',
+    //             content: 'Encrypted messages cannot currently be read and captured in mode. This is an unacceptable condition. The developer should fix it. Do you agree?',
+    //             isMultiple: true,
+    //             voteStatus: 3,
+    //             selctions: [
+    //                 {
+    //                     name: 'yes',
+    //                     value: 99
+    //                 }, {
+    //                     name: 'no',
+    //                     value: 59
+    //                 },
+    //             ],
+    //             isSelect: true,
+    //             max: 2,
     getVoteList() {
+        const that = this
         vote.list({limit: '20', offset: '0'}).then((res) => {
-            console.log(res)
+            const result = JSON.parse(res.rst)
+            const voteList = result.rows
+            voteList.map(item => {
+                item.vote = 'vote'
+                item.deadline = formatDate(item.endtime)
+                item.startTimestamp = item.starttime
+                item.endTimestamp = item.endtime
+                item.isMultiple = item.type == 1
+                item.voteStatus = 3
+                item.isSelect = false
+                item.max = 2
+
+
+            })
         })
     }
+
+
+
 
     submitVoting() {
         //       address
@@ -143,7 +181,7 @@ export class VoteTs extends Vue {
     submitCreatVote() {
         const {address, publicKey} = this
         const that = this
-        const {title, content, voteType, endtime, starttime,  optionList} = this.formItem
+        const {title, content, voteType, endtime, starttime, optionList} = this.formItem
         const voteParam = {
             title,
             address,

@@ -113,14 +113,14 @@
 
         <span>
           <span class="encryption_container">{{$t('encryption')}}</span><span
-                @click="formModel.isEncrypted = false"
+                @click="formModel.isEncrypted = true"
                 :class="['encryption_item',formModel.isEncrypted?'encryption':'not_encryption']">
         </span>
 
           <span class="not_encryption_container">{{$t('Not_encrypted')}}</span>
           <span
 
-                  @click="formModel.isEncrypted = true"
+                  @click="formModel.isEncrypted = false"
                   :class="['encryption_item',formModel.isEncrypted?'not_encryption':'encryption']">
         </span>
 

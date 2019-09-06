@@ -140,9 +140,9 @@ export default class TransferTransactionTs extends Vue {
             return
         }
 
-        const {networkType, xemDivisibility} = this.wallet
+        const {xemDivisibility} = this
+        const {networkType} = this.wallet
         fee = getAbsoluteMosaicAmount(fee, xemDivisibility)
-
         const transaction = new TransactionApiRxjs().transferTransaction(
             networkType,
             fee,

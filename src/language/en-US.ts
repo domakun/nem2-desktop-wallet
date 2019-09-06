@@ -450,7 +450,7 @@ export const en_US = {
     Basic_information: 'Basic information',
     link: 'Link info',
     type: 'Link type',
-
+    restrictable:'restrictable',
     pre_week: 'PreWeek',
     yesterday: 'Yesterday',
 

@@ -112,6 +112,7 @@ export const zh_CN = {
     harvested_block: '收获的块',
     successful_copy: '复制成功',
     pre_week: '上周',
+    restrictable:'是否可限制',
     // monitor-receipt
     set_amount: '设置金额',
     asset_type: '资产类型',

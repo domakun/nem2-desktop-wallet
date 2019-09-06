@@ -52,6 +52,10 @@
           <Checkbox class="check_box_item" v-model="formItem.permanent">{{$t('duration_permanent')}}</Checkbox>
         </div>
 
+        <div class="check_box">
+          <Checkbox class="check_box_item" v-model="formItem.restrictable">{{$t('restrictable')}}</Checkbox>
+        </div>
+
 
         <div class="form_item duration_item" v-if="!formItem.permanent">
           <span class="key">{{$t('duration')}}</span>

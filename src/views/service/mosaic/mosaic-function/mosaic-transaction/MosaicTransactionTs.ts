@@ -98,6 +98,7 @@ export class MosaicTransactionTs extends Vue {
             transferable: true,
             supplyMutable: true,
             permanent: false,
+            restrictable:false,
             duration: 1000,
             innerFee: .5,
             aggregateFee: .5,
@@ -138,7 +139,7 @@ export class MosaicTransactionTs extends Vue {
     }
 
     showCheckDialog() {
-        const {supply, divisibility, transferable, supplyMutable, duration, lockFee, innerFee} = this.formItem
+        const {supply, divisibility, transferable, permanent, supplyMutable, restrictable, duration, lockFee, innerFee} = this.formItem
         const {address} = this.wallet
         this.transactionDetail = {
             "address": address,
@@ -147,7 +148,9 @@ export class MosaicTransactionTs extends Vue {
             "duration": duration,
             "fee": innerFee,
             'transmittable': transferable,
-            'variable_upply': supplyMutable
+            'variable_upply': supplyMutable,
+            "duration_permanent": permanent,
+            "restrictable": restrictable
         }
         this.otherDetails = {
             lockFee: lockFee
@@ -185,7 +188,6 @@ export class MosaicTransactionTs extends Vue {
     }
 
 
-
     checkEnd(isPasswordRight) {
         if (!isPasswordRight) {
             this.$Notice.destroy()
@@ -197,7 +199,7 @@ export class MosaicTransactionTs extends Vue {
 
     createBySelf() {
         let {accountPublicKey, networkType, xemDivisibility} = this
-        let {supply, divisibility, transferable, supplyMutable, duration, innerFee} = this.formItem
+        let {supply, divisibility, transferable, supplyMutable, duration, innerFee, restrictable} = this.formItem
         const that = this
         const nonce = MosaicNonce.createRandom()
         const publicAccount = PublicAccount.createFromPublicKey(accountPublicKey, networkType)
@@ -214,6 +216,7 @@ export class MosaicTransactionTs extends Vue {
                 networkType,
                 supply,
                 publicAccount,
+                restrictable,
                 Number(innerFee))
         ]
         that.initForm()
