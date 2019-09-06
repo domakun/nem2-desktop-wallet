@@ -104,7 +104,7 @@ export default class TransferTransactionTs extends Vue {
             "mosaic": mosaicTransferList.map(item => {
                 return item.id.id.toHex() + `(${item.amount.compact()})`
             }).join(','),
-            "fee": fee + 'gas',
+            "fee": fee + 'XEM',
             "remarks": remark,
             "encryption": isEncrypted,
         }

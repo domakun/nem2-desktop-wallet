@@ -168,7 +168,7 @@
         <!--        </span>-->
         <!--        </div>-->
         <div class="tips red right">
-          {{$t('the_default_is')}}:50000gas，{{$t('the_more_you_set_the_cost_the_higher_the_processing_priority')}}
+          {{$t('the_default_is')}}:0.5XEM，{{$t('the_more_you_set_the_cost_the_higher_the_processing_priority')}}
         </div>
 
         <div class="create_button" @click="submitCreatVote">

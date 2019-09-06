@@ -136,12 +136,12 @@
                     v-model="formModel.fee"
                     v-validate="standardFields.maxFee.validation"
                     :data-vv-as="$t('fee')"
-                    placeholder="50000"
+                    placeholder=".5"
                     number
                     type="text"
             />
           </ErrorTooltip>
-          <span class="uint">gas</span>
+<!--          <span class="uint">gas</span>-->
         </span>
       </div>
       <span class="xem_tips">{{$t('the_more_you_set_the_cost_the_higher_the_processing_priority')}}</span>
