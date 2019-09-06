@@ -25,7 +25,7 @@
     <div class="bottom_text">
       {{$t('This_is_a_distributed_desktop_wallet_based_on_catapult_come_and_explore_the_wonderful_journey_of_catapult')}}
     </div>
-    
+
     <form @submit.prevent="validateForm('input-lock')">
       <div class="bottom_input">
         <input
@@ -50,8 +50,7 @@
     </div>
 
     <div class="password_prompt">
-      {{$t('forget_password')}}？
-      <span @click="showPrompt" class="pointer click_to_show_prompt">{{$t('passowrd_prompt')}}</span>
+      {{$t('forget_password')}}？ <span @click="showPrompt" class="pointer click_to_show_prompt">{{$t('passowrd_prompt')}}</span>
 <!--      <span class="clear_cache pointer" v-show="isShowPrompt">{{$t('clear_cache')}}</span>-->
     </div>
 

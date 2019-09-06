@@ -19,7 +19,7 @@ import {formatDate} from '@/core/utils/utils.ts'
     }
 )
 export class VoteTs extends Vue {
-    currentVote = {}
+    currentVote: any = {}
     activeAccount: any
     sigleSelection = ''
     currentVoteList = []
@@ -30,39 +30,18 @@ export class VoteTs extends Vue {
     isLoadingConfirmedTx = true
     alphabet = alphabet
     voteFilterList = voteFilterList
+    spinShow = true
     voteActionList = voteActionList
-    voteList = [
-        // TODO data structure
-        {
-            initiator: 'TCTEXC-5TGXD7-OQCHBB-MNU3LS-2GFCB4-2KD75D-5VCN',
-            vote: 'NAMESP-ACEWH4-MKFMBC-VFERDP-OOP4FK-7MTBXD-PZZA',
-            title: 'Encrypted messages cannot currently be read and captured in mode. This is an unacceptable condition. The developer should fix it. Do you agree?',
-            deadline: '2019-05-21 14:00',
-            startTimestamp: '1537333994',
-            endTimestamp: '1571462284',
-            content: 'Encrypted messages cannot currently be read and captured in mode. This is an unacceptable condition. The developer should fix it. Do you agree?',
-            isMultiple: true,
-            voteStatus: 3,
-            selctions: [
-                {
-                    name: 'yes',
-                    value: 99
-                }, {
-                    name: 'no',
-                    value: 59
-                },
-            ],
-            isSelect: true,
-            max: 2,
-        }
-    ]
+    voteList = []
+    selections = []
+    isVoted = true
     voteType = voteType
     formItem = {
         title: '',
         content: '',
         voteType: 0,
-        endtime: '2019-12-28 14:57',
-        starttime: '2019-12-28 14:57',
+        endtime: formatDate(new Date().valueOf() + 200000000),
+        starttime: formatDate(new Date().valueOf()),
         fee: '',
         optionList: voteSelectionList
     }
@@ -75,7 +54,9 @@ export class VoteTs extends Vue {
         return this.activeAccount.wallet.address
     }
 
+
     swicthVoteAction(index) {
+        this.refreshVoteList()
         const list: any = this.voteActionList
         if (list[index].disabled) {
             return
@@ -122,60 +103,80 @@ export class VoteTs extends Vue {
         // TODO
     }
 
-    checkEnd(boolean) {
+    checkEnd(flag) {
+        if (flag) {
+            const {sigleSelection, address} = this
+            const voteId = this.currentVote.id
+            const that = this
+            vote.addVote({
+                address: address,
+                voteId: voteId,
+                voteDataIds: [sigleSelection]
+            }).then((isVoteSuccess) => {
+                if (isVoteSuccess) {
+                    that.$Notice.destroy()
+                    that.$Notice.success({
+                        title: this.$t(Message.OPERATION_SUCCESS) + ''
+                    })
+                }
+
+            })
+        }
     }
 
     sendVote() {
+        const {sigleSelection} = this
+        if (!sigleSelection) {
+            this.$Notice.destroy()
+            this.$Notice.error({
+                title: this.$t(Message.INPUT_EMPTY_ERROR) + ''
+            })
+            return
+        }
         this.showCheckPWDialog = true
+
     }
 
-    //   initiator: 'TCTEXC-5TGXD7-OQCHBB-MNU3LS-2GFCB4-2KD75D-5VCN',
-    //             vote: 'NAMESP-ACEWH4-MKFMBC-VFERDP-OOP4FK-7MTBXD-PZZA',
-    //             title: 'Encrypted messages cannot currently be read and captured in mode. This is an unacceptable condition. The developer should fix it. Do you agree?',
-    //             deadline: '2019-05-21 14:00',
-    //             startTimestamp: '1537333994',
-    //             endTimestamp: '1571462284',
-    //             content: 'Encrypted messages cannot currently be read and captured in mode. This is an unacceptable condition. The developer should fix it. Do you agree?',
-    //             isMultiple: true,
-    //             voteStatus: 3,
-    //             selctions: [
-    //                 {
-    //                     name: 'yes',
-    //                     value: 99
-    //                 }, {
-    //                     name: 'no',
-    //                     value: 59
-    //                 },
-    //             ],
-    //             isSelect: true,
-    //             max: 2,
+
+    refreshVoteList() {
+        this.voteList = []
+        this.getVoteList()
+    }
+
+    getVoteStatus(start, end) {
+        const currentTimestamp = new Date().valueOf()
+        if (currentTimestamp >= start && currentTimestamp <= end) {
+            return 1
+        }
+        if (currentTimestamp > end) {
+            return 3
+        }
+    }
+
     getVoteList() {
         const that = this
         vote.list({limit: '20', offset: '0'}).then((res) => {
             const result = JSON.parse(res.rst)
-            const voteList = result.rows
-            voteList.map(item => {
+            let voteList = result.rows
+            const resultList = voteList.map((item) => {
                 item.vote = 'vote'
                 item.deadline = formatDate(item.endtime)
                 item.startTimestamp = item.starttime
                 item.endTimestamp = item.endtime
                 item.isMultiple = item.type == 1
-                item.voteStatus = 3
+                item.voteStatus = that.getVoteStatus(item.starttime, item.endtime)
                 item.isSelect = false
-                item.max = 2
-
+                item.max = 1
+                item.isMultiple = false
+                return item
 
             })
+            that.currentVoteList.push(...resultList)
+            if (!that.currentVote.id) {
+                that.voteList[0].isSelect = true
+                that.currentVote = that.currentVoteList[0]
+            }
         })
-    }
-
-
-
-
-    submitVoting() {
-        //       address
-        //         voteId
-        //         voteDataIds
     }
 
     submitCreatVote() {
@@ -196,10 +197,12 @@ export class VoteTs extends Vue {
         vote.saveVote({
             vote: voteParam
         }).then(() => {
+            that.$Notice.destroy()
             that.$Notice.success({
                 title: this.$t(Message.SUCCESS) + ''
             })
         })
+        that.$Notice.destroy()
         this.$Notice.success({
             title: this.$t(Message.OPERATION_SUCCESS) + ''
         })
@@ -231,13 +234,38 @@ export class VoteTs extends Vue {
         list.map((item) => {
             if (item.voteStatus == this.currentVoteFilter) {
                 this.currentVoteList.push(item)
+
             }
         })
     }
 
+    @Watch('currentVote', {immediate: true, deep: true})
+    getCurrentVoteInfo() {
+        const that = this
+        const {address} = this
+        const voteId = this.currentVote.id
+        vote.listData({voteid: voteId}).then((voteItemResult => {
+            const voteResult = JSON.parse(voteItemResult.rst)
+            const voteDetail = voteResult.rows
+            that.selections = voteDetail.map(item => {
+                item.name = item.description
+                item.value = item.length
+                return item
+            })
+
+        }))
+        vote.userAlready({
+            limit: '1',
+            offset: '0',
+            voteId: voteId,
+            address: address
+        }).then((userVoteResult) => {
+            that.isVoted = JSON.parse(userVoteResult.rst).total !== 0
+            that.spinShow = false
+        })
+    }
+
     mounted() {
-        this.getVoteList()
-        this.currentVote = this.voteList[0]
         this.currentVoteFilter = this.voteFilterList[0].value
         this.currentTimestamp = Number((new Date()).valueOf() / 1000).toFixed(0)
         this.currentVoteList = this.voteList
