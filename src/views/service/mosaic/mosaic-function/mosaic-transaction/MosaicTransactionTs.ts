@@ -94,14 +94,14 @@ export class MosaicTransactionTs extends Vue {
     initForm() {
         this.formItem = {
             supply: 500000000,
-            divisibility: 6,
+            divisibility: 0,
             transferable: true,
             supplyMutable: true,
             permanent: false,
-            restrictable:false,
+            restrictable: false,
             duration: 1000,
-            innerFee: .5,
-            aggregateFee: .5,
+            innerFee: 0.5,
+            aggregateFee: 0.5,
             lockFee: 10,
             multisigPublickey: ''
         }
@@ -304,7 +304,7 @@ export class MosaicTransactionTs extends Vue {
             })
             return false
         }
-        if (!Number(divisibility) || divisibility < 0) {
+        if ((!Number(divisibility) && Number(divisibility) !== 0) || divisibility < 0) {
             this.$Notice.error({
                 title: this.$t(Message.DIVISIBILITY_LESS_THAN_0_ERROR) + ''
             })

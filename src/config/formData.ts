@@ -37,8 +37,8 @@ export const formData = {
     },
     mosaicTransactionForm: {
         restrictable: false,
-        supply: 0.50000,
-        divisibility: 6,
+        supply: 500000000,
+        divisibility: 0,
         transferable: true,
         supplyMutable: true,
         permanent: false,
