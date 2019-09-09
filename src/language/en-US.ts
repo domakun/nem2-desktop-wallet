@@ -446,6 +446,7 @@ export const en_US = {
 
     bind_mosaic: 'bind mosaic',
     bind_address: 'bind address',
+
     //wallet details
     Basic_information: 'Basic information',
     link: 'Link info',
