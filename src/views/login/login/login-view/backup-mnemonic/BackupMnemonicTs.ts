@@ -13,7 +13,7 @@ import {mapState} from "vuex"
         })
     }
 })
-export class WalletCreatedTs extends Vue {
+export class BackupMnemonicTs extends Vue {
     app: any
     activeAccount: any
     tags = 0
@@ -21,26 +21,15 @@ export class WalletCreatedTs extends Vue {
     storeWallet = {}
     showCover = true
     mnemonicRandomArr = []
-    formItem = {
-        currentNetType: '',
-        walletName: '',
-        password: '',
-        checkPW: '',
-        path: defaultDerivePath
+
+    @Prop()
+    mnemonic: string
+
+
+    get mnemonicList() {
+        return this.mnemonic.split(' ')
     }
 
-    @Prop({default: {}})
-    createForm: any
-
-
-    get mnemonic() {
-        const mnemonic = this.app.mnemonic
-        return mnemonic['split'](' ')
-    }
-
-    get formInfo() {
-        return this.createForm
-    }
 
     get walletList() {
         return this.app.walletList
@@ -53,6 +42,7 @@ export class WalletCreatedTs extends Vue {
 
     sureWord(index) {
         const word = this.mnemonicRandomArr[index]
+        this.mnemonicRandomArr.splice(index, 1)
         const wordSpan = document.createElement('span')
         wordSpan.innerText = word
         wordSpan.onclick = () => {
@@ -86,43 +76,30 @@ export class WalletCreatedTs extends Vue {
                 this.tags = index
                 break
             case 1:
-                this.mnemonicRandomArr = randomMnemonicWord(this.mnemonic)
+                this.mnemonicRandomArr = randomMnemonicWord(this.mnemonicList)
                 this.tags = index
                 break
             case 2:
                 if (!this.checkMnemonic()) {
                     return
                 }
-                this.createFromMnemonic()
                 this.tags = index
                 break
         }
     }
 
     skipInput(index) {
-        this.createFromMnemonic()
         this.tags = index
     }
 
-    createFromMnemonic() {
-        const {walletName, path, currentNetType, password} = this.formInfo
-        try {
-            new AppWallet().createFromMnemonic(
-                walletName,
-                new Password(password),
-                this.mnemonic.join(' '),
-                currentNetType,
-                this.$store,
-                path
-            )
-        } catch (error) {
-            throw new Error(error)
-        }
-    }
 
     toWalletPage() {
-        this.$store.commit('SET_HAS_WALLET', true)
-        this.$emit('toWalletDetails')
+        // save account base info
+        this.$emit('saveDataInLocalStorage')
+        // jump to create wallet
+        this.$router.push({
+            name: 'walletCreate'
+        })
     }
 
     toBack() {

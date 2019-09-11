@@ -677,6 +677,10 @@ export const en_US = {
     The_mosaic_to_be_sent_is_empty: 'The mosaic to be sent is empty',
     Node_not_available_please_check_your_node_or_network_settings: 'Node not available, please check your node or network settings.',
     encryption: 'Encrypted',
-    Not_encrypted: 'Not encrypted'
-
+    Not_encrypted: 'Not encrypted',
+    set_wallet_name: 'Set wallet name',
+    Wallet_name_is_not_allowed_to_be_repeated: 'Wallet name is not allowed to be repeated',
+    ACCOUNT_NAME_INPUT_ERROR: 'Account name is not allowed to be empty',
+    input_hd_wallet_path: 'input hd-wallet path',
+    choose_hd_wallet_path:'choose hd_wallet path',
 }

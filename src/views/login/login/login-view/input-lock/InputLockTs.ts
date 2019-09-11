@@ -1,7 +1,9 @@
-import {Component, Vue} from 'vue-property-decorator'
+import {Component, Vue, Watch} from 'vue-property-decorator'
 import {AppLock, StoredCipher} from '@/core/utils/appLock'
 import {standardFields} from '@/core/validation'
-import {mapState} from "vuex";
+import {mapState} from "vuex"
+import {localRead, getObjectLength} from "@/core/utils/utils"
+import {Message} from "@/config"
 
 @Component({
     computed: {
@@ -13,15 +15,18 @@ import {mapState} from "vuex";
 export class InputLockTs extends Vue {
     app: any
     passwordFieldValidation = standardFields.previousPassword.validation
-    storedCipher: StoredCipher = new AppLock().getLock()
-    cipher: string = this.storedCipher.cipher
-    cipherHint: string = this.storedCipher.hint
-    password: string = ''
+    cipher: string = ''
+    cipherHint: string = ''
     errors: any
     activeError: string = ''
     isShowPrompt: boolean = false
     currentText: string = ''
     isShowClearCache: boolean = false
+    walletMap: any = {}
+    formItem = {
+        currentAccountName: '',
+        password: ''
+    }
 
     showPrompt() {
         this.isShowPrompt = true
@@ -31,13 +36,25 @@ export class InputLockTs extends Vue {
         this.$emit('showIndexView', 1)
     }
 
-    get walletList() {
-        return this.app.walletList
+    get accountMap() {
+        return localRead('accountMap') ? JSON.parse(localRead('accountMap')) : {}
+    }
+
+    get accountList() {
+        const walletMap = this.accountMap
+        let walletList = []
+        for (let key in walletMap) {
+            walletList.push({
+                value: key,
+                label: key
+            })
+        }
+        return walletList
     }
 
 
     jumpToDashBoard() {
-        if (this.walletList.length == 0) {
+        if (getObjectLength(this.walletMap) == 0) {
             this.$router.push({
                 name: 'walletCreate',
                 params: {name: 'walletCreate'}
@@ -47,9 +64,21 @@ export class InputLockTs extends Vue {
         this.$router.push({name: 'monitorPanel'})
     }
 
+    showErrorNotice(text) {
+        this.$Notice.destroy()
+        this.$Notice.error({title: text + ''})
+    }
+
     submit() {
+        const {currentAccountName, password} = this.formItem
+        const {cipher} = this
+        const that = this
         if (this.errors.items.length > 0) {
-            this.$Notice.error({title: this.errors.items[0].msg})
+            this.showErrorNotice(this.errors.items[0].msg)
+            return
+        }
+        if (!currentAccountName) {
+            this.showErrorNotice(Message.ACCOUNT_NAME_INPUT_ERROR)
             return
         }
 
@@ -57,9 +86,22 @@ export class InputLockTs extends Vue {
             .validate()
             .then((valid) => {
                 if (!valid) return
+                // return accountMap
+                that.walletMap = JSON.parse(AppLock.decryptString(cipher, password)).walletMap
+                // save accountMap in store
+                console.log(JSON.parse(AppLock.decryptString(cipher, password)))
                 this.jumpToDashBoard()
-            });
+            })
     }
+
+
+    @Watch('formItem.currentAccountName')
+    onWalletChange() {
+        const {accountMap} = this
+        this.cipher = accountMap[this.formItem.currentAccountName].cipher
+        this.cipherHint = accountMap[this.formItem.currentAccountName].hint
+    }
+
 
     clearCache() {
         // localRead remove

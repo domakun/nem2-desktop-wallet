@@ -1,3 +1,4 @@
+export const defaultDerivePath = `m/44'/43'/1'/0/1`
 export const formData = {
     multisigTransferForm: {
         address: 'SCSXIT-R36DCY-JRVSNE-NY5BUA-HXSL7I-E6ULEY-UYRC',
@@ -84,6 +85,7 @@ export const formData = {
         networkType: 0,
         walletName: '',
         password: '',
+        path: defaultDerivePath,
         checkPW: '',
     },
     walletImportPrivateKeyForm: {

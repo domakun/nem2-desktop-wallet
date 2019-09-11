@@ -661,5 +661,10 @@ export const zh_CN = {
     amount: '金额',
     encryption: '加密',
     Not_encrypted: '不加密',
-    bondedFee: '绑定费用'
+    bondedFee: '绑定费用',
+    set_wallet_name:'设置钱包名',
+    Wallet_name_is_not_allowed_to_be_repeated:'钱包名不允许重复',
+    ACCOUNT_NAME_INPUT_ERROR:'账户名不允许为空',
+    input_hd_wallet_path:'输入hd钱包路径',
+    choose_hd_wallet_path:'选择路径',
 }

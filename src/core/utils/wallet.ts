@@ -19,7 +19,7 @@ import {BlockApiRxjs} from "@/core/api/BlockApiRxjs.ts"
 import {formateNemTimestamp} from "@/core/utils/utils.ts"
 import {TransactionApiRxjs} from '@/core/api/TransactionApiRxjs.ts'
 import {MosaicApiRxjs} from "@/core/api/MosaicApiRxjs"
-import {createAccount} from "@/core/utils/hdWallet.ts"
+import {createAccount, createSubWalletByPath} from "@/core/utils/hdWallet.ts"
 import {AppLock} from "@/core/utils/appLock"
 
 export class AppWallet {
@@ -65,9 +65,10 @@ export class AppWallet {
                        password: Password,
                        mnemonic: string,
                        networkType: NetworkType,
-                       store: any): AppWallet {
+                       store: any,
+                       path: string): AppWallet {
         try {
-            const account = createAccount(mnemonic)
+            const account = createSubWalletByPath(mnemonic, path)
             this.simpleWallet = SimpleWallet
                 .createFromPrivateKey(name, password, account.privateKey, networkType)
             this.name = name
@@ -82,6 +83,7 @@ export class AppWallet {
             throw new Error(error)
         }
     }
+
 
     createFromKeystore(name: string,
                        password: Password,

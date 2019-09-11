@@ -1,16 +1,19 @@
 import {localesMap, languageList} from "@/config/index.ts"
-import {localSave, localRead} from '@/core/utils/utils.ts'
+import {localSave, localRead, getObjectLength} from '@/core/utils/utils.ts'
 import {Component, Vue} from 'vue-property-decorator'
 import GetStart from './login-view/get-start/GetStart.vue'
 import InputLock from './login-view/input-lock/InputLock.vue'
 import CreateLock from './login-view/create-lock/CreateLock.vue'
+import BackupMnemonic from './login-view/backup-mnemonic/BackupMnemonic.vue'
 import {mapState} from "vuex"
+import {localAddInMap} from "@/core/utils/utils"
 
 @Component({
     components: {
         GetStart,
         CreateLock,
-        InputLock
+        InputLock,
+        BackupMnemonic
     },
     computed: {
         ...mapState({
@@ -19,10 +22,12 @@ import {mapState} from "vuex"
     }
 })
 export class LoginTs extends Vue {
-    app:any
+    app: any
     languageList = languageList
     isShowDialog = true
-    indexShowList = [true, false, false]
+    indexShowList = [true, false, false, false]
+    mnemonic = ''
+    accountObject: any = {}
 
     switchLanguage(language) {
         // @ts-ignore
@@ -43,6 +48,10 @@ export class LoginTs extends Vue {
         localSave('locale', lang)
     }
 
+    updateMnemonic(mnemonic: string) {
+        this.mnemonic = mnemonic
+    }
+
     showIndexView(index) {
         let list = [false, false, false]
         if (index != 0 && localRead('lock')) {
@@ -58,11 +67,23 @@ export class LoginTs extends Vue {
             this.showIndexView(this.$route.params.index)
             return
         }
-        const wallets = localRead('wallets')
+        const wallets = localRead('accountMap')
         const walletList = wallets ? JSON.parse(wallets) : []
-        if (walletList.length >= 1) {
+        if (getObjectLength(walletList) >= 1) {
             this.showIndexView(2)
         }
+    }
+
+    updateAccountData(accountObject) {
+        this.accountObject = accountObject
+    }
+
+    saveDataInLocalStorage() {
+        const {accountObject, mnemonic} = this
+        // save in localstorage
+        localAddInMap('accountMap', accountObject.name, accountObject)
+        // save in parent data scope
+        this.updateMnemonic(mnemonic)
     }
 
     created() {

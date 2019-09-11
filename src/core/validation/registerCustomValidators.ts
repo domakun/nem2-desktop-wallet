@@ -34,12 +34,18 @@ const addressValidator = (context) => {
 }
 
 const confirmLockValidator = (context) => {
+
     return context.Validator.extend(
         CUSTOM_VALIDATORS_NAMES.confirmLock,
         (password, [otherField]) => new Promise((resolve) => {
             const cipher = getOtherFieldValue(otherField, context)
-            if (!new AppLock().verifyLock(password, cipher)) resolve({valid: false})
-            resolve({valid: password})
+            let accountObject = {}
+            try {
+                accountObject = JSON.parse(AppLock.decryptString(cipher, password))
+            } catch (e) {
+                resolve({valid: false})
+            }
+            resolve({valid: accountObject})
         }),
         {hasTarget: true},
     )

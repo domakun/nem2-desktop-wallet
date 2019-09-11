@@ -1,6 +1,6 @@
 import {Message, networkTypeList, formData} from "@/config/index.ts"
 import {AppWallet} from '@/core/utils/wallet.ts'
-import {mapState} from 'vuex';
+import {mapState} from 'vuex'
 import {Password} from "nem2-sdk"
 import {Component, Vue} from 'vue-property-decorator'
 import {
@@ -18,6 +18,8 @@ import {
         })
     }
 })
+
+// TODO GENERATE MNENONIC WALLET
 export class WalletImportMnemonicTs extends Vue {
     activeAccount: any
     app: any
@@ -62,18 +64,6 @@ export class WalletImportMnemonicTs extends Vue {
             })
             return false
         }
-        if (!passwordValidator(this.form.password)) {
-            this.$Notice.error({
-                title: this.$t(Message.PASSWORD_SETTING_INPUT_ERROR) + ''
-            })
-            return false
-        }
-        if (this.form.password !== this.form.checkPW) {
-            this.$Notice.error({
-                title: this.$t(Message.INCONSISTENT_PASSWORD_ERROR) + ''
-            })
-            return false
-        }
         if (!this.form.mnemonic || this.form.mnemonic === '' || this.form.mnemonic.split(' ').length != 12) {
             this.$Notice.error({
                 title: this.$t(Message.MNENOMIC_INPUT_ERROR) + ''
@@ -84,21 +74,23 @@ export class WalletImportMnemonicTs extends Vue {
     }
 
     importWallet() {
-      try {
-        new AppWallet().createFromMnemonic(
-          this.form.walletName,
-          new Password(this.form.password),
-          this.form.mnemonic,
-          this.form.networkType,
-          this.$store
-        )
-        this.toWalletDetails()
-      } catch (error) {
-        console.error(error)
-        this.$Notice.error({
-            title: this.$t(Message.OPERATION_FAILED_ERROR) + ''
-        })
-      }
+        const {path, mnemonic, networkType, password, walletName} = this.form
+        try {
+            new AppWallet().createFromMnemonic(
+                walletName,
+                new Password(password),
+                mnemonic,
+                networkType,
+                this.$store,
+                path
+            )
+            this.toWalletDetails()
+        } catch (error) {
+            console.error(error)
+            this.$Notice.error({
+                title: this.$t(Message.OPERATION_FAILED_ERROR) + ''
+            })
+        }
     }
 
     toWalletDetails() {

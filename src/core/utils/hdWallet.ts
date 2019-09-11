@@ -13,6 +13,14 @@ export const createAccount = (mnemonic) => {
     const account = wallet.getAccount()
     return account
 }
+export const createSubWalletByPath = (mnemonic: string, path: string) => {
+    const PassPhrase = new MnemonicPassPhrase(mnemonic)
+    const bip32Seed = PassPhrase.toSeed()
+    const bip32Node = ExtendedKey.createFromSeed(buf2hex(bip32Seed))
+    const wallet = new Wallet(bip32Node.derivePath(path))
+    const account = wallet.getAccount()
+    return account
+}
 
 export const randomMnemonicWord = (mnemonic) => {
     let numberArr = []

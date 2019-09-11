@@ -10,8 +10,15 @@
 
     <div class="fix_contnet">
       <GetStart @showIndexView="showIndexView" v-if="indexShowList[0]"></GetStart>
-      <CreateLock @showIndexView="showIndexView" v-if="indexShowList[1]"></CreateLock>
+      <CreateLock @updateAccountData="updateAccountData"
+                  @updateMnemonic="updateMnemonic"
+                  @showIndexView="showIndexView"
+                  v-if="indexShowList[1]"></CreateLock>
       <InputLock @showIndexView="showIndexView" v-if="indexShowList[2]"></InputLock>
+      <BackupMnemonic @saveDataInLocalStorage="saveDataInLocalStorage"
+                      @showIndexView="showIndexView"
+                      :mnemonic="mnemonic"
+                      v-if="indexShowList[3]"></BackupMnemonic>
     </div>
   </div>
 </template>

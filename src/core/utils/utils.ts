@@ -134,6 +134,15 @@ export const localRemove = (key) => {
     localStorage.removeItem(key)
 }
 
+// add k-v in localStorageName map
+export const localAddInMap = (localStorageName: string, key: string, value: object) => {
+    const dataMapStr = localRead(localStorageName)
+    let dataMapObject = dataMapStr ? JSON.parse(dataMapStr) : {}
+    dataMapObject[key] = value
+    const dataSaveStr = JSON.stringify(dataMapObject)
+    localSave(localStorageName, dataSaveStr)
+}
+
 export const sessionSave = (key, value) => {
     sessionStorage.setItem(key, value)
 }
@@ -146,6 +155,9 @@ export const sessionRemove = (key) => {
     sessionStorage.removeItem(key)
 }
 
+export const getObjectLength = (targetObject) => {
+    return Object.keys(targetObject).length
+}
 export const formatDate = (timestamp) => {
     const now = new Date(Number(timestamp))
     let year = now.getFullYear()

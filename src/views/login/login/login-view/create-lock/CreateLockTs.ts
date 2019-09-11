@@ -1,37 +1,71 @@
 import {Message} from "@/config/index.ts"
 import {Component, Vue} from 'vue-property-decorator'
-import {AppLock} from "@/core/utils/appLock"
-import { standardFields } from '@/core/validation'
+import {standardFields} from '@/core/validation'
+import {randomMnemonicWord} from "@/core/utils/hdWallet.ts"
+import {createMnemonic} from "@/core/utils/hdWallet"
+import {localAddInMap} from "@/core/utils/utils"
+import {AppLock} from '@/core/utils/appLock'
 
 @Component
 export class CreateLockTs extends Vue {
     standardFields: object = standardFields
     errors: any
 
-    lockPW = {
-        password: '',
-        checkPW: '',
-        hint: ''
+    formItem = {
+        name: '123123123',
+        password: '123123123',
+        checkPW: '123123123',
+        hint: '123123123'
     }
 
     submit() {
-      if(this.errors.items.length > 0) {
-        this.$Notice.error({ title: this.errors.items[0].msg })
-        return
-      }
-
-      this.$validator
-        .validate()
-        .then((valid) => {
-          if(!valid) return
-          new AppLock().storeLock(this.lockPW.password, this.lockPW.hint)
-          this.showIndexView()
-          this.$Notice.success({
-             title: this.$t(Message.SUCCESS) + ''
-          })
-        });
+        if (this.errors.items.length > 0) {
+            this.$Notice.error({title: this.errors.items[0].msg})
+            return
+        }
+        this.createAccount()
+        // return
+        // TODO WALLET NAME MUST BE UNIQUE,NEED CHECK  WALLET NAME HERE
+        this.$validator
+            .validate()
+            .then((valid) => {
+                if (!valid) return
+                this.showIndexView()
+                this.$Notice.success({
+                    title: this.$t(Message.SUCCESS) + ''
+                })
+            })
     }
 
-    showIndexView() { this.$emit('showIndexView', 2) }
-    hideIndexView() { this.$emit('showIndexView', 0) }
+    createAccount() {
+        const {name, password, checkPW, hint} = this.formItem
+        // get mnemonicList
+        const mnemonicStr = createMnemonic()
+
+        const cipherObject = {
+            hint,
+            name,
+            password,
+            checkPW,
+            walletMap: {},
+            mnemonic: mnemonicStr
+        }
+        const cipherStr = AppLock.encryptString(JSON.stringify(cipherObject), password)
+        const accountObject = {
+            cipher: cipherStr,
+            hint,
+            name,
+        }
+        this.$emit('updateMnemonic', mnemonicStr)
+        this.$emit('updateAccountData', accountObject)
+    }
+
+
+    showIndexView() {
+        this.$emit('showIndexView', 3)
+    }
+
+    hideIndexView() {
+        this.$emit('showIndexView', 0)
+    }
 }

@@ -27,10 +27,14 @@
     </div>
 
     <form @submit.prevent="validateForm('input-lock')">
+
+        <Select v-model="formItem.currentAccountName" class="select_wallet">
+          <Option v-for="account in accountList" :value="account.value" :key="account.value">{{ account.label }}</Option>
+        </Select>
       <div class="bottom_input">
         <input
                 data-vv-name="password"
-                v-model="password"
+                v-model="formItem.password"
                 type="password"
                 :placeholder="$t('lock_password')"
                 v-validate="passwordFieldValidation"
@@ -60,10 +64,10 @@
 
 <script lang="ts">
     import {InputLockTs} from '@/views/login/login/login-view/input-lock/InputLockTs.ts'
+    import "./InputLock.less"
 
     export default class InputLock extends InputLockTs {
     }
 </script>
 <style scoped lang="less">
-  @import "./InputLock.less";
 </style>

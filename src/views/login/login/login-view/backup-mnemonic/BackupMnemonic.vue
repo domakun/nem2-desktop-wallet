@@ -10,7 +10,7 @@
       <p class="pageRemind ">
         {{$t('Write_your_mnemonic_on_a_piece_of_paper_If_you_want_to_be_safer_you_can_write_on_multiple_sheets_of_paper_and_save_the_backup_in_multiple_locations_such_as_an_externally_encrypted_hard_drive_or_storage_media')}}</p>
       <div class="mnemonicDiv clear">
-        <span v-for="(item,index) in mnemonic" :key="index">{{item}}</span>
+        <span v-for="(item,index) in mnemonicList" :key="index">{{item}}</span>
         <div class="covering" @click="hideCover" v-if="showCover">
           <div class="lock"><img src="@/common/img/wallet/mnemonicLock.png"></div>
           <p class="txt">{{$t('display_mnemonic')}}</p>
@@ -21,6 +21,7 @@
         <Button class="next right" type="success" @click="changeTabs(1)">{{$t('next')}}</Button>
       </div>
     </div>
+
     <div class="createdDiv2" v-if="tags == 1">
       <p class="pageTit">{{$t('Confirm_mnemonic')}}</p>
 
@@ -78,11 +79,11 @@
 </template>
 
 <script lang="ts">
-    import './WalletCreated.less'
+    import './BackupMnemonic.less'
     //@ts-ignore
-    import {WalletCreatedTs} from '@/views/wallet/wallet-created/WalletCreatedTs.ts'
+    import {BackupMnemonicTs} from "@/views/login/login/login-view/backup-mnemonic/BackupMnemonicTs.ts"
 
-    export default class WalletCreated extends WalletCreatedTs {
+    export default class BackupMnemonic extends BackupMnemonicTs {
 
     }
 </script>

@@ -1,6 +1,6 @@
 import {NetworkType, TransactionType} from 'nem2-sdk'
 import {timeZoneList} from '@/config/timeZone.ts'
-import {formData as formDataObject} from '@/config/formData.ts'
+import {formData as formDataObject, defaultDerivePath as defaultDerivePathData} from '@/config/formData.ts'
 import dashboardBlockHeight from "@/common/img/monitor/dash-board/dashboardBlockHeight.png"
 import dashboardBlockTime from "@/common/img/monitor/dash-board/dashboardBlockTime.png"
 import dashboardPointAmount from "@/common/img/monitor/dash-board/dashboardPointAmount.png"
@@ -16,6 +16,8 @@ import apostille1Icon from "@/common/img/service/apostille1.png"
 import apostille2Icon from "@/common/img/service/apostille2.png"
 import {echartsConfigure as echartsConfigureData} from '@/config/echarts.ts'
 import {veeValidateConfig} from "@/core/validation"
+
+export const defaultDerivePath = defaultDerivePathData
 
 export const echartsConfigure = echartsConfigureData
 
@@ -83,6 +85,7 @@ export const Message = {
     PLEASE_SWITCH_NETWORK: 'walletCreateNetTypeRemind',
     NO_MNEMONIC_INFO: 'no_mnemonic',
 
+    ACCOUNT_NAME_INPUT_ERROR: 'ACCOUNT_NAME_INPUT_ERROR',
     WALLET_NAME_INPUT_ERROR: 'walletCreateWalletNameRemind',
     PASSWORD_CREATE_ERROR: 'createLockPWRemind',
     INCONSISTENT_PASSWORD_ERROR: 'createLockCheckPWRemind',
