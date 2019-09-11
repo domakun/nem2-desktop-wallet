@@ -87,10 +87,18 @@ export class InputLockTs extends Vue {
             .then((valid) => {
                 if (!valid) return
                 // return accountMap
-                that.walletMap = JSON.parse(AppLock.decryptString(cipher, password)).walletMap
-                // save accountMap in store
+                const accountMap = JSON.parse(AppLock.decryptString(cipher, password))
+
+                // save mnemonic and password in store
+                that.walletMap = accountMap.walletMap
+                const nemonicCipher = JSON.stringify({
+                    mnemonic: accountMap.mnemonic,
+                    password: accountMap.password
+                })
+                that.$store.commit('SET_MNEMONIC', AppLock.encryptString(nemonicCipher, accountMap.password))
+                // save walletMap in store
+                that.$store.commit('SET_WALLET_MAP', accountMap.walletMap)
                 console.log(JSON.parse(AppLock.decryptString(cipher, password)))
-                this.jumpToDashBoard()
             })
     }
 

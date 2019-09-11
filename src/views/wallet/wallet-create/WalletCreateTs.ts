@@ -45,8 +45,6 @@ export class WalletCreateTs extends Vue {
     createWallet() {
         if (!this.checkInput()) return
         // input account password to get account menmonic
-
-
         // createFromMnemonic(,hdPath)
         //createWallet and save wallet in accountMap
         // this.$store.commit('SET_MNEMONIC', createMnemonic())

@@ -38,7 +38,7 @@ export class CreateLockTs extends Vue {
     }
 
     createAccount() {
-        const {name, password, checkPW, hint} = this.formItem
+        const {name, password, hint} = this.formItem
         // get mnemonicList
         const mnemonicStr = createMnemonic()
 
@@ -46,7 +46,6 @@ export class CreateLockTs extends Vue {
             hint,
             name,
             password,
-            checkPW,
             walletMap: {},
             mnemonic: mnemonicStr
         }

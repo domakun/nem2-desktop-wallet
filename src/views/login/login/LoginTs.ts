@@ -79,11 +79,9 @@ export class LoginTs extends Vue {
     }
 
     saveDataInLocalStorage() {
-        const {accountObject, mnemonic} = this
+        const {accountObject} = this
         // save in localstorage
         localAddInMap('accountMap', accountObject.name, accountObject)
-        // save in parent data scope
-        this.updateMnemonic(mnemonic)
     }
 
     created() {

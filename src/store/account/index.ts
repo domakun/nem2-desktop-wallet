@@ -16,7 +16,9 @@ declare interface account {
     mosaicMap: any,
     generationHash: string,
     addresAliasMap: any,
-    xemDivisibility: number
+    xemDivisibility: number,
+    mnemonic: string,
+    walletMap: any
 
 }
 
@@ -36,7 +38,9 @@ export default {
         errorTx: [],
         mosaicMap: {},
         addresAliasMap: {},
-        generationHash: ''
+        generationHash: '',
+        mnemonic: '',
+        walletMap: {}
     },
     getters: {
         Address(state) {
@@ -95,5 +99,11 @@ export default {
         SET_WALLET_BALANCE(state: account, balance: number) {
             state.wallet.balance = balance
         },
-    },
+        SET_MNEMONIC(state: account, mnemonic: string) {
+            state.mnemonic = mnemonic
+        },
+        SET_WALLET_MAP(state: account, walletMap: any) {
+            state.walletMap = walletMap
+        },
+    }
 }
