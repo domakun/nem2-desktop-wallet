@@ -97,9 +97,7 @@ export class BackupMnemonicTs extends Vue {
         // save account base info
         this.$emit('saveDataInLocalStorage')
         // jump to create wallet
-        this.$router.push({
-            name: 'walletCreate'
-        })
+        this.$emit('showIndexView', 2)
     }
 
     toBack() {

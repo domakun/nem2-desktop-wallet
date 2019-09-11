@@ -13,7 +13,7 @@
             </p>
             <p>
               <span class="tit">{{$t('Wallet_name')}}</span>
-              <span class="walletName" v-if="wallet">{{wallet.name}}</span>
+              <span class="walletName" v-if="wallet">{{wallet.walletName}}</span>
             </p>
             <p>
               <span class="tit">{{$t('Wallet_address')}}</span>

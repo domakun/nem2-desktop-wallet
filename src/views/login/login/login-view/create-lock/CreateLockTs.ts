@@ -3,7 +3,6 @@ import {Component, Vue} from 'vue-property-decorator'
 import {standardFields} from '@/core/validation'
 import {randomMnemonicWord} from "@/core/utils/hdWallet.ts"
 import {createMnemonic} from "@/core/utils/hdWallet"
-import {localAddInMap} from "@/core/utils/utils"
 import {AppLock} from '@/core/utils/appLock'
 
 @Component

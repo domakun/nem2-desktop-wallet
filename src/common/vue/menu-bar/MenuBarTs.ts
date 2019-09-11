@@ -47,7 +47,12 @@ export class MenuBarTs extends Vue {
     }
 
     get walletList() {
-        return this.app.walletList || []
+        const walletMap = this.activeAccount.walletMap
+        let walletList = []
+        for (let key in walletMap) {
+            walletList.push(walletMap[key])
+        }
+        return walletList
     }
 
     get currentPanelIndex() {
@@ -88,6 +93,10 @@ export class MenuBarTs extends Vue {
 
     get unconfirmedTxList() {
         return this.activeAccount.UnconfirmedTx
+    }
+
+    get accountName() {
+        return this.activeAccount.accountName
     }
 
     set confirmedTxList(confirmedTx) {
@@ -154,7 +163,7 @@ export class MenuBarTs extends Vue {
     }
 
     switchPanel(index) {
-        if (!this.app.walletList.length) return
+        if (!this.walletList.length) return
         const routerIcon = routers[0].children
 
         this.$router.push({

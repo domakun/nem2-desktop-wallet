@@ -19,6 +19,8 @@ declare interface account {
     xemDivisibility: number,
     mnemonic: string,
     walletMap: any
+    accountName: string,
+    currentAddress: string
 
 }
 
@@ -40,7 +42,9 @@ export default {
         addresAliasMap: {},
         generationHash: '',
         mnemonic: '',
-        walletMap: {}
+        walletMap: {},
+        accountName: '',
+        currentAddress: ''
     },
     getters: {
         Address(state) {
@@ -105,5 +109,12 @@ export default {
         SET_WALLET_MAP(state: account, walletMap: any) {
             state.walletMap = walletMap
         },
+        SET_ACCOUNT_NAME(state: account, accountName: string) {
+            state.accountName = accountName
+        },
+        SET_CURRENT_ADDRESS(state: account, currentAddress: string) {
+            state.currentAddress = currentAddress
+            state.wallet = state.walletMap[currentAddress]
+        }
     }
 }

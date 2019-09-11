@@ -67,9 +67,9 @@ export class LoginTs extends Vue {
             this.showIndexView(this.$route.params.index)
             return
         }
-        const wallets = localRead('accountMap')
-        const walletList = wallets ? JSON.parse(wallets) : []
-        if (getObjectLength(walletList) >= 1) {
+        const walletMapString = localRead('accountMap')
+        const walletMap = walletMapString ? JSON.parse(walletMapString) : []
+        if (getObjectLength(walletMap) >= 1) {
             this.showIndexView(2)
         }
     }

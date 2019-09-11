@@ -176,6 +176,7 @@ export default class TransferTransactionTs extends Vue {
         }
     }
 
+
     @Watch('accountAddress')
     onAcountAddressChange() {
         this.resetFields()

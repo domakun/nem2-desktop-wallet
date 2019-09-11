@@ -11,7 +11,7 @@
       </div>
       <div class="checkPWDialogBody">
         <div class="stepItem1">
-          <div v-if="!transactionDetail">
+          <div v-if="isOnlyCheckPassword">
             <div class="checkPWImg">
               <img src="@/common/img/window/checkPW.png">
             </div>
@@ -54,7 +54,7 @@
      @return: checkEnd(privatekey:string)
      */
 
-    export default class CheckPWDialog extends CheckPasswordDialogTs {
+    export default class CheckPasswordDialog extends CheckPasswordDialogTs {
     }
 </script>
 

@@ -32,7 +32,12 @@ export class WalletPanelTs extends Vue {
     }
 
     get walletList() {
-        return this.app.walletList
+        const walletMap = this.activeAccount.walletMap
+        let walletList = []
+        for (let key in walletMap) {
+            walletList.push(walletMap[key])
+        }
+        return walletList
     }
 
     get reloadWalletPage() {
@@ -68,7 +73,6 @@ export class WalletPanelTs extends Vue {
 
     copyObj(obj) {
         const newObj: any = Object.prototype.toString.call(obj) == '[object Array]' ? [] : {}
-
         for (const key in obj) {
             const value = obj[key]
             if (value && 'object' == typeof value) {
@@ -97,9 +101,6 @@ export class WalletPanelTs extends Vue {
 
     setLeftSwitchIcon() {
         this.$store.commit('SET_CURRENT_PANEL_INDEX', 1)
-        const wallets = localRead('wallets')
-        let list = wallets ? JSON.parse(wallets) : []
-
     }
 
     async getMyNamespaces() {

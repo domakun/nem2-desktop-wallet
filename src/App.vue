@@ -13,7 +13,7 @@
     import {checkInstall} from '@/core/utils/electron.ts'
     import {AccountApiRxjs} from '@/core/api/AccountApiRxjs.ts'
     import {ListenerApiRxjs} from '@/core/api/ListenerApiRxjs.ts'
-    import {Component, Vue} from 'vue-property-decorator'
+    import {Component, Watch, Vue} from 'vue-property-decorator'
     import {mapState} from 'vuex'
 
     @Component({
@@ -50,31 +50,40 @@
             return this.app.chainStatus.currentBlockInfo
         }
 
-        // chainStatus: {
-        //     currentHeight: 0,
-        //     currentGenerateTime: 12,
-        //     numTransactions: 0,
-        //     currentBlockInfo: {},
-        //     preBlockInfo: {},
-        //     signerPublicKey: '',
-        //     nodeAmount: 4
-        // }
-        initApp() {
-            const walletListFromStorage: any = localRead('wallets') !== '' ? JSON.parse(localRead('wallets')) : false
-            if (!walletListFromStorage || !walletListFromStorage.length) return
-            AppWallet.switchWallet(walletListFromStorage[0].address, walletListFromStorage, this.$store)
-            this.setWalletsBalancesAndMultisigStatus(walletListFromStorage)
+        get currentAddress() {
+            return this.activeAccount.currentAddress
         }
 
-        async setWalletsBalancesAndMultisigStatus(walletListFromStorage) {
+        get walletList() {
+            const walletMap = this.activeAccount.walletMap
+            let walletList = []
+            for (let key in walletMap) {
+                walletList.push(walletMap[key])
+            }
+            return walletList
+        }
+
+        @Watch('currentAddress')
+        onCurrentAddressUpdate() {
+            const {walletList, currentAddress} = this
+            if (!walletList || !walletList.length) return
+            AppWallet.switchWallet(currentAddress, walletList, this.$store)
+            this.setWalletsBalancesAndMultisigStatus(walletList)
+        }
+
+
+        async setWalletsBalancesAndMultisigStatus(walletList) {
             const networkCurrencies = [this.currentXEM1, this.currentXEM2]
             try {
                 const balances = await Promise.all(
-                    [...walletListFromStorage]
-                      .map(wallet => new AppWallet(wallet)
-                      .getAccountBalance(networkCurrencies, this.node))
-                  )
-                const walletListWithBalances = [...walletListFromStorage].map((wallet, i) => ({...wallet, balance: balances[i]}))
+                    [...walletList]
+                        .map(wallet => new AppWallet(wallet)
+                            .getAccountBalance(networkCurrencies, this.node))
+                )
+                const walletListWithBalances = [...walletList].map((wallet, i) => ({
+                    ...wallet,
+                    balance: balances[i]
+                }))
                 const activeWalletWithBalance = walletListWithBalances.find(wallet => wallet.address === this.wallet.address)
                 if (activeWalletWithBalance === undefined) throw new Error('an active wallet was not found in the wallet list')
                 this.$store.commit('SET_WALLET_LIST', walletListWithBalances)
@@ -82,23 +91,23 @@
                 localSave('wallets', JSON.stringify(walletListWithBalances))
 
                 const multisigStatuses = await Promise.all(
-                    [...walletListFromStorage]
-                      .map(wallet => new AppWallet(wallet)
-                      .setMultisigStatus(this.node))
-                  )
+                    [...walletList]
+                        .map(wallet => new AppWallet(wallet)
+                            .setMultisigStatus(this.node))
+                )
 
                 const walletListWithMultisigStatuses = [...walletListWithBalances]
                     .map((wallet, i) => ({...wallet, isMultisig: multisigStatuses[i]}))
 
                 const activeWalletWithMultisigStatus = walletListWithMultisigStatuses
-                  .find(wallet => wallet.address === this.wallet.address)
+                    .find(wallet => wallet.address === this.wallet.address)
                 if (activeWalletWithMultisigStatus === undefined) throw new Error('an active wallet was not found in the wallet list')
                 this.$store.commit('SET_WALLET_LIST', walletListWithMultisigStatuses)
                 this.$store.commit('SET_WALLET', activeWalletWithMultisigStatus)
                 localSave('wallets', JSON.stringify(walletListWithMultisigStatuses))
             } catch (error) {
-              // Use this error for network status
-              throw new Error(error)
+                // Use this error for network status
+                throw new Error(error)
             }
         }
 
@@ -120,7 +129,6 @@
             this.$Notice.config({
                 duration: 4,
             })
-            this.initApp()
             this.chainListner()
         }
 

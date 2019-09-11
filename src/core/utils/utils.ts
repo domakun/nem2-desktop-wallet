@@ -394,3 +394,12 @@ export const getAbsoluteMosaicAmount = (amount: number, divisibility: number) =>
     if (!amount) return 0
     return amount * Math.pow(10, divisibility)
 }
+
+export const getTopValueInObject = (object: any) => {
+    let topValue: any = {}
+    for (let key in object) {
+        topValue = object[key]
+        break
+    }
+    return topValue
+}

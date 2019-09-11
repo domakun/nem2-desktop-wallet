@@ -46,6 +46,9 @@ export class WalletCreatedTs extends Vue {
         return this.app.walletList
     }
 
+    get accountName() {
+        return this.activeAccount.accountName
+    }
 
     hideCover() {
         this.showCover = false
@@ -105,17 +108,19 @@ export class WalletCreatedTs extends Vue {
     }
 
     createFromMnemonic() {
+        const {accountName} = this
         const {walletName, path, currentNetType, password} = this.formInfo
         try {
             new AppWallet().createFromMnemonic(
+                accountName,
                 walletName,
-                new Password(password),
+                password,
                 this.mnemonic.join(' '),
                 currentNetType,
-                this.$store,
                 path
             )
         } catch (error) {
+
             throw new Error(error)
         }
     }

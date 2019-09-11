@@ -2,7 +2,7 @@ import {mapState} from 'vuex'
 import {AppWallet} from '@/core/utils/wallet.ts'
 import {Component, Vue} from 'vue-property-decorator'
 import DeleteWalletCheck from './delete-wallet-check/DeleteWalletCheck.vue'
-import {formatXEMamount, formatNumber} from '@/core/utils/utils.ts'
+import {formatXEMamount, formatNumber, getObjectLength} from '@/core/utils/utils.ts'
 
 @Component({
     components: {DeleteWalletCheck},
@@ -20,10 +20,12 @@ export class WalletSwitchTs extends Vue {
     deleteIndex = -1
     deletecurrent = -1
     walletToDelete: AppWallet | boolean = false
-  
-    get walletList() {
-        return this.app.walletList
+    walletList = []
+
+    get walletMap() {
+        return this.activeAccount.walletMap
     }
+
 
     get wallet() {
         return this.activeAccount.wallet
@@ -31,6 +33,16 @@ export class WalletSwitchTs extends Vue {
 
     closeCheckPWDialog() {
         this.showCheckPWDialog = false
+        this.initWalletList()
+    }
+
+    updateWalletList() {
+        const {walletMap} = this
+        let walletList = []
+        for (let key in walletMap) {
+            walletList.push(walletMap[key])
+        }
+        this.walletList = walletList
     }
 
     switchWallet(newActiveWalletAddress) {
@@ -51,11 +63,39 @@ export class WalletSwitchTs extends Vue {
         return this.formatXEMamount(balance)
     }
 
+    // @TODO: this should probably not be here
+    initWalletList() {
+        this.updateWalletList()
+        const {walletMap, walletList} = this
+        if (getObjectLength(walletMap) == 0) {
+            this.$emit('hasWallet')
+            this.$store.commit('SET_HAS_WALLET', true)
+            this.toCreate()
+            return
+        }
+        walletList.map((item, index) => {
+            if (index === 0) {
+                item.active = true
+            } else {
+                item.active = false
+            }
+        })
+        for (let i in walletList) {
+            this.$set(walletList, i, walletList[i])
+        }
+        this.$store.commit('SET_HAS_WALLET', false)
+    }
+
     toImport() {
         this.$emit('toImport')
     }
 
     toCreate() {
         this.$emit('toCreate')
+    }
+
+    created() {
+        this.updateWalletList()
+        this.initWalletList()
     }
 }

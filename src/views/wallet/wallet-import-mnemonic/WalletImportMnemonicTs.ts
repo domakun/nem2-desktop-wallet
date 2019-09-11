@@ -3,14 +3,20 @@ import {AppWallet} from '@/core/utils/wallet.ts'
 import {mapState} from 'vuex'
 import {Password} from "nem2-sdk"
 import {Component, Vue} from 'vue-property-decorator'
+import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
 import {
     ALLOWED_SPECIAL_CHAR,
     MAX_PASSWORD_LENGTH,
     MIN_PASSWORD_LENGTH,
     passwordValidator
 } from "@/core/validation"
+import {AppLock} from "@/core/utils/appLock"
+import {localRead} from "@/core/utils/utils"
 
 @Component({
+    components: {
+        CheckPWDialog
+    },
     computed: {
         ...mapState({
             activeAccount: 'account',
@@ -29,6 +35,7 @@ export class WalletImportMnemonicTs extends Vue {
     form = formData.walletImportMnemonicForm
     NetworkTypeList = networkTypeList
     account = {}
+    showCheckPWDialog = false
 
     get getNode() {
         return this.activeAccount.node
@@ -46,10 +53,29 @@ export class WalletImportMnemonicTs extends Vue {
         return this.app.walletList
     }
 
+    get accountName() {
+        return this.activeAccount.accountName
+    }
+
+    closeCheckPWDialog() {
+        this.showCheckPWDialog = false
+    }
+
     submit() {
         if (!this.checkImport()) return
-        this.importWallet()
+        this.showCheckPWDialog = true
     }
+
+    checkEnd(mnemonicObject) {
+        if (!mnemonicObject) {
+            this.$Notice.error({
+                title: this.$t(Message.WRONG_PASSWORD_ERROR) + ''
+            })
+        }
+        // create wallet and put in localstorage/store
+        this.importWallet(mnemonicObject.password)
+    }
+
 
     checkImport() {
         if (this.form.networkType == 0) {
@@ -73,16 +99,17 @@ export class WalletImportMnemonicTs extends Vue {
         return true
     }
 
-    importWallet() {
-        const {path, mnemonic, networkType, password, walletName} = this.form
+    importWallet(password) {
+        const {accountName} = this
+        const {derivePath, mnemonic, networkType, walletName} = this.form
         try {
             new AppWallet().createFromMnemonic(
+                accountName,
                 walletName,
-                new Password(password),
+                password,
                 mnemonic,
                 networkType,
-                this.$store,
-                path
+                derivePath
             )
             this.toWalletDetails()
         } catch (error) {

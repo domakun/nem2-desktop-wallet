@@ -18,7 +18,7 @@
           </FormItem>
           <!--           TODO ADD HD-WALLET PATH INPUT-->
           <FormItem :label="$t('choose_hd_wallet_path')">
-            <Input v-model="formItem.hdPath" required :placeholder="$t('input_hd_wallet_path')"/>
+            <Input v-model="formItem.derivationPath" required :placeholder="$t('input_hd_wallet_path')"/>
           </FormItem>
 
         </Form>
@@ -27,6 +27,12 @@
         </div>
       </div>
     </div>
+    <CheckPWDialog
+            :isOnlyCheckPassword="true"
+            :showCheckPWDialog="showCheckPWDialog"
+            @closeCheckPWDialog="closeCheckPWDialog"
+            @checkEnd="checkEnd"
+    />
   </div>
 </template>
 

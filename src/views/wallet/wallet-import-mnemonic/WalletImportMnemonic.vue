@@ -18,7 +18,7 @@
             {{$t('input_hd_wallet_path')}}
           </div>
           <div class="gray_content">
-            <input class="absolute" type="password" v-model="form.hdWlletPath"
+            <input class="absolute" type="password" v-model="form.derivePath"
                    :placeholder="$t('input_hd_wallet_path')">
           </div>
         </li>
@@ -44,6 +44,12 @@
       <span class="back left" @click="toBack"> {{$t('back')}}</span>
       <span class="import right" @click="submit">{{$t('import')}}</span>
     </div>
+    <CheckPWDialog
+            :isOnlyCheckPassword="true"
+            :showCheckPWDialog="showCheckPWDialog"
+            @closeCheckPWDialog="closeCheckPWDialog"
+            @checkEnd="checkEnd"
+    />
   </div>
 
 </template>

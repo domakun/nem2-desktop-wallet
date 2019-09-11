@@ -2,7 +2,7 @@ import {Component, Vue, Watch} from 'vue-property-decorator'
 import {AppLock, StoredCipher} from '@/core/utils/appLock'
 import {standardFields} from '@/core/validation'
 import {mapState} from "vuex"
-import {localRead, getObjectLength} from "@/core/utils/utils"
+import {localRead, getObjectLength, getTopValueInObject} from "@/core/utils/utils"
 import {Message} from "@/config"
 
 @Component({
@@ -54,13 +54,15 @@ export class InputLockTs extends Vue {
 
 
     jumpToDashBoard() {
-        if (getObjectLength(this.walletMap) == 0) {
+        const {walletMap} = this
+        if (getObjectLength(walletMap) == 0) {
             this.$router.push({
                 name: 'walletCreate',
                 params: {name: 'walletCreate'}
             })
             return
         }
+        this.$store.commit('SET_CURRENT_ADDRESS', getTopValueInObject(walletMap).address)
         this.$router.push({name: 'monitorPanel'})
     }
 
@@ -88,7 +90,6 @@ export class InputLockTs extends Vue {
                 if (!valid) return
                 // return accountMap
                 const accountMap = JSON.parse(AppLock.decryptString(cipher, password))
-
                 // save mnemonic and password in store
                 that.walletMap = accountMap.walletMap
                 const nemonicCipher = JSON.stringify({
@@ -96,9 +97,9 @@ export class InputLockTs extends Vue {
                     password: accountMap.password
                 })
                 that.$store.commit('SET_MNEMONIC', AppLock.encryptString(nemonicCipher, accountMap.password))
-                // save walletMap in store
                 that.$store.commit('SET_WALLET_MAP', accountMap.walletMap)
-                console.log(JSON.parse(AppLock.decryptString(cipher, password)))
+                that.$store.commit('SET_ACCOUNT_NAME', accountMap.name)
+                that.jumpToDashBoard()
             })
     }
 
