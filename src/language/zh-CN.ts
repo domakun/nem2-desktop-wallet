@@ -15,6 +15,7 @@ export const zh_CN = {
     year_ago: '年前',
     english: '英语',
     chinese: '中文',
+    select_all: '全选',
     news: '资讯',
     vote: '投票',
     no_more_data: '无更多数据',
@@ -46,6 +47,7 @@ export const zh_CN = {
     Unlink_now: '去解绑',
     Link_now: '去绑定',
     the_default_is: '默认为',
+    all_unchecked: '全部取消',
     // the_more_you_set_the_cost_the_higher_the_processing_priority: '设置的费用越多，处理优先级越高 (1000000 gas = 1.0xem)',
     the_more_you_set_the_cost_the_higher_the_processing_priority: '',
     create: '创建',
@@ -113,7 +115,7 @@ export const zh_CN = {
     harvested_block: '收获的块',
     successful_copy: '复制成功',
     pre_week: '上周',
-    restrictable:'是否可限制',
+    restrictable: '是否可限制',
     // monitor-receipt
     set_amount: '设置金额',
     asset_type: '资产类型',
@@ -355,7 +357,7 @@ export const zh_CN = {
 
     // wallet import keystore
     please_choose: '请选择',
-
+    Accumulated_delegated_harvesting_income_is_not_yet_open: ' 暂不可获取远程账户相关信息',
 // wallet detail
     export: '导出',
     input_password: '输入密码',
