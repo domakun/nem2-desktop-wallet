@@ -61,10 +61,7 @@
 
     <!--    <img src="@/common/img/login/loginJump.png" alt="">-->
     <div class="buttons">
-
-      <div @click="toCreateAccount" class="pointer login_button radius">{{$t('create')}}</div>
       <div @click="submit" class="pointer login_button radius">{{$t('login')}}</div>
-
     </div>
     <div class="password_prompt_text">
       <span v-if="isShowPrompt"> {{$t('passowrd_prompt')}}：{{cipherHint}}</span>

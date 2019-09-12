@@ -63,6 +63,12 @@ export class CreateLockTs extends Vue {
         this.$emit('showIndexView', 3)
     }
 
+
+    toLoginAccount() {
+        // jump to create wallet
+        this.$emit('showIndexView', 2)
+    }
+
     hideIndexView() {
         this.$emit('showIndexView', 0)
     }

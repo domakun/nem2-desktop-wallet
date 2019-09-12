@@ -59,6 +59,7 @@
         </ul>
       </div>
       <div class="buttonDiv clear">
+        <button type="submit" @click="toLoginAccount" class="pointer">LOGIN</button>
         <button type="submit" class="pointer">CREATE</button>
       </div>
     </form>

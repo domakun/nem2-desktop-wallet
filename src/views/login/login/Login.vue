@@ -7,7 +7,9 @@
         <i-option v-for="(item, index) in languageList" :value="item.value" :key="index">{{ item.label }}</i-option>
       </i-select>
     </div>
-
+    <span @click="showIndexView(1)" class="pointer login_button radius">
+     {{$t('create')}}
+    </span>
     <div class="fix_contnet">
       <GetStart @showIndexView="showIndexView" v-if="indexShowList[0]"></GetStart>
       <CreateLock @updateAccountData="updateAccountData"

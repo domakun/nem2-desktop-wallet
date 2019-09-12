@@ -567,7 +567,7 @@ export const zh_CN = {
     // login
     WELCOME_TO_CATAPULT_NANO_WALLET: '欢迎使用CATAPULT-NANO-Wallet测试版',
     This_is_a_distributed_desktop_wallet_based_on_catapult_come_and_explore_the_wonderful_journey_of_catapult: '这是一个基于CATAPULT的分布式桌面钱包 祝你旅途愉快',
-    CREATE_LOCK_PASSWORD: '创建 LOCK PASSWORD',
+    CREATE_LOCK_PASSWORD: '创建 NEW ACCOUNT',
     This_password_is_used_for_desktop_wallet_locking: '本密码用于桌面钱包的锁定',
     Set_the_password: '设置密码',
     Confirm_the_password: '确认密码',
@@ -618,7 +618,7 @@ export const zh_CN = {
     We_will_clear_your_cache_reset_account_password_please_make_sure_your_wallet_is_safely_backed_up: '我们将清除你的缓存重置账号密码，请确保你的钱包已经安全备份',
     confirm_infomation: '信息确认',
     please_input_new_account_name: '输入新的账户名',
-    Locking_passwords_as_a_form_of_program_protection: '锁定密码作为程序的保护验证形式。 一旦被遗忘，就不会有任何恢复。 请记住您的锁定密码。',
+    Locking_passwords_as_a_form_of_program_protection: '账户是程序的重要保护形势，请记住您的账户名和配套的账户密码。',
     delete_wallet_tip: '请注意，您正在删除钱包%{walletName},删除钱包后将删除改钱包数据，请务必确保钱包已备份。 若无妥善备份，删除钱包后将无法找回钱包，请谨慎处理该操作。 同时，为了确保是本人操作，请输入钱包密码。',
     delete_wallet: '删除钱包',
 
@@ -668,7 +668,7 @@ export const zh_CN = {
     Display_expired_mosaic: '显示隐藏马赛克',
     Hide_expired_mosaic: '隐藏过期马赛克',
     set_wallet_name: '设置钱包名',
-    Wallet_name_is_not_allowed_to_be_repeated: '钱包名不允许重复',
+    Wallet_name_is_not_allowed_to_be_repeated: '钱包名不允许重复，重复的钱包将会被覆盖。',
     ACCOUNT_NAME_INPUT_ERROR: '账户名不允许为空',
     input_hd_wallet_path: '输入hd钱包路径',
     choose_hd_wallet_path: '选择路径',

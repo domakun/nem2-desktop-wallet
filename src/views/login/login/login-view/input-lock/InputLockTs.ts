@@ -68,7 +68,7 @@ export class InputLockTs extends Vue {
 
     showErrorNotice(text) {
         this.$Notice.destroy()
-        this.$Notice.error({title: text + ''})
+        this.$Notice.error({title: this.$t(text) + ''})
     }
 
     submit() {
@@ -111,9 +111,6 @@ export class InputLockTs extends Vue {
         this.cipherHint = accountMap[this.formItem.currentAccountName].hint
     }
 
-    toCreateAccount() {
-        this.$emit('showIndexView', 1)
-    }
 
     clearCache() {
         // localRead remove

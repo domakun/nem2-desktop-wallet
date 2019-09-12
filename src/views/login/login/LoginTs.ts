@@ -52,6 +52,7 @@ export class LoginTs extends Vue {
         this.mnemonic = mnemonic
     }
 
+
     showIndexView(index) {
         let list = [false, false, false]
         if (index != 0 && localRead('lock')) {

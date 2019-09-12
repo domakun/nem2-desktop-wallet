@@ -100,6 +100,7 @@ export class BackupMnemonicTs extends Vue {
         this.$emit('showIndexView', 2)
     }
 
+
     toBack() {
         this.$emit('closeCreated')
     }

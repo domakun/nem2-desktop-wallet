@@ -579,7 +579,7 @@ export const en_US = {
     // login
     WELCOME_TO_CATAPULT_NANO_WALLET: 'WELCOME TO CATAPULT-NANO-WALLET',
     This_is_a_distributed_desktop_wallet_based_on_catapult_come_and_explore_the_wonderful_journey_of_catapult: 'This is a distributed desktop wallet based on catapult. come and explore the wonderful journey of catapult.',
-    CREATE_LOCK_PASSWORD: 'CREATE LOCK PASSWORD',
+    CREATE_LOCK_PASSWORD: 'CREATE NEW ACCOUNT',
     This_password_is_used_for_desktop_wallet_locking: 'This password is used to unlock the application',
     Set_the_password: 'Enter your password',
     Confirm_the_password: 'Confirm your password',
@@ -627,7 +627,7 @@ export const en_US = {
     We_will_clear_your_cache_reset_account_password_please_make_sure_your_wallet_is_safely_backed_up: 'We will clear your cache reset account password, please make sure your wallet is safely backed up',
     confirm_infomation: 'Confirm infomation',
     please_input_new_account_name: 'Please input new account name',
-    Locking_passwords_as_a_form_of_program_protection: 'Locking passwords as a form of program protection verification.Once forgotten, there will be no recovery. Please remember your Lock password.',
+    Locking_passwords_as_a_form_of_program_protection: 'The account is an important protection situation for the program, please remember your account name and matching account password.',
     delete_wallet_tip: 'Be careful! You\'re deleting wallet %{walletName} After changing the wallet, the wallet data will be deleted. Make sure the wallet is backed up. If you do not properly back up, you will not be able to retrieve your wallet after deleting your wallet. Please handle this operation carefully. Also, in order to ensure that I am operating, please enter the wallet password.',
     delete_wallet: 'Delete wallet',
 
@@ -682,7 +682,7 @@ export const en_US = {
     Node_not_available_please_check_your_node_or_network_settings: 'Node not available, please check your node or network settings.',
     encryption: 'Encrypted',
     set_wallet_name: 'Set wallet name',
-    Wallet_name_is_not_allowed_to_be_repeated: 'Wallet name is not allowed to be repeated',
+    Wallet_name_is_not_allowed_to_be_repeated: 'Wallet names are not allowed to be repeated, and duplicate wallets will be overwritten.',
     ACCOUNT_NAME_INPUT_ERROR: 'Account name is not allowed to be empty',
     input_hd_wallet_path: 'Input hd-wallet path',
     choose_hd_wallet_path: 'Choose hd_wallet path',
