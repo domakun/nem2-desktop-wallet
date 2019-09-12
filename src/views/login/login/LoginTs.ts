@@ -84,7 +84,7 @@ export class LoginTs extends Vue {
         localAddInMap('accountMap', accountObject.name, accountObject)
     }
 
-    created() {
+    mounted() {
         this.isCallShowIndexView()
     }
 }
