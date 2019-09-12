@@ -2,22 +2,23 @@ import {AppWallet} from "@/core/utils/wallet.ts"
 import {Component, Vue, Prop, Watch} from 'vue-property-decorator'
 import {mapState} from "vuex"
 import {Password} from "nem2-sdk"
-import {AppLock} from '@/core/utils/appLock';
+import {AppLock} from '@/core/utils/appLock'
 import {randomMnemonicWord} from "@/core/utils/hdWallet.ts"
 
 @Component({
-        computed: {
-            ...mapState({
-                activeAccount: 'account',
-            })
-        }
+    computed: {
+        ...mapState({
+            activeAccount: 'account',
+        })
+    }
 })
 export class MnemonicDialogTs extends Vue {
-    activeAccount:any
+    activeAccount: any
     show = false
     stepIndex = 0
     mnemonic = ''
     mnemonicRandomArr = []
+    derivationPath = ''
     wallet = {
         password: '',
         mnemonicWords: ''
@@ -63,8 +64,8 @@ export class MnemonicDialogTs extends Vue {
 
     checkPassword() {
         if (!this.checkInput()) return
-        this.mnemonic = AppLock
-          .decryptString(this.getWallet.encryptedMnemonic, this.wallet.password)
+        this.mnemonic = AppLock.decryptString(this.getWallet.encryptedMnemonic, this.wallet.password)
+        this.derivationPath = this.getWallet.derivationPath
         this.mnemonicRandomArr = randomMnemonicWord(this.mnemonic.split(' '))
         this.stepIndex = 1
     }
@@ -92,7 +93,7 @@ export class MnemonicDialogTs extends Vue {
             })
             return false
         }
-        
+
         return true
     }
 

@@ -18,7 +18,7 @@
             {{$t('input_hd_wallet_path')}}
           </div>
           <div class="gray_content">
-            <input class="absolute" type="password" v-model="form.derivePath"
+            <input class="absolute" v-model="form.derivePath"
                    :placeholder="$t('input_hd_wallet_path')">
           </div>
         </li>

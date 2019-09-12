@@ -71,6 +71,7 @@
         <div class="stepItem3" v-if="stepIndex == 2">
           <p class="tit">{{$t('please_accurately_copy_the_safety_backup_mnemonic')}}</p>
           <p class="mnemonicWords">{{mnemonic}}</p>
+          <p class="derivation_path">{{derivationPath}}</p>
           <div class="buttons_container">
 
             <Button type="success" @click="exportMnemonic">
