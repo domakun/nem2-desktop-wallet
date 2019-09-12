@@ -139,6 +139,8 @@
         }
 
         async onWalletChange(newWallet) {
+            // init namespaceList
+            this.$store.commit('SET_NAMESPACE', [])
             try {
                 await Promise.all([
                     this.$store.commit('SET_TRANSACTIONS_LOADING', true),
