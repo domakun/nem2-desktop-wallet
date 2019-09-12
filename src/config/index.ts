@@ -599,7 +599,7 @@ export const importKeystoreDefault = {
     walletName: 'keystore-wallet',
     networkType: NetworkType.MIJIN_TEST,
     keystoreStr: 'eyJuYW1lIjoid2FsbGV0IiwibmV0d29yayI6MTQ0LCJhZGRyZXNzIjp7ImFkZHJlc3MiOiJTRERPUUNaQUdVRUpUR1k1UkMzTFZZQ0c2M1pXQVhLSVJDTFNaTlZVIiwibmV0d29ya1R5cGUiOjE0NH0sImNyZWF0aW9uRGF0ZSI6IjIwMTktMDktMTJUMTE6MDI6MTYuMDkwIiwic2NoZW1hIjoic2ltcGxlX3YxIiwiZW5jcnlwdGVkUHJpdmF0ZUtleSI6eyJlbmNyeXB0ZWRLZXkiOiI4NGI0YWU1NmNjNzExOTdiOWFhMWI0Yjc5OThmY2U1ZDkxNjNmMjJlYjdiMDRhOTk5M2IyMzZlMjJmZTkxYmVhOWQ5ODY4ZDkwN2VhZTlhODlhZDY5MjU3NjI2N2I2ZjciLCJpdiI6IjhDNjBFMjVFM0RGRDAxNkVDNkZFMjAyMzI3QUVCMkUzIn19',
-    keystorePassword: '111111'
+    keystorePassword: ''
 }
 export const voteType = {
     RADIO: 0,

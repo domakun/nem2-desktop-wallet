@@ -11,10 +11,10 @@ export class CreateLockTs extends Vue {
     errors: any
 
     formItem = {
-        name: '123123123',
-        password: '123123123',
-        checkPW: '123123123',
-        hint: '123123123'
+        name: '',
+        password: '',
+        checkPW: '',
+        hint: ''
     }
 
     submit() {

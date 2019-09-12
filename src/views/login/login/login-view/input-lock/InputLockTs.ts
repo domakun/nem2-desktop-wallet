@@ -111,6 +111,9 @@ export class InputLockTs extends Vue {
         this.cipherHint = accountMap[this.formItem.currentAccountName].hint
     }
 
+    toCreateAccount() {
+        this.$emit('showIndexView', 1)
+    }
 
     clearCache() {
         // localRead remove

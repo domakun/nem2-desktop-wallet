@@ -20,9 +20,9 @@ export class WalletUpdatePasswordTs extends Vue {
     activeAccount: any
     app: any
     formItem = {
-        prePassword: '111111111',
-        newPassword: '111111111',
-        repeatPassword: '111111111',
+        prePassword: '',
+        newPassword: '',
+        repeatPassword: '',
     }
     showCheckPWDialog = false
     isCompleteForm = false
@@ -111,9 +111,9 @@ export class WalletUpdatePasswordTs extends Vue {
 
     init() {
         this.formItem = {
-            prePassword: '111111111',
-            newPassword: '111111111',
-            repeatPassword: '111111111',
+            prePassword: '',
+            newPassword: '',
+            repeatPassword: '',
 
         }
     }
