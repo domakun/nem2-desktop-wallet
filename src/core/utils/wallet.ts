@@ -245,7 +245,14 @@ export class AppWallet {
         }
     }
 
+    updateWalletMapBalance(balance: number) {
+        const walletBalanceMap = localRead('walletBalanceMap') ? JSON.parse(localRead('walletBalanceMap')) : {}
+        walletBalanceMap[this.address] = balance
+        localSave('walletBalanceMap', JSON.stringify(walletBalanceMap))
+    }
+
     async updateAccountBalance(balance: number, store: any): Promise<void> {
+        this.updateWalletMapBalance(balance)
         try {
             this.balance = balance
             this.updateWalletInStore(store)

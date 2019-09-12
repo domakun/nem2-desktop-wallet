@@ -3,6 +3,7 @@ import {AppWallet} from '@/core/utils/wallet.ts'
 import {Component, Vue} from 'vue-property-decorator'
 import DeleteWalletCheck from './delete-wallet-check/DeleteWalletCheck.vue'
 import {formatXEMamount, formatNumber, getObjectLength} from '@/core/utils/utils.ts'
+import {localRead, localSave} from "@/core/utils/utils"
 
 @Component({
     components: {DeleteWalletCheck},
@@ -26,6 +27,11 @@ export class WalletSwitchTs extends Vue {
         return this.activeAccount.walletMap
     }
 
+    get walletBalanceMap() {
+        const walletBalanceMap = localRead('walletBalanceMap') ? JSON.parse(localRead('walletBalanceMap')) : {}
+
+        return walletBalanceMap
+    }
 
     get wallet() {
         return this.activeAccount.wallet
@@ -58,7 +64,7 @@ export class WalletSwitchTs extends Vue {
     }
 
     getWalletBalance(address) {
-        const {balance} = this.walletMap[address]
+        const balance = this.walletBalanceMap[address]
         if (!balance || balance === 0) return 0
         return this.formatXEMamount(balance)
     }
@@ -73,13 +79,6 @@ export class WalletSwitchTs extends Vue {
             this.toCreate()
             return
         }
-        walletList.map((item, index) => {
-            if (index === 0) {
-                item.active = true
-            } else {
-                item.active = false
-            }
-        })
         for (let i in walletList) {
             this.$set(walletList, i, walletList[i])
         }

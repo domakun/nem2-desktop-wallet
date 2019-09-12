@@ -167,7 +167,7 @@ export const en_US = {
     remote_modal_comfire: 'confirm',
     remote_modal_cancel: 'cancel',
     remote_modal_place1: 'Please enter or paste a remote public key',
-    remote_modal_place2: 'Please enter your wallet password',
+    remote_modal_place2: 'Please enter your account password',
     Unlink_now: 'Unlink now',
     Link_now: 'Link now',
     Accumulated_delegated_harvesting_income_is_not_yet_open: ' Accumulated delegated harvesting income is not yet open',
@@ -357,7 +357,7 @@ export const en_US = {
     please_enter_a_custom_nod_address: 'Please input Node url',
     point_null_error: 'Node null error',
     //check pw dialog
-    please_enter_your_wallet_password_to_ensure_your_own_operation_and_keep_your_wallet_safe: 'Please enter your wallet password to ensure your own operation and keep your wallet safe.',
+    please_enter_your_wallet_password_to_ensure_your_own_operation_and_keep_your_wallet_safe: 'Please enter your account password to ensure your own operation and keep your wallet safe.',
 
     // wallet import keystore
     please_choose: 'Please choose',
@@ -691,6 +691,6 @@ export const en_US = {
     Display_expired_mosaic: 'Display expired mosaic',
     Hide_expired_mosaic: 'Hide expired mosaic',
     account_password: 'Account password',
-    login:'Login',
+    login: 'Login',
 
 }

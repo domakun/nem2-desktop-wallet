@@ -354,7 +354,7 @@ export const zh_CN = {
     please_enter_a_custom_nod_address: '请输入自定义节点地址',
     point_null_error: '节点数据不可为空',
     //check pw dialog
-    please_enter_your_wallet_password_to_ensure_your_own_operation_and_keep_your_wallet_safe: '请输入钱包密码，以确保为本人操作，保证你的钱包安全',
+    please_enter_your_wallet_password_to_ensure_your_own_operation_and_keep_your_wallet_safe: '请输入账户密码，以确保为本人操作，保证你的钱包安全',
 
     // wallet import keystore
     please_choose: '请选择',
@@ -672,6 +672,6 @@ export const zh_CN = {
     ACCOUNT_NAME_INPUT_ERROR: '账户名不允许为空',
     input_hd_wallet_path: '输入hd钱包路径',
     choose_hd_wallet_path: '选择路径',
-    account_password:'账户密码',
-    login:'登录'
+    account_password: '账户密码',
+    login: '登录'
 }
