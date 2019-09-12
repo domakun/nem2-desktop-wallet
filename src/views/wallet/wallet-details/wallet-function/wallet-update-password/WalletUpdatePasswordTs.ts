@@ -124,7 +124,7 @@ export class WalletUpdatePasswordTs extends Vue {
         this.isCompleteForm = prePassword !== '' && newPassword !== '' && repeatPassword !== ''
     }
 
-    created() {
+    mounted() {
         this.init()
     }
 }
