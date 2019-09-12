@@ -15,7 +15,6 @@ import namespace2Icon from "@/common/img/service/namespace2.png"
 import apostille1Icon from "@/common/img/service/apostille1.png"
 import apostille2Icon from "@/common/img/service/apostille2.png"
 import {echartsConfigure as echartsConfigureData} from '@/config/echarts.ts'
-import {veeValidateConfig} from "@/core/validation"
 
 export const defaultDerivePath = defaultDerivePathData
 
@@ -127,6 +126,7 @@ export const Message = {
     NODE_CONNECTION_ERROR: 'Node_connection_failed',
     KEYSTORE_DECRYPTION_FAILED: 'Keystore_decryption_failed',
     MOSACI_LIST_NULL_ERROR: 'The_mosaic_to_be_sent_is_empty',
+    ADDRESS_ALIAS_NOT_EXIST_ERROR: 'address_alias_not_exist'
 
 }
 
@@ -235,7 +235,7 @@ export const nodeList = [
         value: 'http://13.114.200.132:3000',
         name: 'jp-5',
         url: '13.114.200.132',
-        isSelected: true,
+        isSelected: false,
     },
     // {
     //     value: 'http://47.107.245.217:3000',
@@ -250,7 +250,7 @@ export const timeZoneListData = timeZoneList
 export const nodeConfig = {
     node: 'http://13.114.200.132:3000',
     currentXem: 'nem.xem',
-    currentXEM1: '77a1969932d987d7',
+    currentXEM1: '',
     currentXEM2: '1B47399ABD2C1E49',
     XEM: 'XEM',
     GasToXemMultiple: 20000   //  1xem=20000gas

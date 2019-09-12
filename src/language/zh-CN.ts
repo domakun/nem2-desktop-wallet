@@ -15,6 +15,7 @@ export const zh_CN = {
     year_ago: '年前',
     english: '英语',
     chinese: '中文',
+    select_all: '全选',
     news: '资讯',
     vote: '投票',
     no_more_data: '无更多数据',
@@ -46,6 +47,7 @@ export const zh_CN = {
     Unlink_now: '去解绑',
     Link_now: '去绑定',
     the_default_is: '默认为',
+    all_unchecked: '全部取消',
     // the_more_you_set_the_cost_the_higher_the_processing_priority: '设置的费用越多，处理优先级越高 (1000000 gas = 1.0xem)',
     the_more_you_set_the_cost_the_higher_the_processing_priority: '',
     create: '创建',
@@ -113,7 +115,7 @@ export const zh_CN = {
     harvested_block: '收获的块',
     successful_copy: '复制成功',
     pre_week: '上周',
-    restrictable:'是否可限制',
+    restrictable: '是否可限制',
     // monitor-receipt
     set_amount: '设置金额',
     asset_type: '资产类型',
@@ -345,7 +347,7 @@ export const zh_CN = {
     hash: 'hash',
 
     //menu bar
-    wallet_name: '账户名',
+    wallet_name: '钱包名',
     switch_point: '选择节点',
     current_point: '当前节点',
     please_enter_a_custom_nod_address: '请输入自定义节点地址',
@@ -355,7 +357,7 @@ export const zh_CN = {
 
     // wallet import keystore
     please_choose: '请选择',
-
+    Accumulated_delegated_harvesting_income_is_not_yet_open: ' 暂不可获取远程账户相关信息',
 // wallet detail
     export: '导出',
     input_password: '输入密码',
@@ -380,7 +382,7 @@ export const zh_CN = {
     copy: '复制',
     Display_Keystore_QR_code: '显示Keystore二维码',
     Show_Keystore: '显示Keystore',
-
+    address_alias_not_exist: '地址别名不存在',
     //export dialog
     export_mnemonic: '导出助记词',
     backup_mnemonic: '备份助记词',
@@ -410,7 +412,7 @@ export const zh_CN = {
     The_name_of_the_wallet_can_be_convenient_for_you_to_use_you_can_distinguish_different_wallets_etc_for_better_management_after_entering_the_system_you_can_also_modify_the_wallet_details: '钱包名能方便你在使用中，区别不同的钱包等，便于更好的管理。',
     This_password_is_used_to_encrypt_your_private_key: '此密码用于加密您的钱包,请避免使用过于简单的密码',
     This_password_is_used_to_encrypt_your_private_key_keystore: '此密码为您的钱包和再次导出keystore时的解密密码,请避免使用过于简单的密码',
-    password_hint: '在 %{min} 到 %{max} 个字符。允许特殊字符: %{specialChar}',
+    password_hint: '最少%{min}个字符',
     please_set_your_wallet_password: '请输入设置的密码',
     please_enter_your_password_again: '请再次输入你设置的密码',
     repeat_the_password: '重复密码',
@@ -662,9 +664,13 @@ export const zh_CN = {
     encryption: '加密',
     Not_encrypted: '不加密',
     bondedFee: '绑定费用',
-    set_wallet_name:'设置钱包名',
-    Wallet_name_is_not_allowed_to_be_repeated:'钱包名不允许重复',
-    ACCOUNT_NAME_INPUT_ERROR:'账户名不允许为空',
-    input_hd_wallet_path:'输入hd钱包路径',
-    choose_hd_wallet_path:'选择路径',
+    Display_expired_mosaic: '显示隐藏马赛克',
+    Hide_expired_mosaic: '隐藏过期马赛克',
+    set_wallet_name: '设置钱包名',
+    Wallet_name_is_not_allowed_to_be_repeated: '钱包名不允许重复',
+    ACCOUNT_NAME_INPUT_ERROR: '账户名不允许为空',
+    input_hd_wallet_path: '输入hd钱包路径',
+    choose_hd_wallet_path: '选择路径',
+    account_password:'账户密码',
+    login:'登录'
 }

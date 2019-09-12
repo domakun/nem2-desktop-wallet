@@ -4,7 +4,7 @@
       <p class="tit">{{$t('Wallet_management')}}</p>
     </div>
     <div class="walletList">
-      <div :class="['walletItem', item.style, item.active || walletList.length === 1 ? 'active':'','radius']"
+      <div :class="['walletItem_bg_0','walletItem', item.style, item.active || walletList.length === 1 ? 'active':'','radius']"
            @click="switchWallet(item.address)"
            v-for="(item,key, index) in walletMap" :key="index">
         <Row>
@@ -12,7 +12,7 @@
             <div>
               <p class="walletName">{{item.walletName}}</p>
               <p class="walletAmount overflow_ellipsis">
-                {{formatNumber(getWalletBalance(index) ) }}
+                {{formatNumber(getWalletBalance(key) ) }}
                 &nbsp;<span class="tails">XEM</span>
               </p>
             </div>

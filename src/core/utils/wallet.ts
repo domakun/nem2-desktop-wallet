@@ -173,8 +173,7 @@ export class AppWallet {
     }
 
     addNewWalletToList(store: any, password: string, accountName: string): void {
-        const accountMapCipher = localRead('accountMap') === ''
-            ? '' : JSON.parse(localRead('accountMap'))[accountName].cipher
+        const accountMapCipher = localRead('accountMap') === '' ? '' : JSON.parse(localRead('accountMap'))[accountName].cipher
         if (!accountMapCipher) return
 
         let localWalletMapData: any = JSON.parse(AppLock.decryptString(accountMapCipher, password)).walletMap || {}
@@ -253,28 +252,19 @@ export class AppWallet {
         try {
             const balance = await this.getAccountBalance(networkCurrencies, node)
             this.balance = balance
-            this.updateWallet(store)
+            this.updateWalletInStore(store)
         } catch (error) {
             // do nothing
         }
     }
 
-    updateWallet(store: any) {
-        const localData: any[] = localRead('wallets') === ''
-            ? [] : JSON.parse(localRead('wallets'))
-
-        if (!localData.length) throw new Error('error at update wallet, no wallets in storage')
-
-        let newWalletList = [...localData]
-        const newWalletIndex = localData.findIndex(({address}) => address === this.address)
-
-        if (newWalletIndex === -1) throw new Error('wallet not found when updating')
-
-        newWalletList[newWalletIndex] = this
-
-        store.commit('SET_WALLET_LIST', newWalletList)
+    updateWalletInStore(store: any) {
+        const address = this.address
+        const walletMap = store.account.walletMap
+        if (getObjectLength(walletMap) < 1) throw new Error('wallet not found when updating')
+        walletMap[address] = this
+        store.commit('SET_WALLET_MAP', walletMap)
         store.commit('SET_WALLET', this)
-        localSave('wallets', JSON.stringify(newWalletList))
     }
 
     async setMultisigStatus(node: string): Promise<boolean> {
@@ -431,26 +421,38 @@ export const getMosaicList = async (address: string, node: string) => {
     return mosaicList
 }
 
-export const getMosaicInfoList = async (node: string, mosaicList: Mosaic[]) => {
+export const getMosaicInfoList = async (node: string, mosaicList: Mosaic[], currentHeight: any, isShowExpired: boolean = true) => {
     let mosaicInfoList: MosaicInfo[] = []
-
     let mosaicIds: any = mosaicList.map((item) => {
         return item.id
     })
     await new MosaicApiRxjs().getMosaics(node, mosaicIds).toPromise().then(mosaics => {
-        mosaicInfoList = mosaics
+        if (!isShowExpired) {
+            let s = 0
+            mosaics.map((mosaic) => {
+                const duration = mosaic['properties'].duration.compact()
+                const createHeight = mosaic.height.compact()
+                if (duration === 0 || duration + createHeight > Number(currentHeight)) {
+                    s++
+                    mosaicInfoList.push(mosaic)
+                }
+            })
+            return
+        } else {
+            mosaicInfoList = mosaics
+        }
     }).catch((_) => {
         return
     })
     return mosaicInfoList
 }
 
-export const buildMosaicList = (mosaicList: Mosaic[], coin1: string, coin2: string): any => {
+export const buildMosaicList = (mosaicList: Mosaic[], coin1: string, coin2: string, currentXem: string): any => {
     const mosaicListRst = mosaicList.map((mosaic: any) => {
         mosaic._amount = mosaic.amount.compact()
         mosaic.value = mosaic.id.toHex()
         if (mosaic.value == coin1 || mosaic.value == coin2) {
-            mosaic.label = 'nem.xem' + ' (' + mosaic._amount + ')'
+            mosaic.label = currentXem + ' (' + mosaic._amount + ')'
         } else {
             mosaic.label = mosaic.id.toHex() + ' (' + mosaic._amount + ')'
         }

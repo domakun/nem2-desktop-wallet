@@ -26,6 +26,7 @@ export class MonitorPanelTs extends Vue {
     activeAccount: any
     mosaic: string
     mosaicName = ''
+    isShowExpiredMosaic = false
     // @TODO: current price in the store
     currentPrice = 0
     isLoadingMosaic = true
@@ -33,10 +34,13 @@ export class MonitorPanelTs extends Vue {
     isShowAccountInfo = true
     isShowAccountAlias = false
     isShowManageMosaicIcon = false
+    ischecked = true
     monitorSeleted = monitorSeleted
     monitorUnselected = monitorUnselected
     navigatorList: any = minitorPanelNavigatorList
     mosaicMap: any = {}
+    arr = []
+    a = 0
 
     get getWallet() {
         return this.activeAccount.wallet
@@ -85,6 +89,10 @@ export class MonitorPanelTs extends Vue {
 
     get xemDivisibility() {
         return this.activeAccount.xemDivisibility
+    }
+
+    get currentHeight() {
+        return this.app.chainStatus.currentHeight
     }
 
     switchPanel(index) {
@@ -138,12 +146,50 @@ export class MonitorPanelTs extends Vue {
         this.mosaicMap = this.localMosaicMap
     }
 
+    toggleAllChecked() {
+        this.ischecked = !this.ischecked
+        document.getElementsByClassName("choose")[0].classList.replace(`${!this.ischecked}`, `${this.ischecked}`)
+        Object.keys(this.localMosaicMap).forEach(key => {
+            this.localMosaicMap[key].show = this.ischecked
+            let pos = this.arr.indexOf(key)
+            if (pos < 0) {
+                this.arr.push(key)
+            }
+        })
+    }
+
     toggleShowMosaic(key, value) {
+        this.a = 0
         if (!this.localMosaicMap[key]) {
             this.localMosaicMap[key] = value
         }
         this.localMosaicMap[key].show = !this.localMosaicMap[key].show
+        if (this.localMosaicMap[key].show === false) {
+            this.ischecked = false
+            document.getElementsByClassName("choose")[0].classList.replace(`${!this.ischecked}`, `${this.ischecked}`)
+        }
+        Object.keys(this.localMosaicMap).forEach(index => {
+            let pos = this.arr.indexOf(index)
+            if (pos < 0) {
+                this.arr.push(index)
+            }
+            if (this.localMosaicMap[index].show) {
+
+                this.a = this.a + 1
+            } else {
+                this.a = this.a - 1
+            }
+
+        })
+        if (this.arr.length === this.a) {
+            this.ischecked = true
+            document.getElementsByClassName("choose")[0].classList.replace(`${!this.ischecked}`, `${this.ischecked}`)
+        }
         this.saveMosaicRecordInLocal()
+    }
+
+    expiredMosaic() {
+
     }
 
     saveMosaicRecordInLocal() {
@@ -182,14 +228,15 @@ export class MonitorPanelTs extends Vue {
     async initMosaic() {
         this.isLoadingMosaic = true
         const that = this
-        let {accountAddress, node, currentXEM1, currentXem, currentXEM2} = this
+        let {accountAddress, node, isShowExpiredMosaic, currentXEM1, currentXem, currentXEM2} = this
+        console.log(isShowExpiredMosaic, 'isShowExpiredMosaic')
         let mosaicMap = {}
         let addressMap = {}
         let mosaicHexIds = []
         const defaultMosaic = {
             amount: 0,
-            name: nodeConfig.currentXem,
-            hex: that.currentXEM1,
+            name: currentXem,
+            hex: currentXEM1,
             show: true,
             divisibility: 6,
             showInManage: true
@@ -199,86 +246,77 @@ export class MonitorPanelTs extends Vue {
             mosaicHexIds[index] = item.id.toHex()
             return item.id
         })
-        const mosaicInfoList = await getMosaicInfoList(node, mosaicList)
-        new NamespaceHttp(node).getLinkedMosaicId(new NamespaceId(nodeConfig.currentXem)).subscribe((mosaicId) => {
-            // set current xem hex
-            currentXEM1 = mosaicId.toHex()
-            this.$store.commit('SET_CURRENT_XEM_1', currentXEM1)
-            // set current xem divisibility
-            new MosaicHttp(node).getMosaic(mosaicId).subscribe((mosaic: any) => {
-                that.$store.commit('SET_XEM_DIVISIBILITY', mosaic.properties.divisibility)
-            })
-            mosaicList = mosaicInfoList.map((item: any) => {
-                const mosaicItem: any = mosaicList[mosaicHexIds.indexOf(item.mosaicId.toHex())]
-                mosaicItem.hex = item.mosaicId.toHex()
-                if (mosaicItem.hex == currentXEM2 || mosaicItem.hex == currentXEM1) {
-                    mosaicItem.name = currentXem
-                    mosaicItem.amount = getRelativeMosaicAmount(mosaicItem.amount.compact(), item.divisibility)
-                    mosaicItem.show = true
-                    mosaicItem.divisibility = item.properties.divisibility
-                    mosaicItem.showInManage = true
-                    return mosaicItem
-                }
-                mosaicItem.name = item.mosaicId.toHex()
+        const mosaicInfoList = await getMosaicInfoList(node, mosaicList, this.currentHeight, isShowExpiredMosaic)
+        mosaicList = mosaicInfoList.map((item: any) => {
+            const mosaicItem: any = mosaicList[mosaicHexIds.indexOf(item.mosaicId.toHex())]
+            mosaicItem.hex = item.mosaicId.toHex()
+            if (mosaicItem.hex == currentXEM2 || mosaicItem.hex == currentXEM1) {
+                mosaicItem.name = currentXem
                 mosaicItem.amount = getRelativeMosaicAmount(mosaicItem.amount.compact(), item.divisibility)
                 mosaicItem.show = true
                 mosaicItem.divisibility = item.properties.divisibility
                 mosaicItem.showInManage = true
                 return mosaicItem
-            })
-            const isCoinExist = mosaicList.every((item) => {
-                if (item.id.toHex() == that.currentXEM2 || item.id.toHex() == that.currentXEM1) {
-                    return false
-                }
-                return true
-            })
-            if (isCoinExist) {
-                mosaicList.unshift({
-                    amount: 0,
-                    hex: currentXEM1,
-                    divisibility: that.xemDivisibility,
-                    name: nodeConfig.currentXem,
-                    id: new MosaicId(currentXEM1),
-                    show: true,
-                    showInManage: true
-                })
             }
-            mosaicList = mosaicList.reverse()
-            mosaicList.forEach((item) => {
-                mosaicMap[item.hex] = {
-                    amount: item.amount,
-                    name: item.name,
-                    divisibility: item.divisibility,
-                    hex: item.hex,
-                    show: true,
-                    showInManage: true
-                }
+            mosaicItem.name = item.mosaicId.toHex()
+            mosaicItem.amount = getRelativeMosaicAmount(mosaicItem.amount.compact(), item.divisibility)
+            mosaicItem.show = true
+            mosaicItem.divisibility = item.properties.divisibility
+            mosaicItem.showInManage = true
+            return mosaicItem
+        })
+        const isCoinExist = mosaicList.every((item) => {
+            if (item.id.toHex() == that.currentXEM2 || item.id.toHex() == that.currentXEM1) {
+                return false
+            }
+            return true
+        })
+        if (isCoinExist) {
+            mosaicList.unshift({
+                amount: 0,
+                hex: currentXEM1,
+                divisibility: that.xemDivisibility,
+                name: currentXem,
+                id: new MosaicId(currentXEM1),
+                show: true,
+                showInManage: true
             })
-            this.namespaceList.forEach((item) => {
-                switch (item.alias.type) {
-                    case aliasType.mosaicAlias:
-                        const mosaicHex = new MosaicId(item.alias.mosaicId).toHex()
-                        if (mosaicMap[mosaicHex]) {
-                            mosaicMap[mosaicHex].name = item.label
-                        }
-                        break
-                    case  aliasType.addressAlias:
-                        //@ts-ignore
-                        const address = Address.createFromEncoded(item.alias.address).address
-                        addressMap[address] = item
-                        break
-                }
-            })
-            that.updateMosaicMap(mosaicMap)
-            this.$store.commit('SET_ADDRESS_ALIAS_MAP', addressMap)
-            that.isLoadingMosaic = false
-            if (mosaicList.length > 0) {
-                this.$store.commit('SET_MOSAICS', mosaicList)
-            } else {
-                this.$store.commit('SET_MOSAICS', [defaultMosaic])
-                mosaicMap[defaultMosaic.hex] = defaultMosaic
+        }
+        mosaicList = mosaicList.reverse()
+        mosaicList.forEach((item) => {
+            mosaicMap[item.hex] = {
+                amount: item.amount,
+                name: item.name,
+                divisibility: item.divisibility,
+                hex: item.hex,
+                show: true,
+                showInManage: true
             }
         })
+        this.namespaceList.forEach((item) => {
+            switch (item.alias.type) {
+                case aliasType.mosaicAlias:
+                    const mosaicHex = new MosaicId(item.alias.mosaicId).toHex()
+                    if (mosaicMap[mosaicHex]) {
+                        mosaicMap[mosaicHex].name = item.label
+                    }
+                    break
+                case  aliasType.addressAlias:
+                    //@ts-ignore
+                    const address = Address.createFromEncoded(item.alias.address).address
+                    addressMap[address] = item
+                    break
+            }
+        })
+        that.updateMosaicMap(mosaicMap)
+        this.$store.commit('SET_ADDRESS_ALIAS_MAP', addressMap)
+        that.isLoadingMosaic = false
+        if (mosaicList.length > 0) {
+            this.$store.commit('SET_MOSAICS', mosaicList)
+        } else {
+            this.$store.commit('SET_MOSAICS', [defaultMosaic])
+            mosaicMap[defaultMosaic.hex] = defaultMosaic
+        }
     }
 
 
@@ -342,7 +380,17 @@ export class MonitorPanelTs extends Vue {
         return formatXEMamount(text)
     }
 
-    @Watch('getWallet')
+    @Watch('isShowExpiredMosaic')
+    onIsShowExpiredMosaic() {
+        this.initMosaic()
+    }
+
+    @Watch('currentXem')
+    onCurrentXemChange() {
+        this.initMosaic()
+    }
+
+    @Watch('getWallet.address')
     onGetWalletChange(n, o) {
         if (!n.address || n.address === o.address) return
         this.initData()

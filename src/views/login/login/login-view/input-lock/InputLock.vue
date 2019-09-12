@@ -26,17 +26,27 @@
       {{$t('This_is_a_distributed_desktop_wallet_based_on_catapult_come_and_explore_the_wonderful_journey_of_catapult')}}
     </div>
 
-    <form @submit.prevent="validateForm('input-lock')">
+    <form @submit.prevent="validateForm('input-lock')" class="account_form">
+      <div class="form_item">
 
-        <Select v-model="formItem.currentAccountName" class="select_wallet">
-          <Option v-for="account in accountList" :value="account.value" :key="account.value">{{ account.label }}</Option>
+      <span class="form_title">
+        {{$t('account')}}：
+      </span>
+        <Select v-model="formItem.currentAccountName" class="select_wallet" :placeholder="$t('account')">
+          <Option v-for="account in accountList" :value="account.value" :key="account.value">{{ account.label }}
+          </Option>
         </Select>
+
+      </div>
       <div class="bottom_input">
+      <span class="form_title">
+        {{$t('password')}}：
+      </span>
         <input
                 data-vv-name="password"
                 v-model="formItem.password"
                 type="password"
-                :placeholder="$t('lock_password')"
+                :placeholder="$t('account_password')"
                 v-validate="passwordFieldValidation"
         >
         <input
@@ -45,9 +55,13 @@
                 v-validate=''
                 style="display:none"
         >
-        <img @click="submit" src="@/common/img/login/loginJump.png" alt="">
       </div>
     </form>
+
+
+    <!--    <img src="@/common/img/login/loginJump.png" alt="">-->
+
+    <div @click="submit" class="pointer login_button radius">{{$t('login')}}</div>
 
     <div class="password_prompt_text">
       <span v-if="isShowPrompt"> {{$t('passowrd_prompt')}}：{{cipherHint}}</span>

@@ -4,11 +4,6 @@ import {Password} from "nem2-sdk"
 import {mapState} from 'vuex'
 import {Component, Vue} from 'vue-property-decorator'
 import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
-import {
-    ALLOWED_SPECIAL_CHAR,
-    MAX_PASSWORD_LENGTH,
-    MIN_PASSWORD_LENGTH
-} from "@/core/validation"
 import {AppLock} from "@/core/utils/appLock"
 import {localRead} from "@/core/utils/utils"
 
@@ -26,9 +21,6 @@ import {localRead} from "@/core/utils/utils"
 export class WalletImportKeystoreTs extends Vue {
     activeAccount: any
     app: any
-    MIN_PASSWORD_LENGTH = MIN_PASSWORD_LENGTH
-    MAX_PASSWORD_LENGTH = MAX_PASSWORD_LENGTH
-    ALLOWED_SPECIAL_CHAR = ALLOWED_SPECIAL_CHAR
     file = ''
     fileList = []
     NetworkTypeList = networkTypeList
@@ -122,7 +114,7 @@ export class WalletImportKeystoreTs extends Vue {
             this.showErrorNotice(Message.WALLET_NAME_INPUT_ERROR)
             return false
         }
-        if (!walletPassword || walletPassword.length < 8 || walletPassword.length > 32) {
+        if (!walletPassword || walletPassword.length < 8) {
             this.showErrorNotice(Message.PASSWORD_SETTING_INPUT_ERROR)
             return false
         }

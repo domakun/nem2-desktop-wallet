@@ -244,7 +244,7 @@ export class MonitorDashBoardTs extends Vue {
                     if (item.mosaics.length == 1) {
                         //infoThird
                         const amount = item.mosaics[0].amount.compact()
-                        const mosaicInfoList = await getMosaicInfoList(node, [item.mosaics[0].id])
+                        const mosaicInfoList = await getMosaicInfoList(node, [item.mosaics[0].id],this.currentHeight)
                         const mosaicInfo: any = mosaicInfoList[0]
                         resultList[index].infoThird = (item.isReceipt ? '+' : '-') + that.getRelativeMosaicAmount(amount, mosaicInfo.properties.divisibility)
                     }
@@ -340,9 +340,9 @@ export class MonitorDashBoardTs extends Vue {
 
     @Watch('allTransactionsList')
     onAllTransacrionListChange() {
-        const {currentXEM1, node} = this
+        const {currentXEM1, node, currentXem} = this
         const {allTransactionsList, accountAddress, isShowTransferTransactions, xemDivisibility} = this
-        const transactionList = transactionFormat(allTransactionsList, accountAddress, currentXEM1, xemDivisibility, node)
+        const transactionList = transactionFormat(allTransactionsList, accountAddress, currentXEM1, xemDivisibility, node, currentXem)
         this.transferTransactionList = transactionList.transferTransactionList
         this.receiptList = transactionList.receiptList
         this.changePage(1)

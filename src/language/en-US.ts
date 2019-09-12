@@ -20,6 +20,7 @@ export const en_US = {
     news: 'News',
     vote: 'Vote',
 
+
     //infomation
     no_more_data: 'No more data',
     business: 'Business',
@@ -32,7 +33,7 @@ export const en_US = {
     no_comment_yet: 'No comment yet',
     successful_operation: 'Request succeeded',
     operation_failed: 'Request Failed',
-
+    address_alias_not_exist: 'Address alias not exist',
     // vote
     over: 'Over',
     initiation_address: 'Initiation address',
@@ -144,6 +145,7 @@ export const en_US = {
     QR_code_generation_failed: 'QR code generation failed',
     //monitor-remote
     Remote_title_recipt: 'Accumulated delegated harvesting income',
+    select_all: 'Select all',
     Remote_state: 'Current state',
     Remote_pubulic_pik: 'Remote public key',
     Remote_question: 'Related issues',
@@ -168,6 +170,7 @@ export const en_US = {
     remote_modal_place2: 'Please enter your wallet password',
     Unlink_now: 'Unlink now',
     Link_now: 'Link now',
+    Accumulated_delegated_harvesting_income_is_not_yet_open: ' Accumulated delegated harvesting income is not yet open',
     //monitor-relogin
     welcome_back_to_the_CATAPULT_beta: 'WELCOME BACK TO THE CATAPULT BETA',
     welcome_to_the_CATAPULT_beta: 'WELCOME TO USE THE CATAPULT BETA',
@@ -413,7 +416,7 @@ export const en_US = {
     set_the_wallet_name: 'Set the wallet name',
     The_name_of_the_wallet_can_be_convenient_for_you_to_use_you_can_distinguish_different_wallets_etc_for_better_management_after_entering_the_system_you_can_also_modify_the_wallet_details: 'The name of the wallet can be convenient for you to use, you can distinguish different wallets, etc., for better management。',
     This_password_is_used_to_encrypt_your_private_key: 'This password is used to encrypt your wallet. The more complicated it is, the better the encryption will be.',
-    password_hint: 'Between %{min} and %{max} characters. Allowed special characters: %{specialChar}',
+    password_hint: '%{min} characters minimum',
     please_set_your_wallet_password: 'Please set your wallet password',
     please_enter_your_password_again: 'Please enter your password again',
     repeat_the_password: 'Repeat the password',
@@ -502,7 +505,7 @@ export const en_US = {
     Convert_to_multi_sign_account: 'Convert to multisig account',
     cosigner: 'Cosigner',
     Add_co_signers_here_will_be_displayed_in_the_action_list_click_delete_to_cancel_the_operation: 'Add co-signers, here will be displayed in the action list, click delete to cancel the operation',
-    Wallet_account_address_or_alias: 'Account publickey or alias',
+    Wallet_account_address_or_alias: 'Input account publickey ',
     min_approval: 'Min approval',
     min_approval_delta: 'Delta of min approval',
     min_removal_delta: 'Delta of min removal',
@@ -670,17 +673,22 @@ export const en_US = {
 
     This_password_is_used_for_importing_the_keystore_file: 'This password is the password for decrypting the Keystore and is used for importing the keystore file. Please remember it.',
     timestamp: 'Timestamp',
-    sender: 'sender',
+    sender: 'Sender',
     HINT_mosaic_list: 'Mosaics for sending',
     inner_transaction: 'Inner',
     LABEL_mosaic_list: 'Mosaic list',
     The_mosaic_to_be_sent_is_empty: 'The mosaic to be sent is empty',
     Node_not_available_please_check_your_node_or_network_settings: 'Node not available, please check your node or network settings.',
     encryption: 'Encrypted',
-    Not_encrypted: 'Not encrypted',
     set_wallet_name: 'Set wallet name',
     Wallet_name_is_not_allowed_to_be_repeated: 'Wallet name is not allowed to be repeated',
     ACCOUNT_NAME_INPUT_ERROR: 'Account name is not allowed to be empty',
-    input_hd_wallet_path: 'input hd-wallet path',
-    choose_hd_wallet_path:'choose hd_wallet path',
+    input_hd_wallet_path: 'Input hd-wallet path',
+    choose_hd_wallet_path: 'Choose hd_wallet path',
+    Not_encrypted: 'Not encrypted',
+    all_unchecked: 'All unchecked',
+    Display_expired_mosaic: 'Display expired mosaic',
+    Hide_expired_mosaic: 'Hide expired mosaic',
+    account_password: 'Account password',
+    login:'Login'
 }

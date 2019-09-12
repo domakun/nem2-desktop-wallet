@@ -86,6 +86,13 @@ export class CollectionRecordTs extends Vue {
         return this.activeAccount.node
     }
 
+    get currentXem() {
+        return this.activeAccount.currentXem
+    }
+
+    get currentHeight() {
+        return this.app.chainStatus.currentHeight
+    }
 
     hideSearchDetail() {
         this.isShowSearchDetail = false
@@ -102,7 +109,7 @@ export class CollectionRecordTs extends Vue {
 
     async getConfirmedTransactions() {
         const that = this
-        let {accountPublicKey, currentXEM1, accountAddress, node, transactionType} = this
+        let {accountPublicKey, currentXEM1, accountAddress, currentXem, node, transactionType} = this
         const publicAccount = PublicAccount.createFromPublicKey(accountPublicKey, this.getWallet.networkType)
         await new TransactionApiRxjs().transactions(
             publicAccount,
@@ -111,7 +118,7 @@ export class CollectionRecordTs extends Vue {
             },
             node,
         ).subscribe(async (transactionsInfo) => {
-                let transferTransactionList = formatTransactions(transactionsInfo, accountAddress, currentXEM1)
+                let transferTransactionList = formatTransactions(transactionsInfo, accountAddress, currentXEM1, currentXem)
                 // get transaction by choose recript tx or send
                 if (transactionType == TransferType.RECEIVED) {
                     transferTransactionList.forEach((item) => {
@@ -222,7 +229,7 @@ export class CollectionRecordTs extends Vue {
             Promise.all(transactionList.map(async (item, index) => {
                 if (item.mosaics.length == 1) {
                     const amount = item.mosaics[0].amount.compact()
-                    const mosaicInfoList = await getMosaicInfoList(node, [item.mosaics[0].id])
+                    const mosaicInfoList = await getMosaicInfoList(node,[item.mosaics[0].id],this.currentHeight)
                     const mosaicInfo: any = mosaicInfoList[0]
                     resultList[index].mosaicAmount = item.isReceipt ? '+' : '-' + getRelativeMosaicAmount(amount, mosaicInfo.properties.divisibility)
                 }
@@ -243,7 +250,7 @@ export class CollectionRecordTs extends Vue {
 
     async getUnConfirmedTransactions() {
         const that = this
-        let {accountPublicKey, currentXEM1, accountAddress, node, transactionType} = this
+        let {accountPublicKey, currentXEM1, currentXem, accountAddress, node, transactionType} = this
         const publicAccount = PublicAccount.createFromPublicKey(accountPublicKey, this.getWallet.networkType)
         await new TransactionApiRxjs().unconfirmedTransactions(
             publicAccount,
@@ -252,7 +259,7 @@ export class CollectionRecordTs extends Vue {
             },
             node,
         ).subscribe(async (transactionsInfo) => {
-            let transferTransactionList = formatTransactions(transactionsInfo, accountAddress, currentXEM1)
+            let transferTransactionList = formatTransactions(transactionsInfo, accountAddress, currentXEM1, currentXem)
             // get transaction by choose recript tx or send
             if (transactionType == TransferType.RECEIVED) {
                 transferTransactionList.forEach((item) => {

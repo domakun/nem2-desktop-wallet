@@ -7,7 +7,7 @@
             :transfer="false"
             @on-cancel="checkPasswordDialogCancel">
       <div slot="header" class="checkPWDialogHeader">
-        <span class="title">{{$t('delete_wallet')}} : {{getWallet.name}}</span>
+        <span class="title">{{$t('delete_wallet')}} : {{getWallet.walletName}}</span>
       </div>
       <div class="checkPWDialogBody">
         <div class="stepItem1">
@@ -15,8 +15,8 @@
             <img src="@/common/img/wallet/walletDeleteIcon.png">
           </div>
           <p class="checkRemind">
-            {{$t('delete_wallet_tip', {walletName :getWallet.name})}}
-            {{$t('delete_wallet_tip')}}</p>
+            {{$t('delete_wallet_tip', {walletName :getWallet.walletName})}}
+          </p>
           <Form :model="wallet">
             <FormItem>
               <Input v-model="wallet.password" type="password" required

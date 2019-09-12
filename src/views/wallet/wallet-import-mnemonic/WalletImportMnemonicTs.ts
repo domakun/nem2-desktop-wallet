@@ -4,12 +4,6 @@ import {mapState} from 'vuex'
 import {Password} from "nem2-sdk"
 import {Component, Vue} from 'vue-property-decorator'
 import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
-import {
-    ALLOWED_SPECIAL_CHAR,
-    MAX_PASSWORD_LENGTH,
-    MIN_PASSWORD_LENGTH,
-    passwordValidator
-} from "@/core/validation"
 import {AppLock} from "@/core/utils/appLock"
 import {localRead} from "@/core/utils/utils"
 
@@ -29,9 +23,6 @@ import {localRead} from "@/core/utils/utils"
 export class WalletImportMnemonicTs extends Vue {
     activeAccount: any
     app: any
-    MIN_PASSWORD_LENGTH = MIN_PASSWORD_LENGTH
-    MAX_PASSWORD_LENGTH = MAX_PASSWORD_LENGTH
-    ALLOWED_SPECIAL_CHAR = ALLOWED_SPECIAL_CHAR
     form = formData.walletImportMnemonicForm
     NetworkTypeList = networkTypeList
     account = {}
@@ -91,13 +82,14 @@ export class WalletImportMnemonicTs extends Vue {
             })
             return false
         }
+
         if (!this.form.mnemonic || this.form.mnemonic === '' || this.form.mnemonic.split(' ').length != 12) {
             this.$Notice.error({
                 title: this.$t(Message.MNENOMIC_INPUT_ERROR) + ''
             })
             return false
         }
-        if (!passwordValidator(this.form.walletPassword)) {
+        if (this.form.walletPassword.length < 8) {
             this.$Notice.error({
                 title: this.$t(Message.PASSWORD_SETTING_INPUT_ERROR) + ''
             })
@@ -114,7 +106,7 @@ export class WalletImportMnemonicTs extends Vue {
 
     importWallet(password) {
         const {accountName} = this
-        const {derivePath, mnemonic, networkType, walletPassword,walletName} = this.form
+        const {derivePath, mnemonic, networkType, walletPassword, walletName} = this.form
         try {
             const wallet = new AppWallet().createFromMnemonic(
                 accountName,

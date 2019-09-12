@@ -115,6 +115,9 @@ export default {
         SET_CURRENT_ADDRESS(state: account, currentAddress: string) {
             state.currentAddress = currentAddress
             state.wallet = state.walletMap[currentAddress]
+        },
+        SET_CURRENT_XEM(state: account, currentXem: string) {
+            state.currentXem = currentXem
         }
-    }
+    },
 }

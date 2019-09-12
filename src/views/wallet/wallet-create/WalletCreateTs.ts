@@ -3,12 +3,6 @@ import {Component, Vue} from 'vue-property-decorator'
 import {AppWallet, saveWalletInAccount} from '@/core/utils/wallet.ts'
 import {Password} from 'nem2-sdk'
 import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
-import {
-    passwordValidator,
-    MIN_PASSWORD_LENGTH,
-    MAX_PASSWORD_LENGTH,
-    ALLOWED_SPECIAL_CHAR,
-} from '@/core/validation'
 import {mapState} from "vuex"
 import {localRead} from "@/core/utils/utils"
 import {AppLock} from "@/core/utils/appLock"
@@ -33,10 +27,7 @@ export class WalletCreateTs extends Vue {
     }
     activeAccount: any
     showCheckPWDialog = false
-    ALLOWED_SPECIAL_CHAR = ALLOWED_SPECIAL_CHAR
     networkTypeList = networkTypeList
-    MIN_PASSWORD_LENGTH = MIN_PASSWORD_LENGTH
-    MAX_PASSWORD_LENGTH = MAX_PASSWORD_LENGTH
 
 
     get accountName() {
@@ -52,8 +43,10 @@ export class WalletCreateTs extends Vue {
             this.$Notice.error({
                 title: this.$t(Message.WRONG_PASSWORD_ERROR) + ''
             })
+            return
         }
         this.createWalletByMnemonicSeed(mnemonicObject)
+
     }
 
     createWalletByMnemonicSeed(mnemonicObject: any) {
@@ -73,7 +66,6 @@ export class WalletCreateTs extends Vue {
         // save in localstorage
         // saveWalletInAccount(accountName, wallet, password)
         const walletMapString = AppLock.decryptString(JSON.parse(localRead('accountMap'))[accountName].cipher, password)
-        const walletMap = JSON.parse(walletMapString).walletMap
         this.$store.commit('SET_CURRENT_PANEL_INDEX', 0)
         // jump to dashborad
         this.$router.push({name: 'monitorPanel'})
@@ -99,7 +91,7 @@ export class WalletCreateTs extends Vue {
             this.showErrorNotice(this.$t(Message.INPUT_EMPTY_ERROR))
             return false
         }
-        if (!passwordValidator(walletPassword)) {
+        if (walletPassword.length < 8) {
             this.showErrorNotice(this.$t(Message.PASSWORD_SETTING_INPUT_ERROR))
             return false
         }

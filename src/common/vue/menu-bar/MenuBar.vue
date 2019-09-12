@@ -1,5 +1,6 @@
 <template>
   <div :class="[isWindows?'windows':'mac','wrap']">
+
     <Alert class="alert" v-if="!isNodeHealthy" type="error">
       <Icon type="ios-alert-outline"/>
       {{$t('Node_not_available_please_check_your_node_or_network_settings')}}
@@ -69,10 +70,10 @@
               </i-option>
             </i-select>
           </div>
-          <div class="switch_wallet" v-if="wallet && walletList.length">
+          <div class="switch_wallet" v-if="wallet && walletList.length !==0">
             <img class="select_wallet_icon" src="../../img/window/windowWalletSelect.png" alt="">
-            <i-select v-model="currentWalletAddress" :placeholder="walletList[0].name">
-              <i-option v-for="(item, index) in walletList" :value="item.address" :key="index">{{ item.name }}
+            <i-select v-model="currentWalletAddress" :placeholder="walletList[0].walletName">
+              <i-option v-for="(item, index) in walletList" :value="item.address" :key="index">{{ item.walletName }}
               </i-option>
             </i-select>
           </div>
