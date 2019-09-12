@@ -48,11 +48,10 @@
                    :placeholder="$t('set_the_wallet_name')">
           </div>
         </li>
-
         <li>
           {{$t('set_password')}}
           <div class="tips">
-            {{$t('This_password_is_used_to_encrypt_your_private_key_keystore')}}
+            {{$t('This_password_is_used_to_encrypt_your_private_key')}}
           </div>
           <p class="formItemTxt">{{$t('password_hint', {min: MIN_PASSWORD_LENGTH, max: MAX_PASSWORD_LENGTH, specialChar: ALLOWED_SPECIAL_CHAR})}}</p>
           <div class="gray_content">
@@ -76,6 +75,12 @@
       <span class="back left pointer" @click="toBack"> {{$t('back')}}</span>
       <span class="import right" @click="submit">{{$t('import')}}</span>
     </div>
+    <CheckPWDialog
+            :isOnlyCheckPassword="true"
+            :showCheckPWDialog="showCheckPWDialog"
+            @closeCheckPWDialog="closeCheckPWDialog"
+            @checkEnd="checkEnd"
+    />
   </div>
 
 </template>

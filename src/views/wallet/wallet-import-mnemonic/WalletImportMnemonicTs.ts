@@ -71,6 +71,7 @@ export class WalletImportMnemonicTs extends Vue {
             this.$Notice.error({
                 title: this.$t(Message.WRONG_PASSWORD_ERROR) + ''
             })
+            return
         }
         // create wallet and put in localstorage/store
         this.importWallet(mnemonicObject.password)
@@ -96,21 +97,43 @@ export class WalletImportMnemonicTs extends Vue {
             })
             return false
         }
+        if (!passwordValidator(this.form.walletPassword)) {
+            this.$Notice.error({
+                title: this.$t(Message.PASSWORD_SETTING_INPUT_ERROR) + ''
+            })
+            return false
+        }
+        if (this.form.walletPassword !== this.form.walletPasswordAgain) {
+            this.$Notice.error({
+                title: this.$t(Message.INCONSISTENT_PASSWORD_ERROR) + ''
+            })
+            return false
+        }
         return true
     }
 
     importWallet(password) {
         const {accountName} = this
-        const {derivePath, mnemonic, networkType, walletName} = this.form
+        const {derivePath, mnemonic, networkType, walletPassword,walletName} = this.form
         try {
-            new AppWallet().createFromMnemonic(
+            const wallet = new AppWallet().createFromMnemonic(
                 accountName,
                 walletName,
-                password,
+                new Password(walletPassword),
+                new Password(password),
                 mnemonic,
                 networkType,
-                derivePath
+                derivePath,
+                this.$store
             )
+            // save in localstorage
+            // saveWalletInAccount(accountName, wallet, password)
+            const walletMapString = AppLock.decryptString(JSON.parse(localRead('accountMap'))[accountName].cipher, password)
+            const walletMap = JSON.parse(walletMapString).walletMap
+            // refresh walletMap in store
+            // this.$store.commit('SET_WALLET_MAP', walletMap)
+            // this.$store.commit('SET_CURRENT_ADDRESS', wallet.address)
+            // save in localstorage and store
             this.toWalletDetails()
         } catch (error) {
             console.error(error)

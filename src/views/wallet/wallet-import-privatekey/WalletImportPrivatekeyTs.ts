@@ -1,5 +1,5 @@
 import {AppWallet} from '@/core/utils/wallet.ts'
-import {mapState} from 'vuex';
+import {mapState} from 'vuex'
 import {Message, networkTypeList, formData} from "@/config/index.ts"
 import {Component, Vue} from 'vue-property-decorator'
 import {Password, Account} from "nem2-sdk"
@@ -8,8 +8,14 @@ import {
     MAX_PASSWORD_LENGTH,
     MIN_PASSWORD_LENGTH
 } from "@/core/validation"
+import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
+import {AppLock} from "@/core/utils/appLock"
+import {localRead} from "@/core/utils/utils"
 
 @Component({
+    components: {
+        CheckPWDialog
+    },
     computed: {
         ...mapState({
             activeAccount: 'account',
@@ -26,8 +32,7 @@ export class WalletImportPrivatekeyTs extends Vue {
     account = {}
     form = formData.walletImportPrivateKeyForm
     networkType = networkTypeList
-
-    NetworkTypeList = networkTypeList
+    showCheckPWDialog = false
 
     get getNode() {
         return this.activeAccount.node
@@ -40,40 +45,75 @@ export class WalletImportPrivatekeyTs extends Vue {
     get currentXEM2() {
         return this.activeAccount.currentXEM2
     }
+
     get walletList() {
         return this.app.walletList
     }
 
-    importWallet() {
-      try {
-        new AppWallet().createFromPrivateKey(
-          this.form.walletName,
-          new Password(this.form.password),
-          this.form.privateKey,
-          this.form.networkType,
-          this.$store
-        )
-        this.toWalletDetails()
-      } catch (error) {
-        console.error(error)
-        this.$Notice.error({
-            title: this.$t(Message.OPERATION_FAILED_ERROR) + ''
-        })
-      }
+    get accountName() {
+        return this.activeAccount.accountName
+    }
+
+    closeCheckPWDialog() {
+        this.showCheckPWDialog = false
+    }
+
+    submit() {
+        this.showCheckPWDialog = true
+    }
+
+    checkEnd(mnemonicObject) {
+        if (!mnemonicObject) {
+            this.$Notice.error({
+                title: this.$t(Message.WRONG_PASSWORD_ERROR) + ''
+            })
+            return
+        }
+        // create wallet and put in localstorage/store
+        this.importWallet(mnemonicObject.password)
+    }
+
+
+    importWallet(password) {
+        const {networkType, privateKey, walletPassword,walletName} = this.form
+        const {accountName} = this
+        try {
+            const wallet = new AppWallet().createFromPrivateKey(
+                accountName,
+                walletName,
+                new Password(walletPassword),
+                new Password(password),
+                privateKey,
+                networkType,
+                this.$store
+            )
+            const walletMapString = AppLock.decryptString(JSON.parse(localRead('accountMap'))[accountName].cipher, password)
+            const walletMap = JSON.parse(walletMapString).walletMap
+            // refresh walletMap in store
+            // this.$store.commit('SET_WALLET_MAP', walletMap)
+            // this.$store.commit('SET_CURRENT_ADDRESS', wallet.address)
+            // save in localstorage and store
+            this.toWalletDetails()
+        } catch (error) {
+            console.error(error)
+            this.$Notice.error({
+                title: this.$t(Message.OPERATION_FAILED_ERROR) + ''
+            })
+        }
     }
 
     checkImport() {
-        const {walletName, password, privateKey, checkPW} = this.form
+        const {walletName, privateKey, walletPassword, walletPasswordAgain} = this.form
         if (!walletName || walletName == '') {
             this.showNotice(this.$t(Message.WALLET_NAME_INPUT_ERROR))
             return false
         }
 
-        if (!password || password.length < 8 || password.length > 32) {
+        if (!walletPassword || walletPassword.length < 8 || walletPassword.length > 32) {
             this.showNotice(this.$t(Message.PASSWORD_SETTING_INPUT_ERROR))
             return false
         }
-        if (password !== checkPW) {
+        if (walletPassword !== walletPasswordAgain) {
             this.showNotice(this.$t(Message.INCONSISTENT_PASSWORD_ERROR))
             return false
         }

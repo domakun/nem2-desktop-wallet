@@ -21,6 +21,20 @@
             <Input v-model="formItem.derivationPath" required :placeholder="$t('input_hd_wallet_path')"/>
           </FormItem>
 
+
+          <FormItem :label="$t('set_password')">
+            <p class="formItemTxt">
+              {{$t('This_password_is_used_to_encrypt_your_private_key')}}</p>
+            <p class="formItemTxt">
+              {{$t('password_hint', {min: MIN_PASSWORD_LENGTH, max: MAX_PASSWORD_LENGTH, specialChar:
+              ALLOWED_SPECIAL_CHAR})}}</p>
+            <Input v-model="formItem.walletPassword" type="password" required
+                   :placeholder="$t('please_set_your_wallet_password')"/>
+          </FormItem>
+          <FormItem :label="$t('repeat_the_password')">
+            <Input v-model="formItem.walletPasswordAgain" type="password" required
+                   :placeholder="$t('please_enter_your_password_again')"/>
+          </FormItem>
         </Form>
         <div class="clear">
           <Button class="submit_button" type="success" @click="createWallet">{{$t('next')}}</Button>

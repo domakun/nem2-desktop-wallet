@@ -1,4 +1,4 @@
-import {Message, networkTypeList,defaultDerivePath} from "@/config/index.ts"
+import {Message, networkTypeList, defaultDerivePath} from "@/config/index.ts"
 import {Component, Vue} from 'vue-property-decorator'
 import {AppWallet, saveWalletInAccount} from '@/core/utils/wallet.ts'
 import {Password} from 'nem2-sdk'
@@ -27,12 +27,16 @@ export class WalletCreateTs extends Vue {
     formItem: any = {
         currentNetType: 144,
         walletName: 'wallet',
+        walletPassword: '',
+        walletPasswordAgain: '',
         derivationPath: defaultDerivePath,
     }
     activeAccount: any
     showCheckPWDialog = false
     ALLOWED_SPECIAL_CHAR = ALLOWED_SPECIAL_CHAR
     networkTypeList = networkTypeList
+    MIN_PASSWORD_LENGTH = MIN_PASSWORD_LENGTH
+    MAX_PASSWORD_LENGTH = MAX_PASSWORD_LENGTH
 
 
     get accountName() {
@@ -55,24 +59,21 @@ export class WalletCreateTs extends Vue {
     createWalletByMnemonicSeed(mnemonicObject: any) {
         const {accountName} = this
         const {mnemonic, password} = mnemonicObject
-        const {currentNetType, walletName, derivationPath} = this.formItem
+        const {currentNetType, walletPassword, walletName, derivationPath} = this.formItem
         const wallet = new AppWallet().createFromMnemonic(
             accountName,
             walletName,
-            password,
+            new Password(walletPassword),
+            new Password(password),
             mnemonic,
             currentNetType,
-            derivationPath
+            derivationPath,
+            this.$store
         )
         // save in localstorage
         // saveWalletInAccount(accountName, wallet, password)
         const walletMapString = AppLock.decryptString(JSON.parse(localRead('accountMap'))[accountName].cipher, password)
         const walletMap = JSON.parse(walletMapString).walletMap
-        // refresh walletMap in store
-        this.$store.commit('SET_WALLET_MAP', walletMap)
-        // set current wallet , by set address,get current wallet by walletMap[address]
-        this.$store.commit('SET_CURRENT_ADDRESS', wallet.address)
-        // set left navigator click allowed
         this.$store.commit('SET_CURRENT_PANEL_INDEX', 0)
         // jump to dashborad
         this.$router.push({name: 'monitorPanel'})
@@ -85,7 +86,7 @@ export class WalletCreateTs extends Vue {
     }
 
     checkInput() {
-        const {currentNetType, walletName, derivationPath} = this.formItem
+        const {currentNetType, walletName, walletPassword, walletPasswordAgain, derivationPath} = this.formItem
         if (!currentNetType) {
             this.showErrorNotice(this.$t(Message.PLEASE_SWITCH_NETWORK))
             return false
@@ -98,6 +99,14 @@ export class WalletCreateTs extends Vue {
             this.showErrorNotice(this.$t(Message.INPUT_EMPTY_ERROR))
             return false
         }
+        if (!passwordValidator(walletPassword)) {
+            this.showErrorNotice(this.$t(Message.PASSWORD_SETTING_INPUT_ERROR))
+            return false
+        }
+        if (walletPassword !== walletPasswordAgain) {
+            this.showErrorNotice(this.$t(Message.INCONSISTENT_PASSWORD_ERROR))
+            return false
+        }
 
         return true
     }
@@ -105,10 +114,6 @@ export class WalletCreateTs extends Vue {
     createWallet() {
         if (!this.checkInput()) return
         this.showCheckPWDialog = true
-        // input account password to get account menmonic
-        //createWallet and save wallet in accountMap
-        // this.$store.commit('SET_MNEMONIC', createMnemonic())
-        // this.$emit('isCreated', this.formItem)
     }
 
 }

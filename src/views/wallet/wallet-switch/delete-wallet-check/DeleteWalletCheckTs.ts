@@ -49,9 +49,9 @@ export class DeleteWalletCheckTs extends Vue {
             mnemonicObject.password = password
             if (mnemonicObject.password === password) {
                 this.$emit('checkEnd', mnemonicObject)
-                new AppWallet(this.walletToDelete).deleteWallet(accountName, password, this.$store, this)
+                new AppWallet(this.walletToDelete).deleteWallet(accountName, new Password(password), this.$store, this)
                 this.$emit('closeCheckPWDialog')
-                this.showSuccessNotice()
+                // this.showSuccessNotice()
                 return
             }
             this.showErrorNotice()

@@ -37,6 +37,26 @@
                    :placeholder="$t('set_the_wallet_name')">
           </div>
         </li>
+
+        <li>
+          {{$t('set_password')}}
+          <div class="tips">
+            {{$t('mnemonic_describle_tips')}}
+          </div>
+          <p class="formItemTxt">{{$t('password_hint', {min: MIN_PASSWORD_LENGTH, max: MAX_PASSWORD_LENGTH, specialChar:
+            ALLOWED_SPECIAL_CHAR})}}</p>
+          <div class="gray_content">
+            <input class="absolute" type="password" v-model="form.walletPassword"
+                   :placeholder="$t('please_set_your_password')">
+          </div>
+        </li>
+        <li>
+          {{$t('confirm_password')}}
+          <div class="gray_content">
+            <input class="absolute" type="password" v-model="form.walletPasswordAgain"
+                   :placeholder="$t('please_enter_your_wallet_password_again')">
+          </div>
+        </li>
       </ul>
 
     </div>

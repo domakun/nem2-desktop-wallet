@@ -21,6 +21,7 @@ import {TransactionApiRxjs} from '@/core/api/TransactionApiRxjs.ts'
 import {MosaicApiRxjs} from "@/core/api/MosaicApiRxjs"
 import {createAccount, createSubWalletByPath} from "@/core/utils/hdWallet.ts"
 import {AppLock} from "@/core/utils/appLock"
+import App from "@/App.vue"
 
 export class AppWallet {
     constructor(wallet?: {
@@ -41,21 +42,26 @@ export class AppWallet {
     isMultisig: boolean | undefined
     encryptedMnemonic: string | undefined
     derivationPath: string
+    encryptedPrivateKey: any
 
-    createFromPrivateKey(walletName: string,
-                         password: Password,
-                         privateKey: string,
-                         networkType: NetworkType,
-                         store: any): AppWallet {
+    createFromPrivateKey(
+        accountName: string,
+        walletName: string,
+        walletPassword: Password,
+        password: Password,
+        privateKey: string,
+        networkType: NetworkType,
+        store: any): AppWallet {
         try {
-            this.simpleWallet = SimpleWallet.createFromPrivateKey(walletName, password, privateKey, networkType)
+            this.simpleWallet = SimpleWallet.createFromPrivateKey(walletName, walletPassword, privateKey, networkType)
             this.walletName = walletName
             this.address = this.simpleWallet.address.plain()
             this.publicKey = Account.createFromPrivateKey(privateKey, networkType).publicKey
             this.networkType = networkType
             this.active = true
-
-            this.addNewWalletToList(store)
+            this.encryptedPrivateKey = this.simpleWallet.encryptedPrivateKey
+            saveWalletInAccount(accountName, this, password)
+            this.addNewWalletToList(store, password.value, accountName)
             return this
         } catch (error) {
             throw new Error(error)
@@ -65,22 +71,25 @@ export class AppWallet {
     createFromMnemonic(
         accountName: string,
         walletName: string,
-        password: string,
+        walletPassword: Password,
+        password: Password,
         mnemonic: string,
         networkType: NetworkType,
-        derivationPath: string
+        derivationPath: string,
+        store: any
     ): AppWallet {
         try {
             const account = createSubWalletByPath(mnemonic, derivationPath)
-            this.simpleWallet = SimpleWallet.createFromPrivateKey(walletName, new Password(password), account.privateKey, networkType)
+            this.simpleWallet = SimpleWallet.createFromPrivateKey(walletName, walletPassword, account.privateKey, networkType)
             this.walletName = walletName
             this.address = this.simpleWallet.address.plain()
             this.publicKey = account.publicKey
             this.networkType = networkType
             this.active = true
             this.derivationPath = derivationPath
-            this.encryptedMnemonic = AppLock.encryptString(mnemonic, new Password(password).value)
+            this.encryptedMnemonic = AppLock.encryptString(mnemonic, walletPassword.value)
             saveWalletInAccount(accountName, this, password)
+            this.addNewWalletToList(store, password.value, accountName)
             return this
         } catch (error) {
             console.log(error)
@@ -89,19 +98,25 @@ export class AppWallet {
     }
 
 
-    createFromKeystore(walletName: string,
-                       password: Password,
-                       keystoreStr: string,
-                       networkType: NetworkType,
-                       store: any): AppWallet {
+    createFromKeystore(
+        accountName: string,
+        walletName: string,
+        walletPassword: Password,
+        password: Password,  // account passoword
+        keystoreStr: string,
+        keystorePassword: Password,
+        networkType: NetworkType,
+        store: any
+    ): AppWallet {
         try {
             this.walletName = walletName
             this.networkType = networkType
             const words = CryptoJS.enc.Base64.parse(keystoreStr)
             const keystore = words.toString(CryptoJS.enc.Utf8)
             this.simpleWallet = JSON.parse(keystore)
-            const {privateKey} = this.getAccount(password)
-            this.createFromPrivateKey(walletName, password, privateKey, networkType, store)
+            const {privateKey} = this.getAccount(keystorePassword)
+            this.createFromPrivateKey(accountName, walletName, walletPassword, password, privateKey, networkType, store)
+            this.addNewWalletToList(store, password.value, accountName)
             return this
         } catch (error) {
             throw new Error(error)
@@ -112,11 +127,12 @@ export class AppWallet {
         // @TODO: update after nem2-sdk EncryptedPrivateKey constructor definition is fixed
         // https://github.com/nemtech/nem2-sdk-typescript-javascript/issues/241
         const {encryptedKey, iv} = this.simpleWallet.encryptedPrivateKey
+
         const common = {password: password.value, privateKey: ''}
         const wallet = {encrypted: encryptedKey, iv}
         Crypto.passwordToPrivateKey(common, wallet, WalletAlgorithm.Pass_bip32)
         const privateKey = common.privateKey
-        return Account.createFromPrivateKey(privateKey, this.networkType)
+        return Account.createFromPrivateKey(privateKey, this.simpleWallet.network)
     }
 
     getMnemonic(password: Password): string {
@@ -134,42 +150,46 @@ export class AppWallet {
     }
 
     checkPassword(password: Password): boolean {
+        console.log(this.simpleWallet.encryptedPrivateKey)
         try {
             this.getAccount(password)
             return true
         } catch (error) {
+            console.log(error)
             return false
         }
     }
 
-    updatePassword(oldPassword: Password, newPassword: Password, store: any): void {
+    updatePassword(accountName: string, oldPassword: Password, newPassword: Password, accountPassword: Password, store: any): void {
         const account = this.getAccount(oldPassword)
-        this.createFromPrivateKey(this.walletName,
+        this.createFromPrivateKey(
+            accountName,
+            this.walletName,
             newPassword,
+            accountPassword,
             account.privateKey,
             this.networkType,
             store)
     }
 
-    addNewWalletToList(store: any): void {
-        const localData: any[] = localRead('wallets') === ''
-            ? [] : JSON.parse(localRead('wallets'))
+    addNewWalletToList(store: any, password: string, accountName: string): void {
+        const accountMapCipher = localRead('accountMap') === ''
+            ? '' : JSON.parse(localRead('accountMap'))[accountName].cipher
+        if (!accountMapCipher) return
 
-        this.style = this.style || `walletItem_bg_${String(Number(localData.length) % 3)}`
+        let localWalletMapData: any = JSON.parse(AppLock.decryptString(accountMapCipher, password)).walletMap || {}
 
-        if (!localData.length) {
-            AppWallet.switchWallet(this.address, [this], store)
+        this.style = this.style || `walletItem_bg_${String(getObjectLength(localWalletMapData) % 3)}`
+        localWalletMapData[this.address] = this
+        if (!getObjectLength(localWalletMapData)) {
+            AppWallet.switchWallet(this.address, localWalletMapData, store)
             return
         }
-
-        let dataToStore = [...localData]
-        const walletIndex = dataToStore.findIndex(({address}) => address === this.address)
-        if (walletIndex > -1) dataToStore.splice(walletIndex, 1)
-
-        AppWallet.switchWallet(this.address, [this, ...dataToStore], store)
+        AppWallet.switchWallet(this.address, localWalletMapData, store)
     }
 
-    deleteWallet(accountName: string, password: string, store: any, that: any) {
+
+    deleteWallet(accountName: string, password: Password, store: any, that: any) {
         const walletMap = store.state.account.walletMap
         const {address} = this
         delete walletMap[address]
@@ -177,8 +197,8 @@ export class AppWallet {
         // save in localstorage
         // decrypt=>update map=>encrypt=>save
         let accountInfo = JSON.parse(localRead('accountMap'))[accountName]
-        let decryptInfo = JSON.parse(AppLock.decryptString(JSON.parse(localRead('accountMap'))[accountName].cipher, password))
-        const encryptInfo = AppLock.encryptString(JSON.stringify(decryptInfo), password)
+        let decryptInfo = JSON.parse(AppLock.decryptString(JSON.parse(localRead('accountMap'))[accountName].cipher, password.value))
+        const encryptInfo = AppLock.encryptString(JSON.stringify(decryptInfo), password.value)
         decryptInfo.walletMap = walletMap
         accountInfo.cipher = encryptInfo
         localAddInMap('accountMap', accountName, accountInfo)
@@ -200,29 +220,15 @@ export class AppWallet {
         // this.$emit('hasWallet')
     }
 
-    // storeWalletList(store: any, walletList: AppWallet[]) {
-    //   store.commit('SET_WALLET_LIST', walletList)
-    //   localSave('wallets', JSON.stringify(walletList))
-    // }
 
-    static switchWallet(newActiveWalletAddress: string, walletList: any, store: any) {
-        const newWalletIndex = walletList.findIndex(({address}) => address === newActiveWalletAddress)
-        if (newWalletIndex === -1) throw new Error('wallet not found when switching')
-
-        let newWallet = walletList[newWalletIndex]
-        newWallet.active = true
-
-        let newWalletList = [...walletList]
-        newWalletList
-            .filter(wallet => wallet.address !== newActiveWalletAddress)
-            .map(wallet => wallet.active = false)
-
-        newWalletList.splice(newWalletIndex, 1)
-        const walletListToStore = [newWallet, ...newWalletList]
-
-        store.commit('SET_WALLET_LIST', walletListToStore)
-        store.commit('SET_WALLET', newWallet)
-        localSave('wallets', JSON.stringify(walletListToStore))
+    static switchWallet(newActiveWalletAddress: string, walletMap: any, store: any) {
+        if (!walletMap[newActiveWalletAddress]) throw new Error('wallet not found when switching')
+        for (let key in walletMap) {
+            walletMap[key].active = false
+        }
+        walletMap[newActiveWalletAddress].active = true
+        store.commit('SET_WALLET_MAP', walletMap)
+        store.commit('SET_CURRENT_ADDRESS', newActiveWalletAddress)
     }
 
     async getAccountBalance(networkCurrencies: any, node: string): Promise<number> {
@@ -465,9 +471,9 @@ export const buildMosaicList = (mosaicList: Mosaic[], coin1: string, coin2: stri
     return mosaicListRst
 }
 
-export const saveWalletInAccount = (accountName: string, wallet: any, password: string) => {
+export const saveWalletInAccount = (accountName: string, wallet: any, password: Password) => {
     const cipher = JSON.parse(localRead('accountMap'))[accountName].cipher
-    let accountObject: any = JSON.parse(AppLock.decryptString(cipher, password))
+    let accountObject: any = JSON.parse(AppLock.decryptString(cipher, password.value))
     accountObject.walletMap[wallet.address] = wallet
     // encrypt
     const cipherObject = {
@@ -477,7 +483,7 @@ export const saveWalletInAccount = (accountName: string, wallet: any, password: 
         walletMap: accountObject.walletMap,
         mnemonic: accountObject.mnemonic
     }
-    const cipherStr = AppLock.encryptString(JSON.stringify(cipherObject), password)
+    const cipherStr = AppLock.encryptString(JSON.stringify(cipherObject), password.value)
     const accountResult = {
         cipher: cipherStr,
         hint: accountObject.hint,

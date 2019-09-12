@@ -46,7 +46,7 @@ export class WalletSwitchTs extends Vue {
     }
 
     switchWallet(newActiveWalletAddress) {
-        AppWallet.switchWallet(newActiveWalletAddress, this.walletList, this.$store)
+        AppWallet.switchWallet(newActiveWalletAddress, this.walletMap, this.$store)
     }
 
     formatNumber(number) {

@@ -4,9 +4,9 @@
       <p class="tit">{{$t('Wallet_management')}}</p>
     </div>
     <div class="walletList">
-      <div :class="['walletItem_bg_2','walletItem', item.style, item.active || walletList.length === 1 ? 'active':'','radius']"
+      <div :class="['walletItem', item.style, item.active || walletList.length === 1 ? 'active':'','radius']"
            @click="switchWallet(item.address)"
-           v-for="(item, index) in walletList" :key="index">
+           v-for="(item,key, index) in walletMap" :key="index">
         <Row>
           <Col span="15">
             <div>

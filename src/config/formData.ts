@@ -1,3 +1,5 @@
+import {NetworkType} from "nem2-sdk"
+
 export const defaultDerivePath = `m/44'/43'/1'/0/1`
 export const formData = {
     multisigTransferForm: {
@@ -81,17 +83,19 @@ export const formData = {
         lockFee: 0.5
     },
     walletImportMnemonicForm: {
+        walletPassword: '',
+        walletPasswordAgain: '',
         mnemonic: '',
-        networkType: 144,
+        networkType: NetworkType.MIJIN_TEST,
         walletName: '',
         derivePath: defaultDerivePath,
     },
     walletImportPrivateKeyForm: {
+        walletPasswordAgain: '',
+        walletPassword: '',
         privateKey: 'FB628AF4276F696AD1FA85B7AB1E49CFD896E5EC85000E3179EEEA59717DD8DE',
-        networkType: 0,
+        networkType: NetworkType.MIJIN_TEST,
         walletName: '',
-        password: '',
-        checkPW: '',
     }
 
 }

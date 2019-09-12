@@ -7,7 +7,7 @@
 <script lang="ts">
     import 'animate.css'
     import {isWindows} from "@/config/index.ts"
-    import {localRead, localSave} from '@/core/utils/utils.ts'
+    import {getObjectLength, localRead, localSave} from '@/core/utils/utils.ts'
     import {AppWallet} from '@/core/utils/wallet.ts'
     import {Listener} from "nem2-sdk"
     import {checkInstall} from '@/core/utils/electron.ts'
@@ -54,6 +54,10 @@
             return this.activeAccount.currentAddress
         }
 
+        get walletMap() {
+            return this.activeAccount.walletMap
+        }
+
         get walletList() {
             const walletMap = this.activeAccount.walletMap
             let walletList = []
@@ -65,9 +69,9 @@
 
         @Watch('currentAddress')
         onCurrentAddressUpdate() {
-            const {walletList, currentAddress} = this
-            if (!walletList || !walletList.length) return
-            AppWallet.switchWallet(currentAddress, walletList, this.$store)
+            const {walletMap, walletList, currentAddress} = this
+            if (!walletMap || getObjectLength(walletMap) < 0) return
+            AppWallet.switchWallet(currentAddress, walletMap, this.$store)
             this.setWalletsBalancesAndMultisigStatus(walletList)
         }
 

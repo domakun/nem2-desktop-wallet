@@ -25,6 +25,7 @@ export class WalletCreatedTs extends Vue {
         currentNetType: '',
         walletName: '',
         password: '',
+        walletPassword:'',
         checkPW: '',
         path: defaultDerivePath
     }
@@ -109,15 +110,17 @@ export class WalletCreatedTs extends Vue {
 
     createFromMnemonic() {
         const {accountName} = this
-        const {walletName, path, currentNetType, password} = this.formInfo
+        const {walletName, path, walletPassword,currentNetType, password} = this.formInfo
         try {
             new AppWallet().createFromMnemonic(
                 accountName,
                 walletName,
-                password,
+                new Password(walletPassword),
+                new Password(password),
                 this.mnemonic.join(' '),
                 currentNetType,
-                path
+                path,
+                this.$store
             )
         } catch (error) {
 

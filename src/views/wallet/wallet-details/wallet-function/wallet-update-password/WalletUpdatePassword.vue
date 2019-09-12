@@ -21,7 +21,7 @@
 
 
       <div :class="[isCompleteForm?'pointer':'not_allowed', 'confirmButton']" @click="submit">
-        {{$t('confirm')}} 
+        {{$t('confirm')}}
       </div>
     </div>
 
@@ -35,6 +35,12 @@
         {{$t('The_password_setting_requirement_is_not_less_than_six_digits_The_more_complicated_the_recommendation_the_better_the_security_of_your_wallet')}}
       </div>
     </div>
+    <CheckPWDialog
+            :isOnlyCheckPassword="true"
+            :showCheckPWDialog="showCheckPWDialog"
+            @closeCheckPWDialog="closeCheckPWDialog"
+            @checkEnd="checkEnd"
+    />
   </div>
 </template>
 

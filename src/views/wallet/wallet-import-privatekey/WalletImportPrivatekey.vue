@@ -39,14 +39,14 @@
           </div>
           <p class="formItemTxt">{{$t('password_hint', {min: MIN_PASSWORD_LENGTH, max: MAX_PASSWORD_LENGTH, specialChar: ALLOWED_SPECIAL_CHAR})}}</p>
           <div class="gray_content">
-            <input class="absolute" v-model="form.password" type="password"
+            <input class="absolute" v-model="form.walletPassword" type="password"
                    :placeholder="$t('please_set_your_password')">
           </div>
         </li>
         <li>
           {{$t('confirm_password')}}
           <div class="gray_content">
-            <input class="absolute" v-model="form.checkPW" type="password"
+            <input class="absolute" v-model="form.walletPasswordAgain" type="password"
                    :placeholder="$t('please_enter_your_wallet_password_again')">
           </div>
         </li>
@@ -56,8 +56,15 @@
     </div>
     <div class="bottom_button ">
       <span class="back left" @click="toBack"> {{$t('back')}}</span>
-      <span class="import right" @click="importWallet">{{$t('import')}}</span>
+      <span class="import right" @click="submit">{{$t('import')}}</span>
     </div>
+
+    <CheckPWDialog
+            :isOnlyCheckPassword="true"
+            :showCheckPWDialog="showCheckPWDialog"
+            @closeCheckPWDialog="closeCheckPWDialog"
+            @checkEnd="checkEnd"
+    />
   </div>
 </template>
 

@@ -3,11 +3,14 @@ import {AppWallet} from '@/core/utils/wallet.ts'
 import {Password} from "nem2-sdk"
 import {mapState} from 'vuex'
 import {Component, Vue} from 'vue-property-decorator'
+import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
 import {
     ALLOWED_SPECIAL_CHAR,
     MAX_PASSWORD_LENGTH,
     MIN_PASSWORD_LENGTH
 } from "@/core/validation"
+import {AppLock} from "@/core/utils/appLock"
+import {localRead} from "@/core/utils/utils"
 
 @Component({
     computed: {
@@ -15,6 +18,9 @@ import {
             activeAccount: 'account',
             app: 'app'
         })
+    },
+    components: {
+        CheckPWDialog
     }
 })
 export class WalletImportKeystoreTs extends Vue {
@@ -27,7 +33,7 @@ export class WalletImportKeystoreTs extends Vue {
     fileList = []
     NetworkTypeList = networkTypeList
     formItem = importKeystoreDefault
-
+    showCheckPWDialog = false
 
     get getNode() {
         return this.activeAccount.node
@@ -45,20 +51,52 @@ export class WalletImportKeystoreTs extends Vue {
         return this.activeAccount.currentXEM2
     }
 
-    submit() {
-        if (!this.checkForm()) return
-        this.importWallet()
+    get accountName() {
+        return this.activeAccount.accountName
     }
 
-    importWallet() {
+    submit() {
+        if (!this.checkForm()) return
+        this.showCheckPWDialog = true
+    }
+
+    checkEnd(mnemonicObject) {
+        if (!mnemonicObject) {
+            this.$Notice.error({
+                title: this.$t(Message.WRONG_PASSWORD_ERROR) + ''
+            })
+            return
+        }
+        console.log(mnemonicObject)
+        this.importWallet(mnemonicObject.password)
+    }
+
+    closeCheckPWDialog() {
+        this.showCheckPWDialog = false
+    }
+
+    importWallet(password) {
+        const {accountName} = this
+        const {walletName, keystoreStr, networkType,walletPassword, keystorePassword} = this.formItem
         try {
-            new AppWallet().createFromKeystore(
-                this.formItem.walletName,
-                new Password(this.formItem.walletPassword),
-                this.formItem.keystoreStr,
-                this.formItem.networkType,
+            const wallet = new AppWallet().createFromKeystore(
+                accountName,
+                walletName,
+                new Password(walletPassword),
+                new Password(password),
+                keystoreStr,
+                new Password(keystorePassword),
+                networkType,
                 this.$store
             )
+
+            // save in localstorage
+            // saveWalletInAccount(accountName, wallet, password)
+            const walletMapString = AppLock.decryptString(JSON.parse(localRead('accountMap'))[accountName].cipher, password)
+            const walletMap = JSON.parse(walletMapString).walletMap
+            // refresh walletMap in store
+            // this.$store.commit('SET_WALLET_MAP', walletMap)
+            // this.$store.commit('SET_CURRENT_ADDRESS', wallet.address)
             this.toWalletDetails()
         } catch (error) {
             console.error(error)
