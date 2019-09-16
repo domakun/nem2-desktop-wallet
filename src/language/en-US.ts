@@ -78,7 +78,6 @@ export const en_US = {
     point: 'Node',
     number_of_transactions: 'Transactions',
     transfer_type: 'Type',
-    gathering: 'Invoice',
     payment: 'Payment',
     from: 'From',
     aims: 'To',
@@ -216,6 +215,7 @@ export const en_US = {
     canel: 'Cancel',
 
     //setting-panel
+    change_password:'Change password',
     general_settings: 'General settings',
     lock_password: 'Lock password',
     network_settings: 'Network settings',
@@ -294,7 +294,7 @@ export const en_US = {
     input_space_name: 'Input space name',
     the_duration_is_calculated_in_blocks_one_block_is_12_seconds: 'The duration is calculated in blocks one block is 12 seconds.',
     space_list: 'Space list',
-    space_name: 'Space name',
+    namespace_name: 'Space name',
     update_namespace: 'Update namespace',
     namespace_operation: 'Namespace operation',
 
@@ -632,7 +632,7 @@ export const en_US = {
     delete_wallet: 'Delete wallet',
 
 
-    regist_namespace: 'Regist/Renewal namespace',
+    register_namespace: 'Regist/Renewal namespace',
     address_alias: 'Address alias',
     mosaic_alias: 'Mosaic alias',
     mosaic_definition: 'Mosaic definition',
@@ -643,7 +643,7 @@ export const en_US = {
     lock: 'Lock',
     secret_lock: 'Secret lock',
     //secret_proof
-    scret_proof: 'Secret proof',
+    secret_proof: 'Secret proof',
     modify_account_property_address: 'Address restriction',
     modify_account_property_mosaic: 'Mosaic restriction',
     modify_account_property_entity_type: 'Entity restriction',
@@ -655,20 +655,21 @@ export const en_US = {
     LABEL_new_password: 'New password',
     HINT_new_password1: 'Should be between 8 and 32 chars.',
     HINT_new_password2: 'Allowed special chars: - _ ! @ # $ & * " ~ + = %',
-    PLACEHOLDER_new_password: '9_pass-WORD',
+    PLACEHOLDER_new_password: 'New password',
 
     previousPassword: 'Previous password',
     LABEL_previous_password: 'Previous password',
     HINT_previous_password: 'The password used to log into the application',
-    PLACEHOLDER_previous_password: 'My FiRst Pa$$word!',
+    PLACEHOLDER_previous_password: 'Current password',
 
     confirmPassword: 'Confirm password',
     LABEL_confirm_password: 'Confirm your new password',
-    PLACEHOLDER_confirm_password: '9_pass-WORD',
+    PLACEHOLDER_confirm_password: 'Confirm new  password',
     cipher: 'Cipher',
 
     HINT_cipher_hint1: 'Should be between 1 and 32 chars.',
 
+    PLACEHOLDER_cipher_hint:'Enter hint',
     amount: 'Amount',
     Node_connection_succeeded: 'Node connection succeeded',
 
