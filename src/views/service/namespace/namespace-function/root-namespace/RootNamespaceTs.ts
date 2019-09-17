@@ -3,13 +3,14 @@ import { Address} from "nem2-sdk"
 import {NamespaceApiRxjs} from "@/core/api/NamespaceApiRxjs.ts"
 import {MultisigApiRxjs} from '@/core/api/MultisigApiRxjs.ts'
 import {Component, Vue, Watch} from 'vue-property-decorator'
-import {Message,rootNamespaceTypelist,formData} from "@/config/index.ts"
+import {Message, networkConfig} from "@/config/index.ts"
+import {rootNamespaceTypelist} from "@/config/view"
 import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
 import {
     getAbsoluteMosaicAmount, formatSeconds, formatAddress,
     createBondedMultisigTransaction, createCompleteMultisigTransaction,
 } from '@/core/utils'
-import { networkConfig } from '@/config/network'
+import {formData} from "@/config/formDto";
 
 
 @Component({
@@ -20,7 +21,7 @@ import { networkConfig } from '@/config/network'
         ...mapState({
             activeAccount: 'account',
             app:'app'
-        }) 
+        })
     }
 })
 export class RootNamespaceTs extends Vue {

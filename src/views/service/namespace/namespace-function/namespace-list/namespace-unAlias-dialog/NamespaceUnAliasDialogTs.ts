@@ -1,9 +1,10 @@
 import {AliasActionType, NamespaceId, MosaicId, Password, Address} from "nem2-sdk"
 import {mapState} from "vuex"
 import {Component, Vue, Prop, Watch} from 'vue-property-decorator'
-import {Message, formData} from "@/config/index.ts"
+import {Message} from "@/config/index.ts"
 import {NamespaceApiRxjs} from "@/core/api/NamespaceApiRxjs.ts"
 import {getAbsoluteMosaicAmount, AppWallet} from '@/core/utils'
+import {formData} from "@/config/formDto";
 
 @Component({
         computed: {...mapState({activeAccount: 'account'})},
@@ -88,7 +89,7 @@ export class NamespaceUnAliasDialogTs extends Vue {
         const password = new Password(this.formItem.password)
         let {fee, hex, name, aliasTarget} = this.formItem
         fee = getAbsoluteMosaicAmount(fee, xemDivisibility)
-        
+
         const transaction = aliasTarget.length === 40 // quickfix
             ? new NamespaceApiRxjs().addressAliasTransaction(
                 AliasActionType.Unlink,

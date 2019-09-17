@@ -2,7 +2,6 @@ import {formatSeconds} from '@/core/utils/utils.ts'
 import {Component, Vue} from 'vue-property-decorator'
 import NamespaceEditDialog from './namespace-edit-dialog/NamespaceEditDialog.vue'
 import {mapState} from "vuex"
-import {aliasType} from '@/config/index.ts'
 import {Address, MosaicId} from "nem2-sdk"
 import NamespaceUnAliasDialog
     from '@/views/service/namespace/namespace-function/namespace-list/namespace-unAlias-dialog/NamespaceUnAliasDialog.vue'
@@ -11,6 +10,7 @@ import NamespaceMosaicAliasDialog
 import NamespaceAddressAliasDialog
     from '@/views/service/namespace/namespace-function/namespace-list/namespace-address-alias-dialog/NamespaceAddressAliasDialog.vue'
 import {AppMosaics} from '@/core/services/mosaics'
+import {aliasType} from "@/config/types";
 
 @Component({
     components: {
@@ -81,7 +81,7 @@ export class NamespaceListTs extends Vue {
         appMosaics.init(mosaics)
         return appMosaics.getAvailableToBeLinked(currentHeight, address)
     }
-    
+
     get unlinkMosaicList() {
         const {mosaics, currentHeight} = this
         const {address} = this.wallet

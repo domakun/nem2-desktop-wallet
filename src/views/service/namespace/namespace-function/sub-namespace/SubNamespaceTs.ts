@@ -1,7 +1,8 @@
 import {Address} from "nem2-sdk"
 import {mapState} from "vuex"
 import {Component, Vue, Watch} from 'vue-property-decorator'
-import {Message, subNamespaceTypeList} from "@/config/index.ts"
+import {Message, networkConfig} from "@/config/index.ts"
+import {subNamespaceTypeList} from "@/config/view"
 import {NamespaceApiRxjs} from "@/core/api/NamespaceApiRxjs.ts"
 import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
 import {MultisigApiRxjs} from "@/core/api/MultisigApiRxjs.ts"
@@ -9,7 +10,6 @@ import {
     getAbsoluteMosaicAmount, createBondedMultisigTransaction,
     createCompleteMultisigTransaction, formatAddress, getNamespaces
 } from '@/core/utils'
-import { networkConfig } from '@/config/network'
 
 @Component({
     components: {

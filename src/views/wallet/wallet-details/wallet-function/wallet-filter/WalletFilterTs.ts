@@ -1,6 +1,7 @@
 import {Component, Vue} from 'vue-property-decorator'
 import {RestrictionApiRxjs} from '@/core/api/RestrictionApiRxjs.ts'
-import {Message, transactionTypeList} from "@/config/index.ts"
+import {Message} from "@/config/index.ts"
+import {transactionTypeList} from "@/config/view"
 import { AppWallet} from "@/core/utils/wallet"
 import {mapState} from "vuex"
 import {

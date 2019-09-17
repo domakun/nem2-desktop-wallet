@@ -1,10 +1,10 @@
 import {Component, Vue, Prop, Watch} from 'vue-property-decorator'
 import {mapState} from "vuex"
 import {Password} from 'nem2-sdk'
-import {Message, formData} from "@/config/index.ts"
+import {Message, networkConfig} from "@/config/index.ts"
 import {MosaicApiRxjs} from "@/core/api/MosaicApiRxjs.ts"
 import {getAbsoluteMosaicAmount, AppWallet} from '@/core/utils'
-import {networkConfig} from "@/config/network";
+import {formData} from "@/config/formDto";
 
 @Component({
     computed: {

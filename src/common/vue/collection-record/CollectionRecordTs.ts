@@ -5,7 +5,7 @@ import {
     getCurrentMonthFirst, getCurrentMonthLast, formatNumber,
     renderMosaics, renderMosaicNames, renderMosaicAmount
 } from '@/core/utils'
-import {transferType} from '@/config/index.ts'
+import {transferType} from "@/config/types"
 
 @Component({
     computed: {...mapState({activeAccount: 'account', app: 'app'})},
@@ -24,7 +24,7 @@ export class CollectionRecordTs extends Vue {
     renderMosaics = renderMosaics
     renderMosaicNames = renderMosaicNames
     renderMosaicAmount = renderMosaicAmount
-    
+
     @Prop({
         default: () => {
             return 0
@@ -60,7 +60,7 @@ export class CollectionRecordTs extends Vue {
         ? filteredByDate.filter(({txHeader}) => txHeader.tag === 'payment')
         : filteredByDate.filter(({txHeader}) => txHeader.tag !== 'payment')
     }
-    
+
     get mosaicList() {
         return this.activeAccount.mosaics
     }

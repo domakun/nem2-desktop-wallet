@@ -1,10 +1,11 @@
 import {AliasActionType, NamespaceId, MosaicId, Password} from "nem2-sdk"
 import {mapState} from "vuex"
-import {Message, formData} from "@/config/index.ts"
+import {Message} from "@/config/index.ts"
 import {NamespaceApiRxjs} from "@/core/api/NamespaceApiRxjs.ts"
 import {Component, Vue, Prop, Watch} from 'vue-property-decorator'
 import {EmptyAlias} from "nem2-sdk/dist/src/model/namespace/EmptyAlias"
 import {getAbsoluteMosaicAmount, AppWallet} from '@/core/utils'
+import {formData} from "@/config/formDto";
 
 @Component({
     computed: {
@@ -135,7 +136,7 @@ export class MosaicAliasDialogTs extends Vue {
             password: ''
         }
     }
-    
+
     // @TODO: use v-model
     @Watch('showMosaicAliasDialog')
     onShowMosaicAliasDialogChange() {
@@ -143,7 +144,7 @@ export class MosaicAliasDialogTs extends Vue {
         Object.assign(this.mosaic, this.itemMosaic)
     }
 
-    // @TODO: use v-model    
+    // @TODO: use v-model
     @Watch('mosaic', {immediate: true, deep: true})
     onFormItemChange() {
         const {aliasName, fee, password} = this.mosaic
