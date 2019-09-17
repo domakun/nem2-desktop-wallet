@@ -102,6 +102,7 @@
                     this.$store.commit('SET_TRANSACTIONS_LOADING', true),
                     this.$store.commit('SET_BALANCE_LOADING', true),
                     this.$store.commit('SET_MOSAICS_LOADING', true),
+                    this.$store.commit('SET_NAMESPACE_LOADING', true),
                 ])
 
                 const initMosaicsAndNamespaces = await Promise.all([
@@ -110,7 +111,7 @@
                     getNamespaces(newWallet.address, this.node),
                     setTransactionList(newWallet.address, this)
                 ])
-
+                this.$store.commit('SET_NAMESPACE_LOADING', false)
                 this.$store.commit('SET_NAMESPACE', initMosaicsAndNamespaces[1] || [])
                 enrichMosaics(this)
                 new AppWallet(newWallet).setMultisigStatus(this.node, this.$store)
@@ -140,6 +141,7 @@
                 this.$store.commit('SET_TRANSACTIONS_LOADING', true),
                 this.$store.commit('SET_BALANCE_LOADING', true),
                 this.$store.commit('SET_MOSAICS_LOADING', true),
+                this.$store.commit('SET_NAMESPACE_LOADING', true),
             ])
 
             this.$Notice.config({duration: 4})
