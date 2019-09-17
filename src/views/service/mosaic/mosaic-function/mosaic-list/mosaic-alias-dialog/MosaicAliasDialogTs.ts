@@ -1,7 +1,6 @@
 import {AliasActionType, NamespaceId, MosaicId, Password} from "nem2-sdk"
 import {mapState} from "vuex"
-import {Message} from "@/config/index.ts"
-import {Message, namespaceGracePeriodDuration,formData} from "@/config/index.ts"
+import {Message,networkConfig} from "@/config/index.ts"
 import {NamespaceApiRxjs} from "@/core/api/NamespaceApiRxjs.ts"
 import {Component, Vue, Prop, Watch} from 'vue-property-decorator'
 import {EmptyAlias} from "nem2-sdk/dist/src/model/namespace/EmptyAlias"
@@ -22,7 +21,7 @@ export class MosaicAliasDialogTs extends Vue {
     show = false
     isCompleteForm = false
     mosaic: any = formData.mosaicAliasForm
-    namespaceGracePeriodDuration = namespaceGracePeriodDuration
+    namespaceGracePeriodDuration = networkConfig.namespaceGracePeriodDuration
 
     @Prop()
     showMosaicAliasDialog: boolean

@@ -477,4 +477,11 @@ export const importKeystoreDefault = {
     keystorePassword: '111111'
 }
 
+export const StatusString = {
+    FOREVER:'Forever',
+    NO_ALIAS:'no alias',
+    EXPIRED:'Expired'
+}
+
+
 
