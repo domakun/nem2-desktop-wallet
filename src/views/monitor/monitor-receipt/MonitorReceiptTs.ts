@@ -22,7 +22,7 @@ export class MonitorReceiptTs extends Vue {
     assetAmount = 0
     QRCode: string = ''
     transactionHash = ''
-    TransferType = transferType
+    transferType = transferType
     isShowDialog = false
     mosaicList = monitorRecaeiptMosaicList
     transferTypeList = monitorRecaeiptTransferTypeList
