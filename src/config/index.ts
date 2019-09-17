@@ -1,6 +1,4 @@
-import {NetworkType, TransactionType} from 'nem2-sdk'
-import {timeZoneList} from '@/config/timeZone.ts'
-import {formData as formDataObject} from '@/config/formData.ts'
+import { NetworkType, TransactionType } from 'nem2-sdk'
 import dashboardBlockHeight from "@/common/img/monitor/dash-board/dashboardBlockHeight.png"
 import dashboardBlockTime from "@/common/img/monitor/dash-board/dashboardBlockTime.png"
 import dashboardPointAmount from "@/common/img/monitor/dash-board/dashboardPointAmount.png"
@@ -14,30 +12,205 @@ import namespace1Icon from "@/common/img/service/namespace1.png"
 import namespace2Icon from "@/common/img/service/namespace2.png"
 import apostille1Icon from "@/common/img/service/apostille1.png"
 import apostille2Icon from "@/common/img/service/apostille2.png"
-import {echartsConfigure as echartsConfigureData} from '@/config/echarts.ts'
 
-export const echartsConfigure = echartsConfigureData
+export const echartsConfigure = {
+    multisigMapOption: {
+        tooltip: {
+            alwaysShowContent: true,
+            padding: 0,
+            position: 'right',
+            formatter: (params: any, copyIcon) => {
+                if (params.dataType == 'edge') {
+                    return
+                }
+                const template = `<div class="tooltip" >
+                                        <div>${params.data.address.address}</div>
+                                    </div>`
+                return template
+            }
+        },
+        animationDurationUpdate: 1500,
+        animationEasingUpdate: 'quinticInOut',
+        series: [
+            {
+                left: 60,
+                type: 'graph',
+                layout: 'none',
+                symbolSize: 70,
+                roam: false,
+                label: {
+                    normal: {
+                        show: true
+                    }
+                },
+                edgeSymbol: ['none', 'arrow'],
+                edgeSymbolSize: [4, 10],
+                edgeLabel: {
+                    normal: {
+                        textStyle: {
+                            fontSize: 20
+                        }
+                    }
+                },
+                data: [],
+                links: [],
+                lineStyle: {
+                    normal: {
+                        width: 2,
+                        curveness: 0,
+                        color: '#4DC2BF',
+                        type: 'dotted'
+                    }
+                }
+            }
+        ]
+    },
 
-export const formData = formDataObject
+    votePieOption: {
+        font: {},
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)",
+        },
+        color: ['#EC5447', '#F1C850'],
+        series: [
+            {
+                name: 'vote',
+                type: 'pie',
+                data: [
+                    {value: 100, name: 'A 335 25%'},
+                    {value: 300, name: 'B 300 75%'},
+                ],
+                itemStyle: {
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    },
+                    borderWidth: 2,
+                    borderColor: '#fff',
+                }
+            }
+        ]
+    }
+}
 
 
-const isWin32 = require('./packge.ts').isWin32
+export const formData = {
+    multisigTransferForm: {
+        address: 'SCSXIT-R36DCY-JRVSNE-NY5BUA-HXSL7I-E6ULEY-UYRC',
+        remark: '',
+        multisigPublickey: '',
+        innerFee: 1,
+        lockFee: 10,
+        aggregateFee: 1,
+        mosaicTransferList: [],
+        isEncryption: true
+    },
+    transferForm: {
+        fee: 0.5,
+        remark: '',
+        address: 'SCSXIT-R36DCY-JRVSNE-NY5BUA-HXSL7I-E6ULEY-UYRC',
+        mosaicTransferList: [],
+        isEncrypted: true
+    },
+    remoteForm: {
+        remotePublickey: '',
+        fee: 0.5,
+        password: ''
+    },
+    mosaicAliasForm: {
+        aliasName: '',
+        fee: 0.5,
+        password: ''
+    },
+    mosaicEditForm: {
+        id: '',
+        aliasName: '',
+        delta: 0,
+        supplyType: 1,
+        changeDelta: 0,
+        duration: '',
+        fee: 0.5,
+        password: ''
+    },
+    mosaicUnaliasForm: {
+        fee: 0.5,
+        password: ''
+    },
+    mosaicTransactionForm: {
+        restrictable: false,
+        supply: 500000000,
+        divisibility: 0,
+        transferable: true,
+        supplyMutable: true,
+        permanent: false,
+        duration: 1000,
+        innerFee: 0.5,
+        aggregateFee: 0.5,
+        lockFee: 0.5,
+        multisigPublickey: ''
+    },
+    multisigConversionForm: {
+        publickeyList: [],
+        minApproval: 1,
+        minRemoval: 1,
+        bondedFee: 1,
+        lockFee: 10,
+        innerFee: 1
+    },
+    multisigManagementForm: {
+        minApprovalDelta: 0,
+        minRemovalDelta: 0,
+        bondedFee: 1,
+        lockFee: 10,
+        innerFee: 1,
+        cosignerList: [],
+        multisigPublickey: ''
+    },
+    namesapceEditForm: {
+        name: '',
+        duration: 0,
+        fee: 0.5,
+        password: ''
+    },
+    rootNamespaceForm: {
+        duration: 1000,
+        rootNamespaceName: '',
+        multisigPublickey: '',
+        innerFee: 0.5,
+        aggregateFee: 0.5,
+        lockFee: 0.5
+    },
+    walletImportMnemonicForm: {
+        mnemonic: '',
+        networkType: 0,
+        walletName: '',
+        password: '',
+        checkPW: '',
+    },
+    walletImportPrivateKeyForm: {
+        privateKey: 'FB628AF4276F696AD1FA85B7AB1E49CFD896E5EC85000E3179EEEA59717DD8DE',
+        networkType: 0,
+        walletName: '',
+        password: '',
+        checkPW: '',
+    }
+}
+export const isWindows = require('./packge.ts').isWin32
 
-export const bandedNamespace = ['nem', 'user', 'account', 'org', 'com', 'biz', 'net', 'edu', 'mil', 'gov ', 'info']
-
-export const isWindows = isWin32
-
+//apiServer
 export const apiServerConfig = {
     apiUrl: 'http://120.79.181.170',
     marketUrl: 'http://app.nemcn.io',
     voteUrl: 'http://120.79.181.170'
 }
 
-export const localesMap: any = {
+//language
+export const languageType: any = {
     'zh-CN': '中文',
     'en-US': 'English'
 }
-
 export const languageList: Array<any> = [
     {
         value: 'zh-CN',
@@ -49,9 +222,101 @@ export const languageList: Array<any> = [
     }
 ]
 
-export const TransferType = {
+//transaction
+export const transferType = {
     'RECEIVED': 1,
     'SENT': 0
+}
+export const aliasType = {
+    noAlias: 0,
+    mosaicAlias: 1,
+    addressAlias: 2
+}
+export const transactionTag = {
+    RECEIPT: 'receipt',
+    PAYMENT: 'payment',
+    [TransactionType.REGISTER_NAMESPACE]: 'register_namespace',
+    [TransactionType.ADDRESS_ALIAS]: 'address_alias',
+    [TransactionType.MOSAIC_ALIAS]: 'mosaic_alias',
+    [TransactionType.MOSAIC_DEFINITION]: 'mosaic_definition',
+    [TransactionType.MOSAIC_SUPPLY_CHANGE]: 'mosaic_supply_change',
+    [TransactionType.MODIFY_MULTISIG_ACCOUNT]: 'modify_multisig_account',
+    [TransactionType.AGGREGATE_COMPLETE]: 'aggregate_complete',
+    [TransactionType.AGGREGATE_BONDED]: 'aggregate_bonded',
+    [TransactionType.LOCK]: 'lock',
+    [TransactionType.SECRET_LOCK]: 'secret_lock',
+    [TransactionType.SECRET_PROOF]: 'secret_proof',
+    [TransactionType.MODIFY_ACCOUNT_RESTRICTION_ADDRESS]: 'modify_account_property_address',
+    [TransactionType.MODIFY_ACCOUNT_RESTRICTION_MOSAIC]: 'modify_account_property_mosaic',
+    [TransactionType.MODIFY_ACCOUNT_RESTRICTION_OPERATION]: 'modify_account_property_entity_type',
+    [TransactionType.LINK_ACCOUNT]: 'link_account'
+}
+export const transactionTypeList = {
+    'transfer': {
+        label: 'transfer',
+        value: TransactionType.TRANSFER
+    },
+    'register_namespace': {
+        label: 'register_namespace',
+        value: TransactionType.REGISTER_NAMESPACE
+    },
+    'address_alias': {
+        label: 'address_alias',
+        value: TransactionType.ADDRESS_ALIAS
+    },
+    'mosaic_alias': {
+        label: 'mosaic_alias',
+        value: TransactionType.MOSAIC_ALIAS
+    },
+    'mosaic_definition': {
+        label: 'mosaic_definition',
+        value: TransactionType.MOSAIC_DEFINITION
+    },
+    'mosaic_supply_change': {
+        label: 'mosaic_supply_change',
+        value: TransactionType.MOSAIC_SUPPLY_CHANGE
+    },
+    'modify_multisig_account': {
+        label: 'modify_multisig_account',
+        value: TransactionType.MODIFY_MULTISIG_ACCOUNT
+    },
+    'aggregate_complete': {
+        label: 'aggregate_complete',
+        value: TransactionType.AGGREGATE_COMPLETE
+    },
+
+    'aggregate_bonded': {
+        label: 'aggregate_bonded',
+        value: TransactionType.AGGREGATE_BONDED
+    },
+    'lock': {
+        label: 'lock',
+        value: TransactionType.LOCK
+    },
+    'secret_lock': {
+        label: 'secret_lock',
+        value: TransactionType.SECRET_LOCK
+    },
+    'secret_proof': {
+        label: 'secret_proof',
+        value: TransactionType.SECRET_PROOF
+    },
+    'modify_account_property_address': {
+        label: 'modify_account_property_address',
+        value: TransactionType.MODIFY_ACCOUNT_RESTRICTION_ADDRESS
+    },
+    'modify_account_property_mosaic': {
+        label: 'modify_account_property_address',
+        value: TransactionType.MODIFY_ACCOUNT_RESTRICTION_MOSAIC
+    },
+    'modify_account_property_entity_type': {
+        label: 'modify_account_property_entity_type',
+        value: TransactionType.MODIFY_ACCOUNT_RESTRICTION_OPERATION
+    },
+    'link_account': {
+        label: 'link_account',
+        value: TransactionType.LINK_ACCOUNT
+    }
 }
 export const networkTypeList = [
     {
@@ -127,144 +392,69 @@ export const Message = {
 
 }
 
-export const transactionTag = {
-    RECEIPT: 'receipt',
-    PAYMENT: 'payment',
-    [TransactionType.REGISTER_NAMESPACE]: 'register_namespace',
-    [TransactionType.ADDRESS_ALIAS]: 'address_alias',
-    [TransactionType.MOSAIC_ALIAS]: 'mosaic_alias',
-    [TransactionType.MOSAIC_DEFINITION]: 'mosaic_definition',
-    [TransactionType.MOSAIC_SUPPLY_CHANGE]: 'mosaic_supply_change',
-    [TransactionType.MODIFY_MULTISIG_ACCOUNT]: 'modify_multisig_account',
-    [TransactionType.AGGREGATE_COMPLETE]: 'aggregate_complete',
-    [TransactionType.AGGREGATE_BONDED]: 'aggregate_bonded',
-    [TransactionType.LOCK]: 'lock',
-    [TransactionType.SECRET_LOCK]: 'secret_lock',
-    [TransactionType.SECRET_PROOF]: 'secret_proof',
-    [TransactionType.MODIFY_ACCOUNT_RESTRICTION_ADDRESS]: 'modify_account_property_address',
-    [TransactionType.MODIFY_ACCOUNT_RESTRICTION_MOSAIC]: 'modify_account_property_mosaic',
-    [TransactionType.MODIFY_ACCOUNT_RESTRICTION_OPERATION]: 'modify_account_property_entity_type',
-    [TransactionType.LINK_ACCOUNT]: 'link_account'
-}
-
-export const entityTypeList = {
-    'transfer': {
-        label: 'transfer',
-        value: TransactionType.TRANSFER
-    },
-    'register_namespace': {
-        label: 'register_namespace',
-        value: TransactionType.REGISTER_NAMESPACE
-    },
-    'address_alias': {
-        label: 'address_alias',
-        value: TransactionType.ADDRESS_ALIAS
-    },
-    'mosaic_alias': {
-        label: 'mosaic_alias',
-        value: TransactionType.MOSAIC_ALIAS
-    },
-    'mosaic_definition': {
-        label: 'mosaic_definition',
-        value: TransactionType.MOSAIC_DEFINITION
-    },
-    'mosaic_supply_change': {
-        label: 'mosaic_supply_change',
-        value: TransactionType.MOSAIC_SUPPLY_CHANGE
-    },
-    'modify_multisig_account': {
-        label: 'modify_multisig_account',
-        value: TransactionType.MODIFY_MULTISIG_ACCOUNT
-    },
-    'aggregate_complete': {
-        label: 'aggregate_complete',
-        value: TransactionType.AGGREGATE_COMPLETE
-    },
-
-    'aggregate_bonded': {
-        label: 'aggregate_bonded',
-        value: TransactionType.AGGREGATE_BONDED
-    },
-    'lock': {
-        label: 'lock',
-        value: TransactionType.LOCK
-    },
-    'secret_lock': {
-        label: 'secret_lock',
-        value: TransactionType.SECRET_LOCK
-    },
-    'secret_proof': {
-        label: 'secret_proof',
-        value: TransactionType.SECRET_PROOF
-    },
-    'modify_account_property_address': {
-        label: 'modify_account_property_address',
-        value: TransactionType.MODIFY_ACCOUNT_RESTRICTION_ADDRESS
-    },
-    'modify_account_property_mosaic': {
-        label: 'modify_account_property_address',
-        value: TransactionType.MODIFY_ACCOUNT_RESTRICTION_MOSAIC
-    },
-    'modify_account_property_entity_type': {
-        label: 'modify_account_property_entity_type',
-        value: TransactionType.MODIFY_ACCOUNT_RESTRICTION_OPERATION
-    },
-    'link_account': {
-        label: 'link_account',
-        value: TransactionType.LINK_ACCOUNT
-    }
-}
-
+//node
 export const nodeList = [
-    {
-        value: 'http://52.194.207.217:3000',
-        name: 'api-node-jp-12',
-        url: '52.194.207.217',
-        isSelected: false,
-    },
-    // {
-    //     value: 'http://3.0.78.183:3000',
-    //     name: 'my-8',
-    //     url: '3.0.78.183',
-    //     isSelected: false,
-    // },
     {
         value: 'http://13.114.200.132:3000',
         name: 'jp-5',
         url: '13.114.200.132',
         isSelected: false,
     },
-    // {
-    //     value: 'http://47.107.245.217:3000',
-    //     name: 'cn-2',
-    //     url: '47.107.245.217',
-    //     isSelected: true,
-    // }
+    {
+        value: 'http://52.194.207.217:3000',
+        name: 'api-node-jp-12',
+        url: '52.194.207.217',
+        isSelected: false,
+    },
 ]
-
-export const timeZoneListData = timeZoneList
-
 export const nodeConfig = {
     node: 'http://13.114.200.132:3000',
     currentXem: 'nem.xem',
     currentXEM1: '',
     XEM: 'XEM',
-    GasToXemMultiple: 20000   //  1xem=20000gas
+    gas2xemRate: 20000   //  1xem=20000gas
 
 }
+export const networkStatusList = [
+    {
+        icon: dashboardBlockHeight,
+        descript: 'block_height',
+        data: 1978365,
+        variable: 'currentHeight'
 
-export const aliasType = {
-    noAlias: 0,
-    mosaicAlias: 1,
-    addressAlias: 2
-}
-
-export const communityPanelNavList = [
-    {name: 'news', to: '/information', active: true},
-    {name: 'vote', to: '/vote', active: false,},
+    }, {
+        icon: dashboardBlockTime,
+        descript: 'average_block_time',
+        data: 12,
+        variable: 'currentGenerateTime'
+    }, {
+        icon: dashboardPointAmount,
+        descript: 'point',
+        data: 4,
+        variable: 'nodeAmount'
+    }, {
+        icon: dashboardTransactionAmount,
+        descript: 'number_of_transactions',
+        data: 0,
+        variable: 'numTransactions'
+    }, {
+        icon: dashboardPublickey,
+        descript: 'Harvester',
+        data: 0,
+        variable: 'signerPublicKey'
+    }
 ]
 
+//community
+export const communityPanelNavList = [
+    { name: 'news', to: '/information', active: true },
+    { name: 'vote', to: '/vote', active: false, },
+]
 export const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+export const voteType = {
+    RADIO: 0,
+    MULTIPLE: 1
+}
 export const voteFilterList = [
     {
         value: 0,
@@ -299,37 +489,9 @@ export const voteActionList = [
         isSelect: false
     }
 ]
-export const networkStatusList = [
-    {
-        icon: dashboardBlockHeight,
-        descript: 'block_height',
-        data: 1978365,
-        variable: 'currentHeight'
 
-    }, {
-        icon: dashboardBlockTime,
-        descript: 'average_block_time',
-        data: 12,
-        variable: 'currentGenerateTime'
-    }, {
-        icon: dashboardPointAmount,
-        descript: 'point',
-        data: 4,
-        variable: 'nodeAmount'
-    }, {
-        icon: dashboardTransactionAmount,
-        descript: 'number_of_transactions',
-        data: 0,
-        variable: 'numTransactions'
-    }, {
-        icon: dashboardPublickey,
-        descript: 'Harvester',
-        data: 0,
-        variable: 'signerPublicKey'
-    }
-]
-
-export const minitorPanelNavigatorList = [
+//monitor
+export const monitorPanelNavigatorList = [
     {
         name: 'dash_board',
         isSelect: true,
@@ -357,14 +519,12 @@ export const minitorPanelNavigatorList = [
         path: 'market'
     },
 ]
-
 export const monitorRecaeiptMosaicList = [
     {
         value: 'xem',
         label: 'xem'
     }
 ]
-
 export const monitorRecaeiptTransferTypeList = [
     {
         name: 'ordinary_transfer',
@@ -384,8 +544,7 @@ export const monitorRecaeiptTransferTypeList = [
         disabled: true
     }
 ]
-
-export const MonitorTransferTransferTypeList = [
+export const monitorTransferTransferTypeList = [
     {
         name: 'ordinary_transfer',
         isSelect: true,
@@ -404,7 +563,6 @@ export const MonitorTransferTransferTypeList = [
         disabled: true
     }
 ]
-
 export const apostilleButtonList = [
     {
         name: 'create_apostille',
@@ -418,6 +576,7 @@ export const apostilleButtonList = [
     }
 ]
 
+//mosaic
 export const mosaicTransactionTypeList = [
     {
         name: 'ordinary_account',
@@ -427,7 +586,6 @@ export const mosaicTransactionTypeList = [
         isSelected: false
     }
 ]
-
 export const mosaicButtonList = [
     {
         name: 'create_mosaic',
@@ -438,6 +596,7 @@ export const mosaicButtonList = [
     }
 ]
 
+//multisig
 export const multisigButtonList = [
     {
         name: 'convert',
@@ -455,6 +614,7 @@ export const multisigButtonList = [
     // }
 ]
 
+//namespace
 export const subNamespaceTypeList = [
     {
         name: 'ordinary_account',
@@ -473,7 +633,6 @@ export const rootNamespaceTypelist = [
         isSelected: false
     }
 ]
-
 export const namespaceButtonList = [
     {
         name: 'Create_namespace',
@@ -520,6 +679,7 @@ export const serviceSwitchFnList = [
     },
 ]
 
+//setting
 export const settingNetworkPointList = [
     {
         name: 'NEM_PRIVATE_1',
@@ -545,9 +705,7 @@ export const settingNetworkPointList = [
         isSelected: false
     }
 ]
-
 export const settingNetworkColorList = ['green_point', 'pink_point', 'purple_point', 'yellow_point']
-
 export const settingPanelNavigationBar = [
     {
         title: 'general_settings',
@@ -572,9 +730,30 @@ export const settingPanelNavigationBar = [
         isSelected: false
     }
 ]
+export const timeZoneListData = (() => {
+    let list = [
+        {
+            value: 0,
+            label: 'GMT'
+        },
+    ]
+    for (let i = 1; i <= 12; i++) {
+        list.push({
+            value: i,
+            label: 'GMT+' + i
+        })
+        list.push({
+            value: -i,
+            label: 'GMT-' + i
+        })
+    }
+    list = list.sort()
+    return list
+})()
+//wallet
 export const walletFnNavList = [
-    {name: 'create', to: '/walletCreate', active: true},
-    {name: 'import', to: '/walletImportKeystore', active: false},
+    { name: 'create', to: '/walletCreate', active: true },
+    { name: 'import', to: '/walletImportKeystore', active: false },
 ]
 export const walletImportNavagatorList = [
     {
@@ -591,8 +770,6 @@ export const walletImportNavagatorList = [
         isSelected: false
     }
 ]
-
-export const xemTotalSupply = 8999999999
 export const importKeystoreDefault = {
     walletName: 'keystore-wallet',
     networkType: NetworkType.MIJIN_TEST,
@@ -600,9 +777,5 @@ export const importKeystoreDefault = {
     walletPassword: '',
     walletPasswordAgain: '',
     keystorePassword: '111111'
-}
-export const voteType = {
-    RADIO: 0,
-    MULTIPLE: 1
 }
 

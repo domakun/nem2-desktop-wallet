@@ -1,7 +1,7 @@
 import {Address} from "nem2-sdk"
 import {mapState} from "vuex"
 import {Component, Vue, Watch} from 'vue-property-decorator'
-import {Message, bandedNamespace as BandedNamespaceList, subNamespaceTypeList} from "@/config/index.ts"
+import {Message, subNamespaceTypeList} from "@/config/index.ts"
 import {NamespaceApiRxjs} from "@/core/api/NamespaceApiRxjs.ts"
 import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
 import {MultisigApiRxjs} from "@/core/api/MultisigApiRxjs.ts"
@@ -9,6 +9,7 @@ import {
     getAbsoluteMosaicAmount, createBondedMultisigTransaction,
     createCompleteMultisigTransaction, formatAddress, getNamespaces
 } from '@/core/utils'
+import { networkConfig } from '@/config/network'
 
 @Component({
     components: {
@@ -168,8 +169,8 @@ export class SubNamespaceTs extends Vue {
             return false
         }
 
-        //BandedNamespaceList
-        const subflag = BandedNamespaceList.every((item) => {
+        //reservedRootNamespaceNames
+        const subflag = networkConfig.reservedRootNamespaceNames.every((item) => {
             if (item == subNamespaceName) {
                 this.showErrorMessage(this.$t(Message.NAMESPACE_USE_BANDED_WORD_ERROR))
                 return false

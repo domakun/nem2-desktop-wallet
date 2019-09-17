@@ -1,5 +1,5 @@
 import routers from '@/router/routers.ts'
-import {Message, isWindows, languageList, localesMap, nodeList} from "@/config/index.ts"
+import {Message, isWindows, languageList, languageType, nodeList} from "@/config/index.ts"
 import {AppWallet} from '@/core/utils/wallet'
 import {BlockApiRxjs} from '@/core/api/BlockApiRxjs.ts'
 import monitorSeleted from '@/common/img/window/windowSelected.png'
@@ -33,7 +33,7 @@ export class MenuBarTs extends Vue {
     accountAddress = ''
     txStatusListener = null
     languageList = languageList
-    localesMap = localesMap
+    localesMap = languageType
 
     get isNodeHealthy() {
         return this.app.isNodeHealthy

@@ -1,4 +1,4 @@
-import {localesMap, languageList} from "@/config/index.ts"
+import {languageList} from "@/config/index.ts"
 import {localSave, localRead} from '@/core/utils/utils.ts'
 import {Component, Vue} from 'vue-property-decorator'
 import GetStart from './login-view/get-start/GetStart.vue'
