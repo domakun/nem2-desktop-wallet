@@ -167,8 +167,6 @@ export class MonitorPanelTs extends Vue {
         delete wallets[0].hideMosaicMap[mosaic.hex]
         accountMap.wallets = wallets
         localSave('accountMap', JSON.stringify(accountMap))
-
-
     }
 
     // @TODO: move to formatTransaction

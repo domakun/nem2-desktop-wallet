@@ -6,6 +6,7 @@ import {Password, Account} from "nem2-sdk"
 import {networkTypeList} from "@/config/view"
 import {formData} from "@/config/formDto"
 import CheckPasswordDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
+
 @Component({
     computed: {
         ...mapState({
@@ -13,7 +14,7 @@ import CheckPasswordDialog from '@/common/vue/check-password-dialog/CheckPasswor
             app: 'app'
         })
     },
-    components:{
+    components: {
         CheckPasswordDialog
     }
 })
@@ -49,7 +50,7 @@ export class WalletImportPrivatekeyTs extends Vue {
     }
 
     closeCheckPWDialog() {
-        this.showCheckPWDialog = true
+        this.showCheckPWDialog = false
     }
 
     importWallet(password) {

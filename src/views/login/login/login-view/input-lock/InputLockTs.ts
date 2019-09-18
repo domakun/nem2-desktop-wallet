@@ -78,7 +78,7 @@ export class InputLockTs extends Vue {
     }
 
     submit() {
-        const {currentAccountName, password} = this.formItem
+        const {currentAccountName} = this.formItem
         const {accountMap, accountName} = this
         const that = this
         if (this.errors.items.length > 0) {
@@ -90,7 +90,7 @@ export class InputLockTs extends Vue {
             return
         }
 
-
+        this.$store.commit('SET_ACCOUNT_NAME', currentAccountName)
         if (!accountMap[accountName].seed) {
             this.$router.push('initAccount')
         }
@@ -102,8 +102,6 @@ export class InputLockTs extends Vue {
                 // save mnemonic and password in store
                 const nemonicCipher = accountMap.seed
                 const passwordCipher = accountMap.password
-                // read account wallet data
-                that.$store.commit('SET_ACCOUNT_NAME', accountMap.name)
                 that.jumpToDashBoard()
             })
     }

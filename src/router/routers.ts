@@ -70,12 +70,7 @@ const routers = [
                                 name: 'walletImportKeystore',
                                 // @ts-ignore
                                 component: () => import('@/views/wallet/wallet-import-keystore/WalletImportKeystore.vue'),
-                            }, {
-                                path: '/walletImportMnemonic',
-                                name: 'walletImportMnemonic',
-                                // @ts-ignore
-                                component: () => import('@/views/wallet/wallet-import-mnemonic/WalletImportMnemonic.vue'),
-                            }, {
+                            },{
                                 path: '/walletImportPrivatekey',
                                 name: 'walletImportPrivatekey',
                                 // @ts-ignore

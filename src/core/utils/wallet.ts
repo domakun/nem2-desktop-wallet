@@ -38,6 +38,7 @@ export class AppWallet {
     balance: number | 0
     isMultisig: boolean | undefined
     encryptedMnemonic: string | undefined
+    path: string
 
     createFromPrivateKey(name: string,
                          password: Password,
@@ -76,6 +77,7 @@ export class AppWallet {
             this.publicKey = account.publicKey
             this.networkType = networkType
             this.active = true
+            this.path = path
             this.encryptedMnemonic = AppLock.encryptString(mnemonic, password.value)
             this.addNewWalletToList(store)
             return this
@@ -92,15 +94,17 @@ export class AppWallet {
         networkType: NetworkType,
         store: any): AppWallet {
         try {
+            const path = `m/44'/43'/1'/0/0`
             const accountName = store.state.account.accountName
             const accountMap = localRead('accountMap') === '' ? {} : JSON.parse(localRead('accountMap'))
-            const account = createSubWalletByPath(mnemonic, `m/44'/43'/1'/0/0`)  // need put in configure
+            const account = createSubWalletByPath(mnemonic, path)  // need put in configure
             this.simpleWallet = SimpleWallet.createFromPrivateKey(name, password, account.privateKey, networkType)
             this.name = name
             this.address = this.simpleWallet.address.plain()
             this.publicKey = account.publicKey
             this.networkType = networkType
             this.active = true
+            this.path = path
             this.encryptedMnemonic = AppLock.encryptString(mnemonic, password.value)
             accountMap[accountName].seed = this.encryptedMnemonic
             localSave('accountMap', JSON.stringify(accountMap))

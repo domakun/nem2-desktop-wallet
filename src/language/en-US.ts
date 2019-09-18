@@ -710,5 +710,6 @@ export const en_US = {
     Import_mnemonic: 'Import mnemonic',
     create_seed: 'Create mnemonic',
     set_wallet_path: 'Set wallet path',
-    please_set_your_wallet_path: 'Please set your wallet path'
+    please_set_your_wallet_path: 'Please set your wallet path',
+    please_accurately_copy_the_hd_wallet_path:'Please accurately copy the hd-wallet path'
 }

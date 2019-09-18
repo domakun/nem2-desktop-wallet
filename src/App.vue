@@ -93,7 +93,8 @@
             // used in enrichMosaics
             return this.activeAccount.transactionList
         }
-        get accountName(){
+
+        get accountName() {
             return this.activeAccount.accountName
         }
 
@@ -107,6 +108,7 @@
         }
 
         async onWalletChange(newWallet) {
+            // reset tx list
             try {
                 await Promise.all([
                     this.$store.commit('SET_TRANSACTIONS_LOADING', true),

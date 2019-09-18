@@ -54,6 +54,13 @@
       <span class="back left pointer" @click="toBack"> {{$t('back')}}</span>
       <span class="import right" @click="submit">{{$t('import')}}</span>
     </div>
+
+    <CheckPasswordDialog
+            :showCheckPWDialog="showCheckPWDialog"
+            :isOnlyCheckPassword="true"
+            @closeCheckPWDialog="closeCheckPWDialog"
+            @checkEnd="checkEnd"
+    ></CheckPasswordDialog>
   </div>
 
 </template>

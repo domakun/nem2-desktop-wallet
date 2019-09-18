@@ -692,5 +692,6 @@ export const zh_CN = {
     Import_a_seed_file_from_a_WLT_file_or_hardware_wallet: '从WLT文件或硬件钱包 导入种子文件',
     create_seed: '创建助记词',
     set_wallet_path:'设置钱包路径',
-    please_set_your_wallet_path:'请设置钱包路径'
+    please_set_your_wallet_path:'请设置钱包路径',
+    please_accurately_copy_the_hd_wallet_path:'请做好hd钱包路径的备份'
 }
