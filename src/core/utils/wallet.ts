@@ -17,7 +17,7 @@ import {NamespaceApiRxjs} from "@/core/api/NamespaceApiRxjs.ts"
 import {MultisigApiRxjs} from "@/core/api/MultisigApiRxjs.ts"
 import {TransactionApiRxjs} from '@/core/api/TransactionApiRxjs.ts'
 import {MosaicApiRxjs} from "@/core/api/MosaicApiRxjs"
-import {createAccount} from "@/core/utils/hdWallet.ts"
+import {createSubWalletByPath} from "@/core/utils/hdWallet.ts"
 import {AppLock} from "@/core/utils/appLock"
 
 export class AppWallet {
@@ -59,6 +59,32 @@ export class AppWallet {
         }
     }
 
+    createFromPath(
+        name: string,
+        password: Password,
+        path: string,
+        networkType: NetworkType,
+        store: any): AppWallet {
+        try {
+            const accountName = store.state.account.accountName
+            let accountMap = localRead('accountMap') === '' ? {} : JSON.parse(localRead('accountMap'))
+            const mnemonic = AppLock.decryptString(accountMap[accountName].seed, password.value)
+            const account = createSubWalletByPath(mnemonic, path)
+            this.simpleWallet = SimpleWallet.createFromPrivateKey(name, password, account.privateKey, networkType)
+            this.name = name
+            this.address = this.simpleWallet.address.plain()
+            this.publicKey = account.publicKey
+            this.networkType = networkType
+            this.active = true
+            this.encryptedMnemonic = AppLock.encryptString(mnemonic, password.value)
+            this.addNewWalletToList(store)
+            return this
+        } catch (error) {
+            console.log(error)
+            throw new Error(error)
+        }
+    }
+
     createFromMnemonic(
         name: string,
         password: Password,
@@ -68,7 +94,7 @@ export class AppWallet {
         try {
             const accountName = store.state.account.accountName
             const accountMap = localRead('accountMap') === '' ? {} : JSON.parse(localRead('accountMap'))
-            const account = createAccount(mnemonic)
+            const account = createSubWalletByPath(mnemonic, `m/44'/43'/1'/0/0`)  // need put in configure
             this.simpleWallet = SimpleWallet.createFromPrivateKey(name, password, account.privateKey, networkType)
             this.name = name
             this.address = this.simpleWallet.address.plain()

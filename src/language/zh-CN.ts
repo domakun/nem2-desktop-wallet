@@ -690,6 +690,7 @@ export const zh_CN = {
     Account_name_already_exists: '账户名已存在',
     WLT_file: 'WLT文件（硬件钱包）',
     Import_a_seed_file_from_a_WLT_file_or_hardware_wallet: '从WLT文件或硬件钱包 导入种子文件',
-    create_seed: '创建助记词'
-
+    create_seed: '创建助记词',
+    set_wallet_path:'设置钱包路径',
+    please_set_your_wallet_path:'请设置钱包路径'
 }

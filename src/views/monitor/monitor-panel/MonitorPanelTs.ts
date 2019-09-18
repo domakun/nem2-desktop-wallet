@@ -88,6 +88,10 @@ export class MonitorPanelTs extends Vue {
         return this.app.chainStatus.currentHeight
     }
 
+    get accountName() {
+        return this.activeAccount.accountName
+    }
+
     switchPanel(index) {
         if (this.navigatorList[index].disabled) {
             return
@@ -146,19 +150,23 @@ export class MonitorPanelTs extends Vue {
     }
 
     toggleShowMosaic(mosaic) {
-        let wallets = JSON.parse(localRead('wallets'))
+        const {accountName} = this
+        const accountMap = JSON.parse(localRead('accountMap'))
+        let wallets = accountMap.wallets
         const updatedList: any = {...this.mosaicMap}
         updatedList[mosaic.hex].show = !updatedList[mosaic.hex].show
         this.$store.commit('SET_MOSAICS', updatedList)
         wallets[0].hideMosaicMap = wallets[0].hideMosaicMap || {}
         if (!mosaic.show) {
             wallets[0].hideMosaicMap[mosaic.hex] = true
-            localSave('wallets', JSON.stringify(wallets))
+            accountMap.wallets = wallets
+            localSave('accountMap', JSON.stringify(accountMap))
             return
         }
         // delete from hideMosaicList
         delete wallets[0].hideMosaicMap[mosaic.hex]
-        localSave('wallets', JSON.stringify(wallets))
+        accountMap.wallets = wallets
+        localSave('accountMap', JSON.stringify(accountMap))
 
 
     }

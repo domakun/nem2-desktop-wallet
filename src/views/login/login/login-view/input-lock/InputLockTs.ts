@@ -63,8 +63,8 @@ export class InputLockTs extends Vue {
         const {walletMap} = this
         if (getObjectLength(walletMap) == 0) {
             this.$router.push({
-                name: 'walletCreate',
-                params: {name: 'walletCreate'}
+                name: 'dashBoard',
+                params: {name: 'dashBoard'}
             })
             return
         }

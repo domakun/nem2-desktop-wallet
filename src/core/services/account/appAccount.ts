@@ -1,5 +1,4 @@
 import {localRead, localSave} from "@/core/utils"
-import {MosaicInfo, UInt64} from "nem2-sdk"
 
 export class AppAccount {
     accountName: string
@@ -45,8 +44,8 @@ export const AppAccounts = () => ({
         accountMap[appAccount.accountName] = appAccount
         localSave('accountMap', JSON.stringify(accountMap))
     },
-    craeteSeedWalletByPassword(password: string, accountName: string) {
-        const account = this.getAccountFromLocalStorage(accountName)
+    createWalletByPath(path: string, accountName: string, password: string) {
+
     }
 
 

@@ -1,4 +1,4 @@
-import { TransactionType, NetworkType } from 'nem2-sdk'
+import {TransactionType, NetworkType} from 'nem2-sdk'
 import dashboardBlockHeight from "@/common/img/monitor/dash-board/dashboardBlockHeight.png"
 import dashboardBlockTime from "@/common/img/monitor/dash-board/dashboardBlockTime.png"
 import dashboardPointAmount from "@/common/img/monitor/dash-board/dashboardPointAmount.png"
@@ -159,8 +159,8 @@ export const nodeList = [
 
 //communityPanelNavList
 export const communityPanelNavList = [
-    { name: 'news', to: '/information', active: true },
-    { name: 'vote', to: '/vote', active: false, },
+    {name: 'news', to: '/information', active: true},
+    {name: 'vote', to: '/vote', active: false,},
 ]
 
 //voteFilterList
@@ -450,15 +450,11 @@ export const settingPanelNavigationBar = [
 
 //wallet
 export const walletFnNavList = [
-    { name: 'create', to: '/walletCreate', active: true },
-    { name: 'import', to: '/walletImportKeystore', active: false },
+    {name: 'create', to: '/walletCreate', active: true},
+    {name: 'import', to: '/walletImportKeystore', active: false},
 ]
 export const walletImportNavagatorList = [
     {
-        title: 'mnemonic',
-        name: 'walletImportMnemonic',
-        isSelected: true
-    }, {
         title: 'privatekey',
         name: 'walletImportPrivatekey',
         isSelected: false
@@ -478,9 +474,9 @@ export const importKeystoreDefault = {
 }
 
 export const StatusString = {
-    FOREVER:'Forever',
-    NO_ALIAS:'no alias',
-    EXPIRED:'Expired'
+    FOREVER: 'Forever',
+    NO_ALIAS: 'no alias',
+    EXPIRED: 'Expired'
 }
 
 

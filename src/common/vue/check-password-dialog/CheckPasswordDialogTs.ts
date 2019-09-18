@@ -5,7 +5,7 @@ import {Component, Vue, Prop, Watch} from 'vue-property-decorator'
 import {AppWallet} from '@/core/utils/wallet.ts'
 import {getAbsoluteMosaicAmount} from "@/core/utils/mosaics"
 import {AppLock} from "@/core/utils/appLock"
-import {AppAccounts} from "@/core/services/Account"
+import {AppAccounts} from "@/core/services/account"
 
 @Component({
     computed: {...mapState({activeAccount: 'account'})},
@@ -93,13 +93,13 @@ export class CheckPasswordDialogTs extends Vue {
     }
 
     checkAccountPassword() {
-        const {mnemonicCipher, accountName} = this
+        const {accountName} = this
         const {password} = this.walletInputInfo
-
         const appAccount = AppAccounts()
         const account = appAccount.getAccountFromLocalStorage(accountName)
         try {
             const accountPassword = AppLock.decryptString(account.password, password)
+
             if (accountPassword === password) {
                 this.$emit('checkEnd', password)
                 this.showNotice()

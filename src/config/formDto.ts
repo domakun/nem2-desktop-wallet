@@ -1,3 +1,5 @@
+import {NetworkType} from "nem2-sdk"
+
 export const formData = {
     multisigTransferForm: {
         address: 'SCSXIT-R36DCY-JRVSNE-NY5BUA-HXSL7I-E6ULEY-UYRC',
@@ -91,9 +93,7 @@ export const formData = {
     },
     walletImportPrivateKeyForm: {
         privateKey: 'FB628AF4276F696AD1FA85B7AB1E49CFD896E5EC85000E3179EEEA59717DD8DE',
-        networkType: 0,
-        walletName: '',
-        password: '',
-        checkPW: '',
+        networkType: NetworkType.MIJIN_TEST,
+        walletName: 'wallet-privateKey',
     }
 }

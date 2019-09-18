@@ -74,18 +74,22 @@ export class NamespaceListTs extends Vue {
         return this.activeAccount.wallet
     }
 
+    get accountName(){
+        return this.activeAccount.accountName
+    }
+
     get availableMosaics() {
-        const {mosaics, currentHeight} = this
+        const {mosaics, accountName,currentHeight} = this
         const {address} = this.wallet
-        const appMosaics = AppMosaics()
+        const appMosaics = AppMosaics(accountName)
         appMosaics.init(mosaics)
         return appMosaics.getAvailableToBeLinked(currentHeight, address)
     }
 
     get unlinkMosaicList() {
-        const {mosaics, currentHeight} = this
+        const {mosaics,accountName, currentHeight} = this
         const {address} = this.wallet
-        const appMosaics = AppMosaics()
+        const appMosaics = AppMosaics(accountName)
         appMosaics.init(mosaics)
         return appMosaics.getAvailableToBeLinked(currentHeight, address)
     }

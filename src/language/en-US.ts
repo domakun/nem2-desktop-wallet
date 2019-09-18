@@ -707,6 +707,8 @@ export const en_US = {
     Account_name_already_exists: 'Account name already exists',
     WLT_file: 'WLT file（Hardware）',
     Import_a_seed_file_from_a_WLT_file_or_hardware_wallet: 'Import a seed file from a WLT file or hardware wallet',
-    Import_mnemonic:'Import mnemonic',
-    create_seed:'Create mnemonic'
+    Import_mnemonic: 'Import mnemonic',
+    create_seed: 'Create mnemonic',
+    set_wallet_path: 'Set wallet path',
+    please_set_your_wallet_path: 'Please set your wallet path'
 }

@@ -93,6 +93,9 @@
             // used in enrichMosaics
             return this.activeAccount.transactionList
         }
+        get accountName(){
+            return this.activeAccount.accountName
+        }
 
         // @TODO: move out from there
         async setWalletsList() {
@@ -139,6 +142,7 @@
          * Add namespaces and divisibility to transactions and balances
          */
         async mounted() {
+            const {accountName} = this
             // need init at start
             await this.setWalletsList()
             /**
@@ -179,7 +183,7 @@
                  * On Wallet Change
                  */
                 if (oldValue.address !== undefined && newValue.address !== oldValue.address) {
-                    const appMosaics = AppMosaics()
+                    const appMosaics = AppMosaics(accountName)
                     appMosaics.reset(this.$store)
                     const networkMosaic = {hex: this.currentXEM1, name: this.currentXem}
                     appMosaics.addNetworkMosaic(networkMosaic, this.$store)

@@ -1,7 +1,7 @@
 import {Component, Vue} from 'vue-property-decorator'
 import {Message} from "@/config"
 import {AppLock, createMnemonic, localRead} from "@/core/utils"
-import {AppAccounts, AppAccount} from '@/core/services/Account/appAccount.ts'
+import {AppAccounts, AppAccount} from '@/core/services/account'
 
 @Component
 export class CreateAccountTs extends Vue {
@@ -15,7 +15,7 @@ export class CreateAccountTs extends Vue {
     checkInput() {
         const {accountName, password, passwordAgain} = this.formItem
         const appAccounts = AppAccounts()
-        if(appAccounts.getAccountFromLocalStorage(accountName)){
+        if (appAccounts.getAccountFromLocalStorage(accountName)) {
             this.$Notice.error({title: this.$t(Message.ACCOUNT_NAME_EXISTS_ERROR) + ''})
             return false
         }

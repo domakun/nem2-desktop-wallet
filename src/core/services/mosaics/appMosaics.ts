@@ -34,7 +34,8 @@ export class AppMosaic {
     }
 }
 
-export const AppMosaics = () => ({
+export const AppMosaics = (accountName:string) => ({
+    accountName:accountName,
     mosaics: {},
     store: null,
 
@@ -76,7 +77,7 @@ export const AppMosaics = () => ({
     },
 
     addItem(mosaic): void {
-        const wallets = JSON.parse(localRead('wallets'))
+        const wallets = JSON.parse(localRead('accountMap'))[accountName].wallets
         const hideMosaicMap = wallets[0].hideMosaicMap
         if (!mosaic.hex) return
         if (!this.mosaics[mosaic.hex]) this.mosaics[mosaic.hex] = {}
@@ -113,7 +114,7 @@ export const AppMosaics = () => ({
     },
 
     fromMosaicAmountView(mosaic: MosaicAmountView, store: any): void {
-        let wallets = JSON.parse(localRead('wallets'))
+        const wallets = JSON.parse(localRead('accountMap'))[accountName].wallets
         const hideMosaicMap = wallets[0].hideMosaicMap || {}
         const mosaicHex = mosaic.mosaicInfo.mosaicId.toHex()
         this.store = store
