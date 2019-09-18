@@ -31,10 +31,8 @@ export class SeedCreatedGuideTs extends Vue {
     @Prop({default: {}})
     createForm: any
 
-
     get mnemonic() {
-        const mnemonic = this.app.mnemonic
-        return mnemonic['split'](' ')
+        return this.createForm.seed.split(' ')
     }
 
     get formInfo() {
@@ -103,12 +101,14 @@ export class SeedCreatedGuideTs extends Vue {
     }
 
     createFromMnemonic() {
+        const {seed,password,currentNetType} = this.formInfo
+        console.log(seed,password,currentNetType)
         try {
             new AppWallet().createFromMnemonic(
-                'seed-wallet',
-                new Password(this.formInfo.password),
-                this.mnemonic.join(' '),
-                this.formInfo.currentNetType,
+                'seedWallet',
+                new Password(this.createForm.password),
+                this.createForm.seed,
+                this.createForm.currentNetType,
                 this.$store,
             )
         } catch (error) {

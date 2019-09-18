@@ -13,7 +13,8 @@ import {AppAccount, AppAccounts} from "@/core/services/account"
 export class AccountCreateMnemonicTs extends Vue {
     formItem = {
         currentNetType: '',
-        password:''
+        password: '',
+        seed: ''
     }
     showCheckPWDialog = false
     networkTypeList = networkTypeList
@@ -28,8 +29,10 @@ export class AccountCreateMnemonicTs extends Vue {
 
     checkEnd(password) {
         if (!password) return
-        this.$store.commit('SET_MNEMONIC', createMnemonic())
+        const seed = createMnemonic()
+        this.$store.commit('SET_MNEMONIC', seed)
         this.formItem.password = password
+        this.formItem.seed = seed
         this.$emit('isCreated', this.formItem)
     }
 
