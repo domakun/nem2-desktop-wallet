@@ -10,7 +10,7 @@
 
     <div class="fix_contnet">
       <GetStart @showIndexView="showIndexView" v-if="indexShowList[0]"></GetStart>
-      <InputLock @showIndexView="showIndexView" v-if="indexShowList[2]"></InputLock>
+      <InputLock @showIndexView="showIndexView" v-if="indexShowList[1]"></InputLock>
     </div>
   </div>
 </template>

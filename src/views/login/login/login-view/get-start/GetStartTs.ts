@@ -14,7 +14,7 @@ export class GetStartTs extends Vue {
             this.$router.push('createAccount')
             return
         }
-        this.$router.push('initSeed')
+        this.$emit('showIndexView', 1)
     }
 
 }

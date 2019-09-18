@@ -22,7 +22,7 @@ export class LoginTs extends Vue {
     app: any
     languageList = languageList
     isShowDialog = true
-    indexShowList = [true, false, false]
+    indexShowList = [true, false]
 
     switchLanguage(language) {
         // @ts-ignore
@@ -44,12 +44,8 @@ export class LoginTs extends Vue {
     }
 
     showIndexView(index) {
-        let list = [false, false, false]
-        if (index != 0 && localRead('lock')) {
-            list[2] = true
-        } else {
-            list[index] = true
-        }
+        let list = [false, false]
+        list[index] = true
         this.indexShowList = list
     }
 
