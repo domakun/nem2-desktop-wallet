@@ -59,21 +59,25 @@ export class AppWallet {
         }
     }
 
-    createFromMnemonic(name: string,
-                       password: Password,
-                       mnemonic: string,
-                       networkType: NetworkType,
-                       store: any): AppWallet {
+    createFromMnemonic(
+        name: string,
+        password: Password,
+        mnemonic: string,
+        networkType: NetworkType,
+        store: any): AppWallet {
         try {
+            const accountName = store.state.account.accountName
+            const accountMap = localRead('accountMap') === '' ? {} : JSON.parse(localRead('accountMap'))
             const account = createAccount(mnemonic)
-            this.simpleWallet = SimpleWallet
-                .createFromPrivateKey(name, password, account.privateKey, networkType)
+            this.simpleWallet = SimpleWallet.createFromPrivateKey(name, password, account.privateKey, networkType)
             this.name = name
             this.address = this.simpleWallet.address.plain()
             this.publicKey = account.publicKey
             this.networkType = networkType
             this.active = true
             this.encryptedMnemonic = AppLock.encryptString(mnemonic, password.value)
+            accountMap[accountName].seed = this.encryptedMnemonic
+            localSave('accountMap', JSON.stringify(accountMap))
             this.addNewWalletToList(store)
             return this
         } catch (error) {
@@ -145,8 +149,10 @@ export class AppWallet {
     }
 
     addNewWalletToList(store: any): void {
-        const localData: any[] = localRead('wallets') === ''
-            ? [] : JSON.parse(localRead('wallets'))
+        const accountName = store.state.account.accountName
+        const accountMap = localRead('accountMap') === ''
+            ? {} : JSON.parse(localRead('accountMap'))
+        const localData = accountMap[accountName].wallets
 
         this.style = this.style || `walletItem_bg_${String(Number(localData.length) % 3)}`
 
@@ -164,11 +170,16 @@ export class AppWallet {
 
     delete(store: any, that: any) {
         const list = [...store.state.app.walletList]
+        const accountName = store.state.account.accountName
+        const accountMap = localRead('accountMap') === ''
+            ? {} : JSON.parse(localRead('accountMap'))
+
         const walletIndex = list.findIndex(({address}) => address === this.address)
         if (walletIndex === -1) throw new Error('The wallet was not found in the list')
         list.splice(walletIndex, 1)
         store.commit('SET_WALLET_LIST', list)
-        localSave('wallets', JSON.stringify(list))
+        accountMap[accountName].wallets = list
+        localSave('accountMap', JSON.stringify(accountMap))
 
         if (list.length < 1) {
             store.commit('SET_HAS_WALLET', false)
@@ -190,6 +201,10 @@ export class AppWallet {
         const newWalletIndex = walletList.findIndex(({address}) => address === newActiveWalletAddress)
         if (newWalletIndex === -1) throw new Error('wallet not found when switching')
 
+        const accountName = store.state.account.accountName
+        const accountMap = localRead('accountMap') === ''
+            ? {} : JSON.parse(localRead('accountMap'))
+
         let newWallet = walletList[newWalletIndex]
         newWallet.active = true
 
@@ -203,7 +218,9 @@ export class AppWallet {
 
         store.commit('SET_WALLET_LIST', walletListToStore)
         store.commit('SET_WALLET', newWallet)
-        localSave('wallets', JSON.stringify(walletListToStore))
+
+        accountMap[accountName].wallets = walletListToStore
+        localSave('accountMap', JSON.stringify(accountMap))
     }
 
     async getAccountBalance(networkCurrencies: any, node: string): Promise<number> {
@@ -233,8 +250,10 @@ export class AppWallet {
     }
 
     updateWallet(store: any) {
-        const localData: any[] = localRead('wallets') === ''
-            ? [] : JSON.parse(localRead('wallets'))
+        const accountName = store.state.account.accountName
+        const accountMap = localRead('accountMap') === ''
+            ? {} : JSON.parse(localRead('accountMap'))
+        const localData: any[] = accountMap.wallets
 
         if (!localData.length) throw new Error('error at update wallet, no wallets in storage')
 
@@ -247,7 +266,8 @@ export class AppWallet {
 
         store.commit('SET_WALLET_LIST', newWalletList)
         if (store.state.account.address === this.address) store.commit('SET_WALLET', this)
-        localSave('wallets', JSON.stringify(newWalletList))
+        accountMap[accountName].wallets = newWalletList
+        localSave('accountMap', JSON.stringify(accountMap))
     }
 
     async setMultisigStatus(node: string, store: any): Promise<void> {
@@ -328,7 +348,7 @@ export const getNamespaces = async (address: string, node: string) => {
                 hex: item.namespaceInfo.id.toHex(),
                 value: namespaceName,
                 label: namespaceName,
-                namespaceInfo:item.namespaceInfo,
+                namespaceInfo: item.namespaceInfo,
                 isActive: item.namespaceInfo.active,
                 alias: item.namespaceInfo.alias,
                 levels: item.namespaceInfo.levels.length,
@@ -382,10 +402,10 @@ export const getMosaicInfoList = async (node: string, mosaicList: Mosaic[], curr
     await new MosaicApiRxjs().getMosaics(node, mosaicIds).toPromise().then(mosaics => {
         if (!isShowExpired) {
             mosaics.map((mosaic) => {
-                const duration = mosaic['properties'].duration.compact();
-                const createHeight = mosaic.height.compact();
-                if (duration ===0 || duration + createHeight > Number(currentHeight)) {
-                    mosaicInfoList.push(mosaic);
+                const duration = mosaic['properties'].duration.compact()
+                const createHeight = mosaic.height.compact()
+                if (duration === 0 || duration + createHeight > Number(currentHeight)) {
+                    mosaicInfoList.push(mosaic)
                 }
             })
             return

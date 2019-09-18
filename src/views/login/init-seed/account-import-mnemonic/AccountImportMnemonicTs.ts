@@ -1,10 +1,10 @@
 import {Message} from "@/config/index.ts"
 import {AppWallet} from '@/core/utils/wallet.ts'
-import {mapState} from 'vuex';
+import {mapState} from 'vuex'
 import {Password} from "nem2-sdk"
 import {Component, Vue} from 'vue-property-decorator'
-import {networkTypeList} from "@/config/view";
-import {formData} from "@/config/formDto";
+import {networkTypeList} from "@/config/view"
+import {formData} from "@/config/formDto"
 
 @Component({
     computed: {
@@ -14,10 +14,10 @@ import {formData} from "@/config/formDto";
         })
     }
 })
-export class WalletImportMnemonicTs extends Vue {
+export class AccountImportMnemonicTs extends Vue {
     activeAccount: any
     app: any
-    form:any = formData.walletImportMnemonicForm
+    form = formData.walletImportMnemonicForm
     NetworkTypeList = networkTypeList
     account = {}
 
@@ -51,18 +51,6 @@ export class WalletImportMnemonicTs extends Vue {
             })
             return false
         }
-        if (!this.form.password || this.form.password.length < 8) {
-            this.$Notice.error({
-                title: this.$t(Message.PASSWORD_SETTING_INPUT_ERROR) + ''
-            })
-            return false
-        }
-        if (this.form.password !== this.form.checkPW) {
-            this.$Notice.error({
-                title: this.$t(Message.INCONSISTENT_PASSWORD_ERROR) + ''
-            })
-            return false
-        }
         if (!this.form.mnemonic || this.form.mnemonic === '' || this.form.mnemonic.split(' ').length != 12) {
             this.$Notice.error({
                 title: this.$t(Message.MNENOMIC_INPUT_ERROR) + ''
@@ -73,21 +61,21 @@ export class WalletImportMnemonicTs extends Vue {
     }
 
     importWallet() {
-      try {
-        new AppWallet().createFromMnemonic(
-          this.form.walletName,
-          new Password(this.form.password),
-          this.form.mnemonic,
-          this.form.networkType,
-          this.$store
-        )
-        this.toWalletDetails()
-      } catch (error) {
-        console.error(error)
-        this.$Notice.error({
-            title: this.$t(Message.OPERATION_FAILED_ERROR) + ''
-        })
-      }
+        try {
+            new AppWallet().createFromMnemonic(
+                this.form.walletName,
+                new Password('123123123'),  // TODO
+                this.form.mnemonic,
+                this.form.networkType,
+                this.$store
+            )
+            this.toWalletDetails()
+        } catch (error) {
+            console.error(error)
+            this.$Notice.error({
+                title: this.$t(Message.OPERATION_FAILED_ERROR) + ''
+            })
+        }
     }
 
     toWalletDetails() {

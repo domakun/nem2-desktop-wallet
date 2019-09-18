@@ -36,6 +36,16 @@ export const renderMosaics = (mosaics: Mosaic[],
     return items.map(({name, amount}) => `${name} (${amount})`).join(', ')
 }
 
+export const getRelativeMosaicAmount = (amount: number, divisibility: number) => {
+    if (!amount) return 0
+    return amount / Math.pow(10, divisibility)
+}
+
+export const getAbsoluteMosaicAmount = (amount: number, divisibility: number) => {
+    if (!amount) return 0
+    return amount * Math.pow(10, divisibility)
+}
+
 /**
  * Transforms an array of mosaics to an inline representation,
  * setting networkCurrency as the first item
@@ -76,14 +86,4 @@ export const renderMosaicAmount = (mosaics: Mosaic[], mosaicList: AppMosaic[]): 
     const appMosaic = mosaicList[hex]
     return getRelativeMosaicAmount(mosaics[0].amount.compact(), appMosaic.mosaicInfo.divisibility)
         .toLocaleString()
-}
-
-export const getRelativeMosaicAmount = (amount: number, divisibility: number): number => {
-    if (!amount) return 0
-    return amount / Math.pow(10, divisibility)
-}
-
-export const getAbsoluteMosaicAmount = (amount: number, divisibility: number): number => {
-    if (!amount) return 0
-    return amount * Math.pow(10, divisibility)
 }

@@ -421,7 +421,8 @@ export const zh_CN = {
     please_enter_your_password_again: '请再次输入你设置的密码',
     repeat_the_password: '重复密码',
     walletCreateNetTypeRemind: '请选择钱包网络! ',
-    walletCreateWalletNameRemind: '设置钱包名输入错误! ',
+    walletCreateWalletNameRemind: '钱包名输入错误! ',
+    accountCreateWalletNameRemind: '账户名输入错误! ',
     walletCreatePasswordRemind: '设置密码输入错误! ',
     walletCreateCheckPWRemind: '两次密码不一致! ',
     //Backup mnemonic  created
@@ -474,6 +475,7 @@ export const zh_CN = {
     Two_passwords_are_inconsistent: '两次密码不一致',
     Mnemonic_input_error: '助记词输入错误',
     Import_mnemonic_operations: '导入助记词操作',
+    Import_mnemonic: '导入助记词',
     Imported_wallet_successfully: '导入钱包成功',
     Import_private_key_operation: '导入私钥操作',
     Wallet_management: '钱包管理',
@@ -678,6 +680,16 @@ export const zh_CN = {
     Restrictable: '限制性',
     Please_enter_mosaic_hex_or_alias: '请输入马赛克hex或@马赛克别名（@nem.xem）',
     mosaic_alias_not_exist: '马赛克别名不存在',
-    Please_select_public_key :'请选择账户公钥',
-    public:'公钥',
+    Please_select_public_key: '请选择账户公钥',
+    public: '公钥',
+    Create_an_account_and_password: '创建账户和密码',
+    set_the_account_name: '设置账户名',
+    set_password_8_char: '设置密码（至少8字符）',
+    back_to_home_page: '返回欢迎页',
+    The_wallet_terminal_will_use_the_HD_WALLET_protocol_to_provide: '本钱包终端将采用HD-WALLET协议，提供给方便的钱包管理，账户默认钱包将会是一个记助词钱包；遵循一个账户，一个种子，一个密码的原则；所以一个账户下可以有多个钱包列表，用账户密码管理，一旦忘记密码，可以通过导入助记词恢复钱包；在程序的启动页你可以方便的切换到其他账户。',
+    Account_name_already_exists: '账户名已存在',
+    WLT_file: 'WLT文件（硬件钱包）',
+    Import_a_seed_file_from_a_WLT_file_or_hardware_wallet: '从WLT文件或硬件钱包 导入种子文件',
+    create_seed: '创建助记词'
+
 }

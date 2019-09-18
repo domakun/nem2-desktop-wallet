@@ -8,16 +8,22 @@
     import 'animate.css'
     import {mapState} from 'vuex'
     import {asyncScheduler} from 'rxjs'
-    import { throttleTime } from 'rxjs/operators'
+    import {throttleTime} from 'rxjs/operators'
 
     import {isWindows} from "@/config/index.ts"
     import {
-        localRead,  AppWallet,
-        getNamespaces, checkInstall, getNetworkGenerationHash, getCurrentNetworkMosaic,
+        localRead,
+        AppWallet,
+        getNamespaces,
+        checkInstall,
+        getNetworkGenerationHash,
+        getCurrentNetworkMosaic,
+        getObjectLength,
+        getTopValueInObject,
     } from '@/core/utils'
     import {Component, Vue} from 'vue-property-decorator'
     import {ChainListeners} from '@/core/services/listeners.ts'
-    import { initMosaic, enrichMosaics, AppMosaics} from '@/core/services/mosaics'
+    import {initMosaic, enrichMosaics, AppMosaics} from '@/core/services/mosaics'
     import {getMarketOpenPrice} from '@/core/services/marketData.ts'
     import {setTransactionList} from '@/core/services/transactions'
 
@@ -90,9 +96,10 @@
 
         // @TODO: move out from there
         async setWalletsList() {
-            const walletListFromStorage: any = localRead('wallets') !== '' ? JSON.parse(localRead('wallets')) : false
-            if (!walletListFromStorage || !walletListFromStorage.length) return
-            AppWallet.switchWallet(walletListFromStorage[0].address, walletListFromStorage, this.$store)
+            const accountMapFromStorage: any = localRead('accountMap') !== '' ? JSON.parse(localRead('accountMap')) : false
+            if (!accountMapFromStorage || !getObjectLength(accountMapFromStorage)) return
+            const wallets = getTopValueInObject(accountMapFromStorage).wallets
+            AppWallet.switchWallet(wallets[0].address, wallets, this.$store)
 
         }
 

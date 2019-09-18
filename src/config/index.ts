@@ -1,4 +1,4 @@
-import { TransactionType } from 'nem2-sdk'
+import {TransactionType} from 'nem2-sdk'
 
 export const isWindows = require('./packge.ts').isWin32
 
@@ -37,13 +37,14 @@ export const Message = {
     UPDATE_SUCCESS: 'update_completed',
     NODE_CONNECTION_SUCCEEDED: 'Node_connection_succeeded',
     PLEASE_ENTER_THE_CORRECT_NUMBER: 'Please_enter_the_correct_number',
-    NOTES_SHOULD_NOT_EXCEED_25_CHARACTER:'Notes_should_not_exceed_25_character',
+    NOTES_SHOULD_NOT_EXCEED_25_CHARACTER: 'Notes_should_not_exceed_25_character',
 
     PLEASE_SET_WALLET_PASSWORD_INFO: 'please_set_your_wallet_password',
     PLEASE_ENTER_MNEMONIC_INFO: 'Please_enter_a_mnemonic_to_ensure_that_the_mnemonic_is_correct',
     PLEASE_SWITCH_NETWORK: 'walletCreateNetTypeRemind',
     NO_MNEMONIC_INFO: 'no_mnemonic',
-
+    ACCOUNT_NAME_INPUT_ERROR:'accountCreateWalletNameRemind',
+    ACCOUNT_NAME_EXISTS_ERROR: 'Account_name_already_exists',
     WALLET_NAME_INPUT_ERROR: 'walletCreateWalletNameRemind',
     PASSWORD_CREATE_ERROR: 'createLockPWRemind',
     INCONSISTENT_PASSWORD_ERROR: 'createLockCheckPWRemind',

@@ -181,7 +181,19 @@ const routers = [
                 path: '/login',
                 name: 'login',
                 component: () => import('@/views/login/login/Login.vue'),
-            }
+            }, {
+                path: '/createAccount',
+                name: 'createAccount',
+                component: () => import('@/views/login/create-account/CreateAccount.vue'),
+            }, {
+                path: '/initAccount',
+                name: 'initAccount',
+                component: () => import('@/views/login/init-account/InitAccount.vue'),
+            }, {
+                path: '/initSeed',
+                name: 'initSeed',
+                component: () => import('@/views/login/init-seed/InitSeed.vue'),
+            },
         ]
     },
 ]

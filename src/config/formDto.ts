@@ -88,8 +88,6 @@ export const formData = {
         mnemonic: '',
         networkType: 0,
         walletName: '',
-        password: '',
-        checkPW: '',
     },
     walletImportPrivateKeyForm: {
         privateKey: 'FB628AF4276F696AD1FA85B7AB1E49CFD896E5EC85000E3179EEEA59717DD8DE',

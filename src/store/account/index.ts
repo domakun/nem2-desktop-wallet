@@ -1,6 +1,6 @@
 import {Account} from 'nem2-sdk'
 import {nodeConfig} from "@/config/index.ts"
-import { FormattedTransaction } from '@/core/services/transactions'
+import {FormattedTransaction} from '@/core/services/transactions'
 
 declare interface account {
     node: string,
@@ -16,6 +16,7 @@ declare interface account {
     generationHash: string,
     xemDivisibility: number
     transactionList: FormattedTransaction[],
+    accountName: string
 }
 
 export default {
@@ -31,7 +32,8 @@ export default {
         addressAliasMap: {},
         generationHash: '',
         xemDivisibility: 6,
-        transactionList: []
+        transactionList: [],
+        accountName: 'account-1',
     },
     getters: {
         wallet(state) {
@@ -104,14 +106,17 @@ export default {
             const txIndex = newStateTransactions
                 .findIndex(({txHeader}) => newTx.txHeader.hash === txHeader.hash)
             console.log(newStateTransactions, newTx, txIndex, newStateTransactions[txIndex], '8978987948645')
-            if(txIndex > -1 && newStateTransactions[txIndex].isTxUnconfirmed) {
+            if (txIndex > -1 && newStateTransactions[txIndex].isTxUnconfirmed) {
                 newStateTransactions.splice(txIndex, 1)
-            } 
+            }
             newStateTransactions.unshift(newTx)
             state.transactionList = newStateTransactions
         },
         SET_CURRENT_XEM(state: account, currentXem: string) {
             state.currentXem = currentXem
-        }
+        },
+        SET_ACCOUNT_NAME(state: account, accountName: string) {
+            state.accountName = accountName
+        },
     },
 }
