@@ -155,7 +155,6 @@
 
         @Watch('wallet.address')
         onWalletAddressChange() {
-            console.log('mouonWalletAddressChangented................')
             if (this.wallet && this.wallet.address) {
                 this.onWalletChange(this.wallet)
             }
