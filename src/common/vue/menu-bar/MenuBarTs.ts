@@ -10,6 +10,7 @@ import {windowSizeChange, minWindow, maxWindow, closeWindow} from '@/core/utils/
 import {mapState} from 'vuex'
 import {languageList, nodeList} from "@/config/view"
 import {languageType} from "@/config/types"
+import {NetworkType} from "nem2-sdk"
 
 @Component({
     computed: {
@@ -20,6 +21,7 @@ import {languageType} from "@/config/types"
     }
 })
 export class MenuBarTs extends Vue {
+    NetworkType = NetworkType
     app: any
     activeAccount: any
     isShowNodeList = false

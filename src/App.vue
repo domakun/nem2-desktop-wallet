@@ -102,7 +102,7 @@
             if (!accountName) return
             const accountMapFromStorage: any = localRead('accountMap') !== '' ? JSON.parse(localRead('accountMap')) : false
             if (!accountMapFromStorage || !getObjectLength(accountMapFromStorage)) return
-            const wallets = getTopValueInObject(accountMapFromStorage).wallets
+            const wallets = getTopValueInObject(accountMapFromStorage)['wallets']
             AppWallet.switchWallet(wallets[0].address, wallets, this.$store)
 
         }

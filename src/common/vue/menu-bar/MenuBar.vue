@@ -42,7 +42,7 @@
             <Poptip placement="bottom-end">
               <i class="pointer point" @click="toggleNodeList"/>
               <span class="network_type_text" v-if="wallet">
-                {{ networkType == 144 ? 'MIJIN_TEST':''}}
+                {{ NetworkType[networkType]}}
               </span>
               <div slot="title" class="title">{{$t('current_point')}}：{{node}}</div>
               <div slot="content">
@@ -88,7 +88,7 @@
 </template>
 
 <script lang="ts">
-    import {MenuBarTs} from '@/common/vue/menu-bar/MenuBarTs.ts';
+    import {MenuBarTs} from '@/common/vue/menu-bar/MenuBarTs.ts'
 
     export default class MenuBar extends MenuBarTs {
 
