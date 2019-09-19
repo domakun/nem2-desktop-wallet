@@ -3,7 +3,6 @@ import {Component, Vue} from 'vue-property-decorator'
 import {createMnemonic} from "@/core/utils/hdWallet.ts"
 import {networkTypeList} from "@/config/view"
 import CheckPasswordDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
-import {AppAccount, AppAccounts} from "@/core/services/account"
 
 @Component({
     components: {

@@ -9,7 +9,9 @@ export class InitAccountTs extends Vue {
         this.$router.push(
             {
                 name: 'initSeed',
-                params: initType
+                params: {
+                    initType:initType
+                }
             })
     }
 }

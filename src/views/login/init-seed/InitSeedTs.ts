@@ -58,8 +58,8 @@ export class InitSeedTs extends Vue {
     }
 
     created() {
-        const initType: any = this.$route.params.initType
-        this.pageIndex = initType || 0
+        const initType = Number(this.$route.params.initType) || 0
+        this.goToPage(this.navList[initType], initType)
     }
 
 }

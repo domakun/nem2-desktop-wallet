@@ -5,8 +5,13 @@ import {Password} from "nem2-sdk"
 import {Component, Vue} from 'vue-property-decorator'
 import {networkTypeList} from "@/config/view"
 import {formData} from "@/config/formDto"
+import CheckPasswordDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
+import {AppLock, createMnemonic} from "@/core/utils"
 
 @Component({
+    components: {
+        CheckPasswordDialog
+    },
     computed: {
         ...mapState({
             activeAccount: 'account',
@@ -20,6 +25,7 @@ export class AccountImportMnemonicTs extends Vue {
     form = formData.walletImportMnemonicForm
     NetworkTypeList = networkTypeList
     account = {}
+    showCheckPWDialog = false
 
     get getNode() {
         return this.activeAccount.node
@@ -35,7 +41,20 @@ export class AccountImportMnemonicTs extends Vue {
 
     submit() {
         if (!this.checkImport()) return
-        this.importWallet()
+        this.showCheckPWDialog = true
+
+    }
+
+    checkEnd(password) {
+        if (!password) return
+        const {mnemonic} = this.form
+        const seed = AppLock.encryptString(mnemonic, password)
+        this.$store.commit('SET_MNEMONIC', seed)
+        this.importWallet(password)
+    }
+
+    closeCheckPWDialog() {
+        this.showCheckPWDialog = true
     }
 
     checkImport() {
@@ -60,13 +79,14 @@ export class AccountImportMnemonicTs extends Vue {
         return true
     }
 
-    importWallet() {
+    importWallet(password) {
+        const {walletName, mnemonic, networkType} = this.form
         try {
             new AppWallet().createFromMnemonic(
-                this.form.walletName,
-                new Password('123123123'),  // TODO
-                this.form.mnemonic,
-                this.form.networkType,
+                walletName,
+                new Password(password),
+                mnemonic,
+                networkType,
                 this.$store
             )
             this.toWalletDetails()
@@ -88,5 +108,5 @@ export class AccountImportMnemonicTs extends Vue {
 
     toBack() {
         this.$router.push('initAccount')
-}
+    }
 }
