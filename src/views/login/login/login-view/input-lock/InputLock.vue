@@ -48,7 +48,7 @@
                 v-validate=''
                 style="display:none"
         >
-        <img @click="submit" src="@/common/img/login/loginJump.png" alt="">
+        <img @click="submit" src="@/common/img/login/loginClickToIn.png" alt="">
       </div>
     </form>
 
