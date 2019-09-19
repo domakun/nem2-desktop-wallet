@@ -138,10 +138,7 @@ export class MenuBarTs extends Vue {
     accountQuit() {
         this.$store.commit('SET_CURRENT_PANEL_INDEX', 0)
         this.$router.push({
-            name: "login",
-            params: {
-                index: '2'
-            }
+            name: "login"
         })
     }
 

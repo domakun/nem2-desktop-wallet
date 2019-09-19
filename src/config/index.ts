@@ -99,6 +99,7 @@ export const nodeConfig = {
 }
 
 export const networkConfig = {
+    currentGenerateTime:12,
     publicKey: "",
     generationHash: "",
     enableVerifiableState: true,

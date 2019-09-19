@@ -1,10 +1,9 @@
 import {Message} from "@/config/index.ts"
 import {Component, Vue} from 'vue-property-decorator'
-import {createMnemonic} from "@/core/utils/hdWallet.ts"
 import {networkTypeList} from "@/config/view"
 import {NetworkType, Password} from "nem2-sdk"
 import CheckPasswordDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
-import {AppAccounts} from '@/core/services/account'
+import {AppAccounts} from '@/core/model'
 import {mapState} from "vuex"
 import {AppWallet} from '@/core/utils/wallet.ts'
 
