@@ -698,5 +698,6 @@ export const zh_CN = {
     Please_choose_account_name: '请选择账户名',
     account_password: '账户密码',
     hint: '密码提示',
-    path: '包路径'
+    path: '钱包路径',
+    hd_wallet_path_error: 'HD 钱包路径输入错误'
 }

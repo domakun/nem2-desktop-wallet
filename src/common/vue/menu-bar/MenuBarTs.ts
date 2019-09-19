@@ -137,6 +137,8 @@ export class MenuBarTs extends Vue {
 
     accountQuit() {
         this.$store.commit('SET_CURRENT_PANEL_INDEX', 0)
+        this.$store.commit('RESET_APP')
+        this.$store.commit('RESET_ACCOUNT')
         this.$router.push({
             name: "login"
         })

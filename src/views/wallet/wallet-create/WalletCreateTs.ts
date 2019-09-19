@@ -6,6 +6,8 @@ import CheckPasswordDialog from '@/common/vue/check-password-dialog/CheckPasswor
 import {AppAccounts} from '@/core/model'
 import {mapState} from "vuex"
 import {AppWallet} from '@/core/utils/wallet.ts'
+import {createSubWalletByPath} from "@/core/utils/hdWallet.ts"
+import {networkConfig} from '@/config/index.ts'
 
 @Component({
     components: {
@@ -43,8 +45,13 @@ export class WalletCreateTs extends Vue {
         const {accountName} = this
         const {currentNetType, walletName, path} = this.formItem
         const appAccounts = AppAccounts()
-        new AppWallet().createFromPath(walletName, new Password(password), path, currentNetType, this.$store)
-        this.$router.push('dashBoard')
+        try {
+            new AppWallet().createFromPath(walletName, new Password(password), path, currentNetType, this.$store)
+            this.$router.push('dashBoard')
+        } catch (e) {
+            this.$Notice.error({title: this.$t(Message.HD_WALLET_PATH_ERROR) + ''})
+        }
+
 
     }
 
@@ -67,7 +74,14 @@ export class WalletCreateTs extends Vue {
             this.$Notice.error({title: this.$t(Message.PASSWORD_SETTING_INPUT_ERROR) + ''})
             return false
         }
-        return true
+        try {
+            createSubWalletByPath(networkConfig.testMnemonicStirng, path)
+            return true
+        } catch (e) {
+            this.$Notice.error({title: this.$t(Message.HD_WALLET_PATH_ERROR) + ''})
+            return false
+        }
+
     }
 
     toBack() {

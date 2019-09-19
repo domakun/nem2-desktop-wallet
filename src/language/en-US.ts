@@ -716,5 +716,6 @@ export const en_US = {
     Please_choose_account_name: 'Please choose account name',
     account_password: 'account password',
     hint: 'hint',
-    path: 'path'
+    path: 'path',
+    hd_wallet_path_error:'HD wallet path error'
 }

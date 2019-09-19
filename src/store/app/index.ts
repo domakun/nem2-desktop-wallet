@@ -48,6 +48,11 @@ export default {
     },
     getters: {},
     mutations: {
+        RESET_APP(state: appInfo){
+            state.hasWallet = false
+            state.mnemonic= ''
+            state.walletList = []
+        },
         SET_CURRENT_PANEL_INDEX(state: appInfo, index: any) {
             state.currentPanelIndex = index
         },
