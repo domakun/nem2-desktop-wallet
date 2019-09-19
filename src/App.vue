@@ -20,9 +20,10 @@
     } from '@/core/utils'
     import {Component, Vue} from 'vue-property-decorator'
     import {ChainListeners} from '@/core/services/listeners.ts'
-    import {AppMosaics, initMosaic} from '@/core/services/mosaics'
+    import {initMosaic} from '@/core/services/mosaics'
     import {getMarketOpenPrice} from '@/core/services/marketData.ts'
     import {setTransactionList} from '@/core/services/transactions'
+    import {AppMosaic} from '@/core/model'
 
     @Component({
         computed: {
@@ -198,10 +199,10 @@
                  * On Wallet Change
                  */
                 if (oldValue.address !== undefined && newValue.address !== oldValue.address) {
-                    const appMosaics = AppMosaics(accountName)
-                    // appMosaics.reset(this.$store)
-                    const networkMosaic = {hex: this.currentXEM1, name: this.currentXem}
-                    // appMosaics.addNetworkMosaic(networkMosaic, this.$store)
+                    this.$store.commit('RESET_MOSAICS')
+                    this.$store.commit('UPDATE_MOSAICS', [new AppMosaic({
+                        hex: this.currentXEM1, name: this.currentXem
+                    })])
                     this.onWalletChange(newValue)
                 }
             })

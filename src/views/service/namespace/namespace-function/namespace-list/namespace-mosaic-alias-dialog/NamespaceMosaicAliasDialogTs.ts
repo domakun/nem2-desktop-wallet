@@ -60,9 +60,9 @@ export class NamespaceMosaicAliasDialogTs extends Vue {
         return this.activeAccount.accountName
     }
     get unlinkMosaicList() {
-        const {mosaics,accountName, currentHeight} = this
+        const {currentHeight} = this
         const {address} = this.wallet
-        const availableToBeLinked = AppMosaics(accountName)
+        const availableToBeLinked = AppMosaics()
             .getAvailableToBeLinked(currentHeight, address, this.$store)
         if (!availableToBeLinked.length) return []
         return availableToBeLinked

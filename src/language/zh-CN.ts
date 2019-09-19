@@ -696,5 +696,7 @@ export const zh_CN = {
     please_set_your_wallet_path: '请设置钱包路径',
     please_accurately_copy_the_hd_wallet_path: '请做好hd钱包路径的备份',
     Please_choose_account_name: '请选择账户名',
-    account_password: '账户密码'
+    account_password: '账户密码',
+    hint: '密码提示',
+    path: '包路径'
 }
