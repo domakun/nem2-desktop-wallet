@@ -42,10 +42,6 @@ export class InputLockTs extends Vue {
         return localRead('accountMap') ? JSON.parse(localRead('accountMap')) : {}
     }
 
-    get accountName() {
-        return this.activeAccount.accountName
-    }
-
     get accountList() {
         const walletMap = this.accountMap
         let walletList = []
@@ -61,12 +57,12 @@ export class InputLockTs extends Vue {
 
     jumpToDashBoard() {
         const {accountMap} = this
-        const {accountName} = this
-        if (getObjectLength(accountMap) == 0 || !accountMap[accountName].seed) {
+        const {currentAccountName} = this.formItem
+        if (getObjectLength(currentAccountName) == 0 || !accountMap[currentAccountName].seed) {
             this.$router.push('initSeed')
             return
         }
-        if (!accountMap[accountName].wallets.length) {
+        if (!accountMap[currentAccountName].wallets.length) {
             this.$router.push('walletCreate')
             return
         }
@@ -81,7 +77,7 @@ export class InputLockTs extends Vue {
 
     submit() {
         const {currentAccountName} = this.formItem
-        const {accountMap, accountName} = this
+        const {accountMap} = this
         const that = this
         if (this.errors.items.length > 0) {
             this.showErrorNotice(this.errors.items[0].msg)
@@ -91,19 +87,25 @@ export class InputLockTs extends Vue {
             this.showErrorNotice(Message.ACCOUNT_NAME_INPUT_ERROR)
             return
         }
-
         this.$store.commit('SET_ACCOUNT_NAME', currentAccountName)
-        if (!accountMap[accountName].seed) {
+        // no seed
+        if (!accountMap[currentAccountName].seed) {
             this.$router.push('initAccount')
+            return
         }
 
         this.$validator
             .validate()
             .then((valid) => {
                 if (!valid) return
-                // save mnemonic and password in store
-                const nemonicCipher = accountMap.seed
-                const passwordCipher = accountMap.password
+                // no wallet
+                if (!accountMap[currentAccountName].wallets.length) {
+                    that.$router.push('walletCreate')
+                    return
+                }
+                // have wallet and seed
+                that.$store.commit('SET_HAS_WALLET', true)
+                that.$store.commit('SET_WALLET_LIST', accountMap[currentAccountName].wallets)
                 that.jumpToDashBoard()
             })
     }
@@ -111,9 +113,11 @@ export class InputLockTs extends Vue {
 
     @Watch('formItem.currentAccountName')
     onWalletChange() {
-        const {accountMap, accountName} = this
-        this.cipher = accountMap[accountName].password
-        this.cipherHint = accountMap[accountName].hint
+        const {currentAccountName} = this.formItem
+        const {accountMap} = this
+        if (!accountMap[currentAccountName]) return
+        this.cipher = accountMap[currentAccountName].password
+        this.cipherHint = accountMap[currentAccountName].hint
     }
 
 

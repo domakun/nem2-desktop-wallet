@@ -1,9 +1,6 @@
 import {AccountHttp, Address, MosaicAmountView, MosaicService, MosaicHttp, MosaicId, TransactionType} from 'nem2-sdk'
-import {AppMosaics} from '@/core/services/mosaics'
-import {of} from 'rxjs'
-import {map, mergeMap} from 'rxjs/operators'
 import {AppWallet} from '@/core/utils/wallet.ts'
-import {localRead} from "@/core/utils/utils"
+import {AppMosaic} from '@/core/model'
 
 /**
  * Custom implementation for performance gains
@@ -40,42 +37,16 @@ export const mosaicsAmountViewFromAddress = (node: string, address: Address): Pr
     })
 }
 
-/**
- *
- * @param that Vue
- */
-export const enrichMosaics = (that) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const appMosaics = AppMosaics(that.$store.state.account.accountName)
-            appMosaics.init(that.mosaicList)
-            appMosaics.fromNamespaces(that.namespaceList, that.$store)
-            const transferTransactionList = [...that.transactionList]
-                .filter(({rawTx}) => rawTx.type === TransactionType.TRANSFER)
-            appMosaics.fromTransactions(transferTransactionList, that.$store)
-            resolve()
-        } catch (error) {
-            reject(error)
-        }
-    })
-}
-
 export const initMosaic = (wallet, that) => {
     const {node, mosaicList, currentXEM1} = that
     const store = that.$store
-    const appMosaics = AppMosaics(that.$store.state.account.accountName)
-    appMosaics.init(that.mosaicList)
     const address = Address.createFromRawAddress(wallet.address)
 
     return new Promise(async (resolve, reject) => {
         try {
             const mosaicAmountViews = await mosaicsAmountViewFromAddress(node, address)
-            of(mosaicAmountViews)
-                .pipe(
-                    mergeMap((_) => _),
-                    map(mosaic => appMosaics.fromMosaicAmountView(mosaic, store))
-                )
-                .toPromise()
+            const appMosaics = mosaicAmountViews.map(x => AppMosaic.fromMosaicAmountView(x))
+            await store.commit('UPDATE_MOSAICS', appMosaics)
             new AppWallet(wallet).updateAccountBalance(mosaicList[currentXEM1].balance, store)
             await Promise.all([
                 store.commit('SET_BALANCE_LOADING', false),

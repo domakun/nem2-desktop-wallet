@@ -23,7 +23,7 @@ export class MonitorPanelTs extends Vue {
     isShowAccountInfo = true
     // isShowAccountAlias = false @TODO: Account Alias (update when method available)
     isShowManageMosaicIcon = false
-    ischecked = true
+    isChecked = true
     monitorSeleted = monitorSeleted
     monitorUnselected = monitorUnselected
     navigatorList: any = monitorPanelNavigatorList
@@ -75,14 +75,10 @@ export class MonitorPanelTs extends Vue {
     }
 
     get filteredList() {
-        const {mosaics, mosaicName} = this
-        const newList: any = Object.values(mosaics)
-        return newList.filter(mosaic => (
-            mosaic.name && mosaic.name.indexOf(mosaicName) > -1
-            || mosaic.hex.indexOf(mosaicName) > -1
-        ))
+        const {mosaics} = this
+        if (this.mosaicsLoading || !mosaics) return []
+        return Object.values(this.mosaics).filter(({hide}) => !hide)
     }
-
 
     get currentHeight() {
         return this.app.chainStatus.currentHeight
@@ -127,9 +123,11 @@ export class MonitorPanelTs extends Vue {
     }
 
     toggleAllChecked() {
-        this.ischecked = !this.ischecked
+        this.isChecked = !this.isChecked
         const updatedList: any = {...this.mosaicMap}
-        Object.keys(updatedList).forEach(key => updatedList[key].show = this.ischecked)
+        Object.keys(updatedList).forEach(key => updatedList[key].hide = !this.isChecked)
+        this.$store.commit('SET_MOSAICS', updatedList)
+        localSave(this.address, JSON.stringify(updatedList))
     }
 
     toggleShowExpired() {
@@ -139,10 +137,12 @@ export class MonitorPanelTs extends Vue {
         Object.keys(updatedList)
             .forEach(key => {
                 const {expirationHeight} = updatedList[key]
-                updatedList[key].show = this.showExpiredMosaics
-                    ? true
-                    : expirationHeight === 'Forever' || currentHeight < expirationHeight
+                updatedList[key].hide = this.showExpiredMosaics
+                    ? false
+                    : expirationHeight !== 'Forever' || currentHeight > expirationHeight
             })
+        this.$store.commit('SET_MOSAICS', updatedList)
+        localSave(this.address, JSON.stringify(updatedList))
     }
 
     showMosaicMap() {
@@ -154,7 +154,7 @@ export class MonitorPanelTs extends Vue {
         const accountMap = JSON.parse(localRead('accountMap'))
         let wallets = accountMap.wallets
         const updatedList: any = {...this.mosaicMap}
-        updatedList[mosaic.hex].show = !updatedList[mosaic.hex].show
+        updatedList[mosaic.hex].hide = !updatedList[mosaic.hex].hide
         this.$store.commit('SET_MOSAICS', updatedList)
         wallets[0].hideMosaicMap = wallets[0].hideMosaicMap || {}
         if (!mosaic.show) {
