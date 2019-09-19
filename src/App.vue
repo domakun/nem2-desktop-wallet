@@ -18,7 +18,7 @@
         getObjectLength,
         getTopValueInObject, localRead,
     } from '@/core/utils'
-    import {Component, Vue} from 'vue-property-decorator'
+    import {Component, Vue, Watch} from 'vue-property-decorator'
     import {ChainListeners} from '@/core/services/listeners.ts'
     import {initMosaic} from '@/core/services/mosaics'
     import {getMarketOpenPrice} from '@/core/services/marketData.ts'
@@ -150,6 +150,14 @@
                     this.$store.commit('SET_MOSAICS_LOADING', false),
                     this.$store.commit('SET_NAMESPACE_LOADING', false),
                     console.error("App -> onWalletChange -> error", error)
+            }
+        }
+
+        @Watch('wallet.address')
+        onWalletAddressChange() {
+            console.log('mouonWalletAddressChangented................')
+            if (this.wallet && this.wallet.address) {
+                this.onWalletChange(this.wallet)
             }
         }
 
