@@ -10,7 +10,7 @@ export class ChainListeners {
 
     constructor(app: any, address: string, endpoint: string) {
         this.app = app
-        this.address = address
+        this.address = address || ''
         this.node = endpoint.replace('http', 'ws')
     }
 
