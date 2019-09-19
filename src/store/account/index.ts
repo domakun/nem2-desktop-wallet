@@ -105,7 +105,7 @@ export default {
                 Object.assign(mosaicList[mosaic.hex], mosaic)
             })
         },
-        RESET_MOSAIC(state: account) {
+        RESET_MOSAICS(state: account) {
             state.mosaics = {}
         },
         SET_NETWORK_MOSAIC(state: account, mosaic: AppMosaic) {

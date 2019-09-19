@@ -1,5 +1,5 @@
 import {mapState} from "vuex"
-import { Address} from "nem2-sdk"
+import {Address} from "nem2-sdk"
 import {NamespaceApiRxjs} from "@/core/api/NamespaceApiRxjs.ts"
 import {MultisigApiRxjs} from '@/core/api/MultisigApiRxjs.ts'
 import {Component, Vue, Watch} from 'vue-property-decorator'
@@ -10,7 +10,7 @@ import {
     getAbsoluteMosaicAmount, formatSeconds, formatAddress,
     createBondedMultisigTransaction, createCompleteMultisigTransaction,
 } from '@/core/utils'
-import {formData} from "@/config/formDto";
+import {formData} from "@/config/formDto"
 
 
 @Component({
@@ -20,13 +20,13 @@ import {formData} from "@/config/formDto";
     computed: {
         ...mapState({
             activeAccount: 'account',
-            app:'app'
+            app: 'app'
         })
     }
 })
 export class RootNamespaceTs extends Vue {
-    activeAccount:any
-    app:any
+    activeAccount: any
+    app: any
     transactionDetail = {}
     isCompleteForm = false
     currentMinApproval = -1
@@ -46,11 +46,12 @@ export class RootNamespaceTs extends Vue {
     get node() {
         return this.activeAccount.node
     }
-    get wallet(){
+
+    get wallet() {
         return this.activeAccount.wallet
     }
 
-    get address(){
+    get address() {
         return this.activeAccount.wallet.address
     }
 
@@ -209,7 +210,7 @@ export class RootNamespaceTs extends Vue {
     getMultisigAccountList() {
         if (!this.wallet) return
         const that = this
-        const {address,node} = this
+        const {address, node} = this
         new MultisigApiRxjs().getMultisigAccountInfo(address, node).subscribe((multisigInfo) => {
             that.multisigPublickeyList = multisigInfo.multisigAccounts.map((item: any) => {
                 item.value = item.publicKey

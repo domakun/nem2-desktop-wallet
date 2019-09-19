@@ -325,7 +325,6 @@ export class AppWallet {
             const account = this.getAccount(password)
             const signature = account.sign(transactionList[0], generationHash)
             const message = that.$t(Message.SUCCESS)
-            console.log(signature)
             new TransactionApiRxjs().announce(signature, node).subscribe(() => {
                 that.$Notice.success({title: message}) // quick fix
             })

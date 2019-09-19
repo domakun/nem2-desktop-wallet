@@ -20,9 +20,7 @@
     } from '@/core/utils'
     import {Component, Vue} from 'vue-property-decorator'
     import {ChainListeners} from '@/core/services/listeners.ts'
-    import {enrichMosaics, AppMosaics, initMosaic} from '@/core/services/mosaics'
-    import {mosaicsAmountViewFromAddress} from '@/core/services/mosaics'
-    import {AppMosaic} from '@/core/model'
+    import {AppMosaics, initMosaic} from '@/core/services/mosaics'
     import {getMarketOpenPrice} from '@/core/services/marketData.ts'
     import {setTransactionList} from '@/core/services/transactions'
 
@@ -147,6 +145,10 @@
                     this.chainListeners.switchAddress(newWallet.address)
                 }
             } catch (error) {
+                this.$store.commit('SET_TRANSACTIONS_LOADING', false),
+                this.$store.commit('SET_BALANCE_LOADING', false),
+                this.$store.commit('SET_MOSAICS_LOADING', false),
+                this.$store.commit('SET_NAMESPACE_LOADING', false),
                 console.error("App -> onWalletChange -> error", error)
             }
         }
@@ -197,9 +199,9 @@
                  */
                 if (oldValue.address !== undefined && newValue.address !== oldValue.address) {
                     const appMosaics = AppMosaics(accountName)
-                    appMosaics.reset(this.$store)
+                    // appMosaics.reset(this.$store)
                     const networkMosaic = {hex: this.currentXEM1, name: this.currentXem}
-                    appMosaics.addNetworkMosaic(networkMosaic, this.$store)
+                    // appMosaics.addNetworkMosaic(networkMosaic, this.$store)
                     this.onWalletChange(newValue)
                 }
             })
