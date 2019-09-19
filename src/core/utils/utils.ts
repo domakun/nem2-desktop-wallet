@@ -79,7 +79,7 @@ export const copyTxt = (txt) => {
 export const formatNumber = (number) => {
     {
         if (!/^(\+|-)?(\d+)(\.\d+)?$/.test(number)) {
-            return number
+            return 0
         }
         var a = RegExp.$1, b = RegExp.$2, c = RegExp.$3
         // @ts-ignore
