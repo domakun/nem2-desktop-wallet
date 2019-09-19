@@ -4,7 +4,7 @@ import {AppWallet} from '@/core/utils/wallet'
 import {BlockApiRxjs} from '@/core/api/BlockApiRxjs.ts'
 import monitorSeleted from '@/common/img/window/windowSelected.png'
 import monitorUnselected from '@/common/img/window/windowUnselected.png'
-import {localSave} from "@/core/utils/utils.ts"
+import {localRead, localSave} from "@/core/utils/utils.ts"
 import {Component, Vue} from 'vue-property-decorator'
 import {windowSizeChange, minWindow, maxWindow, closeWindow} from '@/core/utils/electron.ts'
 import {mapState} from 'vuex'
