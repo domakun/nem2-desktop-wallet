@@ -37,13 +37,12 @@ export class CreateAccountTs extends Vue {
     createAccount() {
         const appAccounts = AppAccounts()
         let {accountName, password, hint} = this.formItem
-
         if (!this.checkInput()) return
         password = AppLock.encryptString(password, password)
-        let accountMap = localRead('accountMap') ? JSON.parse(localRead('accountMap')) : {}
         const appAccount = new AppAccount(accountName, [], password, hint)
         appAccounts.saveAccountInLocalStorage(appAccount)
         this.$Notice.success({title: this.$t(Message.OPERATION_SUCCESS) + ''})
+        this.$store.commit('SET_ACCOUNT_NAME', accountName)
         this.$router.push('initAccount')
     }
 

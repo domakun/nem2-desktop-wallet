@@ -122,6 +122,11 @@ export class InputLockTs extends Vue {
     }
 
 
+    created() {
+        const {accountMap} = this
+        this.formItem.currentAccountName = getTopValueInObject(accountMap).accountName
+    }
+
     clearCache() {
         // localRead remove
         // localRemove('lock')

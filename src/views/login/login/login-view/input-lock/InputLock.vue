@@ -28,12 +28,14 @@
 
     <form @submit.prevent="validateForm('input-lock')">
 
-      <Select  v-model="formItem.currentAccountName"
+      <Select v-model="formItem.currentAccountName"
               class="select_wallet">
-        <Option v-for="walletName in accountList" :value="walletName.value" :key="walletName.value">{{ walletName.label
-          }}
+        <Option v-for="walletName in accountList" :value="walletName.value" :key="walletName.value">{{
+          walletName.label}}
         </Option>
       </Select>
+
+
       <div class="bottom_input">
         <input
                 data-vv-name="password"
