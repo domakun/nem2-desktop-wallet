@@ -6,10 +6,10 @@ import {AppAccounts, AppAccount} from '@/core/services/account'
 @Component
 export class CreateAccountTs extends Vue {
     formItem = {
-        accountName: 'account-1',
-        password: '123123123',
-        passwordAgain: '123123123',
-        hint: '123123123'
+        accountName: '',
+        password: '',
+        passwordAgain: '',
+        hint: ''
     }
 
     checkInput() {

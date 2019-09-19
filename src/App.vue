@@ -231,7 +231,6 @@
                             } catch (error) {
                                 console.error(error)
                             }
-
                         } else {
                             this.chainListeners.switchEndpoint(node)
                         }
