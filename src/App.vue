@@ -136,7 +136,6 @@
                     this.$store.commit('SET_NAMESPACE_LOADING', false),
                 ])
                 new AppWallet(newWallet).setMultisigStatus(this.node, this.$store)
-
                 if (!this.chainListeners) {
                     this.chainListeners = new ChainListeners(this, newWallet.address, this.node)
                     this.chainListeners.start()
@@ -146,10 +145,10 @@
                 }
             } catch (error) {
                 this.$store.commit('SET_TRANSACTIONS_LOADING', false),
-                this.$store.commit('SET_BALANCE_LOADING', false),
-                this.$store.commit('SET_MOSAICS_LOADING', false),
-                this.$store.commit('SET_NAMESPACE_LOADING', false),
-                console.error("App -> onWalletChange -> error", error)
+                    this.$store.commit('SET_BALANCE_LOADING', false),
+                    this.$store.commit('SET_MOSAICS_LOADING', false),
+                    this.$store.commit('SET_NAMESPACE_LOADING', false),
+                    console.error("App -> onWalletChange -> error", error)
             }
         }
 
