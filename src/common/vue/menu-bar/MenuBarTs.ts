@@ -8,8 +8,8 @@ import {localSave} from "@/core/utils/utils.ts"
 import {Component, Vue} from 'vue-property-decorator'
 import {windowSizeChange, minWindow, maxWindow, closeWindow} from '@/core/utils/electron.ts'
 import {mapState} from 'vuex'
-import {languageList, nodeList} from "@/config/view";
-import {languageType} from "@/config/types";
+import {languageList, nodeList} from "@/config/view"
+import {languageType} from "@/config/types"
 
 @Component({
     computed: {
@@ -28,7 +28,7 @@ export class MenuBarTs extends Vue {
     nodeList = nodeList
     isNowWindowMax = false
     isShowDialog = true
-    activePanelList = [false, false, false, false, false]
+    activePanelList = [false, false, false, false, false, false, false,]
     monitorSeleted = monitorSeleted
     monitorUnselected = monitorUnselected
     accountAddress = ''
@@ -79,7 +79,7 @@ export class MenuBarTs extends Vue {
         return this.activeAccount.wallet.address
     }
 
-    get accountName(){
+    get accountName() {
         return this.activeAccount.accountName
     }
 
