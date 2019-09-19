@@ -145,11 +145,17 @@
                     this.chainListeners.switchAddress(newWallet.address)
                 }
             } catch (error) {
-                this.$store.commit('SET_TRANSACTIONS_LOADING', false),
-                    this.$store.commit('SET_BALANCE_LOADING', false),
-                    this.$store.commit('SET_MOSAICS_LOADING', false),
-                    this.$store.commit('SET_NAMESPACE_LOADING', false),
-                    console.error("App -> onWalletChange -> error", error)
+                this.$store.commit('SET_TRANSACTIONS_LOADING', false)
+                this.$store.commit('SET_BALANCE_LOADING', false)
+                this.$store.commit('SET_MOSAICS_LOADING', false)
+                this.$store.commit('SET_NAMESPACE_LOADING', false)
+                if (!this.chainListeners) {
+                    this.chainListeners = new ChainListeners(this, newWallet.address, this.node)
+                    this.chainListeners.start()
+                } else {
+                    this.chainListeners.switchAddress(newWallet.address)
+                }
+                console.error("App -> onWalletChange -> error", error)
             }
         }
 
