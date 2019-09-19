@@ -9,7 +9,7 @@ export const appMosaicsModule = (store) => {
      * Add them to store.account.mosaics
      */
     if (mutation.type === 'SET_TRANSACTION_LIST') {
-      const appMosaics = AppMosaics(state.account.accountName).fromTransactions(state.account.transactionList)
+      const appMosaics = AppMosaics().fromTransactions(state.account.transactionList)
       store.commit('UPDATE_MOSAICS', appMosaics)
     }
 
@@ -19,7 +19,7 @@ export const appMosaicsModule = (store) => {
     if (mutation.type === 'UPDATE_MOSAICS') {
       try {
         const {mosaics, node} = state.account
-        const mosaicsWithInfo = await AppMosaics(state.account.accountName).updateMosaicInfo(mosaics, node)
+        const mosaicsWithInfo = await AppMosaics().updateMosaicInfo(mosaics, node)
         if (!mosaicsWithInfo) return
         store.commit('UPDATE_MOSAICS_INFO', mosaicsWithInfo)
       } catch (error) {
@@ -28,7 +28,7 @@ export const appMosaicsModule = (store) => {
     }
 
     if (mutation.type === 'SET_NAMESPACES') {
-      const appMosaics = AppMosaics(store.state.account.accountName).fromNamespaces(state.account.namespaces)
+      const appMosaics = AppMosaics().fromNamespaces(state.account.namespaces)
       store.commit('UPDATE_MOSAICS_INFO', appMosaics)
     }
   })

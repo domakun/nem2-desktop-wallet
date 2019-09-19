@@ -4,8 +4,7 @@ import {flatMap, map, toArray} from 'rxjs/operators'
 import {AppMosaic} from '@/core/model'
 import {localRead} from "@/core/utils"
 
-export const AppMosaics = (accountName:string) => ({
-    accountName:accountName,
+export const AppMosaics = () => ({
     store: null,
 
     getAvailableToBeLinked(currentHeight: number, address: string, store: any): AppMosaic[] {
@@ -47,9 +46,8 @@ export const AppMosaics = (accountName:string) => ({
             .toPromise()
         return updatedMosaics
     },
+
     addItem(mosaic): void {
-        const wallets = JSON.parse(localRead('accountMap'))[accountName].wallets
-        const hideMosaicMap = wallets[0].hideMosaicMap
         if (!mosaic.hex) return
         if (!this.mosaics[mosaic.hex]) this.mosaics[mosaic.hex] = {}
         Object.assign(this.mosaics[mosaic.hex], new AppMosaic(mosaic))

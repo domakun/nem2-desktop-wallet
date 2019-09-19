@@ -628,14 +628,14 @@ export const en_US = {
     Namespace_cannot_use_forbidden_words: 'Namespace cannot use forbidden words',
     clear_cache: 'Clear cache',
     We_will_clear_your_cache_reset_account_password_please_make_sure_your_wallet_is_safely_backed_up: 'We will clear your cache reset account password, please make sure your wallet is safely backed up',
-    confirm_infomation: 'Confirm infomation',
+    confirm_infomation: 'Confirm information',
     please_input_new_account_name: 'Please input new account name',
     Locking_passwords_as_a_form_of_program_protection: 'Locking passwords as a form of program protection verification.Once forgotten, there will be no recovery. Please remember your Lock password.',
     delete_wallet_tip: 'Be careful! You\'re deleting wallet %{walletName} After changing the wallet, the wallet data will be deleted. Make sure the wallet is backed up. If you do not properly back up, you will not be able to retrieve your wallet after deleting your wallet. Please handle this operation carefully. Also, in order to ensure that I am operating, please enter the wallet password.',
     delete_wallet: 'Delete wallet',
 
 
-    register_namespace: 'Regist/Renewal namespace',
+    register_namespace: 'Register/Renew namespace',
     address_alias: 'Address alias',
     mosaic_alias: 'Mosaic alias',
     mosaic_definition: 'Mosaic definition',
@@ -714,5 +714,7 @@ export const en_US = {
     please_set_your_wallet_path: 'Please set your wallet path',
     please_accurately_copy_the_hd_wallet_path: 'Please accurately copy the hd-wallet path',
     Please_choose_account_name: 'Please choose account name',
-    account_password: 'account password'
+    account_password: 'account password',
+    hint: 'hint',
+    path: 'path'
 }
