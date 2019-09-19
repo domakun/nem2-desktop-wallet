@@ -60,16 +60,18 @@ export class InputLockTs extends Vue {
 
 
     jumpToDashBoard() {
-        const {walletMap} = this
-        if (getObjectLength(walletMap) == 0) {
-            this.$router.push({
-                name: 'dashBoard',
-                params: {name: 'dashBoard'}
-            })
+        const {accountMap} = this
+        const {accountName} = this
+        if (getObjectLength(accountMap) == 0 || !accountMap[accountName].seed) {
+            this.$router.push('initSeed')
             return
         }
-        this.$store.commit('SET_CURRENT_ADDRESS', getTopValueInObject(walletMap).address)
-        this.$router.push({name: 'monitorPanel'})
+        if (!accountMap[accountName].wallets.length) {
+            this.$router.push('walletCreate')
+            return
+        }
+        this.$store.commit('SET_CURRENT_ADDRESS', getTopValueInObject(accountMap).wallets[0].address)
+        this.$router.push('monitorPanel')
     }
 
     showErrorNotice(text) {

@@ -1,6 +1,4 @@
-import {Message} from "@/config/index.ts"
 import {Component, Prop, Vue, Watch} from 'vue-property-decorator'
-import {createMnemonic} from "@/core/utils/hdWallet.ts"
 import {networkTypeList, walletFnNavList} from "@/config/view"
 import AccountImportMnemonic from '@/views/login/init-seed/account-import-mnemonic/AccountImportMnemonic.vue'
 import AccountCreateMnemonic from '@/views/login/init-seed/account-create-mnemonic/AccountCreateMnemonic.vue'
@@ -33,19 +31,15 @@ export class InitSeedTs extends Vue {
     isCreated(form) {
         this.createForm = form
         this.walletCreated = true
-        this.pageIndex = 2
+        this.updatePageIndex(2)
+    }
+
+    updatePageIndex(index) {
+        this.pageIndex = index
     }
 
     closeCreated() {
         this.walletCreated = false
-    }
-
-    closeCreate() {
-        this.$emit('backToGuideInto')
-    }
-
-    closeImport() {
-        this.$emit('backToGuideInto')
     }
 
     toWalletDetails() {

@@ -46,6 +46,6 @@ export class AccountCreateMnemonicTs extends Vue {
     }
 
     toBack() {
-        this.$emit('closeCreate')
+        this.$router.push('initAccount')
     }
 }

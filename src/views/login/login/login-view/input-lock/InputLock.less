@@ -30,8 +30,24 @@
   .select_wallet {
     width: 520px;
     margin-top: 125px;
-    .ivu-select-single .ivu-select-selection{
-      height: 80px;
+
+    .ivu-select-selection {
+      height: 60px;
+      padding: 15px 0;
+      padding-left: 20px;
+    }
+
+    .ivu-select-selection .ivu-select-placeholder,
+    .ivu-select-selection .ivu-select-selected-value {
+      color: black;
+
+      font-size: 24px;
+      font-weight: 500;
+      color: rgba(51, 51, 51, 1);
+    }
+
+    .ivu-select-selection i::before {
+      font-size: 40px;
     }
   }
 

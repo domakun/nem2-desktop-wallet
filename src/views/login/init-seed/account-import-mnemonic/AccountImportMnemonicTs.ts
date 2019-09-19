@@ -83,10 +83,10 @@ export class AccountImportMnemonicTs extends Vue {
             title: this['$t']('Imported_wallet_successfully') + ''
         })
         this.$store.commit('SET_HAS_WALLET', true)
-        this.$emit('toWalletDetails')
+        this.$router.push('dashBoard')
     }
 
     toBack() {
-        this.$emit('closeImport')
-    }
+        this.$router.push('initAccount')
+}
 }

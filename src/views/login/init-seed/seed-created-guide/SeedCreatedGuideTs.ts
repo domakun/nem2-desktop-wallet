@@ -101,8 +101,8 @@ export class SeedCreatedGuideTs extends Vue {
     }
 
     createFromMnemonic() {
-        const {seed,password,currentNetType} = this.formInfo
-        console.log(seed,password,currentNetType)
+        const {seed, password, currentNetType} = this.formInfo
+        console.log(seed, password, currentNetType)
         try {
             new AppWallet().createFromMnemonic(
                 'seedWallet',
@@ -118,10 +118,10 @@ export class SeedCreatedGuideTs extends Vue {
 
     toWalletPage() {
         this.$store.commit('SET_HAS_WALLET', true)
-        this.$emit('toWalletDetails')
+        this.$router.push('dashBoard')
     }
 
     toBack() {
-        this.$emit('closeCreated')
+        this.$emit('updatePageIndex', 0)
     }
 }

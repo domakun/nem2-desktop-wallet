@@ -28,15 +28,18 @@
 
     <form @submit.prevent="validateForm('input-lock')">
 
-        <Select v-model="formItem.currentWalletName" class="select_wallet">
-          <Option v-for="walletName in walletList" :value="walletName.value" :key="walletName.value">{{ walletName.label }}</Option>
-        </Select>
+      <Select  v-model="formItem.currentAccountName"
+              class="select_wallet">
+        <Option v-for="walletName in accountList" :value="walletName.value" :key="walletName.value">{{ walletName.label
+          }}
+        </Option>
+      </Select>
       <div class="bottom_input">
         <input
                 data-vv-name="password"
                 v-model="formItem.password"
                 type="password"
-                :placeholder="$t('lock_password')"
+                :placeholder="$t('account_password')"
                 v-validate="passwordFieldValidation"
         >
         <input
@@ -57,7 +60,6 @@
       {{$t('forget_password')}}？ <span @click="showPrompt" class="pointer click_to_show_prompt">{{$t('passowrd_prompt')}}</span>
       <!--      <span class="clear_cache pointer" v-show="isShowPrompt">{{$t('clear_cache')}}</span>-->
     </div>
-
 
   </div>
 </template>

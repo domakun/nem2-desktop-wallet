@@ -12,20 +12,19 @@
     </div>
     <div class="walletFnContent radius">
       <AccountCreateMnemonic
-              v-if="pageIndex === 0 && !walletCreated"
+              v-if="pageIndex === 0  "
               @isCreated="isCreated"
-              @closeCreate="closeCreate">
+              @updatePageIndex="updatePageIndex">
       </AccountCreateMnemonic>
       <AccountImportMnemonic
-              v-if="pageIndex === 1 && !walletCreated"
-              @toWalletDetails="toWalletDetails"
-              @closeImport="closeImport">
+              v-if="pageIndex === 1  "
+              @updatePageIndex="updatePageIndex"
+      >
       </AccountImportMnemonic>
       <SeedCreatedGuide
               v-if="pageIndex === 2 "
               :createForm='createForm'
-              @toWalletDetails="toWalletDetails"
-              @closeCreated="closeCreated"
+              @updatePageIndex="updatePageIndex"
       >
       </SeedCreatedGuide>
     </div>

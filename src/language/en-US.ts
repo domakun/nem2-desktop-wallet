@@ -711,5 +711,7 @@ export const en_US = {
     create_seed: 'Create mnemonic',
     set_wallet_path: 'Set wallet path',
     please_set_your_wallet_path: 'Please set your wallet path',
-    please_accurately_copy_the_hd_wallet_path:'Please accurately copy the hd-wallet path'
+    please_accurately_copy_the_hd_wallet_path: 'Please accurately copy the hd-wallet path',
+    Please_choose_account_name: 'Please choose account name',
+    account_password: 'account password'
 }
