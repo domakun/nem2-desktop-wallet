@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import i18n from '@/language/index.ts'
-import {Address, AliasActionType, Deadline} from 'nem2-sdk'
+import {Address, AliasActionType, Deadline, TransactionType, UInt64} from 'nem2-sdk'
 
 const vueInstance = new Vue({i18n})
 
@@ -133,6 +133,15 @@ export const localRemove = (key) => {
     localStorage.removeItem(key)
 }
 
+// add k-v in localStorageName map
+export const localAddInMap = (localStorageName: string, key: string, value: object) => {
+    const dataMapStr = localRead(localStorageName)
+    let dataMapObject = dataMapStr ? JSON.parse(dataMapStr) : {}
+    dataMapObject[key] = value
+    const dataSaveStr = JSON.stringify(dataMapObject)
+    localSave(localStorageName, dataSaveStr)
+}
+
 export const sessionSave = (key, value) => {
     sessionStorage.setItem(key, value)
 }
@@ -145,6 +154,9 @@ export const sessionRemove = (key) => {
     sessionStorage.removeItem(key)
 }
 
+export const getObjectLength = (targetObject) => {
+    return Object.keys(targetObject).length
+}
 export const formatDate = (timestamp) => {
     const now = new Date(Number(timestamp))
     let year = now.getFullYear()
@@ -238,6 +250,38 @@ export const formatNemDeadline = function (deadline) {
     const time = ` ${addZero(dayTime._hour)}:${addZero(dayTime._minute)}:${addZero(dayTime._second)}`
     return date + time
 }
+
+// @TODO check current xem situation
+// export const formatTransactions = function (transactionList, accountAddress, currentXEM1, currentXem) {
+//     let transferTransaction = []
+//     transactionList.map((item) => {
+//         // TODO if mosaic is null
+//         if (item.type == TransactionType.TRANSFER) {
+//             item.isReceipt = item.recipient.address == accountAddress
+//             item.signerAddress = item.signer.address.address
+//             item.recipientAddress = item.recipient.address
+//             item.oppositeAddress = item.isReceipt ? item.signerAddress : item.recipient.address
+//             item.time = formatNemDeadline(item.deadline)
+//             item.mosaicAmount = 'mix'
+//             if (item.mosaics.length == 1) {
+//                 item.mosaicAmount = 'loading...'
+//             }
+//             item.mosaic = item.mosaics && item.mosaics[0] && currentXEM1.toUpperCase() !== item.mosaics[0].id.id.toHex().toUpperCase() ?
+//                 item.mosaics.map(item => {
+//                     const amount = item.amount.compact()
+//                     const hex = item.id.id.toHex()
+//                     if (hex == currentXEM1) {
+//                         return currentXem + `(${amount})`
+//                     }
+//                     return item.id.id.toHex() + `(${amount})`
+//                 }).join(',') : currentXem
+//             // todo get mosaic name like nem.xem(123456)
+//             item.date = new Date(item.time)
+//             transferTransaction.push(item)
+//         }
+//     })
+//     return transferTransaction
+// }
 
 export const formateNemTimestamp = (timestamp, offset) => {
     return formatDate(covertOffset(timestamp + Deadline.timestampNemesisBlock * 1000, offset))
@@ -337,3 +381,13 @@ export const getCurrentTimeZone = () => {
 }
 
 export const cloneData = object => JSON.parse(JSON.stringify(object))
+
+
+export const getTopValueInObject = (object: any) => {
+    let topValue: any = {}
+    for (let key in object) {
+        topValue = object[key]
+        break
+    }
+    return topValue
+}

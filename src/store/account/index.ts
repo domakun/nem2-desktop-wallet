@@ -17,6 +17,7 @@ declare interface account {
     generationHash: string,
     xemDivisibility: number
     transactionList: FormattedTransaction[],
+    accountName: string
     networkMosaic: AppMosaic,
 }
 
@@ -34,7 +35,7 @@ export default {
         generationHash: '',
         xemDivisibility: 6,
         transactionList: [],
-        networkMosaic: null,
+        accountName: '',
     },
     getters: {
         wallet(state) {
@@ -104,7 +105,7 @@ export default {
                 Object.assign(mosaicList[mosaic.hex], mosaic)
             })
         },
-        RESET_MOSAIC(state: account) {
+        RESET_MOSAICS(state: account) {
             state.mosaics = {}
         },
         SET_NETWORK_MOSAIC(state: account, mosaic: AppMosaic) {
@@ -146,16 +147,19 @@ export default {
             const newStateTransactions = [...state.transactionList]
             const txIndex = newStateTransactions
                 .findIndex(({txHeader}) => newTx.txHeader.hash === txHeader.hash)
-            
+
             if(txIndex > -1 && newStateTransactions[txIndex].isTxUnconfirmed) {
                 newStateTransactions.splice(txIndex, 1)
-            } 
-            
+            }
+
             newStateTransactions.unshift(newTx)
             state.transactionList = newStateTransactions
         },
         SET_CURRENT_XEM(state: account, currentXem: string) {
             state.currentXem = currentXem
+        },
+        SET_ACCOUNT_NAME(state: account, accountName: string) {
+            state.accountName = accountName
         },
     },
 }

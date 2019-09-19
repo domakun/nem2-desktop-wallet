@@ -19,7 +19,7 @@
       <div @click="accountQuit" class="quit_account pointer"
            v-if="walletList.length !==0">
         <img src="../../img/window/windowAccoutQuit.png" alt="">
-        <span>Nember</span>
+        <span>{{accountName}}</span>
       </div>
     </div>
     <div class="top_window">
