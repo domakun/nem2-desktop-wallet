@@ -66,7 +66,6 @@ export class InputLockTs extends Vue {
             this.$router.push('walletCreate')
             return
         }
-        console.log(getTopValueInObject(accountMap)['wallets'])
         this.$store.commit('SET_WALLET', accountMap[currentAccountName].wallets[0])
         this.$router.push('monitorPanel')
     }
