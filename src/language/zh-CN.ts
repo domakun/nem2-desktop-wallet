@@ -447,7 +447,7 @@ export const zh_CN = {
     Nemwallet_can_not_recover_your_mnemonic: 'Nemwallet无法恢复您的助记词',
     Please_enter_a_mnemonic_to_ensure_that_the_mnemonic_is_correct: '请输入助记词，确保助记词是正确的',
     Mnemonic_inconsistency: '助记词不一致',
-
+    craete_account: '创建账户',
     //wallet details
     Keystore_decryption_failed: 'keystore解密失败',
     Basic_information: '基本信息',

@@ -578,7 +578,7 @@ export const en_US = {
     second_floor: 'Second floor',
     third_floor: 'Third floor',
     Harvester: 'Harvester',
-
+    craete_account:'Craete',
     // login
     WELCOME_TO_CATAPULT_NANO_WALLET: 'WELCOME TO CATAPULT-WALLET',
     This_is_a_distributed_desktop_wallet_based_on_catapult_come_and_explore_the_wonderful_journey_of_catapult: 'This is a distributed desktop wallet based on catapult. come and explore the wonderful journey of catapult.',
