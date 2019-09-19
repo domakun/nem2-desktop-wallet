@@ -59,6 +59,7 @@ export class RootNamespaceTs extends Vue {
         return this.activeAccount.xemDivisibility
     }
 
+
     initForm() {
         this.form = {
             multisigPublickey: '',
@@ -133,9 +134,11 @@ export class RootNamespaceTs extends Vue {
     }
 
     createRootNamespace() {
-        return new NamespaceApiRxjs().createdRootNamespace(this.form.rootNamespaceName,
-            this.form.duration, this.wallet.networkType, this.form.innerFee
-        )
+        const {networkType} =  this.wallet
+        let {rootNamespaceName, duration, innerFee} = this.form
+        const {xemDivisibility} = this
+        innerFee = getAbsoluteMosaicAmount(innerFee, xemDivisibility)
+        return new NamespaceApiRxjs().createdRootNamespace(rootNamespaceName, duration, networkType, innerFee)
     }
 
 
