@@ -9,7 +9,6 @@
     import {mapState} from 'vuex'
     import {asyncScheduler} from 'rxjs'
     import {throttleTime} from 'rxjs/operators'
-
     import {isWindows} from "@/config/index.ts"
     import {
         AppWallet,

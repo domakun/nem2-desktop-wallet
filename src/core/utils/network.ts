@@ -53,13 +53,16 @@ export const getCurrentNetworkMosaic = async (currentNode: string, store: any) =
 }
 
 // TODO nedd remove from here
-export const getCurrentBlockHeight = async (currentNode: string, store: any)=>{
+export const getCurrentBlockHeight = async (currentNode: string, store: any) => {
     const resStr = await WebClient.request('', {
         url: `${currentNode}/chain/height`,
         method: 'GET',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
-    })
-    console.log(resStr)
+    }).catch(
+        store.commit('SET_CHAIN_HEIGHT', 0)
+    )
+    const height = resStr ? JSON.parse(resStr + '').height[0] : 0
+    store.commit('SET_CHAIN_HEIGHT', height)
 }
