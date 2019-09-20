@@ -73,10 +73,11 @@
       </div>
       <WalletAlias v-if="functionShowList[0]"></WalletAlias>
       <WalletFilter v-if="functionShowList[1]"></WalletFilter>
-      <WalletUpdatePassword v-if="functionShowList[2]"></WalletUpdatePassword>
     </div>
     <MnemonicDialog :showMnemonicDialog="showMnemonicDialog"
                     @closeMnemonicDialog="closeMnemonicDialog"></MnemonicDialog>
+    <PrivatekeyDialog :showPrivatekeyDialog="showPrivatekeyDialog"
+                      @closePrivatekeyDialog="closePrivatekeyDialog"></PrivatekeyDialog>
     <KeystoreDialog :showKeystoreDialog="showKeystoreDialog"
                     @closeKeystoreDialog="closeKeystoreDialog"></KeystoreDialog>
   </div>
