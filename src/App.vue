@@ -13,7 +13,7 @@
     import {isWindows} from "@/config/index.ts"
     import {
         AppWallet,
-        checkInstall, getCurrentNetworkMosaic, getNamespaces,
+        checkInstall, getCurrentBlockHeight, getCurrentNetworkMosaic, getNamespaces,
         getNetworkGenerationHash,
         getObjectLength,
         getTopValueInObject, localRead,
@@ -187,6 +187,7 @@
             const {node} = this
 
             getMarketOpenPrice(this)
+            await getCurrentBlockHeight(node,this.$store)
             await getNetworkGenerationHash(node, this)
             await getCurrentNetworkMosaic(node, this.$store)
 
