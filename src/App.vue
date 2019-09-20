@@ -165,14 +165,17 @@
             }
         }
 
+        checkIfWalletExist() {
+            if (!this.wallet.address) {
+                this.$router.push('login')
+            }
+        }
+
         /**
          * Add namespaces and divisibility to transactions and balances
          */
         async mounted() {
-            if (!this.wallet.address) {
-                this.$router.push('login')
-            }
-
+            this.checkIfWalletExist()
             const {accountName} = this
             // need init at start
             await this.setWalletsList()
