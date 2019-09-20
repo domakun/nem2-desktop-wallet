@@ -169,6 +169,10 @@
          * Add namespaces and divisibility to transactions and balances
          */
         async mounted() {
+            if (!this.wallet.address) {
+                this.$router.push('login')
+            }
+
             const {accountName} = this
             // need init at start
             await this.setWalletsList()
@@ -186,7 +190,7 @@
             const {node} = this
 
             getMarketOpenPrice(this)
-            await getCurrentBlockHeight(node,this.$store)
+            await getCurrentBlockHeight(node, this.$store)
             await getNetworkGenerationHash(node, this)
             await getCurrentNetworkMosaic(node, this.$store)
 
@@ -205,7 +209,7 @@
                  * On Wallet Change
                  */
                 if (oldValue.address === undefined || newValue.address !== undefined
-                || oldValue.address !== undefined && newValue.address !== oldValue.address) {
+                    || oldValue.address !== undefined && newValue.address !== oldValue.address) {
                     this.$store.commit('RESET_MOSAICS')
                     this.$store.commit('UPDATE_MOSAICS', [new AppMosaic({
                         hex: this.currentXEM1, name: this.currentXem
