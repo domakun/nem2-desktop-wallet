@@ -3,7 +3,7 @@ import SubNamespace from './namespace-function/sub-namespace/SubNamespace.vue'
 import RootNamespace from './namespace-function/root-namespace/RootNamespace.vue'
 import NamespaceList from './namespace-function/namespace-list/NamespaceList.vue'
 import {mapState} from "vuex"
-import {namespaceButtonList} from "@/config/view";
+import {namespaceButtonList} from "@/config/view"
 
 @Component({
     components: {
@@ -19,7 +19,7 @@ import {namespaceButtonList} from "@/config/view";
 })
 export class NamespaceTs extends Vue {
     buttonList = namespaceButtonList
-    activeAccount:any
+    activeAccount: any
 
     get node() {
         return this.activeAccount.node
@@ -38,4 +38,9 @@ export class NamespaceTs extends Vue {
         list[index].isSelected = true
         this.buttonList = list
     }
+
+    created() {
+        console.log('created')
+    }
+
 }
