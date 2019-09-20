@@ -2,7 +2,7 @@ import {mapState} from "vuex"
 import {Component, Vue} from 'vue-property-decorator'
 import {formatNumber, renderMosaics} from '@/core/utils'
 import {TransactionType} from 'nem2-sdk'
-import {networkStatusList} from "@/config/view";
+import {networkStatusConfig} from '@/config/view/setting'
 
 @Component({
     computed: {...mapState({activeAccount: 'account', app: 'app'})},
@@ -19,7 +19,7 @@ export class TransactionListTs extends Vue {
     isShowTransferTransactions = true
     transactionDetails: any = {}
     isLoadingModalDetailsInfo = false
-    networkStatusList = networkStatusList
+    networkStatusList = networkStatusConfig
     page: number = 1
     formatNumber = formatNumber
     renderMosaics = renderMosaics
@@ -70,7 +70,7 @@ export class TransactionListTs extends Vue {
         const {currentHeight} = this
         if (!currentHeight) return height
         const confirmations = currentHeight - height
-        if (confirmations > 500) return height //@TODO 500 shouldn't be hardcoded
+        if (confirmations > 500) return height.toLocaleString() //@TODO 500 shouldn't be hardcoded
         return `${confirmations} / ${height.toLocaleString()}`
     }
 

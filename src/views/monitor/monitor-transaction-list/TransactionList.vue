@@ -74,16 +74,16 @@
       </div>
 
       <div class="label_page">
-        <span class="page_title">Transaction records</span>
+        <span class="page_title">{{$t('transaction_record')}}</span>
       </div>
 
       <div class="table_container">
         <div class="all_transaction">
           <div class="table_head">
-            <div class="col2-header"><span>{{'From/To (action)'}}</span></div>
-            <div class="col3-header"><span>{{'Amount (asset)'}}</span></div>
-            <div class="col4-header"><span>{{'Confirmations/Height'}}</span></div>
-            <div class="col5-header"><span>{{'Hash/Deadline'}}</span></div>
+            <div class="col2-header"><span>{{$t('from_to_action')}}</span></div>
+            <div class="col3-header"><span>{{$t('amount_asset')}}</span></div>
+            <div class="col4-header"><span>{{$t('confirmations_height')}}</span></div>
+            <div class="col5-header"><span>{{$t('hash_deadline')}}</span></div>
           </div>
           <div class="confirmed_transactions">
             <Spin v-if="transactionsLoading" size="large" fix class="absolute"></Spin>
@@ -98,15 +98,15 @@
               <img class="mosaic_action" :src="c.icon" alt="" />
 
               <!-- SECOND COLUMN -->
-              <div class="col2">
+              <div class="col2 overflow_ellipsis">
                 <span
-                  class="col2-item"
+                  class="col2-item overflow_ellipsis"
                 >
                     {{ c.rawTx.signer.address.plain() }}
                 </span>
                 <span
                   v-if="c.rawTx.type === TransactionType.TRANSFER"
-                  class="col2-item bottom"
+                  class="col2-item bottom overflow_ellipsis"
                 >
                     -> {{ c.rawTx.recipient.address }}
                 </span>
@@ -119,7 +119,7 @@
               </div>
 
               <!-- THIRD COLUMN -->
-              <div class="col3">
+              <div class="col3 overflow_ellipsis">
                 <span
                   :class="[!c.isReceipt ? 'green' : 'red', 'overflow_ellipsis']"
                   v-if="c.rawTx.type === TransactionType.TRANSFER"
@@ -138,6 +138,9 @@
               <div class="col4">
                 <span v-if="!c.isTxUnconfirmed" class="col4">
                   {{ renderHeightAndConfirmation(c.txHeader.block) }}
+                </span>
+                <span v-if="c.isTxUnconfirmed" class="col4">
+                  {{ $t('unconfirmed') }}
                 </span>
               </div>
 
