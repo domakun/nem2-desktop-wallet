@@ -47,13 +47,6 @@ export const AppMosaics = () => ({
         return updatedMosaics
     },
 
-    addItem(mosaic): void {
-        if (!mosaic.hex) return
-        if (!this.mosaics[mosaic.hex]) this.mosaics[mosaic.hex] = {}
-        Object.assign(this.mosaics[mosaic.hex], new AppMosaic(mosaic))
-        this.storeItems()
-    },
-
     fromTransactions(transactions: FormattedTransfer[]) {
         const allMosaics = transactions.map(x => this.extractMosaicsFromTransaction(x))
         const allMosaicsFlat1 = [].concat(...allMosaics).map(mosaic => mosaic)
