@@ -161,6 +161,7 @@
 
         @Watch('wallet.address')
         onWalletAddressChange() {
+
             if (this.wallet && this.wallet.address) {
                 this.onWalletChange(this.wallet)
             }
