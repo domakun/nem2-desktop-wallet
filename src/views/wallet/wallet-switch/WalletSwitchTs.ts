@@ -20,12 +20,23 @@ export class WalletSwitchTs extends Vue {
     deleteIndex = -1
     deletecurrent = -1
     walletToDelete: AppWallet | boolean = false
+    thirdTimestamp = 0
 
     get walletList() {
-        return this.app.walletList
+        let {walletList} = this.app
+        walletList.sort((a, b) => {
+            return b.createTimestamp - a.createTimestamp
+        })
+        const activeWalletList = [...walletList]
+        activeWalletList.sort((a, b) => {
+            return b.activeTimestamp - a.activeTimestamp
+        })
+        this.thirdTimestamp = activeWalletList[3].activeTimestamp
+        return walletList
     }
 
     get wallet() {
+
         return this.activeAccount.wallet
     }
 

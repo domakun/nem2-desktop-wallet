@@ -19,8 +19,8 @@ import {TransactionApiRxjs} from '@/core/api/TransactionApiRxjs.ts'
 import {MosaicApiRxjs} from "@/core/api/MosaicApiRxjs"
 import {createSubWalletByPath} from "@/core/utils/hdWallet.ts"
 import {AppLock} from "@/core/utils/appLock"
-import {CreateWalletType} from "@/core/model/CreateWalletType";
-import {CoinType} from "@/core/model/CoinType";
+import {CreateWalletType} from "@/core/model/CreateWalletType"
+import {CoinType} from "@/core/model/CoinType"
 
 export class AppWallet {
     constructor(wallet?: {
@@ -42,6 +42,8 @@ export class AppWallet {
     encryptedMnemonic: string | undefined
     path: string
     accountTitle: string
+    activeTimestamp:number
+    createTimestamp:number
 
 
     generateWalletTitle(createType: string, coinType: string, netType: string) {
@@ -60,6 +62,8 @@ export class AppWallet {
             this.publicKey = Account.createFromPrivateKey(privateKey, networkType).publicKey
             this.networkType = networkType
             this.active = true
+            this.activeTimestamp = new Date().valueOf()
+            this.createTimestamp = this.activeTimestamp
             this.accountTitle = this.generateWalletTitle(CreateWalletType.privateKey, CoinType.xem, NetworkType[networkType])
             this.addNewWalletToList(store)
             return this
@@ -85,6 +89,8 @@ export class AppWallet {
             this.publicKey = account.publicKey
             this.networkType = networkType
             this.active = true
+            this.activeTimestamp = new Date().valueOf()
+            this.createTimestamp = this.activeTimestamp
             this.path = path
             this.accountTitle = this.generateWalletTitle(CreateWalletType.seed, CoinType.xem, NetworkType[networkType])
             this.encryptedMnemonic = AppLock.encryptString(mnemonic, password.value)
@@ -113,6 +119,8 @@ export class AppWallet {
             this.publicKey = account.publicKey
             this.networkType = networkType
             this.active = true
+            this.activeTimestamp = new Date().valueOf()
+            this.createTimestamp = this.activeTimestamp
             this.path = path
             this.accountTitle = this.generateWalletTitle(CreateWalletType.seed, CoinType.xem, NetworkType[networkType])
             this.encryptedMnemonic = AppLock.encryptString(mnemonic, password.value)
@@ -229,6 +237,7 @@ export class AppWallet {
 
         if (store.state.account.wallet.address === this.address) {
             list[0].active = true
+            this.activeTimestamp = new Date().valueOf()
             store.commit('SET_WALLET', list[0])
         }
 
@@ -248,7 +257,7 @@ export class AppWallet {
 
         let newWallet = walletList[newWalletIndex]
         newWallet.active = true
-
+        newWallet.activeTimestamp = new Date().valueOf()
         let newWalletList = [...walletList]
         newWalletList
             .filter(wallet => wallet.address !== newActiveWalletAddress)

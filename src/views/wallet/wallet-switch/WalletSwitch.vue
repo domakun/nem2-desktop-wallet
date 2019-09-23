@@ -1,10 +1,10 @@
 <template>
   <div class="walletSwitchWrap">
-    <div class="walletSwitchHead">
+    <div class="walletSwitchHead ">
       <p class="tit">{{$t('Wallet_management')}}</p>
     </div>
-    <div class="walletList">
-      <div :class="['walletItem', item.style, item.active || walletList.length === 1 ? 'active':'','radius']"
+    <div class="walletList scroll">
+      <div :class="['walletItem', item.activeTimestamp > thirdTimestamp?'walletItem_bg_0':'walletItem_bg_1', item.active || walletList.length === 1 ? 'active':'','radius']"
            @click="switchWallet(item.address)"
            v-for="(item, index) in walletList" :key="index">
         <Row>
@@ -26,8 +26,7 @@
                   <div slot="content">
                     <p
                             class="optionItem"
-                            @click.stop="walletToDelete = item; showCheckPWDialog = true"
-                    >
+                            @click.stop="walletToDelete = item; showCheckPWDialog = true">
                       <i><img src="@/common/img/wallet/delete.png"></i>
                       <span>{{$t('delete')}}</span>
                     </p>
