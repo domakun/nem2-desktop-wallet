@@ -575,7 +575,7 @@ export const en_US = {
     second_floor: 'Second floor',
     third_floor: 'Third floor',
     Harvester: 'Harvester',
-    create_account: 'Create',
+    create_account:'Create',
     // login
     WELCOME_TO_CATAPULT_NANO_WALLET: 'WELCOME TO CATAPULT-WALLET',
     This_is_a_distributed_desktop_wallet_based_on_catapult_come_and_explore_the_wonderful_journey_of_catapult: 'This is a distributed desktop wallet based on catapult. come and explore the wonderful journey of catapult.',
@@ -675,7 +675,7 @@ export const en_US = {
 
     This_password_is_used_for_importing_the_keystore_file: 'This password is the password for decrypting the Keystore and is used for importing the keystore file. Please remember it.',
     timestamp: 'Timestamp',
-    sender: 'From',
+    sender: 'sender',
     HINT_mosaic_list: 'Mosaics for sending',
     inner_transaction: 'Inner',
     LABEL_mosaic_list: 'Mosaic list',
@@ -710,17 +710,16 @@ export const en_US = {
     set_wallet_path: 'Set wallet path',
     please_set_your_wallet_path: 'Please set your wallet path',
     please_accurately_copy_the_hd_wallet_path: 'Please accurately copy the hd-wallet path',
-
     Please_choose_account_name: 'Please choose account name',
-    account_password: 'account password',
-    hint: 'hint',
-    path: 'path',
-    hd_wallet_path_error: 'HD wallet path error',
-
+    account_password: 'Account password',
+    hint: 'Hint',
+    path: 'Path',
+    hd_wallet_path_error:'HD wallet path error',
     unconfirmed: 'unconfirmed',
     from_to_action: 'From/To (action)',
     amount_asset: 'Amount (asset)',
     confirmations_height: 'Confirmations/Height',
     hash_deadline: 'Hash/Deadline',
-    transaction_record: 'Transaction records'
+    transaction_record: 'Transaction records',
+    import_mnemonic:'import mnemonic'
 }
