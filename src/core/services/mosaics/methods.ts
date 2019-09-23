@@ -1,6 +1,5 @@
 import {AccountHttp, Address, MosaicAmountView, MosaicService, MosaicHttp, MosaicId, TransactionType} from 'nem2-sdk'
-import {AppWallet} from '@/core/utils/wallet.ts'
-import {AppMosaic} from '@/core/model'
+import {AppMosaic, AppWallet} from '@/core/model'
 
 /**
  * Custom implementation for performance gains
