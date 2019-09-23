@@ -142,7 +142,6 @@ export class MenuBarTs extends Vue {
     switchPanel(index) {
         if (!this.app.walletList.length) return
         const routerIcon = routers[0].children
-
         this.$router.push({
             params: {},
             name: routerIcon[index].name
