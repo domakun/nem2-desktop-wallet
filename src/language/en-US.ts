@@ -218,7 +218,7 @@ export const en_US = {
     //setting-panel
     change_password: 'Change password',
     general_settings: 'General settings',
-    lock_password: 'Lock password',
+    lock_password: 'Password',
     network_settings: 'Network settings',
     about: 'About',
     setting: 'Setting',
@@ -407,6 +407,7 @@ export const en_US = {
     keep_it_in_a_safe_place_on_the_isolated_network_private_key: 'Keep it in a safe place on the isolated network. Do not share and store private key in a networked environment, such as emails, photo albums, social applications, etc.',
     please_accurately_copy_the_secure_backup_private_key: 'Please accurately copy the secure backup private key',
     display_private_key_QR_code: 'Display QR code',
+    copy_private_key: 'Copy private key',
     display_private_key: 'Private Key',
     This_password_is_used_to_encrypt_your_private_key_keystore: 'This password is your wallet and the decryption password when exporting the keystore again. Please avoid using an overly simple password.',
     // wallet create
@@ -419,7 +420,6 @@ export const en_US = {
     password_hint: '%{min} characters minimum',
     please_set_your_wallet_password: 'Please set your wallet password',
     please_enter_your_password_again: 'Please enter your password again',
-    repeat_the_password: 'Repeat the password',
     walletCreateNetTypeRemind: 'Please select a wallet network! ',
     walletCreateWalletNameRemind: 'Wallet name input error! ',
     accountCreateWalletNameRemind: 'Account name input error! ',
@@ -465,7 +465,7 @@ export const en_US = {
     Wallet_address: 'Address',
     publickey: 'PublicKey',
     Address_QR_code: 'Address QR code',
-    Function_and_backup: 'Function and backup',
+    Function_and_backup: 'Backup',
     Export_mnemonic: 'Export mnemonic',
     Export_private_key: 'Export private key',
     Export_Keystore: 'Export Keystore',
@@ -525,7 +525,7 @@ export const en_US = {
 
     Create_namespace: 'Create namespace',
     Create_subNamespace: 'Create subNamespace',
-    Namespace_list: 'Namespace list',
+    Namespace_list: 'My namespaces',
     New_root_space: 'New root space',
     Subspace: 'Subspace',
     Input_space_name: 'Input space name',

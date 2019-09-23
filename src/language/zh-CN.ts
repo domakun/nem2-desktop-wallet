@@ -404,6 +404,7 @@ export const zh_CN = {
     keep_it_in_a_safe_place_on_the_isolated_network_private_key: '妥善保管至隔离网络的安全地方,请勿将私钥在联网环境下分享和存储,比如邮件、相册、社交应用等',
     please_accurately_copy_the_secure_backup_private_key: '请准确抄写安全备份私钥',
     display_private_key_QR_code: '显示私钥二维码',
+    copy_private_key: '复制私钥',
     display_private_key: '显示私钥',
 
     // wallet create
@@ -416,7 +417,6 @@ export const zh_CN = {
     password_hint: '最少%{min}个字符',
     please_set_your_wallet_password: '请输入设置的密码',
     please_enter_your_password_again: '请再次输入你设置的密码',
-    repeat_the_password: '重复密码',
     walletCreateNetTypeRemind: '请选择钱包网络! ',
     walletCreateWalletNameRemind: '钱包名输入错误! ',
     accountCreateWalletNameRemind: '账户名输入错误! ',
