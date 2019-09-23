@@ -92,7 +92,7 @@ export const Message = {
 }
 
 export const nodeConfig = {
-    node: 'http://13.114.200.132:3000',
+    node: 'http://47.107.245.217:3000',
     currentXem: 'nem.xem',
     currentXEM1: '',
     XEM: 'XEM',
