@@ -25,6 +25,7 @@ export const zh_CN = {
     remaining: '剩余',
     word: '字',
     publish: '发表',
+    screen: '筛选',
     anonymous_user: '匿名用户',
     no_comment_yet: '暂无评论',
     successful_operation: '操作成功',

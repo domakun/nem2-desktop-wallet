@@ -6,6 +6,7 @@ import MosaicAliasDialog from './mosaic-alias-dialog/MosaicAliasDialog.vue'
 import MosaicUnAliasDialog from './mosaic-unAlias-dialog/MosaicUnAliasDialog.vue'
 import {formatNumber} from '@/core/utils'
 
+
 @Component({
     components: {
         MosaicAliasDialog,
@@ -19,14 +20,16 @@ export class MosaicListTs extends Vue {
     app: any
     isLoadingConfirmedTx = false
     currentTab: number = 0
+    currentPage: number = 1
+    pageSize: number = 10
     rootNameList: any[] = []
+    screenMosaic: any = {}
     showCheckPWDialog = false
     showMosaicEditDialog = false
     showMosaicAliasDialog = false
     showMosaicUnAliasDialog = false
     mosaicMapInfo: any = {}
     selectedMosaic: any = {}
-
     get currentXem() {
         return this.activeAccount.currentXem
     }
@@ -89,11 +92,25 @@ export class MosaicListTs extends Vue {
             mosaic.mosaicInfo.owner.publicKey === this.accountPublicKey
         ))
     }
+    get currentMosaicPage() {
+        const start = (this.currentPage - 1) * this.pageSize
+        const end = this.currentPage * this.pageSize
+        return [...this.filteredMosaics].slice(start, end)
+    }
+    get currentScreenMosaic() {
+        this.screenMosaic = this.screenMosaic
+        const start = (this.currentPage - 1) * this.pageSize
+        const end = this.currentPage * this.pageSize
+        return [...this.screenMosaic].slice(start, end)
+    }
+
 
     showCheckDialog() {
         this.showCheckPWDialog = true
     }
-
+    toggleChange (page) {
+        this.currentPage =page
+    }
     formatNumber(number) {
         return formatNumber(number)
     }
@@ -142,5 +159,17 @@ export class MosaicListTs extends Vue {
         const {properties, height} = item.mosaicInfo
         if (properties.duration.compact() === 0) return 'Forever'
         return (height.compact() + properties.duration.compact()) - this.nowBlockHeight
+    }
+    screenByDeadline(name) {
+         this.screenMosaic = this.filteredMosaics.filter((item)=> {
+            if(JSON.parse(name)[1] < 1000000) {
+                return (item.expirationHeight > JSON.parse(name)[0]-1 && item.expirationHeight < JSON.parse(name)[1])
+            }
+            else {
+                return (item.expirationHeight > JSON.parse(name)[0] || item.expirationHeight == 'Forever')
+            }
+        })
+        console.log(this.filteredMosaics)
+
     }
 }

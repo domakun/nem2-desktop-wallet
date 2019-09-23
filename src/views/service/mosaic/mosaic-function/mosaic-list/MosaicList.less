@@ -1,5 +1,35 @@
 .mosaicList {
   height: 100%;
+  position: relative;
+    .screen {
+      position: absolute;
+      right: 150px;
+      z-index: 100;
+      a {
+      color: #20B5AC;
+      }
+    }
+  .page {
+    position: absolute;
+    top:750px;
+    left:650px;
+    width:30%;
+    margin: 20px auto;
+    li:hover {
+      border-color: #20B5AC; 
+      color:#20B5AC;
+    }
+    li:hover a {
+      color:#20B5AC;
+    }
+    .ivu-page-item-active {
+      border-color: #20B5AC;
+      color:#20B5AC;
+    }
+    .ivu-page-item-active a{
+      color: #20B5AC;
+    }
+  }
 
   .mosaicListBody {
     padding: 41px 30px;
