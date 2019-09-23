@@ -166,7 +166,7 @@ export const en_US = {
     remote_modal_pass: 'password',
     remote_modal_confirm: 'confirm',
     remote_modal_cancel: 'cancel',
-    public:'From',
+    public: 'From',
     remote_modal_place1: 'Please enter or paste a remote public key',
     remote_modal_place2: 'Please enter your wallet password',
     Unlink_now: 'Unlink now',
@@ -353,7 +353,7 @@ export const en_US = {
     wallet_name: 'Wallet name',
     switch_point: 'Switch Node',
     current_point: 'Current Node',
-    please_enter_a_custom_nod_address: 'Please input Node url',
+    please_enter_a_custom_nod_address: 'The default port is 3000',
     point_null_error: 'Node null error',
     //check pw dialog
     please_enter_your_wallet_password_to_ensure_your_own_operation_and_keep_your_wallet_safe: 'Please enter your wallet password to ensure your own operation and keep your wallet safe.',
@@ -710,17 +710,16 @@ export const en_US = {
     set_wallet_path: 'Set wallet path',
     please_set_your_wallet_path: 'Please set your wallet path',
     please_accurately_copy_the_hd_wallet_path: 'Please accurately copy the hd-wallet path',
-
     Please_choose_account_name: 'Please choose account name',
-    account_password: 'account password',
-    hint: 'hint',
-    path: 'path',
+    account_password: 'Account password',
+    hint: 'Hint',
+    path: 'Path',
     hd_wallet_path_error:'HD wallet path error',
-
     unconfirmed: 'unconfirmed',
     from_to_action: 'From/To (action)',
     amount_asset: 'Amount (asset)',
     confirmations_height: 'Confirmations/Height',
     hash_deadline: 'Hash/Deadline',
-    transaction_record: 'Transaction records'
+    transaction_record: 'Transaction records',
+    import_mnemonic:'import mnemonic'
 }
