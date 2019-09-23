@@ -166,7 +166,7 @@ export const en_US = {
     remote_modal_pass: 'password',
     remote_modal_confirm: 'confirm',
     remote_modal_cancel: 'cancel',
-    public:'From',
+    public: 'From',
     remote_modal_place1: 'Please enter or paste a remote public key',
     remote_modal_place2: 'Please enter your wallet password',
     Unlink_now: 'Unlink now',
@@ -575,7 +575,7 @@ export const en_US = {
     second_floor: 'Second floor',
     third_floor: 'Third floor',
     Harvester: 'Harvester',
-    create_account:'Create',
+    create_account: 'Create',
     // login
     WELCOME_TO_CATAPULT_NANO_WALLET: 'WELCOME TO CATAPULT-WALLET',
     This_is_a_distributed_desktop_wallet_based_on_catapult_come_and_explore_the_wonderful_journey_of_catapult: 'This is a distributed desktop wallet based on catapult. come and explore the wonderful journey of catapult.',
@@ -675,7 +675,7 @@ export const en_US = {
 
     This_password_is_used_for_importing_the_keystore_file: 'This password is the password for decrypting the Keystore and is used for importing the keystore file. Please remember it.',
     timestamp: 'Timestamp',
-    sender: 'sender',
+    sender: 'From',
     HINT_mosaic_list: 'Mosaics for sending',
     inner_transaction: 'Inner',
     LABEL_mosaic_list: 'Mosaic list',
@@ -715,7 +715,7 @@ export const en_US = {
     account_password: 'account password',
     hint: 'hint',
     path: 'path',
-    hd_wallet_path_error:'HD wallet path error',
+    hd_wallet_path_error: 'HD wallet path error',
 
     unconfirmed: 'unconfirmed',
     from_to_action: 'From/To (action)',
