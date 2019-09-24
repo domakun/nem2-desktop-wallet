@@ -11,8 +11,7 @@
     import {throttleTime} from 'rxjs/operators'
     import {isWindows} from "@/config/index.ts"
     import {
-        AppWallet,
-        checkInstall, getCurrentBlockHeight, getCurrentNetworkMosaic, getNamespaces,
+        checkInstall, getCurrentBlockHeight, getCurrentNetworkMosaic,
         getNetworkGenerationHash,
         getObjectLength,
         getTopValueInObject, localRead,
@@ -22,7 +21,7 @@
     import {initMosaic} from '@/core/services/mosaics'
     import {getMarketOpenPrice} from '@/core/services/marketData.ts'
     import {setTransactionList} from '@/core/services/transactions'
-    import {AppMosaic} from '@/core/model'
+    import {AppMosaic, AppWallet, getNamespaces} from '@/core/model'
 
     @Component({
         computed: {
