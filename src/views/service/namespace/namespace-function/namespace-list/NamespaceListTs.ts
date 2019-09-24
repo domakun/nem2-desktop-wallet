@@ -42,6 +42,9 @@ export class NamespaceListTs extends Vue {
     isShowAddressAliasDialog = false
     StatusString = MosaicNamespaceStatusType
     namespaceGracePeriodDuration = networkConfig.namespaceGracePeriodDuration
+    newList: any
+
+
 
     get namespaceList() {
         const namespaceList = this.activeAccount.namespaces.map((item) => {
@@ -64,7 +67,7 @@ export class NamespaceListTs extends Vue {
             }
             return item
         })
-        console.log(namespaceList)
+        
         return namespaceList
         
     }
@@ -73,6 +76,12 @@ export class NamespaceListTs extends Vue {
         const start = (this.page - 1) * this.pageSize
         const end = this.page * this.pageSize
         return [...this.namespaceList].slice(start, end)
+    }
+
+    get filterNamespaceList() {
+        const start = (this.page - 1) * this.pageSize
+        const end = this.page * this.pageSize
+        return [...this.newList].slice(start, end)
     }
 
     get mosaics() {
@@ -163,16 +172,16 @@ export class NamespaceListTs extends Vue {
         this.page = page
     }
     async filterList(value) {
-        const {currentHeight} = this
-        if(value = "已过期"){
-            this.namespaceList.filter((item,index) =>{
-                return item.endHeight < currentHeight
+        const {currentHeight, namespaceGracePeriodDuration} = this
+        if(value == "y"){
+            this.newList = this.namespaceList.filter((item) =>{
+                return item.endHeight - currentHeight < namespaceGracePeriodDuration
             });
-        }else{
-            this.namespaceList.filter((item,index) =>{
-                return item.endHeight > currentHeight
-            });
+            return
         }
+        this.newList = this.namespaceList.filter((item) =>{
+            return item.endHeight - currentHeight > namespaceGracePeriodDuration
+        });
     }
     
 }

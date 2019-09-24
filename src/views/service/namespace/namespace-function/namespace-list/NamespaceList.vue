@@ -28,8 +28,8 @@
               <Icon type="ios-arrow-down"></Icon>
           </a>
           <DropdownMenu slot="list">
-              <DropdownItem name="已过期">{{$t('namespace_expired')}}</DropdownItem>
-              <DropdownItem name="未过期">{{$t('namespace_Not_expired')}}</DropdownItem>
+              <DropdownItem name="y">{{$t('namespace_expired')}}</DropdownItem>
+              <DropdownItem name="n">{{$t('namespace_Not_expired')}}</DropdownItem>
           </DropdownMenu>
         </Dropdown>
 
@@ -45,7 +45,7 @@
       </div>
       <Spin v-if="namespaceLoading" size="large" fix class="absolute"></Spin>
       <div class="table_body">
-        <div class="table_body_item radius" v-if="n" v-for="n in slicedNamespaceList">
+        <div class="table_body_item radius" v-if="n" v-for=" n in ( newList == null ? slicedNamespaceList : filterNamespaceList )">
           <span class="namesapce_name overflow_ellipsis">{{n.label}}</span>
           <span class="duration overflow_ellipsis">
             {{computeDuration(n) === StatusString.EXPIRED ? $t('overdue') : durationToTime(n.endHeight)}}
