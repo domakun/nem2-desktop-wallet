@@ -721,7 +721,6 @@ export const en_US = {
     hash_deadline: 'Hash/Deadline',
     transaction_record: 'Transaction records',
     import_mnemonic:'import mnemonic',
-    transaction_record: 'Transaction records',
     namespace_filter:'filter',
     namespace_expired: 'expired',
     namespace_Not_expired: 'Not expired'
