@@ -61,7 +61,7 @@
 
 <script lang="ts">
     import "./MonitorInvoice.less"
-    // @ts-ignore
+
     import {MonitorInvoiceTs} from '@/views/monitor/monitor-invoice/MonitorInvoiceTs.ts'
 
     export default class MonitorInvoice extends MonitorInvoiceTs {
