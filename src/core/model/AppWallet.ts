@@ -290,6 +290,26 @@ export class AppWallet {
         }
     }
 
+    updateWalletName(
+        accountName: string,
+        newWalletName: string,
+        walletAddress: string,
+        store: any
+    ) {
+        let accountMap = JSON.parse(localRead('accountMap'))
+        accountMap[accountName]['wallets'].every((item, index) => {
+            if (item.address == walletAddress) {
+                accountMap[accountName]['wallets'][index].name = newWalletName
+                return false
+            }
+            return true
+        })
+
+        localSave('accountMap', accountMap)
+        store.commit('SET_WALLET_LIST', accountMap[accountName]['wallets'])
+    }
+
+
     updateWallet(store: any) {
         const accountName = store.state.account.accountName
         const accountMap = localRead('accountMap') === ''

@@ -1,12 +1,14 @@
 import {mapState} from 'vuex'
 import {Component, Vue} from 'vue-property-decorator'
-import DeleteWalletCheck from './delete-wallet-check/DeleteWalletCheck.vue'
+import TheWalletDelete from '@/views/wallet/wallet-switch/the-wallet-delete/TheWalletDelete.vue'
 import {formatXEMamount, formatNumber, localRead} from '@/core/utils/utils.ts'
 import {AppWallet} from "@/core/model"
 import {CreateWalletType} from "@/core/model/CreateWalletType"
 import {walletStyleSheetType} from '@/config/view/wallet.ts'
+import TheWalletUpdate from '@/views/wallet/wallet-switch/the-wallet-update/TheWalletUpdate.vue'
+
 @Component({
-    components: {DeleteWalletCheck},
+    components: {TheWalletDelete, TheWalletUpdate},
     computed: {
         ...mapState({
             activeAccount: 'account',
@@ -23,6 +25,8 @@ export class WalletSwitchTs extends Vue {
     walletToDelete: AppWallet | boolean = false
     thirdTimestamp = 0
     walletStyleSheetType = walletStyleSheetType
+    showUpdateDialog = false
+    walletToUpdate = {}
 
     get walletList() {
         let {walletList} = this.app
@@ -48,9 +52,12 @@ export class WalletSwitchTs extends Vue {
         return this.activeAccount.wallet
     }
 
-
     get currentXEM1() {
         return this.activeAccount.currentXEM1
+    }
+
+    closeUpdateDialog() {
+        this.showUpdateDialog = false
     }
 
     closeCheckPWDialog() {
