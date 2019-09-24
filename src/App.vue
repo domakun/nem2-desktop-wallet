@@ -25,6 +25,7 @@
     import {getMarketOpenPrice} from '@/core/services/marketData.ts'
     import {setTransactionList} from '@/core/services/transactions'
     import {AppMosaic, AppWallet} from '@/core/model'
+    import {getNamespaces} from "@/core/services/namespace";
 
     @Component({
         computed: {
