@@ -5,7 +5,8 @@ import {Password} from 'nem2-sdk'
 import {Message} from "@/config/index.ts"
 import {getAbsoluteMosaicAmount,formatSeconds} from '@/core/utils'
 import {formDataConfig} from "@/config/view/form";
-import {AppWallet, createRootNamespace} from "@/core/model"
+import {AppWallet} from "@/core/model"
+import {createRootNamespace} from "@/core/services/namespace"
 
 @Component({
     computed: {

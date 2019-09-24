@@ -8,7 +8,8 @@ import {MultisigApiRxjs} from "@/core/api/MultisigApiRxjs.ts"
 import { getAbsoluteMosaicAmount, formatAddress } from '@/core/utils'
 import {EmptyAlias} from "nem2-sdk/dist/src/model/namespace/EmptyAlias"
 import {subNamespaceTypeConfig} from "@/config/view/namespace";
-import {createBondedMultisigTransaction, createCompleteMultisigTransaction, getNamespaces} from "@/core/model"
+import {createBondedMultisigTransaction, createCompleteMultisigTransaction} from "@/core/model"
+import {getNamespaces} from "@/core/services/namespace"
 
 
 @Component({

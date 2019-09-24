@@ -14,11 +14,10 @@ import {standardFields} from "@/core/validation"
 import ErrorTooltip from '@/views/other/forms/errorTooltip/ErrorTooltip.vue'
 import {formDataConfig} from '@/config/view/form'
 import {
-    buildMosaicList,
     createBondedMultisigTransaction,
     createCompleteMultisigTransaction,
-    getMosaicList
 } from "@/core/model"
+import {buildMosaicList, getMosaicList} from "@/core/services/mosaics"
 
 @Component({
     components: {
