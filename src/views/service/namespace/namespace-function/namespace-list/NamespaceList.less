@@ -1,11 +1,18 @@
 .namespace_list_container {
-  padding: 40px 30px;
+  padding: 20px 30px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
 
   .top_text {
+    width: 100%;
     .head_title {
       color: #F65C5C;
       font-size: 16px;
       line-height: 30px;
+
     }
 
     .tips {
@@ -17,7 +24,7 @@
   }
 
   .namespace_list_table {
-    margin-top: 40px;
+    width: calc(100% - 10px);
 
     .table_head,
     .table_body_item {
@@ -25,7 +32,9 @@
       font-size: 14px;
       font-weight: 400;
       color: rgba(153, 153, 153, 1);
-      line-height: 60px;
+      position: relative;
+      display: flex;
+      align-items: center;
 
       span {
         display: inline-block;
@@ -59,6 +68,22 @@
 
       .more {
         width: 80px;
+      }
+
+      .searchList {
+        float: right;
+        position: absolute;
+        top: 15px;
+        right: 100px;
+
+        span:hover {
+          cursor: pointer;
+        }
+      }
+
+      .dropList {
+        height: 40px;
+        margin-left: 100px;
       }
     }
 
@@ -103,4 +128,14 @@
       }
     }
   }
+
+  .page_list_container {
+    display: flex;
+    position: absolute;
+    bottom: 30px;
+    justify-content: center;
+  }
+.active_sort_type {
+  color: #18b566;
+}
 }

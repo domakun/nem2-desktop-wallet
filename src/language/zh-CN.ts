@@ -405,7 +405,6 @@ export const zh_CN = {
     keep_it_in_a_safe_place_on_the_isolated_network_private_key: '妥善保管至隔离网络的安全地方,请勿将私钥在联网环境下分享和存储,比如邮件、相册、社交应用等',
     please_accurately_copy_the_secure_backup_private_key: '请准确抄写安全备份私钥',
     display_private_key_QR_code: '显示私钥二维码',
-    copy_private_key: '复制私钥',
     display_private_key: '显示私钥',
 
     // wallet create
@@ -705,5 +704,8 @@ export const zh_CN = {
     hash_deadline: 'hash/期限',
     transaction_record: '交易记录',
     import_mnemonic: '导入助记词',
+    namespace_filter: '筛选',
+    namespace_expired: '已过期',
+    namespace_Not_expired: '未过期',
     update_wallet_name:'修改'
 }
