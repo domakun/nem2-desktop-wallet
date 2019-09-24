@@ -132,7 +132,7 @@ export const zh_CN = {
     collection_record: '收款记录',
     enter_asset_type_alias_or_address_search: '输入交易hash搜索',
     ordinary_transfer: '普通转账',
-    Multisig_transfer: '多签转账',
+    Multi_sig_transfer: '多签转账',
     crosschain_transfer: '跨链转账',
     aggregate_transfer: '聚合转账',
     QR_code_generation_failed: '二维码生成失败',
@@ -231,7 +231,7 @@ export const zh_CN = {
     basic_attribute: '基本属性',
     supply: '供应量',
     please_enter_the_initial_supply: '请输入初始供应量',
-    severability: '可分割性',
+    mosaic_divisibility: '可分割性',
     please_enter_separability: '请输入可分性',
     transmittable: '可传输',
     variable_supply: '可变供应量',
@@ -245,7 +245,6 @@ export const zh_CN = {
     mosaic_list: '马赛克列表',
     mosaic_ID: '马赛克ID',
     available_quantity: '可供应量',
-    mosaic_divisibility: '可分性',
     transportability: '可传输性',
     effective_time: '有效时间(块)',
     overdue: '已过期',
@@ -341,9 +340,11 @@ export const zh_CN = {
     start_the_NEM_tour: '开始NEM之旅',
     existing_wallet: '已有钱包',
     import_text: '可以使用私钥、记助词或KeyStore等信息 导入已有钱包到本程序',
+    import_text_only_mnemonic: '请使用助记词导入种子到本程序',
     import_wallet: '导入钱包',
     create_now: '立即创建',
     this_will_create_a_new_wallet_and_a_new_torrent_file: '这将会创建一个新的钱包和新的种子文件',
+    this_will_create_a_new_torrent_file: '这将会创建一个新的种子文件',
     create_wallet: '创建钱包',
     hash: 'hash',
 
@@ -351,7 +352,7 @@ export const zh_CN = {
     wallet_name: '账户名',
     switch_point: '选择节点',
     current_point: '当前节点',
-    please_enter_a_custom_nod_address: '请输入自定义节点地址',
+    please_enter_a_custom_nod_address: '默认端口为3000',
     point_null_error: '节点数据不可为空',
     //check pw dialog
     please_enter_your_wallet_password_to_ensure_your_own_operation_and_keep_your_wallet_safe: '请输入钱包密码，以确保为本人操作，保证你的钱包安全',
@@ -404,6 +405,7 @@ export const zh_CN = {
     keep_it_in_a_safe_place_on_the_isolated_network_private_key: '妥善保管至隔离网络的安全地方,请勿将私钥在联网环境下分享和存储,比如邮件、相册、社交应用等',
     please_accurately_copy_the_secure_backup_private_key: '请准确抄写安全备份私钥',
     display_private_key_QR_code: '显示私钥二维码',
+    copy_private_key: '复制私钥',
     display_private_key: '显示私钥',
 
     // wallet create
@@ -416,7 +418,6 @@ export const zh_CN = {
     password_hint: '最少%{min}个字符',
     please_set_your_wallet_password: '请输入设置的密码',
     please_enter_your_password_again: '请再次输入你设置的密码',
-    repeat_the_password: '重复密码',
     walletCreateNetTypeRemind: '请选择钱包网络! ',
     walletCreateWalletNameRemind: '钱包名输入错误! ',
     accountCreateWalletNameRemind: '账户名输入错误! ',
@@ -697,11 +698,11 @@ export const zh_CN = {
     hint: '密码提示',
     path: '钱包路径',
     hd_wallet_path_error: 'HD 钱包路径输入错误',
-
     unconfirmed: '未确认',
     from_to_action: '发起/接受（行为）',
     amount_asset: '数量（资产）',
     confirmations_height: '已确认块/高度',
     hash_deadline: 'hash/期限',
-    transaction_record: '交易记录'
+    transaction_record: '交易记录',
+    import_mnemonic: '导入助记词'
 }
