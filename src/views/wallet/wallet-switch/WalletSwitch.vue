@@ -4,7 +4,7 @@
       <p class="tit">{{$t('Wallet_management')}}</p>
     </div>
     <div class="walletList scroll">
-      <div :class="['walletItem', item.activeTimestamp > thirdTimestamp?'walletItem_bg_0':'walletItem_bg_1', item.active || walletList.length === 1 ? 'active':'','radius']"
+      <div :class="['walletItem', item.active || walletList.length === 1 ?walletStyleSheetType.activeWallet:item.stylesheet,'radius']"
            @click="switchWallet(item.address)"
            v-for="(item, index) in walletList" :key="index">
         <Row>

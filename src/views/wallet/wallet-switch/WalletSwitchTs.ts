@@ -3,7 +3,8 @@ import {Component, Vue} from 'vue-property-decorator'
 import DeleteWalletCheck from './delete-wallet-check/DeleteWalletCheck.vue'
 import {formatXEMamount, formatNumber, localRead} from '@/core/utils/utils.ts'
 import {AppWallet} from "@/core/model"
-
+import {CreateWalletType} from "@/core/model/CreateWalletType"
+import {walletStyleSheetType} from '@/config/view/wallet.ts'
 @Component({
     components: {DeleteWalletCheck},
     computed: {
@@ -21,22 +22,29 @@ export class WalletSwitchTs extends Vue {
     deletecurrent = -1
     walletToDelete: AppWallet | boolean = false
     thirdTimestamp = 0
+    walletStyleSheetType = walletStyleSheetType
 
     get walletList() {
         let {walletList} = this.app
         walletList.sort((a, b) => {
             return b.createTimestamp - a.createTimestamp
         })
-        const activeWalletList = [...walletList]
-        activeWalletList.sort((a, b) => {
-            return b.activeTimestamp - a.activeTimestamp
+        return walletList.map(item => {
+            const walletType = item.accountTitle.substring(0, item.accountTitle.indexOf('-'))
+            switch (walletType) {
+                case CreateWalletType.keyStore:
+                case CreateWalletType.privateKey:
+                    item.stylesheet = walletStyleSheetType.otherWallet
+                    break
+                case CreateWalletType.seed:
+                    item.stylesheet = walletStyleSheetType.seedWallet
+                    break
+            }
+            return item
         })
-        this.thirdTimestamp = activeWalletList[3].activeTimestamp
-        return walletList
     }
 
     get wallet() {
-
         return this.activeAccount.wallet
     }
 
