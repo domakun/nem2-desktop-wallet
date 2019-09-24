@@ -305,7 +305,7 @@ export class AppWallet {
             return true
         })
 
-        localSave('accountMap', accountMap)
+        localSave('accountMap', JSON.stringify(accountMap))
         store.commit('SET_WALLET_LIST', accountMap[accountName]['wallets'])
     }
 

@@ -723,5 +723,8 @@ export const en_US = {
     hash_deadline: 'Hash/Deadline',
     transaction_record: 'Transaction records',
     import_mnemonic:'Import mnemonic',
-    update_wallet_name:'Update'
+    update_wallet_name:'Update',
+    namespace_filter:'filter',
+    namespace_expired: 'expired',
+    namespace_Not_expired: 'Not expired'
 }
