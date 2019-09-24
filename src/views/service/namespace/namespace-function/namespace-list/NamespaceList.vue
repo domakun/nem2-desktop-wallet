@@ -15,10 +15,37 @@
         <span class="link">{{$t('link')}}</span>
         <span class="type">{{$t('type')}}</span>
         <span class="more"></span>
+
+        <!-- <AutoComplete
+        v-model="value1"
+        :data="namespaceList"
+        @on-search="handleSearch1"
+        placeholder="input here"
+        style="width:200px"></AutoComplete> -->
+
+        <Dropdown trigger="click" class="dropList" @on-click="filterList">
+          <a href="javascript:void(0)">{{$t('namespace_filter')}}
+              <Icon type="ios-arrow-down"></Icon>
+          </a>
+          <DropdownMenu slot="list">
+              <DropdownItem name="已过期">{{$t('namespace_expired')}}</DropdownItem>
+              <DropdownItem name="未过期">{{$t('namespace_Not_expired')}}</DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+
+        
+        <!-- <Input search placeholder="请输入空间名" style="width: 230px" class="searchList"/> -->
+        <!-- <i-input icon="ios-search" placeholder="请输入空间名" style="width: 200px" class="searchList"></i-input> -->
+        <!-- <i-input placeholder="请输入空间名" style="width: 230px" class="searchList">
+            <span slot="append">
+              搜索
+            </span>
+        </i-input> -->
+
       </div>
       <Spin v-if="namespaceLoading" size="large" fix class="absolute"></Spin>
       <div class="table_body">
-        <div class="table_body_item radius" v-if="n" v-for="n in namespaceList">
+        <div class="table_body_item radius" v-if="n" v-for="n in slicedNamespaceList">
           <span class="namesapce_name overflow_ellipsis">{{n.label}}</span>
           <span class="duration overflow_ellipsis">
             {{computeDuration(n) === StatusString.EXPIRED ? $t('overdue') : durationToTime(n.endHeight)}}
@@ -58,6 +85,7 @@
             </Poptip>
           </span>
         </div>
+        <Page :total="namespaceList.length" page-size="4" class="pageList" @on-change="handleChange"></Page>
 
         <div v-if="namespaceList.length == 0" class="noData">
           <p>{{$t('no_data')}}</p>
@@ -94,12 +122,12 @@
 
 <script lang="ts">
     // @ts-ignore
+    import "./NamespaceList.less"
     import {NamespaceListTs} from '@/views/service/namespace/namespace-function/namespace-list/NamespaceListTs.ts'
-
     export default class NamespaceList extends NamespaceListTs {
 
     }
 </script>
 <style scoped lang="less">
-  @import "NamespaceList.less";
+  
 </style>

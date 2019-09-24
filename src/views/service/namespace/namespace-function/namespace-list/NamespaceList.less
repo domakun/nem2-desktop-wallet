@@ -26,6 +26,7 @@
       font-weight: 400;
       color: rgba(153, 153, 153, 1);
       line-height: 60px;
+      position: relative;
 
       span {
         display: inline-block;
@@ -60,6 +61,22 @@
       .more {
         width: 80px;
       }
+      .searchList{
+        float: right;
+        position: absolute;
+        top:15px;
+        right: 100px;
+        span:hover{
+          cursor: pointer;
+        }
+      }
+      .dropList{
+        height: 40px;
+        margin-left: 100px;
+      }
+    }
+    .table_body{
+      position: relative;
     }
 
     .table_body_item {
@@ -101,6 +118,15 @@
           }
         }
       }
+    }
+    .pageList{
+      position: absolute;
+      top:280px;
+      left: 40%;
+      // width: 100%;
+      // margin: 0 auto;
+      // margin-left: 40%;
+      // margin-top:20px;
     }
   }
 }

@@ -33,6 +33,8 @@ export class NamespaceListTs extends Vue {
     activeAccount: any
     app: any
     currentNamespace = ''
+    pageSize: number = 4
+    page: number = 1
     showNamespaceEditDialog = false
     showUnAliasDialog = false
     aliasDialogItem = {}
@@ -62,7 +64,15 @@ export class NamespaceListTs extends Vue {
             }
             return item
         })
+        console.log(namespaceList)
         return namespaceList
+        
+    }
+
+    get slicedNamespaceList() {
+        const start = (this.page - 1) * this.pageSize
+        const end = this.page * this.pageSize
+        return [...this.namespaceList].slice(start, end)
     }
 
     get mosaics() {
@@ -149,4 +159,20 @@ export class NamespaceListTs extends Vue {
         const durationNum = Number(duration - this.currentHeight)
         return formatSeconds(durationNum * 12)
     }
+    async handleChange(page) {
+        this.page = page
+    }
+    async filterList(value) {
+        const {currentHeight} = this
+        if(value = "已过期"){
+            this.namespaceList.filter((item,index) =>{
+                return item.endHeight < currentHeight
+            });
+        }else{
+            this.namespaceList.filter((item,index) =>{
+                return item.endHeight > currentHeight
+            });
+        }
+    }
+    
 }
