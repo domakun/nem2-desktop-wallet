@@ -5,10 +5,7 @@ import {MultisigApiRxjs} from '@/core/api/MultisigApiRxjs.js'
 import {Component, Provide, Vue, Watch} from 'vue-property-decorator'
 import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
 import {
-    createBondedMultisigTransaction,
-    createCompleteMultisigTransaction,
-    getMosaicList,
-    buildMosaicList,
+    getRelativeMosaicAmount,
     getAbsoluteMosaicAmount
 } from "@/core/utils"
 import {TransactionApiRxjs} from "@/core/api/TransactionApiRxjs"
@@ -16,6 +13,11 @@ import {MessageType} from "nem2-sdk/dist/src/model/transaction/MessageType"
 import {NamespaceApiRxjs} from "@/core/api/NamespaceApiRxjs"
 import {standardFields} from "@/core/validation"
 import ErrorTooltip from '@/views/other/forms/errorTooltip/ErrorTooltip.vue'
+import {
+    createBondedMultisigTransaction,
+    createCompleteMultisigTransaction,
+} from "@/core/model"
+import {buildMosaicList, getMosaicList} from "@/core/services/mosaics"
 import {formDataConfig} from '@/config/view/form'
 
 @Component({
@@ -51,6 +53,7 @@ export class TransactionFormTs extends Vue {
     app: any
     isMultisig = false
     multisigMosaicList = []
+    getRelativeMosaicAmount = getRelativeMosaicAmount
 
     get addressAliasMap() {
         const addressAliasMap = this.activeAccount.addressAliasMap
@@ -153,28 +156,25 @@ export class TransactionFormTs extends Vue {
         const {currentMosaic, mosaics, currentAmount} = this
         const {divisibility} = mosaics[currentMosaic].properties
         const mosaicTransferList = [...this.formItem.mosaicTransferList]
-        const findIndex = mosaicTransferList.find((item, index) => {
+        const that = this
+        let resultAmount = currentAmount
+        mosaicTransferList.every((item, index) => {
                 if (item.id.toHex() == currentMosaic) {
-                    const preAmount = item.amount.compact()
-                    this.formItem.mosaicTransferList[index] = new Mosaic(
-                        new MosaicId(currentMosaic),
-                        UInt64.fromUint(getAbsoluteMosaicAmount(currentAmount + preAmount, divisibility))
-                    )
-                    return true
+                    resultAmount = Number(getRelativeMosaicAmount(item.amount.compact(), divisibility)) + Number(resultAmount)
+                    that.formItem.mosaicTransferList.splice(index, 1)
+                    return false
                 }
-                return false
+                return true
             }
         )
-        if (findIndex) return
-        this.formItem.mosaicTransferList
-            .push(
-                new Mosaic(
-                    new MosaicId(currentMosaic),
-                    UInt64.fromUint(
-                        getAbsoluteMosaicAmount(currentAmount, divisibility)
-                    )
+        this.formItem.mosaicTransferList.unshift(
+            new Mosaic(
+                new MosaicId(currentMosaic),
+                UInt64.fromUint(
+                    getAbsoluteMosaicAmount(resultAmount, divisibility)
                 )
             )
+        )
     }
 
     removeMosaic(index) {
