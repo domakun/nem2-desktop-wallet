@@ -16,7 +16,7 @@ import {MessageType} from "nem2-sdk/dist/src/model/transaction/MessageType"
 import {NamespaceApiRxjs} from "@/core/api/NamespaceApiRxjs"
 import {standardFields} from "@/core/validation"
 import ErrorTooltip from '@/views/other/forms/errorTooltip/ErrorTooltip.vue'
-import { formDataConfig } from '@/config/view/form'
+import {formDataConfig} from '@/config/view/form'
 
 @Component({
     components: {
@@ -125,8 +125,8 @@ export class TransactionFormTs extends Vue {
         return [...mosaicList]
             .filter(mosaic => mosaic.balance && mosaic.balance > 0
                 && (mosaic.expirationHeight === 'Forever'
-                || currentHeight < mosaic.expirationHeight))
-            .map(({name, balance, hex}) =>  ({
+                    || currentHeight < mosaic.expirationHeight))
+            .map(({name, balance, hex}) => ({
                 label: `${name || hex} (${balance.toLocaleString()})`,
                 value: hex,
             }))
@@ -152,6 +152,20 @@ export class TransactionFormTs extends Vue {
     addMosaic() {
         const {currentMosaic, mosaics, currentAmount} = this
         const {divisibility} = mosaics[currentMosaic].properties
+        const mosaicTransferList = [...this.formItem.mosaicTransferList]
+        const findIndex = mosaicTransferList.find((item, index) => {
+                if (item.id.toHex() == currentMosaic) {
+                    const preAmount = item.amount.compact()
+                    this.formItem.mosaicTransferList[index] = new Mosaic(
+                        new MosaicId(currentMosaic),
+                        UInt64.fromUint(getAbsoluteMosaicAmount(currentAmount + preAmount, divisibility))
+                    )
+                    return true
+                }
+                return false
+            }
+        )
+        if (findIndex) return
         this.formItem.mosaicTransferList
             .push(
                 new Mosaic(
