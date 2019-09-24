@@ -5,8 +5,8 @@ import {
     MosaicService,
     MosaicHttp,
     MosaicId,
-    TransactionType,
-    Mosaic, MosaicInfo
+    Mosaic,
+    MosaicInfo
 } from 'nem2-sdk'
 import {AppMosaic, AppWallet} from '@/core/model'
 import {AccountApiRxjs} from "@/core/api/AccountApiRxjs"

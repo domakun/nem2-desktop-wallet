@@ -24,7 +24,7 @@
     import {initMosaic} from '@/core/services/mosaics'
     import {getMarketOpenPrice} from '@/core/services/marketData.ts'
     import {setTransactionList} from '@/core/services/transactions'
-    import {AppMosaic, AppWallet, getNamespaces} from '@/core/model'
+    import {AppMosaic, AppWallet} from '@/core/model'
 
     @Component({
         computed: {
