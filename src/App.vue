@@ -11,12 +11,15 @@
     import {throttleTime} from 'rxjs/operators'
     import {isWindows} from "@/config/index.ts"
     import {
-        checkInstall, getCurrentBlockHeight, getCurrentNetworkMosaic,
+        checkInstall,
+        getCurrentBlockHeight,
+        getCurrentNetworkMosaic,
         getNetworkGenerationHash,
         getObjectLength,
-        getTopValueInObject, localRead,
+        getTopValueInObject,
+        localRead,
     } from '@/core/utils'
-    import {Component, Vue, Watch} from 'vue-property-decorator'
+    import {Component, Vue} from 'vue-property-decorator'
     import {ChainListeners} from '@/core/services/listeners.ts'
     import {initMosaic} from '@/core/services/mosaics'
     import {getMarketOpenPrice} from '@/core/services/marketData.ts'
