@@ -9,43 +9,33 @@
 
     <div class="namespace_list_table">
       <div class="table_head">
-        <span class="namesapce_name">{{$t('namespace_name')}}</span>
-        <span class="duration">{{$t('duration')}}</span>
-        <span class="is_active">{{$t('Control')}}</span>
-        <span class="link">{{$t('link')}}</span>
-        <span class="type">{{$t('type')}}</span>
+        <span @click="getSortType(namespaceSortType.byName)" class="namesapce_name">
+          {{$t('namespace_name')}}
+          <Icon :class="namespaceSortType.byName == currentSortType?'active_sort_type':''" type="md-arrow-round-down"/>
+        </span>
+        <span @click="getSortType(namespaceSortType.byDuration)" class="duration">
+          {{$t('duration')}}
+             <Icon :class="namespaceSortType.byDuration == currentSortType?'active_sort_type':''" type="md-arrow-round-down"/>
+        </span>
+        <span @click="getSortType(namespaceSortType.byOwnerShip)" class="is_active">
+          {{$t('Control')}}
+             <Icon :class="namespaceSortType.byOwnerShip == currentSortType?'active_sort_type':''" type="md-arrow-round-down"/>
+        </span>
+        <span @click="getSortType(namespaceSortType.byBindType)" class="link">
+          {{$t('link')}}
+             <Icon :class="namespaceSortType.byBindType == currentSortType?'active_sort_type':''" type="md-arrow-round-down"/>
+        </span>
+        <span @click="getSortType(namespaceSortType.byBindInfo)" class="type">
+          {{$t('type')}}
+             <Icon :class="namespaceSortType.byBindInfo == currentSortType?'active_sort_type':''" type="md-arrow-round-down"/>
+        </span>
         <span class="more"></span>
-
-        <!-- <AutoComplete
-        v-model="value1"
-        :data="namespaceList"
-        @on-search="handleSearch1"
-        placeholder="input here"
-        style="width:200px"></AutoComplete> -->
-
-        <Dropdown trigger="click" class="dropList" @on-click="filterList">
-          <a href="javascript:void(0)">{{$t('namespace_filter')}}
-              <Icon type="ios-arrow-down"></Icon>
-          </a>
-          <DropdownMenu slot="list">
-              <DropdownItem name="y">{{$t('namespace_expired')}}</DropdownItem>
-              <DropdownItem name="n">{{$t('namespace_Not_expired')}}</DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
-
-        
-        <!-- <Input search placeholder="请输入空间名" style="width: 230px" class="searchList"/> -->
-        <!-- <i-input icon="ios-search" placeholder="请输入空间名" style="width: 200px" class="searchList"></i-input> -->
-        <!-- <i-input placeholder="请输入空间名" style="width: 230px" class="searchList">
-            <span slot="append">
-              搜索
-            </span>
-        </i-input> -->
 
       </div>
       <Spin v-if="namespaceLoading" size="large" fix class="absolute"></Spin>
-      <div class="table_body">
-        <div class="table_body_item radius" v-if="n" v-for=" n in ( newList == null ? slicedNamespaceList : filterNamespaceList )">
+      <div class="table_body scroll">
+        <div class="table_body_item radius" v-if="n"
+             v-for=" n in currentNamespaceListByPage">
           <span class="namesapce_name overflow_ellipsis">{{n.label}}</span>
           <span class="duration overflow_ellipsis">
             {{computeDuration(n) === StatusString.EXPIRED ? $t('overdue') : durationToTime(n.endHeight)}}
@@ -85,37 +75,35 @@
             </Poptip>
           </span>
         </div>
-        <Page :total="namespaceList.length" page-size="4" class="pageList" @on-change="handleChange"></Page>
 
         <div v-if="namespaceList.length == 0" class="noData">
           <p>{{$t('no_data')}}</p>
         </div>
-
       </div>
+    </div>
+
+    <div class="page_list_container">
+      <Page :total="currentNamespacelist.length" :page-size="pageSize" @on-change="handleChange"></Page>
     </div>
     <NamespaceEditDialog
             :currentNamespace="currentNamespace"
             :showNamespaceEditDialog="showNamespaceEditDialog"
-            @closeNamespaceEditDialog='closeNamespaceEditDialog'
-    ></NamespaceEditDialog>
+            @closeNamespaceEditDialog='closeNamespaceEditDialog'/>
 
     <NamespaceUnAliasDialog
             :showUnAliasDialog="showUnAliasDialog"
             :unAliasItem="aliasDialogItem"
-            @closeUnAliasDialog="closeUnAliasDialog"
-    ></NamespaceUnAliasDialog>
+            @closeUnAliasDialog="closeUnAliasDialog"/>
 
     <NamespaceMosaicAliasDialog
             :showMosaicAliasDialog="showMosaicAliasDialog"
             :itemMosaic="aliasDialogItem"
-            @closeMosaicAliasDialog="closeMosaicAliasDialog"
-    ></NamespaceMosaicAliasDialog>
+            @closeMosaicAliasDialog="closeMosaicAliasDialog"/>
 
     <NamespaceAddressAliasDialog
             :isShowAddressAliasDialog="isShowAddressAliasDialog"
             :addressAliasItem="aliasDialogItem"
-            @closeAddressAliasDialog="closeAddressAliasDialog"
-    ></NamespaceAddressAliasDialog>
+            @closeAddressAliasDialog="closeAddressAliasDialog"/>
 
   </div>
 </template>
@@ -124,10 +112,11 @@
     // @ts-ignore
     import "./NamespaceList.less"
     import {NamespaceListTs} from '@/views/service/namespace/namespace-function/namespace-list/NamespaceListTs.ts'
+
     export default class NamespaceList extends NamespaceListTs {
 
     }
 </script>
 <style scoped lang="less">
-  
+
 </style>
