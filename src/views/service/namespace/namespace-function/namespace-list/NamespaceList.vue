@@ -6,7 +6,6 @@
       <div class="tips">{{$t('namespace_list_tips_1')}}</div>
       <div class="tips">{{$t('namespace_list_tips_2')}}</div>
     </div>
-
     <div class="namespace_list_table">
       <div class="table_head">
         <span @click="getSortType(namespaceSortType.byName)" class="namesapce_name">
