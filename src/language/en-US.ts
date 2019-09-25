@@ -575,7 +575,7 @@ export const en_US = {
     second_floor: 'Second floor',
     third_floor: 'Third floor',
     Harvester: 'Harvester',
-    create_account:'Create',
+    create_account: 'Create',
     // login
     WELCOME_TO_CATAPULT_NANO_WALLET: 'WELCOME TO CATAPULT-WALLET',
     This_is_a_distributed_desktop_wallet_based_on_catapult_come_and_explore_the_wonderful_journey_of_catapult: 'This is a distributed desktop wallet based on catapult. come and explore the wonderful journey of catapult.',
@@ -714,17 +714,18 @@ export const en_US = {
     account_password: 'Account password',
     hint: 'Hint',
     path: 'Path',
-    hd_wallet_path_error:'HD wallet path error',
+    hd_wallet_path_error: 'HD wallet path error',
     unconfirmed: 'Unconfirmed',
     from_to_action: 'From/To (action)',
     amount_asset: 'Amount (asset)',
     confirmations_height: 'Confirmations/Height',
     hash_deadline: 'Hash/Deadline',
     transaction_record: 'Transaction records',
-    import_mnemonic:'Import mnemonic',
-    update_wallet_name:'Update',
-    namespace_filter:'filter',
-    namespace_expired: 'expired',
+    import_mnemonic: 'Import mnemonic',
+    update_wallet_name: 'Update',
+    namespace_filter: 'Filter',
+    namespace_expired: 'Expired',
     namespace_Not_expired: 'Not expired',
-    Hide_expired_namespaces:'Hide expired namespaces'
+    Hide_expired_namespaces: 'Expired namespaces',
+    Mosaic_alias:'Mosaic alias'
 }

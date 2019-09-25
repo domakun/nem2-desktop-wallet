@@ -708,5 +708,6 @@ export const zh_CN = {
     namespace_expired: '已过期',
     namespace_Not_expired: '未过期',
     update_wallet_name:'修改',
-    Hide_expired_namespaces:'隐藏过期命名空间'
+    Hide_expired_namespaces:'过期命名空间',
+    Mosaic_alias:'马赛克别名'
 }

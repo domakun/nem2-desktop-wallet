@@ -49,10 +49,11 @@ export class NamespaceListTs extends Vue {
     currentNamespacelist = []
     currentSortType = ''
     isShowExpiredNamesapce = false
+    isShowMosaicAlias = false
+    dataLength = 0
 
     get namespaceList() {
         const namespaceList = this.activeAccount.namespaces.map((item) => {
-
             switch (item.alias.type) {
                 case (AliasType.None):
                     item.aliasTarget = MosaicNamespaceStatusType.NOALIAS
@@ -115,6 +116,7 @@ export class NamespaceListTs extends Vue {
 
     getSortType(type) {
         this.currentSortType = type
+        this.dataLength = this.currentNamespacelist.length
         switch (type) {
             case namespaceSortType.byName:
                 this.currentNamespacelist = sortByName(this.namespaceList)
@@ -195,8 +197,14 @@ export class NamespaceListTs extends Vue {
     onIsShowExpiredNamesapceChange() {
         const {isShowExpiredNamesapce} = this
         const {currentHeight, namespaceGracePeriodDuration} = this
+        this.dataLength = 0
         this.currentNamespacelist = this.currentNamespacelist.map(item => {
-            item.isShow = isShowExpiredNamesapce || item.endHeight - currentHeight > namespaceGracePeriodDuration
+            if (isShowExpiredNamesapce || item.endHeight - currentHeight > namespaceGracePeriodDuration) {
+                item.isShow = true
+                this.dataLength++
+                return item
+            }
+            item.isShow = false
             return item
         })
     }

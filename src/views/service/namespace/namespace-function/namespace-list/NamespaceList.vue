@@ -42,7 +42,6 @@
           <img v-else src="@/common/img/window/windowUnselected.png">
           <span>{{$t('Hide_expired_namespaces')}}</span>
         </div>
-
       </div>
       <Spin v-if="namespaceLoading" size="large" fix class="absolute"></Spin>
       <div class="table_body ">
@@ -84,8 +83,6 @@
                 <img src="@/common/img/service/namespace/namespaceRefresh.png">
                 <span>{{$t('bind_address')}}</span>
               </span>
-
-
           </div>
           </Poptip>
           </span>
@@ -99,7 +96,7 @@
     </div>
 
     <div class="page_list_container">
-      <Page :total="currentNamespacelist.length" :page-size="pageSize" @on-change="handleChange"></Page>
+      <Page :total="dataLength" :page-size="pageSize" @on-change="handleChange"></Page>
     </div>
     <NamespaceEditDialog
             :currentNamespace="currentNamespace"
