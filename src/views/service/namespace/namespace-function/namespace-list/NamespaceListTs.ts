@@ -193,24 +193,17 @@ export class NamespaceListTs extends Vue {
         this.page = page
     }
 
-    @Watch('isShowExpiredNamesapce')
-    onIsShowExpiredNamesapceChange() {
+    toggleIsShowExpiredNamesapce() {
         const {isShowExpiredNamesapce} = this
         const {currentHeight, namespaceGracePeriodDuration} = this
-        this.dataLength = 0
-        this.currentNamespacelist = this.currentNamespacelist.map(item => {
-            if (isShowExpiredNamesapce || item.endHeight - currentHeight > namespaceGracePeriodDuration) {
-                item.isShow = true
-                this.dataLength++
-                return item
-            }
-            item.isShow = false
-            return item
-        })
+        const list = [...this.namespaceList]
+        this.currentNamespacelist = list.filter(item => isShowExpiredNamesapce || item.endHeight - currentHeight > namespaceGracePeriodDuration)
+        this.isShowExpiredNamesapce = !isShowExpiredNamesapce
     }
 
     created() {
         this.getSortType(namespaceSortType.byDuration)
+        this.toggleIsShowExpiredNamesapce()
     }
 
 

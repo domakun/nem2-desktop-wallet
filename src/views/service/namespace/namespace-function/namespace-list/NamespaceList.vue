@@ -37,17 +37,19 @@
         <span class="more"></span>
 
 
-        <div class="namespace_filter" @click="isShowExpiredNamesapce = !isShowExpiredNamesapce">
+        <div class="namespace_filter" @click="toggleIsShowExpiredNamesapce()">
           <img v-if="!isShowExpiredNamesapce" src="@/common/img/window/windowSelected.png">
           <img v-else src="@/common/img/window/windowUnselected.png">
           <span>{{$t('Hide_expired_namespaces')}}</span>
         </div>
+
+
       </div>
       <Spin v-if="namespaceLoading" size="large" fix class="absolute"></Spin>
       <div class="table_body ">
         <div class=" radius"
              v-for=" n in currentNamespaceListByPage">
-          <div v-if="n&&n.isShow" class="table_body_item">
+          <div v-if="n" class="table_body_item">
             <span class="namesapce_name overflow_ellipsis">{{n.label}}</span>
             <span class="duration overflow_ellipsis">
               {{computeDuration(n) === StatusString.EXPIRED ? $t('overdue') : durationToTime(n.endHeight)}}
@@ -96,7 +98,7 @@
     </div>
 
     <div class="page_list_container">
-      <Page :total="dataLength" :page-size="pageSize" @on-change="handleChange"></Page>
+      <Page :total="currentNamespacelist.length" :page-size="pageSize" @on-change="handleChange"></Page>
     </div>
     <NamespaceEditDialog
             :currentNamespace="currentNamespace"
