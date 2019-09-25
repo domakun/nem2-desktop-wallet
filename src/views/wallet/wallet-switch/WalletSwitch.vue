@@ -30,6 +30,12 @@
                       <i><img src="@/common/img/wallet/delete.png"></i>
                       <span>{{$t('delete')}}</span>
                     </p>
+                    <p
+                            class="optionItem"
+                            @click.stop="walletToUpdate = item; showUpdateDialog = true">
+                      <i><img src="@/common/img/setting/settingEditNodeHover.png"></i>
+                      <span class="green">{{$t('update_wallet_name')}}</span>
+                    </p>
                   </div>
                 </Poptip>
               </div>
@@ -49,10 +55,17 @@
         </Col>
       </Row>
     </div>
-    <DeleteWalletCheck
+    <TheWalletDelete
             :showCheckPWDialog="showCheckPWDialog"
             :wallet-to-delete="walletToDelete"
             @closeCheckPWDialog="closeCheckPWDialog"
+            @on-cancel="showCheckPWDialog = false"
+    />
+    <TheWalletUpdate
+            :showUpdateDialog="showUpdateDialog"
+            :walletToUpdate="walletToUpdate"
+            @closeUpdateDialog="closeUpdateDialog"
+            @on-cancel="showUpdateDialog = false"
     />
   </div>
 </template>

@@ -1,12 +1,13 @@
 import {mapState} from 'vuex'
 import {Component, Vue} from 'vue-property-decorator'
-import DeleteWalletCheck from './delete-wallet-check/DeleteWalletCheck.vue'
+import TheWalletDelete from '@/views/wallet/wallet-switch/the-wallet-delete/TheWalletDelete.vue'
 import {formatXEMamount, formatNumber, localRead} from '@/core/utils/utils.ts'
 import {AppWallet} from "@/core/model"
 import {CreateWalletType} from "@/core/model/CreateWalletType"
 import {walletStyleSheetType} from '@/config/view/wallet.ts'
+import TheWalletUpdate from "@/views/wallet/wallet-switch/the-wallet-update/TheWalletUpdate.vue"
 @Component({
-    components: {DeleteWalletCheck},
+    components: {TheWalletDelete, TheWalletUpdate},
     computed: {
         ...mapState({
             activeAccount: 'account',
