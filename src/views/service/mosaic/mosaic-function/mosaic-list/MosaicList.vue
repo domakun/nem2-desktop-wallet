@@ -2,17 +2,6 @@
   <div class="mosaicList secondary_page_animate">
     <div class="mosaicListBody scroll">
       <div class="listTit">
-        <!--        <Dropdown trigger="click" class="screen" @on-click="screenByDeadline" >-->
-        <!--        <a>-->
-        <!--            {{$t('screen')}}-->
-        <!--            <Icon type="ios-arrow-down"></Icon>-->
-        <!--        </a>-->
-        <!--        <DropdownMenu slot="list" >-->
-        <!--            <DropdownItem name="[0,100000]">0~10000</DropdownItem>-->
-        <!--            <DropdownItem name="[100000,200000]">100000~200000</DropdownItem>-->
-        <!--            <DropdownItem name="[200000,10000000]">20000~{{$t('forever')}}</DropdownItem>-->
-        <!--        </DropdownMenu>-->
-        <!--    </Dropdown>-->
         <Row>
           <Col span="1">&nbsp;</Col>
           <Col span="4">
@@ -75,6 +64,11 @@
 
           </Col>
           <Col span="2">
+            <div class="mosaic_filter" @click="toggleIsShowExpiredMosaic()">
+              <img v-if="!isShowExpiredMosaic" src="@/common/img/window/windowSelected.png">
+              <img v-else src="@/common/img/window/windowUnselected.png">
+              <span>{{$t('Hide_expired_namespaces')}}</span>
+            </div>
 
           </Col>
         </Row>
