@@ -32,7 +32,7 @@
 
       </div>
       <Spin v-if="namespaceLoading" size="large" fix class="absolute"></Spin>
-      <div class="table_body scroll">
+      <div class="table_body ">
         <div class="table_body_item radius" v-if="n"
              v-for=" n in currentNamespaceListByPage">
           <span class="namesapce_name overflow_ellipsis">{{n.label}}</span>
