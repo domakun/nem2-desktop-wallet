@@ -2,42 +2,54 @@
   <div class="mosaicList secondary_page_animate">
     <div class="mosaicListBody scroll">
       <div class="listTit">
-<!--        <Dropdown trigger="click" class="screen" @on-click="screenByDeadline" >-->
-<!--        <a>-->
-<!--            {{$t('screen')}}-->
-<!--            <Icon type="ios-arrow-down"></Icon>-->
-<!--        </a>-->
-<!--        <DropdownMenu slot="list" >-->
-<!--            <DropdownItem name="[0,100000]">0~10000</DropdownItem>-->
-<!--            <DropdownItem name="[100000,200000]">100000~200000</DropdownItem>-->
-<!--            <DropdownItem name="[200000,10000000]">20000~{{$t('forever')}}</DropdownItem>-->
-<!--        </DropdownMenu>-->
-<!--    </Dropdown>-->
+        <!--        <Dropdown trigger="click" class="screen" @on-click="screenByDeadline" >-->
+        <!--        <a>-->
+        <!--            {{$t('screen')}}-->
+        <!--            <Icon type="ios-arrow-down"></Icon>-->
+        <!--        </a>-->
+        <!--        <DropdownMenu slot="list" >-->
+        <!--            <DropdownItem name="[0,100000]">0~10000</DropdownItem>-->
+        <!--            <DropdownItem name="[100000,200000]">100000~200000</DropdownItem>-->
+        <!--            <DropdownItem name="[200000,10000000]">20000~{{$t('forever')}}</DropdownItem>-->
+        <!--        </DropdownMenu>-->
+        <!--    </Dropdown>-->
         <Row>
           <Col span="1">&nbsp;</Col>
-          <Col span="4">
+          <Col span="4" @click="getSortType(mosaicSortType.byId)">
             {{$t('mosaic_ID')}}
+            <Icon :class="mosaicSortType.byId == currentSortType?'active_sort_type':''" type="md-arrow-round-down"/>
           </Col>
-          <Col span="3">
+          <Col span="3" @click="getSortType(mosaicSortType.bySupply)">
             {{$t('available_quantity')}}
+            <Icon :class="mosaicSortType.bySupply == currentSortType?'active_sort_type':''" type="md-arrow-round-down"/>
           </Col>
-          <Col span="2">
+          <Col span="2" @click="getSortType(mosaicSortType.byDivisibility)">
             {{$t('mosaic_divisibility')}}
+            <Icon :class="mosaicSortType.byDivisibility == currentSortType?'active_sort_type':''"
+                  type="md-arrow-round-down"/>
           </Col>
-          <Col span="2">
+          <Col span="2" @click="getSortType(mosaicSortType.byTransferable)">
             {{$t('transportability')}}
+            <Icon :class="mosaicSortType.byTransferable == currentSortType?'active_sort_type':''"
+                  type="md-arrow-round-down"/>
           </Col>
-          <Col span="2">
+          <Col span="2" @click="getSortType(mosaicSortType.bySupplyMutable)">
             {{$t('variable_supply')}}
+            <Icon :class="mosaicSortType.bySupply == currentSortType?'active_sort_type':''" type="md-arrow-round-down"/>
           </Col>
-          <Col span="2">
+          <Col span="2" @click="getSortType(mosaicSortType.byDuration)">
             {{$t('deadline')}}
+            <Icon :class="mosaicSortType.byDuration == currentSortType?'active_sort_type':''"
+                  type="md-arrow-round-down"/>
           </Col>
-          <Col span="2">
+          <Col span="2" @click="getSortType(mosaicSortType.byRestrictable)">
             {{$t('Restrictable')}}
+            <Icon :class="mosaicSortType.byRestrictable == currentSortType?'active_sort_type':''"
+                  type="md-arrow-round-down"/>
           </Col>
-          <Col span="3">
+          <Col span="3" @click="getSortType(mosaicSortType.byAlias)">
             {{$t('alias')}}
+            <Icon :class="mosaicSortType.byAlias == currentSortType?'active_sort_type':''" type="md-arrow-round-down"/>
           </Col>
           <Col span="2">
 
@@ -47,8 +59,8 @@
       <Spin v-if="mosaicsLoading" size="large" fix class="absolute"></Spin>
       <div class="no_data" v-if="false">{{$t('no_data')}}</div>
       <div
-              v-for="(value, key) in (screenMosaic.length > 0 ? currentScreenMosaic : currentMosaicPage)"
-              :key="key"
+              v-for="(value, index) in currentMosaicList.slice((currentPage-1)*pageSize,currentPage*pageSize)"
+              :key="index"
               class="listItem"
       >
         <Row>
@@ -100,16 +112,16 @@
           </Col>
         </Row>
       </div>
-     <template>
-        <div class = "page_container">
+      <template>
+        <div class="page_container">
           <Page
-            class = "page"
-            :total="(screenMosaic.length > 0 ? screenMosaic.length:filteredMosaics.length)"
-            @on-change ="toggleChange"
-            :page-size ="pageSize"
-            />
+                  class="page"
+                  :total="currentMosaicList.length"
+                  @on-change="toggleChange"
+                  :page-size="pageSize"
+          />
         </div>
-    </template>
+      </template>
     </div>
 
     <MosaicAliasDialog :showMosaicAliasDialog="showMosaicAliasDialog" :itemMosaic="selectedMosaic"
@@ -124,7 +136,8 @@
 <script lang="ts">
     import {MosaicListTs} from '@/views/service/mosaic/mosaic-function/mosaic-list/MosaicListTs.ts'
     import "./MosaicList.less"
-import { Deadline } from 'nem2-sdk';
+    import {Deadline} from 'nem2-sdk'
+
     export default class MosaicList extends MosaicListTs {
 
     }

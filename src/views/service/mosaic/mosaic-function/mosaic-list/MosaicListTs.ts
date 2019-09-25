@@ -5,7 +5,9 @@ import EditDialog from './mosaic-edit-dialog/MosaicEditDialog.vue'
 import MosaicAliasDialog from './mosaic-alias-dialog/MosaicAliasDialog.vue'
 import MosaicUnAliasDialog from './mosaic-unAlias-dialog/MosaicUnAliasDialog.vue'
 import {formatNumber} from '@/core/utils'
-
+import {mosaicSortType} from "@/config/view/mosaic"
+import {sortById, sortBySupply, sortByDivisibility, sortByTransferable, sortBySupplyMutable, sortByDuration, sortByRestrictable, sortByAlias} from '@/core/services/mosaics/methods.ts'
+import {networkConfig} from "@/config"
 
 @Component({
     components: {
@@ -21,7 +23,7 @@ export class MosaicListTs extends Vue {
     isLoadingConfirmedTx = false
     currentTab: number = 0
     currentPage: number = 1
-    pageSize: number = 10
+    pageSize: number =  networkConfig.namespaceListSize
     rootNameList: any[] = []
     screenMosaic: any = {}
     showCheckPWDialog = false
@@ -30,6 +32,9 @@ export class MosaicListTs extends Vue {
     showMosaicUnAliasDialog = false
     mosaicMapInfo: any = {}
     selectedMosaic: any = {}
+    currentSortType = mosaicSortType.byDuration
+    mosaicSortType = mosaicSortType
+    currentMosaicList = []
 
     get currentXem() {
         return this.activeAccount.currentXem
@@ -45,10 +50,6 @@ export class MosaicListTs extends Vue {
 
     get generationHash() {
         return this.activeAccount.generationHash
-    }
-
-    get accountPublicKey() {
-        return this.activeAccount.wallet.publicKey
     }
 
     get accountAddress() {
@@ -86,26 +87,28 @@ export class MosaicListTs extends Vue {
         return namespaceMap
     }
 
-    get filteredMosaics() {
-        const mosaics: any = Object.values(this.mosaics)
-        return [...mosaics].filter(mosaic => (
-            mosaic.mosaicInfo &&
-            mosaic.mosaicInfo.owner.publicKey === this.accountPublicKey
-        ))
-    }
 
-    get currentMosaicPage() {
-        const start = (this.currentPage - 1) * this.pageSize
-        const end = this.currentPage * this.pageSize
-        return [...this.filteredMosaics].slice(start, end)
-    }
 
-    get currentScreenMosaic() {
-        this.screenMosaic = this.screenMosaic
-        const start = (this.currentPage - 1) * this.pageSize
-        const end = this.currentPage * this.pageSize
-        return [...this.screenMosaic].slice(start, end)
-    }
+    // get filteredMosaics() {
+    //     const mosaics: any = Object.values(this.mosaics)
+    //     return [...mosaics].filter(mosaic => (
+    //         mosaic.mosaicInfo &&
+    //         mosaic.mosaicInfo.owner.publicKey === this.accountPublicKey
+    //     ))
+    // }
+    //
+    // get currentMosaicPage() {
+    //     const start = (this.currentPage - 1) * this.pageSize
+    //     const end = this.currentPage * this.pageSize
+    //     return [...this.filteredMosaics].slice(start, end)
+    // }
+    //
+    // get currentScreenMosaic() {
+    //     this.screenMosaic = this.screenMosaic
+    //     const start = (this.currentPage - 1) * this.pageSize
+    //     const end = this.currentPage * this.pageSize
+    //     return [...this.screenMosaic].slice(start, end)
+    // }
 
 
     showCheckDialog() {
@@ -167,6 +170,38 @@ export class MosaicListTs extends Vue {
         return (height.compact() + properties.duration.compact()) - this.nowBlockHeight
     }
 
+    getSortType(type) {
+        this.currentSortType = type
+        const currentMosaicList = [...this.currentMosaicList]
+        switch (type) {
+            case mosaicSortType.byId:
+               this.currentMosaicList =  sortById(currentMosaicList)
+                break;
+            case mosaicSortType.byDuration:
+                this.currentMosaicList =  sortByDuration(currentMosaicList)
+                break;
+            case mosaicSortType.byAlias:
+                this.currentMosaicList =  sortByAlias(currentMosaicList)
+                break;
+            case mosaicSortType.byRestrictable:
+                this.currentMosaicList =  sortByRestrictable(currentMosaicList)
+                break;
+            case mosaicSortType.bySupply:
+                this.currentMosaicList =  sortBySupply(currentMosaicList)
+                break;
+            case mosaicSortType.byTransferable:
+                this.currentMosaicList =  sortByTransferable(currentMosaicList)
+                break;
+            case mosaicSortType.byDivisibility:
+                this.currentMosaicList =  sortByDivisibility(currentMosaicList)
+                break;
+            case mosaicSortType.bySupplyMutable:
+                this.currentMosaicList =  sortBySupplyMutable(currentMosaicList)
+                break;
+        }
+        // mosaicSortType.byAlias
+    }
+
     // screenByDeadline(name) {
     //     this.screenMosaic = this.filteredMosaics.filter((item) => {
     //         if (JSON.parse(name)[1] < 1000000) {
@@ -175,4 +210,7 @@ export class MosaicListTs extends Vue {
     //         return (item.expirationHeight > JSON.parse(name)[0] || item.expirationHeight == 'Forever')
     //     })
     // }
+    created(){
+        this.currentMosaicList = Object.values(this.mosaics)
+    }
 }
