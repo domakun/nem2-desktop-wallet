@@ -203,5 +203,4 @@ export class NamespaceListTs extends Vue {
         this.toggleIsShowExpiredNamesapce()
     }
 
-
 }

@@ -199,7 +199,7 @@ export class MosaicListTs extends Vue {
                 this.currentMosaicList =  sortBySupplyMutable(currentMosaicList)
                 break;
         }
-        // mosaicSortType.byAlias
+        console.log(this.currentMosaicList )
     }
 
     // screenByDeadline(name) {
@@ -211,6 +211,7 @@ export class MosaicListTs extends Vue {
     //     })
     // }
     created(){
+        this.getSortType(this.currentSortType)
         this.currentMosaicList = Object.values(this.mosaics)
     }
 }

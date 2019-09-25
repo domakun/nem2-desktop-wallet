@@ -15,41 +15,64 @@
         <!--    </Dropdown>-->
         <Row>
           <Col span="1">&nbsp;</Col>
-          <Col span="4" @click="getSortType(mosaicSortType.byId)">
-            {{$t('mosaic_ID')}}
+          <Col span="4">
+            <span @click="getSortType(mosaicSortType.byId)">
+               {{$t('mosaic_ID')}}
             <Icon :class="mosaicSortType.byId == currentSortType?'active_sort_type':''" type="md-arrow-round-down"/>
+            </span>
           </Col>
-          <Col span="3" @click="getSortType(mosaicSortType.bySupply)">
-            {{$t('available_quantity')}}
+          <Col span="3">
+            <span @click="getSortType(mosaicSortType.bySupply)">
+              {{$t('available_quantity')}}
             <Icon :class="mosaicSortType.bySupply == currentSortType?'active_sort_type':''" type="md-arrow-round-down"/>
+            </span>
           </Col>
-          <Col span="2" @click="getSortType(mosaicSortType.byDivisibility)">
-            {{$t('mosaic_divisibility')}}
+          <Col span="2">
+            <span @click="getSortType(mosaicSortType.byDivisibility)">
+              {{$t('mosaic_divisibility')}}
             <Icon :class="mosaicSortType.byDivisibility == currentSortType?'active_sort_type':''"
                   type="md-arrow-round-down"/>
+            </span>
+
           </Col>
-          <Col span="2" @click="getSortType(mosaicSortType.byTransferable)">
+          <Col span="2">
+            <span @click="getSortType(mosaicSortType.byTransferable)">
+
             {{$t('transportability')}}
             <Icon :class="mosaicSortType.byTransferable == currentSortType?'active_sort_type':''"
                   type="md-arrow-round-down"/>
+
+            </span>
           </Col>
-          <Col span="2" @click="getSortType(mosaicSortType.bySupplyMutable)">
-            {{$t('variable_supply')}}
+          <Col span="2">
+            <span @click="getSortType(mosaicSortType.bySupplyMutable)">
+              {{$t('variable_supply')}}
             <Icon :class="mosaicSortType.bySupply == currentSortType?'active_sort_type':''" type="md-arrow-round-down"/>
+            </span>
+
           </Col>
-          <Col span="2" @click="getSortType(mosaicSortType.byDuration)">
-            {{$t('deadline')}}
+          <Col span="2">
+            <span @click="getSortType(mosaicSortType.byDuration)">
+               {{$t('deadline')}}
             <Icon :class="mosaicSortType.byDuration == currentSortType?'active_sort_type':''"
                   type="md-arrow-round-down"/>
+            </span>
+
           </Col>
-          <Col span="2" @click="getSortType(mosaicSortType.byRestrictable)">
-            {{$t('Restrictable')}}
+          <Col span="2">
+            <span @click="getSortType(mosaicSortType.byRestrictable)">
+               {{$t('Restrictable')}}
             <Icon :class="mosaicSortType.byRestrictable == currentSortType?'active_sort_type':''"
                   type="md-arrow-round-down"/>
+            </span>
+
           </Col>
-          <Col span="3" @click="getSortType(mosaicSortType.byAlias)">
-            {{$t('alias')}}
+          <Col span="3">
+            <span @click="getSortType(mosaicSortType.byAlias)">
+               {{$t('alias')}}
             <Icon :class="mosaicSortType.byAlias == currentSortType?'active_sort_type':''" type="md-arrow-round-down"/>
+            </span>
+
           </Col>
           <Col span="2">
 

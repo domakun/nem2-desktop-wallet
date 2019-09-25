@@ -139,7 +139,7 @@ export const sortById = (list) => {
     list.forEach(item => {
         mosaicMap[item.hex] = item
     })
-    mosaicList = list.map(item => item.label).sort()
+    mosaicList = list.map(item => item.hex).sort()
     return mosaicList.map((item) => {
         return mosaicMap[item]
     })
