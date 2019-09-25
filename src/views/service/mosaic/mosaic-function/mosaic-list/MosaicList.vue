@@ -2,28 +2,46 @@
   <div class="mosaicList secondary_page_animate">
     <div class="mosaicListBody scroll">
       <div class="listTit">
-        <Dropdown trigger="click" class="screen" @on-click="screenByDeadline" >
-        <a href="javascript:void(0)">
-            {{$t('screen')}}
-            <Icon type="ios-arrow-down"></Icon>
-        </a>
-        <DropdownMenu slot="list" >
-            <DropdownItem name="[0,100000]">0~10000</DropdownItem>
-            <DropdownItem name="[100000,200000]">100000~200000</DropdownItem>
-            <DropdownItem name="[200000,10000000]">20000~{{$t('forever')}}</DropdownItem>
-        </DropdownMenu>
-    </Dropdown>
+<!--        <Dropdown trigger="click" class="screen" @on-click="screenByDeadline" >-->
+<!--        <a>-->
+<!--            {{$t('screen')}}-->
+<!--            <Icon type="ios-arrow-down"></Icon>-->
+<!--        </a>-->
+<!--        <DropdownMenu slot="list" >-->
+<!--            <DropdownItem name="[0,100000]">0~10000</DropdownItem>-->
+<!--            <DropdownItem name="[100000,200000]">100000~200000</DropdownItem>-->
+<!--            <DropdownItem name="[200000,10000000]">20000~{{$t('forever')}}</DropdownItem>-->
+<!--        </DropdownMenu>-->
+<!--    </Dropdown>-->
         <Row>
           <Col span="1">&nbsp;</Col>
-          <Col span="4">{{$t('mosaic_ID')}}</Col>
-          <Col span="3">{{$t('available_quantity')}}</Col>
-          <Col span="2">{{$t('mosaic_divisibility')}}</Col>
-          <Col span="2">{{$t('transportability')}}</Col>
-          <Col span="2">{{$t('variable_supply')}}</Col>
-          <Col span="2">{{$t('deadline')}}</Col>
-          <Col span="2">{{$t('Restrictable')}}</Col>
-          <Col span="3">{{$t('alias')}}</Col>
-          <Col span="2"></Col>
+          <Col span="4">
+            {{$t('mosaic_ID')}}
+          </Col>
+          <Col span="3">
+            {{$t('available_quantity')}}
+          </Col>
+          <Col span="2">
+            {{$t('mosaic_divisibility')}}
+          </Col>
+          <Col span="2">
+            {{$t('transportability')}}
+          </Col>
+          <Col span="2">
+            {{$t('variable_supply')}}
+          </Col>
+          <Col span="2">
+            {{$t('deadline')}}
+          </Col>
+          <Col span="2">
+            {{$t('Restrictable')}}
+          </Col>
+          <Col span="3">
+            {{$t('alias')}}
+          </Col>
+          <Col span="2">
+
+          </Col>
         </Row>
       </div>
       <Spin v-if="mosaicsLoading" size="large" fix class="absolute"></Spin>
@@ -85,7 +103,7 @@
      <template>
         <div class = "page_container">
           <Page
-            class = "page" 
+            class = "page"
             :total="(screenMosaic.length > 0 ? screenMosaic.length:filteredMosaics.length)"
             @on-change ="toggleChange"
             :page-size ="pageSize"
@@ -112,5 +130,5 @@ import { Deadline } from 'nem2-sdk';
     }
 </script>
 <style scoped lang="less">
- 
+
 </style>
