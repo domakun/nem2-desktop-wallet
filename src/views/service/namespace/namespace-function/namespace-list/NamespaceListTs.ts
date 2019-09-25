@@ -1,5 +1,5 @@
 import {formatSeconds} from '@/core/utils/utils.ts'
-import {Component, Vue} from 'vue-property-decorator'
+import {Component, Watch, Vue} from 'vue-property-decorator'
 import NamespaceEditDialog from './namespace-edit-dialog/NamespaceEditDialog.vue'
 import {mapState} from "vuex"
 import {networkConfig} from '@/config/index.ts'
@@ -48,10 +48,11 @@ export class NamespaceListTs extends Vue {
     namespaceSortType = namespaceSortType
     currentNamespacelist = []
     currentSortType = ''
+    isShowExpiredNamesapce = false
 
     get namespaceList() {
         const namespaceList = this.activeAccount.namespaces.map((item) => {
-            item.isShow = true
+
             switch (item.alias.type) {
                 case (AliasType.None):
                     item.aliasTarget = MosaicNamespaceStatusType.NOALIAS
@@ -190,8 +191,19 @@ export class NamespaceListTs extends Vue {
         this.page = page
     }
 
+    @Watch('isShowExpiredNamesapce')
+    onIsShowExpiredNamesapceChange() {
+        const {isShowExpiredNamesapce} = this
+        const {currentHeight, namespaceGracePeriodDuration} = this
+        this.currentNamespacelist = this.currentNamespacelist.map(item => {
+            item.isShow = isShowExpiredNamesapce || item.endHeight - currentHeight > namespaceGracePeriodDuration
+            return item
+        })
+    }
+
     created() {
         this.getSortType(namespaceSortType.byDuration)
     }
+
 
 }

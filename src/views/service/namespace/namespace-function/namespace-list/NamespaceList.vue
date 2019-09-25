@@ -7,6 +7,8 @@
       <div class="tips">{{$t('namespace_list_tips_2')}}</div>
     </div>
     <div class="namespace_list_table">
+
+
       <div class="table_head">
         <span @click="getSortType(namespaceSortType.byName)" class="namesapce_name">
           {{$t('namespace_name')}}
@@ -14,38 +16,50 @@
         </span>
         <span @click="getSortType(namespaceSortType.byDuration)" class="duration">
           {{$t('duration')}}
-             <Icon :class="namespaceSortType.byDuration == currentSortType?'active_sort_type':''" type="md-arrow-round-down"/>
+             <Icon :class="namespaceSortType.byDuration == currentSortType?'active_sort_type':''"
+                   type="md-arrow-round-down"/>
         </span>
         <span @click="getSortType(namespaceSortType.byOwnerShip)" class="is_active">
           {{$t('Control')}}
-             <Icon :class="namespaceSortType.byOwnerShip == currentSortType?'active_sort_type':''" type="md-arrow-round-down"/>
+             <Icon :class="namespaceSortType.byOwnerShip == currentSortType?'active_sort_type':''"
+                   type="md-arrow-round-down"/>
         </span>
         <span @click="getSortType(namespaceSortType.byBindType)" class="link">
           {{$t('link')}}
-             <Icon :class="namespaceSortType.byBindType == currentSortType?'active_sort_type':''" type="md-arrow-round-down"/>
+             <Icon :class="namespaceSortType.byBindType == currentSortType?'active_sort_type':''"
+                   type="md-arrow-round-down"/>
         </span>
         <span @click="getSortType(namespaceSortType.byBindInfo)" class="type">
           {{$t('type')}}
-             <Icon :class="namespaceSortType.byBindInfo == currentSortType?'active_sort_type':''" type="md-arrow-round-down"/>
+             <Icon :class="namespaceSortType.byBindInfo == currentSortType?'active_sort_type':''"
+                   type="md-arrow-round-down"/>
         </span>
         <span class="more"></span>
+
+
+        <div class="namespace_filter" @click="isShowExpiredNamesapce = !isShowExpiredNamesapce">
+          <img v-if="!isShowExpiredNamesapce" src="@/common/img/window/windowSelected.png">
+          <img v-else src="@/common/img/window/windowUnselected.png">
+          <span>{{$t('Hide_expired_namespaces')}}</span>
+        </div>
 
       </div>
       <Spin v-if="namespaceLoading" size="large" fix class="absolute"></Spin>
       <div class="table_body ">
-        <div class="table_body_item radius" v-if="n"
+        <div class=" radius"
              v-for=" n in currentNamespaceListByPage">
-          <span class="namesapce_name overflow_ellipsis">{{n.label}}</span>
-          <span class="duration overflow_ellipsis">
-            {{computeDuration(n) === StatusString.EXPIRED ? $t('overdue') : durationToTime(n.endHeight)}}
-          </span>
-          <span class="is_active overflow_ellipsis">
+          <div v-if="n&&n.isShow" class="table_body_item">
+            <span class="namesapce_name overflow_ellipsis">{{n.label}}</span>
+            <span class="duration overflow_ellipsis">
+              {{computeDuration(n) === StatusString.EXPIRED ? $t('overdue') : durationToTime(n.endHeight)}}
+            </span>
+            <span class="is_active overflow_ellipsis">
             <Icon v-if="n.isActive" type="md-checkmark"/>
             <Icon v-else type="md-close"/>
-          </span>
-          <span class="link overflow_ellipsis">{{n.aliasType}}</span>
-          <span class="type overflow_ellipsis">{{n.aliasTarget}}</span>
-          <span class="more overflow_ellipsis">
+            </span>
+            <span class="link overflow_ellipsis">{{n.aliasType}}</span>
+            <span class="type overflow_ellipsis">{{n.aliasTarget}}</span>
+            <span class="more overflow_ellipsis">
             <Poptip class="poptip_container" placement="top-end">
               <i class="moreFn"></i>
               <div slot="content" max-width="150" class="refresh_sub_container">
@@ -70,9 +84,12 @@
                 <img src="@/common/img/service/namespace/namespaceRefresh.png">
                 <span>{{$t('bind_address')}}</span>
               </span>
-              </div>
-            </Poptip>
+
+
+          </div>
+          </Poptip>
           </span>
+          </div>
         </div>
 
         <div v-if="namespaceList.length == 0" class="noData">

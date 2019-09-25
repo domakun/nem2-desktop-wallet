@@ -8,6 +8,7 @@
 
   .top_text {
     width: 100%;
+
     .head_title {
       color: #F65C5C;
       font-size: 16px;
@@ -26,6 +27,7 @@
   .namespace_list_table {
     width: calc(100% - 10px);
 
+
     .table_head,
     .table_body_item {
       height: 60px;
@@ -35,6 +37,9 @@
       position: relative;
       display: flex;
       align-items: center;
+      color: #222222;
+      background: rgba(247, 251, 252, 1);
+      margin: 5px 0;
 
       span {
         display: inline-block;
@@ -87,45 +92,54 @@
       }
     }
 
-    .table_body_item {
-      color: #222222;
-      position: relative;
-      background: rgba(247, 251, 252, 1);
-      margin: 5px 0;
+    .table_head {
+      background: none;
+    }
 
-      .moreFn {
-        display: inline-block;
-        width: 20px;
-        height: 5px;
-        padding: 10px 10px;
-        background-image: url("../../../../../common/img/service/moreFn.png");
-        background-size: 100% 20%;
-        background-repeat: no-repeat;
-        background-position-y: 10px;
-        cursor: pointer;
-      }
+    .moreFn {
+      display: inline-block;
+      width: 20px;
+      height: 5px;
+      padding: 10px 10px;
+      background-image: url("../../../../../common/img/service/moreFn.png");
+      background-size: 100% 20%;
+      background-repeat: no-repeat;
+      background-position-y: 10px;
+      cursor: pointer;
+    }
 
-      .poptip_container {
-        position: absolute;
-        z-index: 999;
-        .refresh_sub_container {
+    .poptip_container {
+      position: absolute;
+      z-index: 999;
+
+      .refresh_sub_container {
+        width: 80px;
+
+        .fnItem {
           width: 80px;
-          .fnItem {
-            width: 80px;
-            padding: 3px 5px;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            font-weight: 400;
-            color: rgba(102, 102, 102, 1);
+          padding: 3px 5px;
+          display: flex;
+          align-items: center;
+          font-size: 14px;
+          font-weight: 400;
+          color: rgba(102, 102, 102, 1);
 
-            img {
-              width: 14px;
-              height: 18px;
-              margin-right: 10px;
-            }
+          img {
+            width: 14px;
+            height: 18px;
+            margin-right: 10px;
           }
         }
+      }
+    }
+
+    .namespace_filter {
+      display: flex;
+      align-items: center;
+      img {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
       }
     }
   }
@@ -136,7 +150,9 @@
     bottom: 30px;
     justify-content: center;
   }
-.active_sort_type {
-  color: #18b566;
-}
+
+  .active_sort_type {
+    color: #18b566;
+  }
+
 }

@@ -726,4 +726,5 @@ export const en_US = {
     namespace_filter:'filter',
     namespace_expired: 'expired',
     namespace_Not_expired: 'Not expired',
+    Hide_expired_namespaces:'Hide expired namespaces'
 }

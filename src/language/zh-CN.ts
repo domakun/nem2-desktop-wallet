@@ -167,7 +167,7 @@ export const zh_CN = {
     send_and_receive_XEM_almost_instantly_in_just_1_minute: '只需1分钟的时间，几乎立即发送和接收XEM !',
     provides_an_editable_chain_on_protocol_in_a_multi_signature_account_which_is_the_best_way_to_store_funds_and_achieve_a_common_account: '多重签名账户中提供可编辑的链上协议，是存储资金，实现共有账户的最佳实现方式。',
     a_namespace_is_a_domain_name_that_stores_mosaics_Each_namespace_is_unique_within_a_blockchain_and_mosaics_can_be_defined_and_authenticated_on_a_multi_level_sub_namespace: '命名空间是存储马赛克的域名，每个命名空间在区块链中唯一，可在多层子命名空间上定义和认证马赛克。',
-    NEM_Mosaic_is_a_smart_asset_with_rich_attributes_and_features_To_create_a_mosaic_you_must_provision_the_root_namespace_for_your_account: 'NEM马赛克是具备丰富属性和功能的智能资产。如需创建马赛克，必须为账户置备根命名空间。',
+    NEM_Mosaic_is_a_smart_asset_with_rich_attributes_and_features_To_create_a_mosaic_you_must_provision_the_root_namespace_for_your_account: 'NEM马赛克是具备丰富属性和功能的智能资产。',
     entrusted_harvesting_is_a_way_to_achieve_remote_online_mining_without_having_to_keep_the_original_account_open: '委托收获是可以实现远程在线“挖矿”而不必保持原账号开启的途径',
     use_the_NEM_Apostille_service_to_create_blockchain_notarized_timestamps_to_track_and_audit_file_authentication_status: '使用NEM Apostille服务创建区块链公证时间戳,跟踪和审计文件认证状态。',
     assign_tags_to_addresses_to_easily_track_contacts: '将标签分配给地址以轻松跟踪联系人',
@@ -707,5 +707,6 @@ export const zh_CN = {
     namespace_filter: '筛选',
     namespace_expired: '已过期',
     namespace_Not_expired: '未过期',
-    update_wallet_name:'修改'
+    update_wallet_name:'修改',
+    Hide_expired_namespaces:'隐藏过期命名空间'
 }
