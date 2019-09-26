@@ -5,154 +5,158 @@
   flex-direction: column;
   align-items: center;
 
+  .left_container {
 
-  .top_text {
-    width: 100%;
 
-    .head_title {
-      color: #F65C5C;
-      font-size: 16px;
-      line-height: 30px;
+    .top_text {
+      width: 100%;
 
+      .head_title {
+        color: #F65C5C;
+        font-size: 16px;
+        line-height: 30px;
+
+      }
+
+      .tips {
+        font-size: 16px;
+        font-weight: bold;
+        color: #222222;
+        line-height: 30px;
+      }
     }
 
-    .tips {
-      font-size: 16px;
-      font-weight: bold;
-      color: #222222;
-      line-height: 30px;
-    }
-  }
-
-  .namespace_list_table {
-    width: calc(100% - 10px);
+    .namespace_list_table {
+      width: calc(100% - 10px);
 
 
-    .table_head,
-    .table_body_item {
-      height: 60px;
-      font-size: 14px;
-      font-weight: 400;
-      color: rgba(153, 153, 153, 1);
-      position: relative;
-      display: flex;
-      align-items: center;
-      color: #222222;
-      background: rgba(247, 251, 252, 1);
-      margin: 5px 0;
+      .table_head,
+      .table_body_item {
+        height: 60px;
+        font-size: 14px;
+        font-weight: 400;
+        color: rgba(153, 153, 153, 1);
+        position: relative;
+        display: flex;
+        align-items: center;
+        color: #222222;
+        background: rgba(247, 251, 252, 1);
+        margin: 5px 0;
 
-      span {
-        display: inline-block;
-      }
+        span {
+          display: inline-block;
+        }
 
-      img {
-        width: 20px;
-        height: 4px;
-      }
+        img {
+          width: 20px;
+          height: 4px;
+        }
 
-      .namesapce_name {
-        padding-left: 87px;
-        width: 300px;
-      }
+        .namesapce_name {
+          padding-left: 87px;
+          width: 300px;
+        }
 
-      .is_active {
-        width: 150px;
-      }
+        .is_active {
+          width: 150px;
+        }
 
-      .link {
-        width: 100px;
-      }
+        .link {
+          width: 100px;
+        }
 
-      .type {
-        width: 400px;
-      }
+        .type {
+          width: 400px;
+        }
 
-      .duration {
-        width: 180px;
-      }
+        .duration {
+          width: 180px;
+        }
 
-      .more {
-        width: 80px;
-      }
+        .more {
+          width: 80px;
+        }
 
-      .searchList {
-        float: right;
-        position: absolute;
-        top: 15px;
-        right: 100px;
+        .searchList {
+          float: right;
+          position: absolute;
+          top: 15px;
+          right: 100px;
 
-        span:hover {
-          cursor: pointer;
+          span:hover {
+            cursor: pointer;
+          }
+        }
+
+        .dropList {
+          height: 40px;
+          margin-left: 100px;
         }
       }
 
-      .dropList {
-        height: 40px;
-        margin-left: 100px;
+      .table_head {
+        background: none;
       }
-    }
 
-    .table_head {
-      background: none;
-    }
+      .moreFn {
+        display: inline-block;
+        width: 20px;
+        height: 5px;
+        padding: 10px 10px;
+        background-image: url("../../../../../common/img/service/moreFn.png");
+        background-size: 100% 20%;
+        background-repeat: no-repeat;
+        background-position-y: 10px;
+        cursor: pointer;
+      }
 
-    .moreFn {
-      display: inline-block;
-      width: 20px;
-      height: 5px;
-      padding: 10px 10px;
-      background-image: url("../../../../../common/img/service/moreFn.png");
-      background-size: 100% 20%;
-      background-repeat: no-repeat;
-      background-position-y: 10px;
-      cursor: pointer;
-    }
+      .poptip_container {
+        position: absolute;
+        z-index: 999;
 
-    .poptip_container {
-      position: absolute;
-      z-index: 999;
-
-      .refresh_sub_container {
-        width: 80px;
-
-        .fnItem {
+        .refresh_sub_container {
           width: 80px;
-          padding: 3px 5px;
-          display: flex;
-          align-items: center;
-          font-size: 14px;
-          font-weight: 400;
-          color: rgba(102, 102, 102, 1);
 
-          img {
-            width: 14px;
-            height: 18px;
-            margin-right: 10px;
+          .fnItem {
+            width: 80px;
+            padding: 3px 5px;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 400;
+            color: rgba(102, 102, 102, 1);
+
+            img {
+              width: 14px;
+              height: 18px;
+              margin-right: 10px;
+            }
           }
         }
       }
-    }
 
-    .namespace_filter {
-      display: flex;
-      align-items: center;
-      img {
-        width: 20px;
-        height: 20px;
-        margin-right: 10px;
+      .namespace_filter {
+        display: flex;
+        align-items: center;
+
+        img {
+          width: 20px;
+          height: 20px;
+          margin-right: 10px;
+        }
       }
     }
-  }
 
-  .page_list_container {
-    display: flex;
-    position: absolute;
-    bottom: 30px;
-    justify-content: center;
-  }
+    .page_list_container {
+      display: flex;
+      position: absolute;
+      bottom: 30px;
+      justify-content: center;
+    }
 
-  .active_sort_type {
-    color: #18b566;
-  }
+    .active_sort_type {
+      color: #18b566;
+    }
 
+  }
 }
