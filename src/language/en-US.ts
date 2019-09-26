@@ -34,6 +34,8 @@ export const en_US = {
     successful_operation: 'Request succeeded',
     operation_failed: 'Request Failed',
     address_alias_not_exist: 'Address alias not exist',
+    wrong_wallet_name_error: 'Wallet name is incorrect',
+
     // vote
     over: 'Over',
     initiation_address: 'Initiation address',
@@ -53,6 +55,7 @@ export const en_US = {
     // the_more_you_set_the_cost_the_higher_the_processing_priority: 'Increasing the fee makes the transaction processing quicker.(1000000 gas = 1.0xem)',
     the_more_you_set_the_cost_the_higher_the_processing_priority: '',
     create: 'Create',
+    hardware: 'Hardware',
     all: 'All',
     processing: 'Processing',
     already_involved: 'Voted',
@@ -108,6 +111,7 @@ export const en_US = {
     dash_board: 'Board',
     market: 'Market',
     transfer: 'Transfer',
+    Multisig_transfer: 'Multisig transfer',
     receipt: 'Receipts',
     remote: 'Remote',
     mosaic: 'Mosaic',
@@ -264,6 +268,7 @@ export const en_US = {
     alias_selection: 'Alias selection',
     password: 'Password',
     please_enter_your_wallet_password: 'Please enter your wallet password',
+    please_confirm_your_wallet_name: 'Please confirm your wallet name',
     please_enter_your_new_wallet_name: 'Please enter your new wallet name',
     bind: 'Bind',
     mosaic_alias_operation: 'Mosaic alias operation',
@@ -598,6 +603,7 @@ export const en_US = {
     success: 'The operation was successful ',
     Transaction_sending: 'The node has received the transaction',
     Transaction_Reception: 'New transaction confirmed',
+    Multisig_Transaction_Reception: 'New multisig transaction confirmed',
     co_signers_amount_less_than_0: 'The number of co-signers cannot be less than 1',
     min_approval_amount_less_than_0: 'Min approval cannot be less than 1',
     min_removal_amount_less_than_0: 'Min removal cannot be less than 1',
@@ -606,7 +612,7 @@ export const en_US = {
     min_removal_amount_illegal: 'Min removal must be a number',
     current: 'Current',
     There_are_no_more_accounts_under_this_account: 'There are no more multisig Api under this account.',
-    There_are_no_more_accounts_under_this_account_or_cosigner: 'There are no more multisig Api or cosigner under this account.',
+    There_are_no_more_accounts_under_this_account_or_cosigner: 'This account is not a cosignatory nor a multisig account.',
     This_account_is_already_a_multi_sign_account: 'This account is already a multisig account',
     mosaic_hex_format_error: 'Mosaic hex format error',
     alias_name_format_error: 'alias name format error',
@@ -675,7 +681,7 @@ export const en_US = {
 
     This_password_is_used_for_importing_the_keystore_file: 'This password is the password for decrypting the Keystore and is used for importing the keystore file. Please remember it.',
     timestamp: 'Timestamp',
-    sender: 'sender',
+    sender: 'From',
     HINT_mosaic_list: 'Mosaics for sending',
     inner_transaction: 'Inner',
     LABEL_mosaic_list: 'Mosaic list',
@@ -710,6 +716,14 @@ export const en_US = {
     set_wallet_path: 'Set wallet path',
     please_set_your_wallet_path: 'Please set your wallet path',
     please_accurately_copy_the_hd_wallet_path: 'Please accurately copy the hd-wallet path',
+
+    //trezor
+    connect_trezor_title: 'Connect to a Trezor Hardware Wallet',
+    connect_trezor_prompt: 'Connect to Trezor',
+    connect_trezor_description: 'Import a wallet from a Trezor device',
+    trezor_description: 'Trezor will keep your private keys secure and only expose them for signing transactions',
+    choose_account_index: 'Choose account index (0 - 1,000,000)',
+
     Please_choose_account_name: 'Please choose account name',
     account_password: 'Account password',
     hint: 'Hint',
