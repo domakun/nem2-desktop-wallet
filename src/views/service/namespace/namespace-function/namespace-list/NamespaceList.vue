@@ -10,33 +10,36 @@
         <div class="table_head">
         <span @click="getSortType(namespaceSortType.byName)" class="namesapce_name">
           {{$t('namespace_name')}}
-          <Icon v-if="namespaceSortType.byName == currentSortType" class = "active_sort_type" type="md-arrow-dropdown"/>
+          <Icon v-if="namespaceSortType.byName == currentSortType" class="active_sort_type" type="md-arrow-dropdown"/>
         </span>
           <span @click="getSortType(namespaceSortType.byDuration)" class="duration">
           {{$t('duration')}}
-             <Icon v-if="namespaceSortType.byDuration == currentSortType" class = "active_sort_type" type="md-arrow-dropdown"/>
+             <Icon v-if="namespaceSortType.byDuration == currentSortType" class="active_sort_type"
+                   type="md-arrow-dropdown"/>
         </span>
           <span @click="getSortType(namespaceSortType.byOwnerShip)" class="is_active">
           {{$t('Control')}}
-             <Icon v-if="namespaceSortType.byOwnerShip == currentSortType" class = "active_sort_type" type="md-arrow-dropdown"/>
+             <Icon v-if="namespaceSortType.byOwnerShip == currentSortType" class="active_sort_type"
+                   type="md-arrow-dropdown"/>
         </span>
           <span @click="getSortType(namespaceSortType.byBindType)" class="link">
           {{$t('link')}}
-             <Icon v-if="namespaceSortType.byBindType == currentSortType" class = "active_sort_type" type="md-arrow-dropdown"/>
+             <Icon v-if="namespaceSortType.byBindType == currentSortType" class="active_sort_type"
+                   type="md-arrow-dropdown"/>
         </span>
           <span @click="getSortType(namespaceSortType.byBindInfo)" class="type">
           {{$t('type')}}
-             <Icon v-if="namespaceSortType.byBindInfo == currentSortType" class = "active_sort_type" type="md-arrow-dropdown"/>
+             <Icon v-if="namespaceSortType.byBindInfo == currentSortType" class="active_sort_type"
+                   type="md-arrow-dropdown"/>
         </span>
           <span class="more"></span>
 
-
+          <!--       this is   a  filter-->
           <!--          <div class="namespace_filter" @click="toggleIsShowExpiredNamesapce()">-->
           <!--            <img v-if="!isShowExpiredNamesapce" src="@/common/img/window/windowSelected.png">-->
           <!--            <img v-else src="@/common/img/window/windowUnselected.png">-->
           <!--            <span>{{$t('Hide_expired_namespaces')}}</span>-->
           <!--          </div>-->
-
 
         </div>
         <Spin v-if="namespaceLoading" size="large" fix class="absolute"></Spin>
@@ -84,8 +87,7 @@
           </span>
             </div>
           </div>
-
-          <div v-if="namespaceList.length == 0" class="noData">
+          <div v-if="currentNamespaceListByPage.length == 0" class="noData">
             <p>{{$t('no_data')}}</p>
           </div>
         </div>

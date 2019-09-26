@@ -201,9 +201,19 @@ export class NamespaceListTs extends Vue {
         this.isShowExpiredNamesapce = !isShowExpiredNamesapce
     }
 
-    created() {
+    @Watch('namespaceList', {deep: true})
+    onNamespaceListChange() {
+
+        this.initNamespace()
+    }
+
+    initNamespace() {
         this.getSortType(namespaceSortType.byDuration)
         this.toggleIsShowExpiredNamesapce()
+    }
+
+    created() {
+        this.initNamespace()
     }
 
 
