@@ -10,27 +10,23 @@
         <div class="table_head">
         <span @click="getSortType(namespaceSortType.byName)" class="namesapce_name">
           {{$t('namespace_name')}}
-          <Icon :class="namespaceSortType.byName == currentSortType?'active_sort_type':''" type="md-arrow-round-down"/>
+          <Icon v-if="namespaceSortType.byName == currentSortType" class = "active_sort_type" type="md-arrow-dropdown"/>
         </span>
           <span @click="getSortType(namespaceSortType.byDuration)" class="duration">
           {{$t('duration')}}
-             <Icon :class="namespaceSortType.byDuration == currentSortType?'active_sort_type':''"
-                   type="md-arrow-round-down"/>
+             <Icon v-if="namespaceSortType.byDuration == currentSortType" class = "active_sort_type" type="md-arrow-dropdown"/>
         </span>
           <span @click="getSortType(namespaceSortType.byOwnerShip)" class="is_active">
           {{$t('Control')}}
-             <Icon :class="namespaceSortType.byOwnerShip == currentSortType?'active_sort_type':''"
-                   type="md-arrow-round-down"/>
+             <Icon v-if="namespaceSortType.byOwnerShip == currentSortType" class = "active_sort_type" type="md-arrow-dropdown"/>
         </span>
           <span @click="getSortType(namespaceSortType.byBindType)" class="link">
           {{$t('link')}}
-             <Icon :class="namespaceSortType.byBindType == currentSortType?'active_sort_type':''"
-                   type="md-arrow-round-down"/>
+             <Icon v-if="namespaceSortType.byBindType == currentSortType" class = "active_sort_type" type="md-arrow-dropdown"/>
         </span>
           <span @click="getSortType(namespaceSortType.byBindInfo)" class="type">
           {{$t('type')}}
-             <Icon :class="namespaceSortType.byBindInfo == currentSortType?'active_sort_type':''"
-                   type="md-arrow-round-down"/>
+             <Icon v-if="namespaceSortType.byBindInfo == currentSortType" class = "active_sort_type" type="md-arrow-dropdown"/>
         </span>
           <span class="more"></span>
 
