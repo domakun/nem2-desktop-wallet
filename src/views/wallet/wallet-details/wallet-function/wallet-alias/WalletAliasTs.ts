@@ -64,7 +64,6 @@ export class WalletAliasTs extends Vue {
             address: this.aliasList[index].alias.address,
             alias: '',
             tag: ''
-
         }
         this.isShowDialog = true
     }
@@ -119,6 +118,7 @@ export class WalletAliasTs extends Vue {
                 address: address
             })
         this.closeModel()
+        this.initLocalAlias()
     }
 
     formatAddress(address) {
