@@ -542,6 +542,7 @@ export const en_US = {
     undefined: 'Undefined',
     namespace_duration_tip_1: 'The duration is calculated in blocks, one block is 12 seconds, one block = 1XEM, and the maximum validity period is 365 days.',
     rent: 'Rent',
+    Namespace_and_Sub_Namespace: 'Namespace and Sub Namespace',
     Update_namespace_prompts: 'Update namespace prompts',
     namespace_list_tips_1: '1. Only the root namespace needs to be updated. All subspace namespaces will be automatically expanded after the root namespace is expanded;',
     namespace_list_tips_2: '2. According to the lease agreement, the contract with the namespace can be up to one year, and the contract can be renewed one month before or after its due date. If the namespace is not expanded in time, the name created under it and All subspaces of the mosaic will be lost;',
@@ -749,5 +750,13 @@ export const en_US = {
     attribute: 'Attribute',
     mosaic_attribute_text: 'Each mosaic has a unique identifier and a set of configurable properties, This makes it very flexible to adapt to many scenarios.',
     mosaic_attribute_text_2: 'You can bind a specific namespace to make it more readable and usable.',
-    importance:'importance'
+    importance:'importance',
+    Under_the_current_wallet: 'Under the current wallet, namespace and sub-namespace asset list, transaction management list',
+    define:'Define',
+    A_namespace_starts_with_a_name_that_you_choose_similar_to_an_internet_domain_name:'A namespace starts with a name that you choose, similar to an internet domain name. ',
+    Namespace_description:'Namespace description',
+    The_name_must_appear_as_unique_in_the_network_and_may_have_a_maximum_length_of_64_characters:' The name must appear as unique in the network, and may have a maximum length of 64 characters.',
+    Namespaces_can_have_up_to_3_levels:'Namespaces can have up to 3 levels, a namespace and its two levels of sub namespace domains. A sub namespace sub namespace does not have a duration by its own; it inherits the duration from its parent namespace.',
+    scenes_to_be_used :'Scenes to be used',
+    Used_to_bind_a_wallet_address:'Used to bind a wallet address as its transfer alias; used to set up an account filter; used to bind a Mosaic ID.',
 }
