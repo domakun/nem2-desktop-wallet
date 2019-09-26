@@ -6,6 +6,17 @@
         <p class="head_title">{{$t('Namespace_and_Sub_Namespace')}}</p>
         <p class="tips">{{$t('Under_the_current_wallet')}}</p>
       </div>
+
+      <div class="tips_icon">
+        <Poptip width="290" placement="bottom">
+          <img src="@/common/img/service/namespace/namespaceTipIcon.png" alt="">
+          <div class="tip_text" slot="content">
+            <p>{{$t('namespace_list_tips_1')}}</p>
+            <p>{{$t('namespace_list_tips_2')}}</p>
+          </div>
+        </Poptip>
+
+      </div>
       <div class="namespace_list_table">
         <div class="table_head">
         <span @click="getSortType(namespaceSortType.byName)" class="namesapce_name">
@@ -33,14 +44,12 @@
                    type="md-arrow-dropdown"/>
         </span>
           <span class="more"></span>
-
           <!--       this is   a  filter-->
           <!--          <div class="namespace_filter" @click="toggleIsShowExpiredNamesapce()">-->
           <!--            <img v-if="!isShowExpiredNamesapce" src="@/common/img/window/windowSelected.png">-->
           <!--            <img v-else src="@/common/img/window/windowUnselected.png">-->
           <!--            <span>{{$t('Hide_expired_namespaces')}}</span>-->
           <!--          </div>-->
-
         </div>
         <Spin v-if="namespaceLoading" size="large" fix class="absolute"></Spin>
         <div class="table_body ">

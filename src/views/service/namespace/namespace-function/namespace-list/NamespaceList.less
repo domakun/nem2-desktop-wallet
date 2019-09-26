@@ -9,7 +9,47 @@
     display: flex;
     flex-direction: column;
     background-color: white;
+    position: relative;
 
+
+    .tips_icon {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+
+      .tip_text {
+        padding: 5px 5px;
+
+        p {
+          margin-top: 10px;
+          font-size: 12px;
+          font-weight: 400;
+          line-height: 25px;
+          color: rgba(255, 255, 255, 1);
+        }
+      }
+
+      .ivu-poptip-body-content {
+        white-space: normal;
+      }
+
+      .ivu-poptip-arrow:after {
+        border-bottom-color: #26B4B0;
+      }
+
+      .ivu-poptip-inner {
+        background-color: #26B4B0;
+        color: white;
+      }
+
+      .ivu-poptip-title:after {
+        display: none;
+      }
+
+      img {
+        width: 29px;
+      }
+    }
 
     .top_text {
       width: 100%;
@@ -118,6 +158,17 @@
         position: absolute;
         z-index: 999;
 
+        .ivu-poptip-popper {
+          top: unset !important;
+          bottom: 40px !important;
+          right: 120px;
+
+        }
+
+        .ivu-poptip-inner {
+          width: 180px;
+        }
+
         .refresh_sub_container {
           width: 80px;
 
@@ -164,10 +215,12 @@
     .ivu-page-item {
       border: none;
     }
+
     .ivu-page-item-active a,
     .ivu-page-item-active:hover a {
       color: #26B4B0;
     }
+
     .ivu-page-next, .ivu-page-prev {
       display: none;
     }
@@ -208,6 +261,7 @@
       color: #20B5AC;
     }
   }
+
   .ivu-icon-md-arrow-dropdown {
     font-size: 30px;
     position: absolute;
