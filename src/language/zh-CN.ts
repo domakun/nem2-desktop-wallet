@@ -720,5 +720,5 @@ export const zh_CN = {
     attribute:'属性',
     mosaic_attribute_text:'每个马赛克都有一个唯一的ID和一组可配置的属性，这让它能适应很 多场景而变得非常灵活。',
     mosaic_attribute_text_2:'可以为其绑定特定的命名空间，让其更具可读性和使用性。',
-    importance:'重要性'
+    importance:'重要性',
 }

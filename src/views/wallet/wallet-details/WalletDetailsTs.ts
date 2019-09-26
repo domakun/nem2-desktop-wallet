@@ -1,6 +1,6 @@
 import {copyTxt} from '@/core/utils/utils.ts'
 import {QRCodeGenerator} from 'nem2-qr-library'
-import {Address, MultisigAccountInfo} from 'nem2-sdk'
+import {Address, AddressAlias, MultisigAccountInfo} from 'nem2-sdk'
 import {Component, Vue, Watch} from 'vue-property-decorator'
 import WalletAlias from './wallet-function/wallet-alias/WalletAlias.vue'
 import WalletFilter from './wallet-function/wallet-filter/WalletFilter.vue'
@@ -11,6 +11,8 @@ import WalletUpdatePassword from './wallet-function/wallet-update-password/Walle
 import {mapState} from "vuex"
 import {AppWallet} from '@/core/model'
 import {getCurrentImportance} from '@/core/model/AppWallet.ts'
+import {EmptyAlias} from "nem2-sdk/dist/src/model/namespace/EmptyAlias"
+import {networkConfig} from "@/config"
 
 @Component({
     components: {
@@ -56,9 +58,29 @@ export class WalletDetailsTs extends Vue {
         return this.activeAccount.generationHash
     }
 
+    get currentHeight() {
+        return this.app.chainStatus.currentHeight
+    }
+
+    get namespaceList() {
+        return this.activeAccount.namespaces
+    }
+
     get importance() {
         return this.activeAccount.wallet.importance + '0'
     }
+
+    get getSelfAlias() {
+        const {currentHeight} = this
+        return this.namespaceList
+            .filter(namespace =>
+            namespace.alias instanceof AddressAlias &&
+            //@ts-ignore
+            Address.createFromEncoded(namespace.alias.address).address == this.getAddress
+        )
+            .map(item=>item.label)
+    }
+
 
     showFunctionIndex(index) {
         this.functionShowList = [false, false, false]

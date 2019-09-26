@@ -1,11 +1,13 @@
 import {Message} from "@/config/index.ts"
-import {Component, Vue, Watch} from 'vue-property-decorator'
+import {Component, Vue} from 'vue-property-decorator'
 import {EmptyAlias} from "nem2-sdk/dist/src/model/namespace/EmptyAlias"
 import {NamespaceApiRxjs} from "@/core/api/NamespaceApiRxjs.ts"
 import {Address, AddressAlias, AliasActionType, NamespaceId, Password} from "nem2-sdk"
 import {formatAddress, formatSeconds} from "@/core/utils/utils.ts"
 import {mapState} from "vuex"
 import {AppWallet} from "@/core/model"
+import {networkConfig} from "@/config/index"
+import {getAbsoluteMosaicAmount} from "@/core/utils"
 
 @Component({
     computed: {
@@ -34,6 +36,10 @@ export class WalletAliasTs extends Vue {
         return this.activeAccount.wallet
     }
 
+    get xemDivisibility() {
+        return this.activeAccount.xemDivisibility
+    }
+
     get namespaceList() {
         return this.activeAccount.namespaces
     }
@@ -46,7 +52,7 @@ export class WalletAliasTs extends Vue {
         return this.activeAccount.node
     }
 
-    get nowBlockHeight() {
+    get currentHeight() {
         return this.app.chainStatus.currentHeight
     }
 
@@ -55,8 +61,10 @@ export class WalletAliasTs extends Vue {
     }
 
     get aliasActionTypeList() {
-        return this.namespaceList.filter(namespace => namespace.alias instanceof EmptyAlias)
+        const {currentHeight} = this
+        return this.namespaceList.filter(namespace => namespace.alias instanceof EmptyAlias && namespace.endHeight - currentHeight > networkConfig.namespaceGracePeriodDuration)
     }
+
 
     showUnLink(index) {
         this.aliasListIndex = index
@@ -131,16 +139,16 @@ export class WalletAliasTs extends Vue {
     }
 
     addressAlias(type) {
+        const fee = getAbsoluteMosaicAmount(this.formItem.fee, this.xemDivisibility)
         let transaction = new NamespaceApiRxjs().addressAliasTransaction(
             type ? AliasActionType.Link : AliasActionType.Unlink,
             new NamespaceId(this.formItem.alias),
             Address.createFromRawAddress(this.formItem.address),
             this.getWallet.networkType,
-            this.formItem.fee
+            fee
         )
         const {node, generationHash} = this
         const password = new Password(this.formItem.password)
-
         new AppWallet(this.getWallet).signAndAnnounceNormal(password, node, generationHash, [transaction], this)
         this.closeModel()
     }
@@ -149,21 +157,14 @@ export class WalletAliasTs extends Vue {
         return formatAddress(address)
     }
 
-    computeDuration(duration) {
-        let expireTime = duration - this.nowBlockHeight > 0 ? this.durationToTime(duration - this.nowBlockHeight) : 'Expired'
+    computeDuration(endHeight) {
+        let expireTime = endHeight > this.currentHeight ? this.durationToTime(endHeight - this.currentHeight - networkConfig.namespaceGracePeriodDuration) : 'Expired'
         return expireTime
     }
 
     durationToTime(duration) {
         const durationNum = Number(duration)
         return formatSeconds(durationNum * 12)
-
     }
 
-    // @Watch('formItem', {immediate: true, deep: true})
-    // onFormItemChange() {
-    //     const {address, alias, password, fee} = this.formItem
-    //     // isCompleteForm
-    //     this.isCompleteForm = address !== '' && alias !== '' && password !== '' && fee > 0
-    // }
 }

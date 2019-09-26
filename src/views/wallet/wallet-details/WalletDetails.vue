@@ -36,12 +36,12 @@
               <i class="copyIcon" @click="copy(wallet.address)"><img
                       src="@/common/img/wallet/copyIcon.png"></i>
             </p>
-            <!--            <p>-->
-            <!--              <span class="tit">{{$t('publickey')}}</span>-->
-            <!--              <span class="walletPublicKey">{{wallet.publicKey}}</span>-->
-            <!--              <i class="copyIcon" @click="copy(wallet.publicKey)"><img-->
-            <!--                      src="@/common/img/wallet/copyIcon.png"></i>-->
-            <!--            </p>-->
+            <p>
+              <span class="tit">{{$t('alias')}}</span>
+              <span class="walletPublicKey">{{getSelfAlias.join(',')||'-'}}</span>
+              <!--              <i class="copyIcon" @click="copy(wallet.publicKey)"><img-->
+              <!--                      src="@/common/img/wallet/copyIcon.png"></i>-->
+            </p>
           </div>
         </Col>
         <Col span="6">

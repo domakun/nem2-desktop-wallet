@@ -147,7 +147,7 @@ export const networkConfig = {
     maxNamespaceDepth: 3,
     minNamespaceDuration: "1m",
     maxNamespaceDuration: "365d",
-    namespaceGracePeriodDuration: 432000,//s
+    namespaceGracePeriodDuration: 156000,//s
     reservedRootNamespaceNames: ["xem", "nem", "user", "account", "org", "com", "biz", "net", "edu", "mil", "gov", "info"],
     testMnemonicStirng: 'this is a test string his is a test string this is',
     namespaceRentalFeeSinkPublicKey: "3E82E1C1E4A75ADAA3CBA8C101C3CD31D9817A2EB966EB3B511FB2ED45B8E262",
