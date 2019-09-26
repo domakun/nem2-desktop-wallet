@@ -542,6 +542,7 @@ export const en_US = {
     undefined: 'Undefined',
     namespace_duration_tip_1: 'The duration is calculated in blocks, one block is 12 seconds, one block = 1XEM, and the maximum validity period is 365 days.',
     rent: 'Rent',
+    Namespace_and_Sub_Namespace: 'Namespace and Sub Namespace',
     Update_namespace_prompts: 'Update namespace prompts',
     namespace_list_tips_1: '1. Only the root namespace needs to be updated. All subspace namespaces will be automatically expanded after the root namespace is expanded;',
     namespace_list_tips_2: '2. According to the lease agreement, the contract with the namespace can be up to one year, and the contract can be renewed one month before or after its due date. If the namespace is not expanded in time, the name created under it and All subspaces of the mosaic will be lost;',
@@ -741,5 +742,7 @@ export const en_US = {
     namespace_expired: 'Expired',
     namespace_Not_expired: 'Not expired',
     Hide_expired_namespaces: 'Expired namespaces',
-    Mosaic_alias:'Mosaic alias'
+    Mosaic_alias: 'Mosaic alias',
+    Under_the_current_wallet: 'Under the current wallet, namespace and sub-namespace asset list, transaction management list',
+
 }

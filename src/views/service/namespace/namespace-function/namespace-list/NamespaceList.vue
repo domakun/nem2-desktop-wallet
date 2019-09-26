@@ -1,16 +1,12 @@
 <template>
   <div class="namespace_list_container secondary_page_animate">
-
-    <div class="left_container">
+    <div class="left_container radius">
       <Spin v-if="namespaceLoading" size="large" fix class="absolute"></Spin>
       <div class="top_text">
-        <div class="head_title">{{$t('Update_namespace_prompts')}}</div>
-        <div class="tips">{{$t('namespace_list_tips_1')}}</div>
-        <div class="tips">{{$t('namespace_list_tips_2')}}</div>
+        <p class="head_title">{{$t('Namespace_and_Sub_Namespace')}}</p>
+        <p class="tips">{{$t('Under_the_current_wallet')}}</p>
       </div>
       <div class="namespace_list_table">
-
-
         <div class="table_head">
         <span @click="getSortType(namespaceSortType.byName)" class="namesapce_name">
           {{$t('namespace_name')}}
@@ -39,11 +35,11 @@
           <span class="more"></span>
 
 
-          <div class="namespace_filter" @click="toggleIsShowExpiredNamesapce()">
-            <img v-if="!isShowExpiredNamesapce" src="@/common/img/window/windowSelected.png">
-            <img v-else src="@/common/img/window/windowUnselected.png">
-            <span>{{$t('Hide_expired_namespaces')}}</span>
-          </div>
+          <!--          <div class="namespace_filter" @click="toggleIsShowExpiredNamesapce()">-->
+          <!--            <img v-if="!isShowExpiredNamesapce" src="@/common/img/window/windowSelected.png">-->
+          <!--            <img v-else src="@/common/img/window/windowUnselected.png">-->
+          <!--            <span>{{$t('Hide_expired_namespaces')}}</span>-->
+          <!--          </div>-->
 
 
         </div>
@@ -102,6 +98,18 @@
       <div class="page_list_container">
         <Page :total="currentNamespacelist.length" :page-size="pageSize" @on-change="handleChange"></Page>
       </div>
+    </div>
+
+    <div class="right_continer radius">
+      <p class="right_continer_head">{{$t('namespace')}}</p>
+      <p class="second_head">{{$t('define')}}</p>
+      <p class="green">{{$t('A_namespace_starts_with_a_name_that_you_choose_similar_to_an_internet_domain_name')}}</p>
+      <p class="second_head">{{$t('Namespace_description')}}</p>
+      <p class="green">
+        {{$t('The_name_must_appear_as_unique_in_the_network_and_may_have_a_maximum_length_of_64_characters')}}</p>
+      <p>{{$t('Namespaces_can_have_up_to_3_levels')}}</p>
+      <p class="second_head">{{$t('scenes_to_be_used')}}</p>
+      <p>{{$t('Used_to_bind_a_wallet_address')}}</p>
     </div>
 
     <NamespaceEditDialog

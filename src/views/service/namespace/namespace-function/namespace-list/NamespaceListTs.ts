@@ -48,7 +48,7 @@ export class NamespaceListTs extends Vue {
     namespaceSortType = namespaceSortType
     currentNamespacelist = []
     currentSortType = ''
-    isShowExpiredNamesapce = false
+    isShowExpiredNamesapce = true
     isShowMosaicAlias = false
     dataLength = 0
 
