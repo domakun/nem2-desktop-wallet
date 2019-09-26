@@ -11,11 +11,11 @@ import WalletUpdatePassword from './wallet-function/wallet-update-password/Walle
 import {mapState} from "vuex"
 import {AppWallet} from '@/core/model'
 import {getCurrentImportance} from '@/core/model/AppWallet.ts'
-import {EmptyAlias} from "nem2-sdk/dist/src/model/namespace/EmptyAlias"
-import {networkConfig} from "@/config"
+import TheBindForm from '@/views/wallet/wallet-details/wallet-function/the-bind-form/TheBindForm.vue'
 
 @Component({
     components: {
+        TheBindForm,
         MnemonicDialog,
         PrivatekeyDialog,
         KeystoreDialog,
@@ -39,6 +39,7 @@ export class WalletDetailsTs extends Vue {
     showKeystoreDialog: boolean = false
     showPrivatekeyDialog: boolean = false
     functionShowList = [true, false]
+    isShowBindDialog = false
 
     get wallet(): AppWallet {
         return this.activeAccount.wallet
@@ -74,11 +75,11 @@ export class WalletDetailsTs extends Vue {
         const {currentHeight} = this
         return this.namespaceList
             .filter(namespace =>
-            namespace.alias instanceof AddressAlias &&
-            //@ts-ignore
-            Address.createFromEncoded(namespace.alias.address).address == this.getAddress
-        )
-            .map(item=>item.label)
+                namespace.alias instanceof AddressAlias &&
+                //@ts-ignore
+                Address.createFromEncoded(namespace.alias.address).address == this.getAddress
+            )
+            .map(item => item.label)
     }
 
 
@@ -136,6 +137,10 @@ export class WalletDetailsTs extends Vue {
     init() {
         this.setQRCode(this.getAddress)
         getCurrentImportance(this.$store)
+    }
+
+    closeBindDialog() {
+        this.isShowBindDialog = false
     }
 
     @Watch('getAddress')

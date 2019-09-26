@@ -38,9 +38,10 @@
             </p>
             <p>
               <span class="tit">{{$t('alias')}}</span>
+              <!--              <span class=" alias_delete pointer"></span>-->
+              <span class="  alias_add pointer" @click="isShowBindDialog=true"></span>
+
               <span class="walletPublicKey">{{getSelfAlias.join(',')||'-'}}</span>
-              <!--              <i class="copyIcon" @click="copy(wallet.publicKey)"><img-->
-              <!--                      src="@/common/img/wallet/copyIcon.png"></i>-->
             </p>
           </div>
         </Col>
@@ -85,11 +86,13 @@
       <!--      <WalletFilter v-if="functionShowList[1]"></WalletFilter>-->
     </div>
     <MnemonicDialog :showMnemonicDialog="showMnemonicDialog"
-                    @closeMnemonicDialog="closeMnemonicDialog"></MnemonicDialog>
+                    @closeMnemonicDialog="closeMnemonicDialog"/>
     <PrivatekeyDialog :showPrivatekeyDialog="showPrivatekeyDialog"
-                      @closePrivatekeyDialog="closePrivatekeyDialog"></PrivatekeyDialog>
+                      @closePrivatekeyDialog="closePrivatekeyDialog"/>
     <KeystoreDialog :showKeystoreDialog="showKeystoreDialog"
-                    @closeKeystoreDialog="closeKeystoreDialog"></KeystoreDialog>
+                    @closeKeystoreDialog="closeKeystoreDialog"/>
+    <TheBindForm :isShowBindDialog='isShowBindDialog'
+                 @closeBindDialog="closeBindDialog"/>
   </div>
 </template>
 
