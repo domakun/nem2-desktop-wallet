@@ -478,8 +478,8 @@ export const zh_CN = {
     Imported_wallet_successfully: '导入钱包成功',
     Import_private_key_operation: '导入私钥操作',
     Wallet_management: '钱包管理',
-    Public_account: '公共账户',
-    Private_account: '私有账户',
+    Public_account: '公共',
+    Private_account: '私有',
     delete: '删除',
     Delete_wallet_successfully: '删除钱包成功',
     createLockPWRemind: '密码设置错误',
@@ -719,5 +719,6 @@ export const zh_CN = {
     mosaic_describe_text:'马赛克是NEM区块链上的数字资产，也可以表示一组不变的相同事物， 是使智能资产系统独特而灵活的一部分。 可以是令牌TOKEN，也可以是专属的资产集合，例如奖励积分，股票， 签名，状态标志，投票或者其他流量性资产。',
     attribute:'属性',
     mosaic_attribute_text:'每个马赛克都有一个唯一的ID和一组可配置的属性，这让它能适应很 多场景而变得非常灵活。',
-    mosaic_attribute_text_2:'可以为其绑定特定的命名空间，让其更具可读性和使用性。'
+    mosaic_attribute_text_2:'可以为其绑定特定的命名空间，让其更具可读性和使用性。',
+    importance:'重要性'
 }

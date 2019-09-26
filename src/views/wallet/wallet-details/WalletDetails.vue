@@ -10,6 +10,15 @@
               <span class="walletType" v-if="wallet">
                 {{isMultisig ? $t('Public_account'):$t('Private_account')}}
               </span>
+
+              <span class="tit">{{$t('importance')}}</span>
+              <span v-if="wallet">
+                <span v-if="importance != 0">
+                  {{importance.substring(0,1)+'.'+importance.substring(1)}}*10
+                  <sup>{{(importance+'').length-1}}</sup>
+                </span>
+                <span v-else>0</span>
+              </span>
             </p>
             <p>
               <span class="tit" v-if="wallet&&wallet.path">{{$t('path')}}</span>
@@ -27,12 +36,12 @@
               <i class="copyIcon" @click="copy(wallet.address)"><img
                       src="@/common/img/wallet/copyIcon.png"></i>
             </p>
-            <p>
-              <span class="tit">{{$t('publickey')}}</span>
-              <span class="walletPublicKey">{{wallet.publicKey}}</span>
-              <i class="copyIcon" @click="copy(wallet.publicKey)"><img
-                      src="@/common/img/wallet/copyIcon.png"></i>
-            </p>
+            <!--            <p>-->
+            <!--              <span class="tit">{{$t('publickey')}}</span>-->
+            <!--              <span class="walletPublicKey">{{wallet.publicKey}}</span>-->
+            <!--              <i class="copyIcon" @click="copy(wallet.publicKey)"><img-->
+            <!--                      src="@/common/img/wallet/copyIcon.png"></i>-->
+            <!--            </p>-->
           </div>
         </Col>
         <Col span="6">

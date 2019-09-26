@@ -10,6 +10,7 @@ import PrivatekeyDialog from '@/views/wallet/privatekey-dialog/PrivatekeyDialog.
 import WalletUpdatePassword from './wallet-function/wallet-update-password/WalletUpdatePassword.vue'
 import {mapState} from "vuex"
 import {AppWallet} from '@/core/model'
+import {getCurrentImportance} from '@/core/model/AppWallet.ts'
 
 @Component({
     components: {
@@ -53,6 +54,10 @@ export class WalletDetailsTs extends Vue {
 
     get generationHash() {
         return this.activeAccount.generationHash
+    }
+
+    get importance() {
+        return this.activeAccount.wallet.importance + '0'
     }
 
     showFunctionIndex(index) {
@@ -108,6 +113,7 @@ export class WalletDetailsTs extends Vue {
 
     init() {
         this.setQRCode(this.getAddress)
+        getCurrentImportance(this.$store)
     }
 
     @Watch('getAddress')
