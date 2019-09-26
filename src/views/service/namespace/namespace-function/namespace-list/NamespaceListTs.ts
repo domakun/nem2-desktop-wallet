@@ -212,7 +212,7 @@ export class NamespaceListTs extends Vue {
         this.toggleIsShowExpiredNamesapce()
     }
 
-    created() {
+    mounted() {
         this.initNamespace()
     }
 
