@@ -25,6 +25,7 @@ export const zh_CN = {
     remaining: '剩余',
     word: '字',
     publish: '发表',
+    screen: '筛选',
     anonymous_user: '匿名用户',
     no_comment_yet: '暂无评论',
     successful_operation: '操作成功',
@@ -720,5 +721,12 @@ export const zh_CN = {
     The_name_must_appear_as_unique_in_the_network_and_may_have_a_maximum_length_of_64_characters:'该名称在网络中必须显示为唯一，并且最大长度 为64个字符。',
     Namespaces_can_have_up_to_3_levels:'一个域可以有多个子域，最大可以具有3层级别 。 命名空间有时间租期，到期后会被释放，子命名空间从其父名称空间 继承时间租约。',
     scenes_to_be_used :'使用场景',
-    Used_to_bind_a_wallet_address:'用于绑定一个钱包地址，作为其转账别名使用； 用于设置账户过滤器； 用于绑定一个Masaic ID 。'
+    Used_to_bind_a_wallet_address:'用于绑定一个钱包地址，作为其转账别名使用； 用于设置账户过滤器； 用于绑定一个Mosaic ID 。',
+    NEM_mosaic:'NEM马赛克',
+    mosaic_assets:'马赛克（数字资产）',
+    describe:'描述',
+    mosaic_describe_text:'马赛克是NEM区块链上的数字资产，也可以表示一组不变的相同事物， 是使智能资产系统独特而灵活的一部分。 可以是令牌TOKEN，也可以是专属的资产集合，例如奖励积分，股票， 签名，状态标志，投票或者其他流量性资产。',
+    attribute:'属性',
+    mosaic_attribute_text:'每个马赛克都有一个唯一的ID和一组可配置的属性，这让它能适应很 多场景而变得非常灵活。',
+    mosaic_attribute_text_2:'可以为其绑定特定的命名空间，让其更具可读性和使用性。'
 }

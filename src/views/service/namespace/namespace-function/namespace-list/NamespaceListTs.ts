@@ -44,7 +44,6 @@ export class NamespaceListTs extends Vue {
     isShowAddressAliasDialog = false
     StatusString = MosaicNamespaceStatusType
     namespaceGracePeriodDuration = networkConfig.namespaceGracePeriodDuration
-    newList: any
     namespaceSortType = namespaceSortType
     currentNamespacelist = []
     currentSortType = ''
@@ -116,22 +115,22 @@ export class NamespaceListTs extends Vue {
 
     getSortType(type) {
         this.currentSortType = type
-        this.dataLength = this.currentNamespacelist.length
+        const currentNamespacelist = [...this.currentNamespacelist]
         switch (type) {
             case namespaceSortType.byName:
-                this.currentNamespacelist = sortByName(this.namespaceList)
+                this.currentNamespacelist = sortByName(currentNamespacelist)
                 break
             case namespaceSortType.byDuration:
-                this.currentNamespacelist = sortByduration(this.namespaceList)
+                this.currentNamespacelist = sortByduration(currentNamespacelist)
                 break
             case namespaceSortType.byBindInfo:
-                this.currentNamespacelist = sortByBindType(this.namespaceList)
+                this.currentNamespacelist = sortByBindType(currentNamespacelist)
                 break
             case namespaceSortType.byBindType:
-                this.currentNamespacelist = sortByBindType(this.namespaceList)
+                this.currentNamespacelist = sortByBindType(currentNamespacelist)
                 break
             case namespaceSortType.byOwnerShip:
-                this.currentNamespacelist = sortByOwnerShip(this.namespaceList)
+                this.currentNamespacelist = sortByOwnerShip(currentNamespacelist)
                 break
         }
     }
@@ -215,6 +214,5 @@ export class NamespaceListTs extends Vue {
     mounted() {
         this.initNamespace()
     }
-
 
 }
