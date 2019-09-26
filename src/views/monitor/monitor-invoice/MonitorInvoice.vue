@@ -20,7 +20,7 @@
     </div>
     <CollectionRecord :transactionType="TransferType.RECEIVED"></CollectionRecord>
 
-    <div class="modal">
+    <div class="modal scroll">
       <div class="modal_title">{{$t('set_amount')}}</div>
       <div class="asset flex_center">
         <span class="title">{{$t('asset_type')}}</span>

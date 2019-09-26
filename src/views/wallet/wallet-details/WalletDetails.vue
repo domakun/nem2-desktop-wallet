@@ -8,12 +8,12 @@
             <p>
               <span class="tit">{{$t('Wallet_type')}}</span>
               <span class="walletType" v-if="wallet">
-                {{wallet.isMultisig ? $t('Public_account'):$t('Private_account')}}
+                {{isMultisig ? $t('Public_account'):$t('Private_account')}}
               </span>
             </p>
             <p>
               <span class="tit" v-if="wallet&&wallet.path">{{$t('path')}}</span>
-              <span >
+              <span>
                 {{wallet.path}}
               </span>
             </p>
@@ -66,13 +66,14 @@
           <li :class="['left',functionShowList[0]?'active':''] " @click="showFunctionIndex(0)">
             {{$t('Alias_settings')}}
           </li>
-          <li :class="['left',functionShowList[1]?'active':''] " @click="showFunctionIndex(1)">
-            {{$t('Filter_management')}}
-          </li>
+          <!--restrict-->
+          <!--          <li :class="['left',functionShowList[1]?'active':''] " @click="showFunctionIndex(1)">-->
+          <!--            {{$t('Filter_management')}}-->
+          <!--          </li>-->
         </ul>
       </div>
       <WalletAlias v-if="functionShowList[0]"></WalletAlias>
-      <WalletFilter v-if="functionShowList[1]"></WalletFilter>
+      <!--      <WalletFilter v-if="functionShowList[1]"></WalletFilter>-->
     </div>
     <MnemonicDialog :showMnemonicDialog="showMnemonicDialog"
                     @closeMnemonicDialog="closeMnemonicDialog"></MnemonicDialog>
