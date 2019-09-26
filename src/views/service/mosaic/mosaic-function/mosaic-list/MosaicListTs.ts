@@ -211,7 +211,7 @@ export class MosaicListTs extends Vue {
         this.intiMosaics()
     }
 
-    craeted() {
+    mounted() {
         this.intiMosaics()
     }
 
