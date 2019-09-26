@@ -52,7 +52,6 @@ export class MosaicListTs extends Vue {
     }
 
     get mosaics() {
-        console.log(this.activeAccount.mosaics, '.this.activeAccount.mosaics')
         return this.activeAccount.mosaics
     }
 
