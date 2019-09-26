@@ -89,7 +89,8 @@ export const Message = {
     MOSAIC_LIST_NULL_ERROR: 'The_mosaic_to_be_sent_is_empty',
     ADDRESS_ALIAS_NOT_EXIST_ERROR: 'address_alias_not_exist',
     MOSAIC_ALIAS_NOT_EXIST_ERROR: 'mosaic_alias_not_exist',
-    HD_WALLET_PATH_ERROR: 'hd_wallet_path_error'
+    HD_WALLET_PATH_ERROR: 'hd_wallet_path_error',
+    NODE_EXISTS_ERROR:'node_exists_error'
 }
 
 export const defaultNetworkConfig = {

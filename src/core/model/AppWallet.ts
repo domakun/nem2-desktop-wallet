@@ -435,3 +435,30 @@ export const getCurrentImportance = async (store: any) => {
     const importance = JSON.parse(resStr + '').account ? new Id(JSON.parse(resStr + '').account.importance).compact() : 0
     store.commit('SET_WALLET_IMPORTANCE', Number(importance))
 }
+
+export const saveLocaAlias = (
+    address: string,
+    aliasObject: {
+        tag: string,
+        alias: string,
+        address: string
+    }) => {
+    const addressBookData = localRead('addressBook')
+    let addressBook = addressBookData ? JSON.parse(addressBookData) : {}
+    addressBook[address] = addressBook[address] || {}
+    addressBook[address]['aliasMap'] = addressBook[address]['aliasMap'] || {}
+    addressBook[address]['aliasMap'][aliasObject.alias] = aliasObject
+
+    addressBook[address]['tagMap'] = addressBook[address]['tagMap'] || {}
+    addressBook[address]['tagMap'][aliasObject.tag] = addressBook[address]['tagMap'][aliasObject.tag] || []
+    addressBook[address]['tagMap'][aliasObject.tag].push(aliasObject.alias)
+
+    localSave('addressBook', JSON.stringify(addressBook))
+}
+
+
+export const readLocaAlias = (address: string) => {
+    const addressBookData = localRead('addressBook')
+    if (!addressBookData) return {}
+    return JSON.parse(addressBookData)[address]
+}

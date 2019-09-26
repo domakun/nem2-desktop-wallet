@@ -122,11 +122,17 @@
     .backupDiv {
       padding-left: 30px;
 
-      .Mnemonic, .privateKey, .Keystore, .Other {
+
+      .other,
+      .Mnemonic,
+      .privateKey,
+      .Keystore,
+      .Other {
         height: 53px;
         line-height: 53px;
         margin-right: 100px;
-        cursor: pointer;
+        display: flex;
+        align-items: center;
 
         i {
           display: inline-block;
@@ -142,15 +148,25 @@
             left: 10px;
           }
         }
-
-        span {
-          display: inline-block;
-          line-height: 53px;
-          font-size: 14px;
-          font-weight: 400;
-          color: #666666;
-        }
       }
+    }
+
+    .other {
+      span {
+        color: #ccc;
+      }
+      img {
+        top: 5px;
+        opacity: .5;
+      }
+    }
+
+    span {
+      display: inline-block;
+      line-height: 53px;
+      font-size: 14px;
+      font-weight: 400;
+      color: #666666;
     }
   }
 
@@ -219,6 +235,7 @@
       }
     }
   }
+
   .alias_add,
   .alias_delete {
     display: inline-block;

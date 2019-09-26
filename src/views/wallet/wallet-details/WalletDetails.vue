@@ -56,17 +56,27 @@
     <div class="fnAndBackup radius">
       <h6>{{$t('Function_and_backup')}}</h6>
       <div class="backupDiv clear">
-        <div class="Mnemonic left" @click="changeMnemonicDialog">
+        <div class="Mnemonic pointer left" @click="changeMnemonicDialog">
           <i><img src="@/common/img/wallet/auxiliaries.png"></i>
           <span>{{$t('Export_mnemonic')}}</span>
         </div>
-        <div class="privateKey left" @click="changePrivatekeyDialog">
+        <div class="privateKey pointer left" @click="changePrivatekeyDialog">
           <i><img src="@/common/img/wallet/privatekey.png"></i>
           <span>{{$t('Export_private_key')}}</span>
         </div>
-        <div class="Keystore left" @click="changeKeystoreDialog">
+        <div class="Keystore pointer left" @click="changeKeystoreDialog">
           <i><img src="@/common/img/wallet/keystore.png"></i>
           <span>{{$t('Export_Keystore')}}</span>
+        </div>
+        <!--TODO -->
+        <div class="other un_click left" @click="">
+          <i><img src="@/common/img/wallet/wallet-detail/walletDetailsFilter.png"></i>
+          <span>{{$t('Filter_management')}}</span>
+        </div>
+
+        <div class="other un_click left" @click="">
+          <i><img src="@/common/img/wallet/wallet-detail/walletDetailsMetaData.png"></i>
+          <span>{{$t('meta_data')}}</span>
         </div>
       </div>
     </div>
@@ -74,7 +84,7 @@
       <div class="accountFnNav">
         <ul class="navList clear">
           <li :class="['left',functionShowList[0]?'active':''] " @click="showFunctionIndex(0)">
-            {{$t('Alias_settings')}}
+            {{$t('contact_list')}}
           </li>
           <!--restrict-->
           <!--          <li :class="['left',functionShowList[1]?'active':''] " @click="showFunctionIndex(1)">-->

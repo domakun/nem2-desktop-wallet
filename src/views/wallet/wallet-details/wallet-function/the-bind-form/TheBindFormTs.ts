@@ -179,5 +179,8 @@ export class TheBindFormTs extends Vue {
     onIsShowBindDialogChange() {
         this.isShowDialog = this.isShowBindDialog
     }
+    mounted(){
+        this.formItem.address = this.getWallet.address
+    }
 
 }
