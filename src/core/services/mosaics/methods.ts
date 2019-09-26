@@ -149,7 +149,8 @@ export const sortById = (list) => {
 
 export const sortBySupply = (list) => {
     return list.sort((a, b) => {
-        return a.mosaicInfo.supply.compact() - b.mosaicInfo.supply.compact()
+        if (!b.mosaicInfo || !a.mosaicInfo) return 1
+        return b.mosaicInfo.supply.compact() - a.mosaicInfo.supply.compact()
     })
 }
 
@@ -184,16 +185,8 @@ export const sortByRestrictable = (list) => {
     })
 }
 export const sortByAlias = (list) => {
-    // let mosaicMap = {}
-    // let mosaicList = []
-    // list.forEach(item => {
-    //     mosaicMap[item.aliasTarget] = item
-    // })
-    // mosaicList = list.map(item => item.aliasTarget).sort((a, b) => {
-    //     return MosaicNamespaceStatusType.NOALIAS !== a.aliasTarget
-    // })
-    // return mosaicList.map((item) => {
-    //     return mosaicMap[item]
-    // })
+    return list.sort((a, b) => {
+        return b.name && a.name
+    })
     return list
 }

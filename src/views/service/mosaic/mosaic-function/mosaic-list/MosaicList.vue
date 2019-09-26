@@ -1,135 +1,124 @@
 <template>
   <div class="mosaicList secondary_page_animate">
-    <div class="mosaicListBody scroll">
-      <div class="listTit">
-        <Row>
-          <Col span="1">&nbsp;</Col>
-          <Col span="4">
-            <span @click="getSortType(mosaicSortType.byId)">
+
+    <div class="left_container radius">
+      <div>
+        <p class="mosaic_head_title">
+          {{$t('NEM_mosaic')}}
+        </p>
+        <p class="mosaic_head_title_info">
+          {{$t('NEM_Mosaic_is_a_smart_asset_with_rich_attributes_and_features_To_create_a_mosaic_you_must_provision_the_root_namespace_for_your_account')}}
+        </p>
+      </div>
+      <div class="mosaicListBody">
+        <div class="listTit">
+          <span class="mosaic_id" @click="getSortType(mosaicSortType.byId)">
                {{$t('mosaic_ID')}}
-            <Icon :class="mosaicSortType.byId == currentSortType?'active_sort_type':''" type="md-arrow-round-down"/>
-            </span>
-          </Col>
-          <Col span="3">
-            <span @click="getSortType(mosaicSortType.bySupply)">
-              {{$t('available_quantity')}}
-            <Icon :class="mosaicSortType.bySupply == currentSortType?'active_sort_type':''" type="md-arrow-round-down"/>
-            </span>
-          </Col>
-          <Col span="2">
-            <span @click="getSortType(mosaicSortType.byDivisibility)">
-              {{$t('mosaic_divisibility')}}
-            <Icon :class="mosaicSortType.byDivisibility == currentSortType?'active_sort_type':''"
-                  type="md-arrow-round-down"/>
+            <Icon v-if="mosaicSortType.byId == currentSortType" class="active_sort_type" type="md-arrow-dropdown"/>
             </span>
 
-          </Col>
-          <Col span="2">
-            <span @click="getSortType(mosaicSortType.byTransferable)">
+          <span class="available_quantity" @click="getSortType(mosaicSortType.bySupply)">
+              {{$t('available_quantity')}}
+            <Icon v-if="mosaicSortType.bySupply == currentSortType" class="active_sort_type" type="md-arrow-dropdown"/>
+            </span>
+
+          <span class="mosaic_divisibility" @click="getSortType(mosaicSortType.byDivisibility)">
+              {{$t('mosaic_divisibility')}}
+            <Icon v-if="mosaicSortType.byDivisibility == currentSortType" class="active_sort_type"
+                  type="md-arrow-dropdown"/>
+            </span>
+
+          <span class="transportability" @click="getSortType(mosaicSortType.byTransferable)">
 
             {{$t('transportability')}}
-            <Icon :class="mosaicSortType.byTransferable == currentSortType?'active_sort_type':''"
-                  type="md-arrow-round-down"/>
+            <Icon v-if="mosaicSortType.byTransferable == currentSortType" class="active_sort_type"
+                  type="md-arrow-dropdown"/>
 
             </span>
-          </Col>
-          <Col span="2">
-            <span @click="getSortType(mosaicSortType.bySupplyMutable)">
+
+          <span class="variable_supply" @click="getSortType(mosaicSortType.bySupplyMutable)">
               {{$t('variable_supply')}}
-            <Icon :class="mosaicSortType.bySupply == currentSortType?'active_sort_type':''" type="md-arrow-round-down"/>
+            <Icon v-if="mosaicSortType.bySupplyMutable == currentSortType" class="active_sort_type"
+                  type="md-arrow-dropdown"/>
             </span>
 
-          </Col>
-          <Col span="2">
-            <span @click="getSortType(mosaicSortType.byDuration)">
+          <span class="deadline" @click="getSortType(mosaicSortType.byDuration)">
                {{$t('deadline')}}
-            <Icon :class="mosaicSortType.byDuration == currentSortType?'active_sort_type':''"
-                  type="md-arrow-round-down"/>
+            <Icon v-if="mosaicSortType.byDuration == currentSortType" class="active_sort_type"
+                  type="md-arrow-dropdown"/>
             </span>
 
-          </Col>
-          <Col span="2">
-            <span @click="getSortType(mosaicSortType.byRestrictable)">
+          <span class="Restrictable" @click="getSortType(mosaicSortType.byRestrictable)">
                {{$t('Restrictable')}}
-            <Icon :class="mosaicSortType.byRestrictable == currentSortType?'active_sort_type':''"
-                  type="md-arrow-round-down"/>
+            <Icon v-if="mosaicSortType.byRestrictable == currentSortType" class="active_sort_type"
+                  type="md-arrow-dropdown"/>
             </span>
 
-          </Col>
-          <Col span="3">
-            <span @click="getSortType(mosaicSortType.byAlias)">
+          <span class="alias" @click="getSortType(mosaicSortType.byAlias)">
                {{$t('alias')}}
-            <Icon :class="mosaicSortType.byAlias == currentSortType?'active_sort_type':''" type="md-arrow-round-down"/>
+            <Icon v-if="mosaicSortType.byAlias == currentSortType" class="active_sort_type" type="md-arrow-dropdown"/>
             </span>
+          <!--              <div class="mosaic_filter" @click="toggleIsShowExpiredMosaic()">-->
+          <!--                <img v-if="!isShowExpiredMosaic" src="@/common/img/window/windowSelected.png">-->
+          <!--                <img v-else src="@/common/img/window/windowUnselected.png">-->
+          <!--                <span>{{$t('Hide_expired_namespaces')}}</span>-->
+          <!--              </div>-->
+        </div>
+        <Spin v-if="mosaicsLoading" size="large" fix class="absolute"></Spin>
+        <div class="no_data" v-if="false">{{$t('no_data')}}</div>
+        <div
+                v-for="(value, index) in currentMosaicList.slice((currentPage-1)*pageSize,currentPage*pageSize)"
+                :key="index"
+                class="listItem"
+        >
+          <Row>
+            <span class="mosaic_id">{{value.hex}}</span>
+            <span class="available_quantity">{{value.mosaicInfo?formatNumber(value.mosaicInfo.supply.compact()):0}}</span>
+            <span class="mosaic_divisibility">{{value.properties?value.properties.divisibility:0}}</span>
+            <span class="transportability">
+              <Icon v-if="value.properties?value.properties.transferable:0" type="md-checkmark"/>
+              <Icon v-else type="md-close"/>
+            </span>
+            <span class="variable_supply">
+              <Icon v-if="value.properties?value.properties.supplyMutable:0" type="md-checkmark"/>
+              <Icon v-else type="md-close"/>
+            </span>
+            <span class="deadline">
+              {{computeDuration(value) <= 0 ? $t('overdue') : (computeDuration(value) === 'Forever'?
+              $t('forever') : formatNumber(computeDuration(value)))}}
+            </span>
+            <span class="Restrictable">
+              <Icon v-if="value.isRestrictable" type="md-checkmark"/>
+              <Icon v-else type="md-close"/>
+            </span>
+            <span class="alias"> {{value.name?value.name:'N/A'}}</span>
+            <span class="poptip">
+              <div
+                      class="listFnDiv"
+                      v-if="computeDuration(value) > 0 || computeDuration(value) === 'Forever'"
+              >
+                <Poptip placement="bottom">
+                  <i class="moreFn"></i>
+                  <div slot="content" class="updateFn">
+                    <p class="fnItem" @click="showEditDialog(value)" v-if="value.supplyMutable">
+                      <i><img src="@/common/img/service/updateMsaioc.png"></i>
+                      <span class="">{{$t('modify_supply')}}</span>
+                    </p>
+                    <p class="fnItem" @click="showAliasDialog(value)">
+                      <i><img src="@/common/img/service/setAlias.png"></i>
+                      <span>{{$t('binding_alias')}}</span>
+                    </p>
 
-          </Col>
-          <Col span="2">
-            <div class="mosaic_filter" @click="toggleIsShowExpiredMosaic()">
-              <img v-if="!isShowExpiredMosaic" src="@/common/img/window/windowSelected.png">
-              <img v-else src="@/common/img/window/windowUnselected.png">
-              <span>{{$t('Hide_expired_namespaces')}}</span>
-            </div>
-
-          </Col>
-        </Row>
-      </div>
-      <Spin v-if="mosaicsLoading" size="large" fix class="absolute"></Spin>
-      <div class="no_data" v-if="false">{{$t('no_data')}}</div>
-      <div
-              v-for="(value, index) in currentMosaicList.slice((currentPage-1)*pageSize,currentPage*pageSize)"
-              :key="index"
-              class="listItem"
-      >
-        <Row>
-          <Col span="1">&nbsp;</Col>
-          <Col span="4">{{value.hex}}</Col>
-          <Col span="3">{{formatNumber(value.mosaicInfo.supply.compact())}}</Col>
-          <Col span="2" style="padding-left: 20px">{{value.properties.divisibility}}</Col>
-          <Col span="2">
-            <Icon v-if="value.properties.transferable" type="md-checkmark"/>
-            <Icon v-else type="md-close"/>
-          </Col>
-          <Col span="2">
-            <Icon v-if="value.properties.supplyMutable" type="md-checkmark"/>
-            <Icon v-else type="md-close"/>
-          </Col>
-          <Col span="2">
-            {{computeDuration(value) <= 0 ? $t('overdue') : (computeDuration(value) === 'Forever'?
-            $t('forever') : formatNumber(computeDuration(value)))}}
-          </Col>
-          <Col span="2">
-            <Icon v-if="value.isRestrictable" type="md-checkmark"/>
-            <Icon v-else type="md-close"/>
-          </Col>
-          <Col span="3">{{value.name?value.name:'N/A'}}</Col>
-          <Col span="2">
-            <div
-                    class="listFnDiv"
-                    v-if="computeDuration(value) > 0 || computeDuration(value) === 'Forever'"
-            >
-              <Poptip placement="bottom">
-                <i class="moreFn"></i>
-                <div slot="content" class="updateFn">
-                  <p class="fnItem" @click="showEditDialog(value)" v-if="value.supplyMutable">
-                    <i><img src="@/common/img/service/updateMsaioc.png"></i>
-                    <span class="">{{$t('modify_supply')}}</span>
-                  </p>
-                  <p class="fnItem" @click="showAliasDialog(value)">
-                    <i><img src="@/common/img/service/setAlias.png"></i>
-                    <span>{{$t('binding_alias')}}</span>
-                  </p>
-
-                  <p class="fnItem" @click="showUnAliasDialog(value)" v-if="value.name">
-                    <i><img src="@/common/img/service/clearAlias.png"></i>
-                    <span>{{$t('unbind')}}</span>
-                  </p>
-                </div>
-              </Poptip>
-            </div>
-          </Col>
-        </Row>
-      </div>
-      <template>
+                    <p class="fnItem" @click="showUnAliasDialog(value)" v-if="value.name">
+                      <i><img src="@/common/img/service/clearAlias.png"></i>
+                      <span>{{$t('unbind')}}</span>
+                    </p>
+                  </div>
+                </Poptip>
+              </div>
+            </span>
+          </Row>
+        </div>
         <div class="page_container">
           <Page
                   class="page"
@@ -138,9 +127,17 @@
                   :page-size="pageSize"
           />
         </div>
-      </template>
+      </div>
     </div>
 
+    <div class="right_container radius">
+      <p class="right_container_title">{{$t('mosaic_assets')}}</p>
+      <p>{{$t('describe')}}</p>
+      <p class="green_text">{{$t('mosaic_describe_text')}}</p>
+      <p>{{$t('attribute')}}</p>
+      <p class="green_text">{{$t('mosaic_attribute_text')}}</p>
+      <p>{{$t('mosaic_attribute_text_2')}}</p>
+    </div>
     <MosaicAliasDialog :showMosaicAliasDialog="showMosaicAliasDialog" :itemMosaic="selectedMosaic"
                        @closeMosaicAliasDialog="closeMosaicAliasDialog"></MosaicAliasDialog>
     <MosaicUnAliasDialog :showMosaicUnAliasDialog="showMosaicUnAliasDialog" :itemMosaic="selectedMosaic"

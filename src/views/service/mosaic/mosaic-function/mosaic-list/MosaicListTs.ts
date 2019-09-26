@@ -1,6 +1,6 @@
 import {mapState} from "vuex"
 import {Address, AliasType, MosaicId} from "nem2-sdk"
-import {Component, Vue} from 'vue-property-decorator'
+import {Component, Vue, Watch} from 'vue-property-decorator'
 import EditDialog from './mosaic-edit-dialog/MosaicEditDialog.vue'
 import MosaicAliasDialog from './mosaic-alias-dialog/MosaicAliasDialog.vue'
 import MosaicUnAliasDialog from './mosaic-unAlias-dialog/MosaicUnAliasDialog.vue'
@@ -42,7 +42,7 @@ export class MosaicListTs extends Vue {
     showMosaicUnAliasDialog = false
     mosaicMapInfo: any = {}
     selectedMosaic: any = {}
-    currentSortType = mosaicSortType.byDuration
+    currentSortType = mosaicSortType.byId
     mosaicSortType = mosaicSortType
     currentMosaicList = []
     isShowExpiredMosaic = false
@@ -52,6 +52,7 @@ export class MosaicListTs extends Vue {
     }
 
     get mosaics() {
+        console.log(this.activeAccount.mosaics, '.this.activeAccount.mosaics')
         return this.activeAccount.mosaics
     }
 
@@ -192,8 +193,8 @@ export class MosaicListTs extends Vue {
                 this.currentMosaicList = sortBySupplyMutable(currentMosaicList)
                 break
         }
-        console.log(this.currentMosaicList)
     }
+
     toggleIsShowExpiredMosaic() {
         const {isShowExpiredMosaic, currentHeight} = this
         const list = Object.values(this.mosaics)
@@ -201,8 +202,19 @@ export class MosaicListTs extends Vue {
         this.isShowExpiredMosaic = !isShowExpiredMosaic
     }
 
-    created() {
+    intiMosaics() {
         this.getSortType(this.currentSortType)
         this.currentMosaicList = Object.values(this.mosaics)
     }
+
+    @Watch('mosaics', {deep: true})
+    onMosiacsChange() {
+        this.intiMosaics()
+    }
+
+    craeted() {
+        this.intiMosaics()
+    }
+
+
 }
