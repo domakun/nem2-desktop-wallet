@@ -1,5 +1,6 @@
 import {networkConfig} from '@/config/index.ts'
 import {nodeListConfig} from "@/config/view/node";
+import { localRead } from "@/core/utils";
 
 declare interface appInfo {
     timeZone: number,
@@ -21,6 +22,7 @@ declare interface appInfo {
     transactionsLoading: boolean,
     xemUsdPrice: Number,
     namespaceLoading: boolean
+    multisigLoading: boolean
 }
 
 export default {
@@ -44,7 +46,9 @@ export default {
         balanceLoading: false,
         transactionsLoading: false,
         namespaceLoading: true,
-        xemUsdPrice: 0
+        xemUsdPrice: 0,
+        multisigLoading: true,
+        _ENABLE_TREZOR_: localRead("_ENABLE_TREZOR_") === "true"
     },
     getters: {},
     mutations: {
@@ -79,6 +83,9 @@ export default {
         },
         SET_TRANSACTIONS_LOADING(state: appInfo, bool: boolean) {
             state.transactionsLoading = bool
+        },
+        SET_MULTISIG_LOADING(state: appInfo, bool: boolean) {
+            state.multisigLoading = bool
         },
         SET_XEM_USD_PRICE(state: appInfo, value: number) {
             state.xemUsdPrice = value
