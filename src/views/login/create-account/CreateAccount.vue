@@ -13,7 +13,14 @@
               </FormItem>
             </li>
             <li>
-
+              <FormItem :label="$t('choose_network')">
+                <Select :placeholder="$t('choose_network')" v-model="formItem.currentNetType" required>
+                  <Option :value="item.value" v-for="(item,index) in networkTypeList" :key="index">{{item.label}}
+                  </Option>
+                </Select>
+              </FormItem>
+            </li>
+            <li>
               <FormItem :label="$t('set_password_8_char')">
                 <Input v-model="formItem.password" type="password" required
                        :placeholder="$t('please_set_your_wallet_password')"/>

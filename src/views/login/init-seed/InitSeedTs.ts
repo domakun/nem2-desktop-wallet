@@ -4,7 +4,7 @@ import AccountCreateMnemonic from '@/views/login/init-seed/account-create-mnemon
 import AccountImportHardware from '@/views/login/init-seed/account-import-hardware/AccountImportHardware.vue'
 import SeedCreatedGuide from '@/views/login/init-seed/seed-created-guide/SeedCreatedGuide.vue'
 import {mapState} from "vuex"
-import { walletFnNavConfig } from '@/config/view/wallet'
+import {walletFnNavConfig} from '@/config/view/wallet'
 import {StoreAccount} from "@/core/model"
 
 @Component({
@@ -61,6 +61,13 @@ export class InitSeedTs extends Vue {
     }
 
     created() {
+        if (this.$route.params.seed) {
+            this.isCreated({
+                seed: this.$route.params.seed,
+                password: this.$route.params.password
+            })
+            return
+        }
         const initType = Number(this.$route.params.initType) || 0
         this.goToPage(this.navList[initType], initType)
     }

@@ -50,7 +50,7 @@ export class AccountImportMnemonicTs extends Vue {
     }
 
     closeCheckPWDialog() {
-        this.showCheckPWDialog = true
+        this.showCheckPWDialog = false
     }
 
     checkImport() {

@@ -58,7 +58,7 @@
     <TheWalletDelete
             :showCheckPWDialog="showCheckPWDialog"
             :wallet-to-delete="walletToDelete"
-            @closeCheckPWDialog="closeCheckPWDialog"
+            @closeCheckPWDialog="closeDeleteDialog"
             @on-cancel="showCheckPWDialog = false"
     />
     <TheWalletUpdate
@@ -67,6 +67,12 @@
             @closeUpdateDialog="closeUpdateDialog"
             @on-cancel="showUpdateDialog = false"
     />
+    <CheckPasswordDialog
+            :showCheckPWDialog="showCheckPWDialog"
+            :isOnlyCheckPassword="true"
+            @closeCheckPWDialog="closeCheckPWDialog"
+            @checkEnd="checkEnd"
+    ></CheckPasswordDialog>
   </div>
 </template>
 

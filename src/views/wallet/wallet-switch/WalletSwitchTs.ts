@@ -2,11 +2,12 @@ import {mapState} from 'vuex'
 import {Component, Vue} from 'vue-property-decorator'
 import TheWalletDelete from '@/views/wallet/wallet-switch/the-wallet-delete/TheWalletDelete.vue'
 import {formatXEMamount, formatNumber, localRead} from '@/core/utils/utils.ts'
-import {AppWallet, AppInfo, StoreAccount} from "@/core/model"
+import {AppWallet, AppInfo, StoreAccount, AppAccounts} from "@/core/model"
 import {CreateWalletType} from "@/core/model/CreateWalletType"
 import {walletStyleSheetType} from '@/config/view/wallet.ts'
-import {MultisigAccountInfo} from 'nem2-sdk'
+import {MultisigAccountInfo, Password} from 'nem2-sdk'
 import TheWalletUpdate from "@/views/wallet/wallet-switch/the-wallet-update/TheWalletUpdate.vue"
+import {Message, networkConfig} from "@/config"
 
 @Component({
     components: {TheWalletDelete, TheWalletUpdate},
@@ -20,13 +21,14 @@ import TheWalletUpdate from "@/views/wallet/wallet-switch/the-wallet-update/TheW
 export class WalletSwitchTs extends Vue {
     app: AppInfo
     activeAccount: StoreAccount
+    showDeleteDialog = false
+    showUpdateDialog = false
     showCheckPWDialog = false
     deleteIndex = -1
     deletecurrent = -1
     walletToDelete: AppWallet | boolean = false
     thirdTimestamp = 0
     walletStyleSheetType = walletStyleSheetType
-    showUpdateDialog = false
     walletToUpdate = {}
 
 
@@ -54,6 +56,9 @@ export class WalletSwitchTs extends Vue {
         return this.activeAccount.wallet
     }
 
+    get accountName() {
+        return this.activeAccount.accountName
+    }
 
     get currentXEM1() {
         return this.activeAccount.currentXEM1
@@ -65,12 +70,16 @@ export class WalletSwitchTs extends Vue {
         return multisigAccountInfo.cosignatories.length > 0
     }
 
+    closeCheckPWDialog() {
+        this.showCheckPWDialog = false
+    }
+
     closeUpdateDialog() {
         this.showUpdateDialog = false
     }
 
-    closeCheckPWDialog() {
-        this.showCheckPWDialog = false
+    closeDeleteDialog() {
+        this.showDeleteDialog = false
     }
 
     switchWallet(newActiveWalletAddress) {
@@ -84,12 +93,53 @@ export class WalletSwitchTs extends Vue {
     formatXEMamount(text) {
         return formatXEMamount(text)
     }
-    
+
     toImport() {
         this.$emit('toImport')
     }
 
+    showErrorDialog(text) {
+        this.$Notice.destroy()
+        this.$Notice.error({
+            title: this.$t(text) + ''
+        })
+    }
+
     toCreate() {
-        this.$emit('toCreate')
+        const {accountName} = this
+        const walletList = JSON.parse(localRead('accountMap'))[accountName].wallets
+        // get sorted path list
+        const seedPathList = walletList.filter(item => item.path).map(item => item.path.substr(-1)).sort()
+        // check if seed wallets > 10
+        if (seedPathList.length > networkConfig.seedWalletMaxAmount) {
+            this.showErrorDialog(Message.SEED_WALLET_OVERFLOW_ERROR)
+            return
+        }
+        //get min path to create
+        let pathToCreate = 0
+        // check if there is a jump number
+        const flag = seedPathList.every((item, index) => {
+            if (item == index) return true
+            pathToCreate = index
+            return false
+        })
+        pathToCreate = flag ? seedPathList.length : pathToCreate
+        console.log(pathToCreate)
+        // TODO CREATE NEW SEED WALLET
+        // this.showCheckPWDialog = true
+        // this.$emit('toCreate')
+        // new AppWallet().createFromMnemonic('')
+    }
+
+    checkEnd(password) {
+        if (!password) return
+        const {accountName} = this
+        const appAccounts = AppAccounts()
+        // try {
+        //     new AppWallet().createFromPath(walletName, new Password(password), path, currentNetType, this.$store)
+        //     this.$router.push('dashBoard')
+        // } catch (e) {
+        //     this.$Notice.error({title: this.$t(Message.HD_WALLET_PATH_ERROR) + ''})
+        // }
     }
 }

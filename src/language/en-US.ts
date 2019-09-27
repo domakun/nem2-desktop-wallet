@@ -200,7 +200,6 @@ export const en_US = {
     password_error: 'Password error',
     transaction_hash_error: 'Transaction hash error',
 
-
     //setting-about
     privacy_policy: 'Privacy policy',
     terms_of_use: 'Terms of use',
@@ -294,7 +293,6 @@ export const en_US = {
     is_active: 'active',
     true: 'true',
     false: 'false',
-
     input_space_name: 'Input space name',
     the_duration_is_calculated_in_blocks_one_block_is_12_seconds: 'The duration is calculated in blocks one block is 12 seconds.',
     space_list: 'Space list',
@@ -391,8 +389,6 @@ export const en_US = {
     copy: 'Copy',
     Display_Keystore_QR_code: 'Display QR code',
     Show_Keystore: 'Show Keystore',
-
-    //
     export_mnemonic: 'Export mnemonic',
     backup_mnemonic: 'Backup mnemonic',
     confirm_backup: 'Confirm backup',
@@ -452,7 +448,6 @@ export const en_US = {
     Nemwallet_can_not_recover_your_mnemonic: 'The wallet can\'t recover your mnemonic',
     Please_enter_a_mnemonic_to_ensure_that_the_mnemonic_is_correct: 'Please enter a mnemonic to ensure that the mnemonic is correct',
     Mnemonic_inconsistency: 'Mnemonic inconsistency',
-
     bind_mosaic: 'bind mosaic',
     bind_address: 'bind address',
 
@@ -463,7 +458,6 @@ export const en_US = {
     restrictable: 'Restrictable',
     pre_week: 'PreWeek',
     yesterday: 'Yesterday',
-
     Wallet_type: 'Type',
     Public_wallet: 'Public wallet',
     Wallet_name: 'Name',
@@ -497,9 +491,7 @@ export const en_US = {
     createLockPWRemind: 'Password setting error',
     createLockCheckPWRemind: 'Two passwords are inconsistent',
     createLockPWTxtRemind: 'Password hint error',
-
     no_mnemonic: 'No mnemonic',
-
 
     //multi-sig Api
     map: 'Map',
@@ -724,7 +716,6 @@ export const en_US = {
     connect_trezor_description: 'Import a wallet from a Trezor device',
     trezor_description: 'Trezor will keep your private keys secure and only expose them for signing transactions',
     choose_account_index: 'Choose account index (0 - 1,000,000)',
-
     Please_choose_account_name: 'Please choose account name',
     account_password: 'Account password',
     hint: 'Hint',
@@ -762,5 +753,8 @@ export const en_US = {
     Add_to_local_address_book: 'Add to local address book',
     contact_list: 'contact list',
     meta_data: 'MetaData',
-    node_exists_error: 'Node already exists'
+    node_exists_error: 'Node already exists',
+
+    ////////////////////////////////0927
+    seed_wallet_can_not_be_more_than_10:'The number of wallets created in this account has reached the limit. Please change your account to create a new wallet.'
 }

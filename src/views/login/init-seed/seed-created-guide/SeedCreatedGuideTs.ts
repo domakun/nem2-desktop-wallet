@@ -4,6 +4,7 @@ import {Component, Prop, Vue} from 'vue-property-decorator'
 import {randomMnemonicWord} from "@/core/utils/hdWallet.ts"
 import {mapState} from "vuex"
 import {AppWallet, AppInfo, StoreAccount} from "@/core/model"
+import {localRead} from "@/core/utils"
 
 @Component({
     computed: {
@@ -107,8 +108,10 @@ export class SeedCreatedGuideTs extends Vue {
     }
 
     createFromMnemonic() {
-        const {seed, password, currentNetType} = this.formInfo
-        console.log(seed, password, currentNetType)
+        // get networktype todo
+        const networktype = JSON.parse(localRead('accountMap'))
+        const {seed, password} = this.formInfo
+        console.log(seed, password)
         try {
             new AppWallet().createFromMnemonic(
                 'seedWallet',
@@ -128,6 +131,6 @@ export class SeedCreatedGuideTs extends Vue {
     }
 
     toBack() {
-        this.$emit('updatePageIndex', 0)
+        this.$router.push('initAccount')
     }
 }
