@@ -83,7 +83,7 @@
     <div class="accountFn radius" ref="accountFn">
       <div class="accountFnNav">
         <ul class="navList clear">
-          <li :class="left" @click="showFunctionIndex(0)">
+          <li class="left" @click="showFunctionIndex(0)">
             {{$t('contact_list')}}
           </li>
           <!--restrict-->
