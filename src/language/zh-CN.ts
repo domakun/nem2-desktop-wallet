@@ -741,5 +741,7 @@ export const zh_CN = {
     seed_wallet_can_not_be_more_than_10: '本账户创建钱包数量已达上限，请更换账户以创建新钱包。',
     create_or_import: '创建或导入',
     craete_sub_wallet: '创建子钱包',
-    Import_private_key: '导入私钥'
+    Import_private_key: '导入私钥',
+    copy_private_key: '复制私钥',
+    copy_menmonic: '复制助记词'
 }

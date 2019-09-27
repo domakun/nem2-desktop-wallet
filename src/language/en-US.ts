@@ -759,8 +759,9 @@ export const en_US = {
     node_exists_error: 'Node already exists',
 
     ////////////////////////////////0927
-    seed_wallet_can_not_be_more_than_10:'The number of wallets created in this account has reached the limit. Please change your account to create a new wallet.',
-    create_or_import:'Craete or Import',
-    craete_sub_wallet:'Create sub wallet',
-    Import_private_key: 'Import private key'
+    seed_wallet_can_not_be_more_than_10: 'The number of wallets created in this account has reached the limit. Please change your account to create a new wallet.',
+    create_or_import: 'Craete or Import',
+    craete_sub_wallet: 'Create sub wallet',
+    Import_private_key: 'Import private key',
+    copy_menmonic: 'copy menmonic'
 }

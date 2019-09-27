@@ -20,12 +20,12 @@
                 <span v-else>0</span>
               </span>
             </p>
-            <p>
-              <span class="tit" v-if="wallet&&wallet.path">{{$t('path')}}</span>
-              <span>
-                {{wallet.path}}
-              </span>
-            </p>
+<!--            <p>-->
+<!--              <span class="tit" v-if="wallet&&wallet.path">{{$t('path')}}</span>-->
+<!--              <span>-->
+<!--                {{wallet.path}}-->
+<!--              </span>-->
+<!--            </p>-->
             <p>
               <span class="tit">{{$t('Wallet_name')}}</span>
               <span class="walletName" v-if="wallet">{{wallet.name}}</span>

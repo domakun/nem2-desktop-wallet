@@ -4,6 +4,8 @@ import {Password} from "nem2-sdk"
 import {AppLock} from '@/core/utils/appLock'
 import {randomMnemonicWord} from "@/core/utils/hdWallet.ts"
 import {AppWallet, StoreAccount} from "@/core/model"
+import {copyTxt} from "@/core/utils"
+import {Message} from "@/config"
 
 @Component({
     computed: {
@@ -72,6 +74,15 @@ export class MnemonicDialogTs extends Vue {
         this.stepIndex = 1
     }
 
+    copyMnrmonic(){
+        copyTxt(this.mnemonic).then((data) => {
+            this.$Notice.success({
+                title: this.$t(Message.COPY_SUCCESS) + ''
+            })
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
     checkInput() {
         if (!this.wallet.password || this.wallet.password == '') {
             this.$Notice.error({
