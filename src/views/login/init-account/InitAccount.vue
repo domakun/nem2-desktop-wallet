@@ -40,12 +40,7 @@
         <div class="button disabled un_click" @click="">{{$t('import_wallet')}}</div>
       </div>
     </div>
-    <CheckPasswordDialog
-            :showCheckPWDialog="showCheckPWDialog"
-            :isOnlyCheckPassword="true"
-            @closeCheckPWDialog="closeCheckPWDialog"
-            @checkEnd="checkEnd"
-    ></CheckPasswordDialog>
+
   </div>
 </template>
 

@@ -3,7 +3,11 @@
     <div class="createDiv">
       <div class="createForm">
         <p class="formTit">{{$t('Create_an_account_and_password')}}</p>
-        <p class="title_describe">{{$t('The_wallet_terminal_will_use_the_HD_WALLET_protocol_to_provide')}}</p>
+        <p class="title_describe">
+          {{$t('The_wallet_terminal_will_use_the_HD_WALLET_protocol_to_provide_1')}}
+          <span class="bolder_text">{{$t('The_wallet_terminal_will_use_the_HD_WALLET_protocol_to_provide_2')}}</span>
+          {{$t('The_wallet_terminal_will_use_the_HD_WALLET_protocol_to_provide_3')}}
+        </p>
         <Form :model="formItem" label-position="top">
 
           <ul>

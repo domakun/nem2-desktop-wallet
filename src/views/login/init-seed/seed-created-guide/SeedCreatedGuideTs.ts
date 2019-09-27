@@ -40,6 +40,10 @@ export class SeedCreatedGuideTs extends Vue {
         return this.createForm
     }
 
+    get accountName() {
+        return this.activeAccount.accountName
+    }
+
     get walletList() {
         return this.app.walletList
     }
@@ -108,16 +112,15 @@ export class SeedCreatedGuideTs extends Vue {
     }
 
     createFromMnemonic() {
-        // get networktype todo
-        const networktype = JSON.parse(localRead('accountMap'))
+        const {accountName} = this
         const {seed, password} = this.formInfo
-        console.log(seed, password)
+        const currentNetType = JSON.parse(localRead('accountMap'))[accountName].currentNetType
         try {
             new AppWallet().createFromMnemonic(
                 'seedWallet',
-                new Password(this.createForm.password),
-                this.createForm.seed,
-                this.createForm.currentNetType,
+                new Password(password),
+                seed,
+                currentNetType,
                 this.$store,
             )
         } catch (error) {
@@ -131,6 +134,6 @@ export class SeedCreatedGuideTs extends Vue {
     }
 
     toBack() {
-        this.$router.push('initAccount')
+        this.$router.back()
     }
 }

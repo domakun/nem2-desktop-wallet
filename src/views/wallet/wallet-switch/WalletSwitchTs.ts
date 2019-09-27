@@ -8,9 +8,11 @@ import {walletStyleSheetType} from '@/config/view/wallet.ts'
 import {MultisigAccountInfo, Password} from 'nem2-sdk'
 import TheWalletUpdate from "@/views/wallet/wallet-switch/the-wallet-update/TheWalletUpdate.vue"
 import {Message, networkConfig} from "@/config"
+import {AppLock} from "@/core/utils"
+import CheckPasswordDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
 
 @Component({
-    components: {TheWalletDelete, TheWalletUpdate},
+    components: {TheWalletDelete, TheWalletUpdate, CheckPasswordDialog},
     computed: {
         ...mapState({
             activeAccount: 'account',
@@ -30,7 +32,7 @@ export class WalletSwitchTs extends Vue {
     thirdTimestamp = 0
     walletStyleSheetType = walletStyleSheetType
     walletToUpdate = {}
-
+    pathToCreate = ''
 
     get walletList() {
         let {walletList} = this.app
@@ -62,6 +64,10 @@ export class WalletSwitchTs extends Vue {
 
     get currentXEM1() {
         return this.activeAccount.currentXEM1
+    }
+
+    get cipherMnemonic() {
+        return this.app.mnemonic
     }
 
     isMultisig(address: string): boolean {
@@ -124,22 +130,28 @@ export class WalletSwitchTs extends Vue {
             return false
         })
         pathToCreate = flag ? seedPathList.length : pathToCreate
-        console.log(pathToCreate)
-        // TODO CREATE NEW SEED WALLET
-        // this.showCheckPWDialog = true
-        // this.$emit('toCreate')
-        // new AppWallet().createFromMnemonic('')
+        this.pathToCreate = `m/44'/43'/1'/0/` + pathToCreate
+        this.showCheckPWDialog = true
     }
 
     checkEnd(password) {
         if (!password) return
-        const {accountName} = this
+        const {accountName, pathToCreate, cipherMnemonic} = this
+        const currentNetType = JSON.parse(localRead('accountMap'))[accountName].currentNetType
+        const seed = AppLock.decryptString(cipherMnemonic, password)
         const appAccounts = AppAccounts()
-        // try {
-        //     new AppWallet().createFromPath(walletName, new Password(password), path, currentNetType, this.$store)
-        //     this.$router.push('dashBoard')
-        // } catch (e) {
-        //     this.$Notice.error({title: this.$t(Message.HD_WALLET_PATH_ERROR) + ''})
-        // }
+        try {
+            new AppWallet().createFromPath(
+                'seedWallet-' + pathToCreate.substr(-1),
+                new Password(password),
+                pathToCreate,
+                currentNetType,
+                this.$store,
+            )
+            this.closeCheckPWDialog()
+        } catch (error) {
+            throw new Error(error)
+        }
+
     }
 }

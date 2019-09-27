@@ -2,9 +2,9 @@ import {Message} from "@/config/index.ts"
 import {mapState} from 'vuex'
 import {Password} from "nem2-sdk"
 import {Component, Vue} from 'vue-property-decorator'
-import {formDataConfig} from "@/config/view/form";
-import {networkTypeConfig} from '@/config/view/setting';
-import {AppLock} from "@/core/utils";
+import {formDataConfig} from "@/config/view/form"
+import {networkTypeConfig} from '@/config/view/setting'
+import {AppLock} from "@/core/utils"
 import {AppInfo, StoreAccount, AppWallet} from "@/core/model"
 
 @Component({
@@ -115,6 +115,6 @@ export class AccountImportMnemonicTs extends Vue {
     }
 
     toBack() {
-        this.$router.push('initAccount')
+        this.$router.back()
     }
 }

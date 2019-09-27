@@ -26,7 +26,7 @@
                   <div slot="content">
                     <p
                             class="optionItem"
-                            @click.stop="walletToDelete = item; showCheckPWDialog = true">
+                            @click.stop="walletToDelete = item; showDeleteDialog = true">
                       <i><img src="@/common/img/wallet/delete.png"></i>
                       <span>{{$t('delete')}}</span>
                     </p>
@@ -48,15 +48,15 @@
     <div class="walletMethod">
       <Row>
         <Col span="12">
-          <div class="createBtn pointer" @click="toCreate">{{$t('create')}}</div>
+          <div class="createBtn pointer" @click="toCreate">{{$t('craete_sub_wallet')}}</div>
         </Col>
         <Col span="12">
-          <div class="importBtn pointer" @click="toImport">{{$t('import')}}</div>
+          <div class="importBtn pointer" @click="toImport">{{$t('Import_private_key')}}</div>
         </Col>
       </Row>
     </div>
     <TheWalletDelete
-            :showCheckPWDialog="showCheckPWDialog"
+            :showCheckPWDialog="showDeleteDialog"
             :wallet-to-delete="walletToDelete"
             @closeCheckPWDialog="closeDeleteDialog"
             @on-cancel="showCheckPWDialog = false"

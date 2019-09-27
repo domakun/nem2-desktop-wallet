@@ -700,6 +700,9 @@ export const en_US = {
     set_the_account_name: 'Set the account name',
     set_password_8_char: 'Set password (at least 8 characters)',
     back_to_home_page: 'Back',
+    The_wallet_terminal_will_use_the_HD_WALLET_protocol_to_provide_1: 'The wallet terminal will use the HD-WALLET protocol to provide convenient wallet management. The account default wallet will be a helper wallet; ',
+    The_wallet_terminal_will_use_the_HD_WALLET_protocol_to_provide_2: ' follow one account, one seed(mnemonic), one password principle; ',
+    The_wallet_terminal_will_use_the_HD_WALLET_protocol_to_provide_3: 'therefore, there can be multiple wallet lists under one account. , with account password management, once you forget the password, you can restore the wallet by importing mnemonics; you can easily switch to other accounts on the startup page of the program.',
     The_wallet_terminal_will_use_the_HD_WALLET_protocol_to_provide: 'The wallet terminal will use the HD-WALLET protocol to provide convenient wallet management. The account default wallet will be a helper wallet; follow one account, one seed, one password principle; therefore, there can be multiple wallet lists under one account. , with account password management, once you forget the password, you can restore the wallet by importing mnemonics; you can easily switch to other accounts on the startup page of the program.',
     Account_name_already_exists: 'Account name already exists',
     WLT_file: 'WLT file（Hardware）',
@@ -741,7 +744,7 @@ export const en_US = {
     attribute: 'Attribute',
     mosaic_attribute_text: 'Each mosaic has a unique identifier and a set of configurable properties, This makes it very flexible to adapt to many scenarios.',
     mosaic_attribute_text_2: 'You can bind a specific namespace to make it more readable and usable.',
-    importance: 'importance',
+    importance: 'Importance',
     Under_the_current_wallet: 'Under the current wallet, namespace and sub-namespace asset list, transaction management list',
     define: 'Define',
     A_namespace_starts_with_a_name_that_you_choose_similar_to_an_internet_domain_name: 'A namespace starts with a name that you choose, similar to an internet domain name. ',
@@ -751,10 +754,13 @@ export const en_US = {
     scenes_to_be_used: 'Scenes to be used',
     Used_to_bind_a_wallet_address: 'Used to bind a wallet address as its transfer alias; used to set up an account filter; used to bind a Mosaic ID.',
     Add_to_local_address_book: 'Add to local address book',
-    contact_list: 'contact list',
+    contact_list: 'Contact list',
     meta_data: 'MetaData',
     node_exists_error: 'Node already exists',
 
     ////////////////////////////////0927
-    seed_wallet_can_not_be_more_than_10:'The number of wallets created in this account has reached the limit. Please change your account to create a new wallet.'
+    seed_wallet_can_not_be_more_than_10:'The number of wallets created in this account has reached the limit. Please change your account to create a new wallet.',
+    create_or_import:'Craete or Import',
+    craete_sub_wallet:'Create sub wallet',
+    Import_private_key: 'Import private key'
 }
