@@ -328,7 +328,7 @@ export const formatSeconds = function (second) {
 
 }
 
-export const formatXEMamount = (XEMamount) => {
+export const formatXemAmount = (XEMamount) => {
     if (!Number(XEMamount)) return '0'
     XEMamount = XEMamount + ''
     if (XEMamount.includes('.')) {

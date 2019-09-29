@@ -1,7 +1,7 @@
 import {mapState} from 'vuex'
 import {Component, Vue} from 'vue-property-decorator'
 import TheWalletDelete from '@/views/wallet/wallet-switch/the-wallet-delete/TheWalletDelete.vue'
-import {formatXEMamount, formatNumber, localRead} from '@/core/utils/utils.ts'
+import {formatXemAmount, formatNumber, localRead} from '@/core/utils/utils.ts'
 import {AppWallet, AppInfo, StoreAccount, AppAccounts} from "@/core/model"
 import {CreateWalletType} from "@/core/model/CreateWalletType"
 import {walletStyleSheetType} from '@/config/view/wallet.ts'
@@ -96,8 +96,8 @@ export class WalletSwitchTs extends Vue {
         return formatNumber(number)
     }
 
-    formatXEMamount(text) {
-        return formatXEMamount(text)
+    formatXemAmount(text) {
+        return formatXemAmount(text)
     }
 
     toImport() {

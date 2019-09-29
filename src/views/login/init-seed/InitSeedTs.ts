@@ -69,7 +69,7 @@ export class InitSeedTs extends Vue {
                 this.navList[i].active = false
             }
         }
-        // create to input passowrd
+        // create to input password
         if (index == 0) {
             this.showCheckPWDialog = true
             return
