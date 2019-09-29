@@ -45,6 +45,7 @@
           width: 180px;
           text-align: left;
         }
+
         .public_key {
           width: 400px;
         }
@@ -56,6 +57,7 @@
 
       .public_account_info {
         border-bottom: 1px solid rgba(238, 238, 238, 1);
+
         .more_icon {
           background-image: url("../../../../../common/img/service/moreFn.png");
           width: 20px;
@@ -120,5 +122,27 @@
 
   .green {
     color: #20B5AC;
+  }
+
+  .page_list_container {
+    position: absolute;
+    bottom: 10px;
+    width: 1300px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .ivu-page-prev,
+  .ivu-page-item {
+    border: none;
+  }
+
+  .ivu-page-item-active a,
+  .ivu-page-item-active:hover a {
+    color: #26B4B0;
+  }
+
+  .ivu-page-next, .ivu-page-prev {
+    display: none;
   }
 }

@@ -42,7 +42,7 @@ export class MosaicAliasDialogTs extends Vue {
         return this.activeAccount.node
     }
 
-    get namespaceList() {
+    get NamespaceList() {
         return this.activeAccount.namespaces
     }
 
@@ -57,7 +57,7 @@ export class MosaicAliasDialogTs extends Vue {
     get aliasNameList() {
         const {currentHeight, namespaceGracePeriodDuration} = this
         // @TODO handle namespace list loading state
-        return this.namespaceList
+        return this.NamespaceList
             .filter(({alias,endHeight}) => alias instanceof EmptyAlias && endHeight - currentHeight > namespaceGracePeriodDuration)
             .map(alias => ({label: alias.label, value: alias.label}))
     }

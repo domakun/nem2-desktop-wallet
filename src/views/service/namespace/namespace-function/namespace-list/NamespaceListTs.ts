@@ -35,7 +35,7 @@ export class NamespaceListTs extends Vue {
     activeAccount: any
     app: any
     currentNamespace = ''
-    pageSize: number = networkConfig.namespaceListSize
+    pageSize: number = networkConfig.NamespaceListSize
     page: number = 1
     showNamespaceEditDialog = false
     showUnAliasDialog = false
@@ -45,14 +45,14 @@ export class NamespaceListTs extends Vue {
     StatusString = MosaicNamespaceStatusType
     namespaceGracePeriodDuration = networkConfig.namespaceGracePeriodDuration
     namespaceSortType = namespaceSortType
-    currentNamespacelist = []
+    currentNamespaceList = []
     currentSortType = ''
-    isShowExpiredNamesapce = true
+    isShowExpiredNamespace = true
     isShowMosaicAlias = false
     dataLength = 0
 
-    get namespaceList() {
-        const namespaceList = this.activeAccount.namespaces.map((item) => {
+    get NamespaceList() {
+        const NamespaceList = this.activeAccount.namespaces.map((item) => {
             switch (item.alias.type) {
                 case (AliasType.None):
                     item.aliasTarget = MosaicNamespaceStatusType.NOALIAS
@@ -72,8 +72,7 @@ export class NamespaceListTs extends Vue {
             }
             return item
         })
-        return namespaceList
-
+        return NamespaceList
     }
 
     get mosaics() {
@@ -95,7 +94,7 @@ export class NamespaceListTs extends Vue {
     }
 
     get currentNamespaceListByPage() {
-        return this.currentNamespacelist.slice((this.page - 1) * this.pageSize, this.page * this.pageSize)
+        return this.currentNamespaceList.slice((this.page - 1) * this.pageSize, this.page * this.pageSize)
     }
 
     get unlinkMosaicList() {
@@ -115,22 +114,22 @@ export class NamespaceListTs extends Vue {
 
     getSortType(type) {
         this.currentSortType = type
-        const currentNamespacelist = [...this.currentNamespacelist]
+        const currentNamespaceList = [...this.currentNamespaceList]
         switch (type) {
             case namespaceSortType.byName:
-                this.currentNamespacelist = sortByName(currentNamespacelist)
+                this.currentNamespaceList = sortByName(currentNamespaceList)
                 break
             case namespaceSortType.byDuration:
-                this.currentNamespacelist = sortByduration(currentNamespacelist)
+                this.currentNamespaceList = sortByduration(currentNamespaceList)
                 break
             case namespaceSortType.byBindInfo:
-                this.currentNamespacelist = sortByBindInfo(currentNamespacelist)
+                this.currentNamespaceList = sortByBindInfo(currentNamespaceList)
                 break
             case namespaceSortType.byBindType:
-                this.currentNamespacelist = sortByBindType(currentNamespacelist)
+                this.currentNamespaceList = sortByBindType(currentNamespaceList)
                 break
             case namespaceSortType.byOwnerShip:
-                this.currentNamespacelist = sortByOwnerShip(currentNamespacelist)
+                this.currentNamespaceList = sortByOwnerShip(currentNamespaceList)
                 break
         }
     }
@@ -192,15 +191,15 @@ export class NamespaceListTs extends Vue {
         this.page = page
     }
 
-    toggleIsShowExpiredNamesapce() {
-        const {isShowExpiredNamesapce} = this
+    toggleIsShowExpiredNamespace() {
+        const {isShowExpiredNamespace} = this
         const {currentHeight, namespaceGracePeriodDuration} = this
-        const list = [...this.namespaceList]
-        this.currentNamespacelist = list.filter(item => isShowExpiredNamesapce || item.endHeight - currentHeight > namespaceGracePeriodDuration)
-        this.isShowExpiredNamesapce = !isShowExpiredNamesapce
+        const list = [...this.NamespaceList]
+        this.currentNamespaceList = list.filter(item => isShowExpiredNamespace || item.endHeight - currentHeight > namespaceGracePeriodDuration)
+        this.isShowExpiredNamespace = !isShowExpiredNamespace
     }
 
-    @Watch('namespaceList', {deep: true})
+    @Watch('NamespaceList', {deep: true})
     onNamespaceListChange() {
 
         this.initNamespace()
@@ -208,7 +207,7 @@ export class NamespaceListTs extends Vue {
 
     initNamespace() {
         this.getSortType(namespaceSortType.byDuration)
-        this.toggleIsShowExpiredNamesapce()
+        this.toggleIsShowExpiredNamespace()
     }
 
     mounted() {

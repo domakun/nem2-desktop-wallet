@@ -22,25 +22,20 @@
             <span class="min_removal">{{multisigAccountInfo.minRemoval}}</span>
             <span class="more_icon"></span>
           </div>
-          <div v-for="(mc,index) in multisigAndCosignerList" class="accounts_details_info">
+
+          <div v-for="(mc,index) in multisigAndCosignerList.slice((page-1)*pageSize,pageSize*page)"
+               class="accounts_details_info">
             <span class="role">{{$t('cosigner')}}{{index<9?'0'+(index+1):index+1}}</span>
             <span class="public_key">{{mc.publicKey}}</span>
             <span class="copy_icon"></span>
           </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
         </div>
+      </div>
+      <div class="page_list_container">
+        <Page class="page_list" :total="multisigAndCosignerList.length" :page-size="pageSize"
+              @on-change="handleChange"></Page>
       </div>
     </div>
 
@@ -52,8 +47,6 @@
       <p class="tip_title">{{$t('note')}}</p>
       <p class="green">{{$t('The_Multisig_account_is_a_powerful_tool_but_please_use_this_tool_with_caution')}}</p>
       <p>{{$t('If_the_signer_key_is_lost_and_the_minimum_approval_requirement_is_not_met')}}</p>
-
-
     </div>
 
   </div>
@@ -61,11 +54,11 @@
 
 <script lang="ts">
     import {MultisigMapTs} from '@/views/service/multisig/multisig-functions/multisig-map/MultisigMapTs.ts'
+    import "./MultisigMap.less"
 
     export default class MultisigMap extends MultisigMapTs {
 
     }
 </script>
 <style scoped lang="less">
-  @import "MultisigMap.less";
 </style>

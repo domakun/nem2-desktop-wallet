@@ -41,7 +41,7 @@ export class NamespaceMosaicAliasDialogTs extends Vue {
         return this.activeAccount.node
     }
 
-    get namespaceList() {
+    get NamespaceList() {
         return this.activeAccount.namespaces
     }
 

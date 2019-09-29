@@ -17,6 +17,8 @@ export class MultisigMapTs extends Vue {
     app: any
     spinShow = true
     notMultisigNorCosigner = true
+    pageSize = 7
+    page = 1
 
     get address() {
         return this.activeAccount.wallet.address
@@ -38,8 +40,16 @@ export class MultisigMapTs extends Vue {
         return this.activeAccount.multisigAccountInfo[this.address]
     }
 
-    get multisigAndCosignerList(){
-        return this.multisigAccountInfo.cosignatories.concat(this.multisigAccountInfo.multisigAccounts)
+    get multisigAndCosignerList() {
+        for (let i = 0; i < 20; i++) {
+            this.multisigAccountInfo.cosignatories.push(this.multisigAccountInfo.multisigAccounts[0])
+        }
+        return this.multisigAccountInfo.cosignatories
+        // return this.multisigAccountInfo.cosignatories.concat(this.multisigAccountInfo.multisigAccounts)
+    }
+
+    async handleChange(page) {
+        this.page = page
     }
 
     copyText(publicKey) {
