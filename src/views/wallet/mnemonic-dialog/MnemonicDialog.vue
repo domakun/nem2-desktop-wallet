@@ -75,7 +75,7 @@
 <!--          <p class="path mnemonicWords">{{path}}</p>-->
           <div class="buttons_container">
             <Button class="button_arrow" type="success" @click="copyMnrmonic">
-              {{$t('copy_menmonic')}}
+              {{$t('copy_mnemonic')}}
             </Button>
             <Button type="success" @click="exportMnemonic">
               {{$t('next')}}

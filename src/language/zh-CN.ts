@@ -444,7 +444,7 @@ export const zh_CN = {
     Don_not_share_mnemonics_with_anyone: '不要和任何人分享助记词',
     Beware_of_phishing_Nano_wallet_does_not_naturally_ask_you_to_enter_a_mnemonic: '小心网络钓鱼！一般来说，Wallet不会要求您输入助记词。',
     If_you_need_to_back_up_your_mnemonics_again_you_can_find_them_in_Wallet_Management_Wallet_Details_Export_Mnemonics: '如果需要再次备份助记词，可以钱包管理-钱包详情-导出助记词中找到。',
-    Nemwallet_can_not_recover_your_mnemonic: 'Nemwallet无法恢复您的助记词',
+    Nemwallet_can_not_recover_your_mnemonic: 'Nem wallet无法恢复您的助记词',
     Please_enter_a_mnemonic_to_ensure_that_the_mnemonic_is_correct: '请输入助记词，确保助记词是正确的',
     Mnemonic_inconsistency: '助记词不一致',
     create_account: '创建账户',
@@ -741,7 +741,7 @@ export const zh_CN = {
     //////////////////////////////////////////////0927
     seed_wallet_can_not_be_more_than_10: '本账户创建钱包数量已达上限，请更换账户以创建新钱包。',
     create_or_import: '创建或导入',
-    craete_sub_wallet: '创建子钱包',
+    create_sub_wallet: '创建子钱包',
     Import_private_key: '导入私钥',
-    copy_menmonic: '复制助记词',
+    copy_mnemonic: '复制助记词',
 }
