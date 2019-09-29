@@ -1,4 +1,4 @@
-import {Component, Vue, Prop, Watch} from 'vue-property-decorator'
+import {Component, Vue, Prop} from 'vue-property-decorator'
 import {mapState} from "vuex"
 import {Password} from "nem2-sdk"
 import {AppLock} from '@/core/utils/appLock'
@@ -6,7 +6,7 @@ import {randomMnemonicWord} from "@/core/utils/hdWallet.ts"
 import {AppWallet, StoreAccount} from "@/core/model"
 import {copyTxt} from "@/core/utils"
 import {Message} from "@/config"
-import { MnemonicPassPhrase } from 'nem2-hd-wallets'
+import {MnemonicPassPhrase} from 'nem2-hd-wallets'
 import {MnemonicQR} from 'nem2-qr-library'
 
 @Component({
@@ -58,7 +58,7 @@ export class MnemonicDialogTs extends Vue {
         if (password.length < 8) return ''
         const mnemonic = new MnemonicPassPhrase(mnemonicWords)
         return new MnemonicQR(mnemonic, new Password(password), networkType, generationHash)
-            .toBase64();
+            .toBase64()
     }
 
     mnemonicDialogCancel() {
@@ -100,7 +100,7 @@ export class MnemonicDialogTs extends Vue {
         this.stepIndex = 1
     }
 
-    copyMnrmonic(){
+    copyMnemonic() {
         copyTxt(this.mnemonic).then((data) => {
             this.$Notice.success({
                 title: this.$t(Message.COPY_SUCCESS) + ''
@@ -109,6 +109,7 @@ export class MnemonicDialogTs extends Vue {
             console.log(error)
         })
     }
+
     checkInput() {
         if (!this.wallet.password || this.wallet.password == '') {
             this.$Notice.error({
