@@ -142,21 +142,7 @@
             window.onresize = this.dom.resize
         }
 
-        @Watch('address')
-        onAddressChange(newAddress, oldAddress) {
-            if (newAddress && newAddress !== oldAddress) {
-                const waitForIt = () => {
-                  if (newAddress && !this.multisigAccountInfo && this.multisigLoading) {
-                      setTimeout(() => {
-                        waitForIt()
-                      }, 1000)
-                      return
-                  }
-                  this.getMultisigInfo()
-                }
-                waitForIt()
-            }
-        }
+
 
         mounted() {
             this.getMultisigInfo()
