@@ -14,5 +14,4 @@ export * from './types'
 export * from './AppNamespace'
 export * from './ChainStatus'
 
-export class DefaultFee {
-}
+
