@@ -6,6 +6,7 @@ import {randomMnemonicWord} from "@/core/utils/hdWallet.ts"
 import {AppWallet, StoreAccount} from "@/core/model"
 import {copyTxt} from "@/core/utils"
 import {Message} from "@/config"
+import { MnemonicPassPhrase } from 'nem2-hd-wallets'
 
 @Component({
     computed: {
@@ -16,7 +17,6 @@ import {Message} from "@/config"
 })
 export class MnemonicDialogTs extends Vue {
     activeAccount: StoreAccount
-    show = false
     stepIndex = 0
     mnemonic = ''
     mnemonicRandomArr = []
@@ -24,8 +24,19 @@ export class MnemonicDialogTs extends Vue {
         password: '',
         mnemonicWords: ''
     }
+
     @Prop()
     showMnemonicDialog: boolean
+
+    get show() {
+        return this.showMnemonicDialog
+    }
+
+    set show(val) {
+        if (!val) {
+            this.$emit('close')
+        }
+    }
 
     get getWallet() {
         return this.activeAccount.wallet
@@ -33,6 +44,20 @@ export class MnemonicDialogTs extends Vue {
 
     get path() {
         return this.getWallet.path
+    }
+
+    get generationHash() {
+        return this.activeAccount.generationHash
+    }
+
+    get QRCode(): string {
+        const {generationHash, getWallet} = this
+        const {networkType} = getWallet
+        const {password, mnemonicWords} = this.wallet
+        if (password.length < 8) return ''
+        const mnemonic = new MnemonicPassPhrase(mnemonicWords)
+        return new MnemonicQR(mnemonic, new Password(password), networkType, generationHash)
+            .toBase64();
     }
 
     mnemonicDialogCancel() {
@@ -151,11 +176,5 @@ export class MnemonicDialogTs extends Vue {
             return false
         }
         return true
-    }
-
-    // @TODO: use v-model
-    @Watch('showMnemonicDialog')
-    onShowMnemonicDialogChange() {
-        this.show = this.showMnemonicDialog
     }
 }

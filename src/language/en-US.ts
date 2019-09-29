@@ -138,6 +138,7 @@ export const en_US = {
     remarks: 'Remarks',
     generate_QR_code: 'Generate QR code',
     copy_address: 'Copy address',
+    copy_private_key: 'Copy private key',
     copy_QR_code: 'Copy QR code',
     collection_record: 'Transfers received',
     enter_asset_type_alias_or_address_search: 'Enter transaction hash search',
@@ -469,7 +470,7 @@ export const en_US = {
     Export_private_key: 'Export private key',
     Export_Keystore: 'Export Keystore',
     Alias_settings: 'Alias settings',
-    Filter_management: 'Restriction',
+    Filter_management: 'Restrictions',
     Subaddress_management: 'Sub-address ',
     Modify_the_private_key_wallet_password: 'Modify password',
     status: 'Status',
@@ -728,7 +729,7 @@ export const en_US = {
     from_to_action: 'From/To (action)',
     amount_asset: 'Amount (asset)',
     confirmations_height: 'Confirmations/Height',
-    hash_deadline: 'Hash/Deadline',
+    hash_date: 'Hash/Date',
     transaction_record: 'Transaction records',
     import_mnemonic: 'Import mnemonic',
     update_wallet_name: 'Update',
@@ -763,5 +764,5 @@ export const en_US = {
     create_or_import: 'Craete or Import',
     craete_sub_wallet: 'Create sub wallet',
     Import_private_key: 'Import private key',
-    copy_menmonic: 'copy menmonic'
+    copy_menmonic: 'copy menmonic',
 }
