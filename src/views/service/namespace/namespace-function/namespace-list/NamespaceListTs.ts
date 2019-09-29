@@ -12,7 +12,7 @@ import NamespaceAddressAliasDialog
     from '@/views/service/namespace/namespace-function/namespace-list/namespace-address-alias-dialog/NamespaceAddressAliasDialog.vue'
 import {AppMosaics} from '@/core/services/mosaics'
 import {MosaicNamespaceStatusType} from "@/core/model/MosaicNamespaceStatusType"
-import {sortByBindType, sortByduration, sortByName, sortByOwnerShip} from "@/core/services/namespace"
+import {sortByBindInfo, sortByBindType, sortByduration, sortByName, sortByOwnerShip} from "@/core/services/namespace"
 import {namespaceSortType} from "@/config/view/namespace"
 
 @Component({
@@ -47,7 +47,9 @@ export class NamespaceListTs extends Vue {
     namespaceSortType = namespaceSortType
     currentNamespacelist = []
     currentSortType = ''
-    isShowExpiredNamesapce = false
+    isShowExpiredNamesapce = true
+    isShowMosaicAlias = false
+    dataLength = 0
 
     get namespaceList() {
         const namespaceList = this.activeAccount.namespaces.map((item) => {
@@ -122,7 +124,7 @@ export class NamespaceListTs extends Vue {
                 this.currentNamespacelist = sortByduration(currentNamespacelist)
                 break
             case namespaceSortType.byBindInfo:
-                this.currentNamespacelist = sortByBindType(currentNamespacelist)
+                this.currentNamespacelist = sortByBindInfo(currentNamespacelist)
                 break
             case namespaceSortType.byBindType:
                 this.currentNamespacelist = sortByBindType(currentNamespacelist)
@@ -198,9 +200,19 @@ export class NamespaceListTs extends Vue {
         this.isShowExpiredNamesapce = !isShowExpiredNamesapce
     }
 
-    created() {
+    @Watch('namespaceList', {deep: true})
+    onNamespaceListChange() {
+
+        this.initNamespace()
+    }
+
+    initNamespace() {
         this.getSortType(namespaceSortType.byDuration)
         this.toggleIsShowExpiredNamesapce()
+    }
+
+    mounted() {
+        this.initNamespace()
     }
 
 }
