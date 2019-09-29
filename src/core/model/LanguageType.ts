@@ -18,5 +18,5 @@ export enum LanguageType {
      * Language jp-JP type.
      * @type {string}
      */
-        'jp-JP' = '日本語'
+        // 'jp-JP' = '日本語'
 }
