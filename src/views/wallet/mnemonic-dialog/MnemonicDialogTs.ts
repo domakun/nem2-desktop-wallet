@@ -7,6 +7,7 @@ import {AppWallet, StoreAccount} from "@/core/model"
 import {copyTxt} from "@/core/utils"
 import {Message} from "@/config"
 import { MnemonicPassPhrase } from 'nem2-hd-wallets'
+import {MnemonicQR} from 'nem2-qr-library'
 
 @Component({
     computed: {
