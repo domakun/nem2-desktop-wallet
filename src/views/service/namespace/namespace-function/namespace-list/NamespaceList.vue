@@ -107,8 +107,8 @@
       </div>
     </div>
 
-    <div class="right_continer radius">
-      <p class="right_continer_head">{{$t('namespace')}}</p>
+    <div class="right_container radius">
+      <p class="right_container_head">{{$t('namespace')}}</p>
       <p class="second_head">{{$t('define')}}</p>
       <p class="green">{{$t('A_namespace_starts_with_a_name_that_you_choose_similar_to_an_internet_domain_name')}}</p>
       <p class="second_head">{{$t('Namespace_description')}}</p>

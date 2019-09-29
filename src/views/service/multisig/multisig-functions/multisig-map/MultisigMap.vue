@@ -1,14 +1,19 @@
 <template>
   <div class="multisig_map_container secondary_page_animate">
-    <div class="multisig_head_title">{{$t('Current_wallet_multi_sign_relationship_map')}}</div>
-    <div class="multisig_tips">
-      <span class="tips_title">{{$t('prompt')}}:</span>
-      <span class="tips_describe">{{$t('Multi_signature_depth_support_3_layers_multi_sign_account_can_have_up_to_10_signatures_account_can_be_the_signer_of_5_multi_sign_accounts')}}</span>
+    <div class="left_container radius">
+
+      <div class="multisig_head_title">{{$t('Current_wallet_multi_sign_relationship_map')}}</div>
+      <div class="multisig_tips">
+        <span class="tips_title">{{$t('prompt')}}:</span>
+        <span class="tips_describe">{{$t('Multi_signature_depth_support_3_layers_multi_sign_account_can_have_up_to_10_signatures_account_can_be_the_signer_of_5_multi_sign_accounts')}}</span>
+      </div>
+
+      <div class="map_container">
+      </div>
     </div>
 
-    <div class="map_container">
-      <TopographicMap></TopographicMap>
-    </div>
+    <div class="right_container radius"></div>
+
   </div>
 </template>
 

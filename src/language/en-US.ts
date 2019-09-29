@@ -144,7 +144,7 @@ export const en_US = {
     enter_asset_type_alias_or_address_search: 'Enter transaction hash search',
     ordinary_transfer: 'Transfer',
     Multi_sig_transfer: 'Multisig transfer',
-    crosschain_transfer: 'Cross-chain',
+    cross_chain_transfer: 'Cross-chain',
     aggregate_transfer: 'Aggregate',
     QR_code_generation_failed: 'QR code generation failed',
     //monitor-remote
@@ -183,10 +183,10 @@ export const en_US = {
     this_is_a_distributed_desktop_wallet_based_on_CATAPULT_I_wish_you_a_pleasant_trip: 'This is a distributed desktop wallet based on CATAPULT ,I wish you a pleasant trip.',
     send_and_receive_XEM_almost_instantly_in_just_1_minute: 'Send and receive XEM almost instantly in just 1 minute !',
     provides_an_editable_chain_on_protocol_in_a_multi_signature_account_which_is_the_best_way_to_store_funds_and_achieve_a_common_account: 'Provides an editable on-chain protocol in a multi signature account ,which is the best way to store funds and manage a common account.',
-    a_namespace_is_a_domain_name_that_stores_mosaics_Each_namespace_is_unique_within_a_blockchain_and_mosaics_can_be_defined_and_authenticated_on_a_multi_level_sub_namespace: 'Namespaces are unique domain names on the block chain. They can be used as addresses and mosaics aliases.',
+    a_namespace_is_a_domain_name_that_stores_mosaics_Each_namespace_is_unique_within_a_block_chain_and_mosaics_can_be_defined_and_authenticated_on_a_multi_level_sub_namespace: 'Namespaces are unique domain names on the block chain. They can be used as addresses and mosaics aliases.',
     NEM_Mosaic_is_a_smart_asset_with_rich_attributes_and_features_To_create_a_mosaic_you_must_provision_the_root_namespace_for_your_account: 'Mosaics are smart assets with rich attributes and features.',
     entrusted_harvesting_is_a_way_to_achieve_remote_online_mining_without_having_to_keep_the_original_account_open: 'Delegated harvesting is a way to mine coins without keeping the main wallet open on a remote server.',
-    use_the_NEM_Apostille_service_to_create_blockchain_notarized_timestamps_to_track_and_audit_file_authentication_status: 'Apostille enables notarizing and checking the authenticity of files notarized on the NEM block chain.',
+    use_the_NEM_Apostille_service_to_create_block_chain_notarized_timestamps_to_track_and_audit_file_authentication_status: 'Apostille enables notarizing and checking the authenticity of files notarized on the NEM block chain.',
     assign_tags_to_addresses_to_easily_track_contacts: 'Assign tags to addresses to easily track contacts.',
     use_Changelly_and_ShapeShift_widgets_to_buy_XEM_at_the_best_rates: 'Use Changelly and ShapeShift widgets to buy XEM at the best rates !',
 
@@ -415,7 +415,7 @@ export const en_US = {
     // wallet create
     Keystore_decryption_failed: 'Keystore decryption failed',
     choose_network: 'Choose network',
-    In_the_nem2_ecosystem_you_can_build_your_own_home_wallet_or_private_network_wallet_or_test_the_network_such_as_Mainnet_Testnet_different_wallet_address_prefixes_generated_under_different_networks: 'In the \'nem2 ecosystem, you can build your own home wallet, or private network wallet, or test the network.',
+    In_the_nem2_ecosystem_you_can_build_your_own_home_wallet_or_private_network_wallet_or_test_the_network_such_as_Main_net_Test_net_different_wallet_address_prefixes_generated_under_different_networks: 'In the \'nem2 ecosystem, you can build your own home wallet, or private network wallet, or test the network.',
     set_the_wallet_name: 'Set the wallet name',
     The_name_of_the_wallet_can_be_convenient_for_you_to_use_you_can_distinguish_different_wallets_etc_for_better_management_after_entering_the_system_you_can_also_modify_the_wallet_details: 'The name of the wallet can be convenient for you to use, you can distinguish different wallets, etc., for better management。',
     This_password_is_used_to_encrypt_your_private_key: 'This password is used to encrypt your wallet. The more complicated it is, the better the encryption will be.',
@@ -446,7 +446,7 @@ export const en_US = {
     Don_not_share_mnemonics_with_anyone: 'Don\'t share mnemonics with anyone',
     Beware_of_phishing_Nano_wallet_does_not_naturally_ask_you_to_enter_a_mnemonic: 'Beware of phishing! Wallet does not naturally ask you to enter a mnemonic.',
     If_you_need_to_back_up_your_mnemonics_again_you_can_find_them_in_Wallet_Management_Wallet_Details_Export_Mnemonics: 'If you need to back up your mnemonics again, you can find them in Wallet Management - Wallet Details - Export Mnemonics.',
-    Nemwallet_can_not_recover_your_mnemonic: 'The wallet can\'t recover your mnemonic',
+    Nem_wallet_can_not_recover_your_mnemonic: 'The wallet can\'t recover your mnemonic',
     Please_enter_a_mnemonic_to_ensure_that_the_mnemonic_is_correct: 'Please enter a mnemonic to ensure that the mnemonic is correct',
     Mnemonic_inconsistency: 'Mnemonic inconsistency',
     bind_mosaic: 'bind mosaic',
@@ -761,8 +761,8 @@ export const en_US = {
 
     ////////////////////////////////0927
     seed_wallet_can_not_be_more_than_10: 'The number of wallets created in this account has reached the limit. Please change your account to create a new wallet.',
-    create_or_import: 'Craete or Import',
+    create_or_import: 'Create or Import',
     create_sub_wallet: 'Create sub wallet',
     Import_private_key: 'Import private key',
-    copy_mnemonic: 'copy menmonic',
+    copy_mnemonic: 'copy mnemonic',
 }
