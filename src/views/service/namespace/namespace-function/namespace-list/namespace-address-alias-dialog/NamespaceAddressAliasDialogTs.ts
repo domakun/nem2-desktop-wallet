@@ -37,7 +37,7 @@ export class NamespaceAddressAliasDialogTs extends Vue {
         return this.activeAccount.wallet
     }
 
-    get namespaceList() {
+    get NamespaceList() {
         return this.activeAccount.namespaces
     }
 
@@ -54,7 +54,7 @@ export class NamespaceAddressAliasDialogTs extends Vue {
     }
 
     get aliasList() {
-        return this.namespaceList.filter(namespace => namespace.alias instanceof AddressAlias)
+        return this.NamespaceList.filter(namespace => namespace.alias instanceof AddressAlias)
     }
 
     get xemDivisibility() {

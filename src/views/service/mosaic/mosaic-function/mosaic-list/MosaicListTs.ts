@@ -33,7 +33,7 @@ export class MosaicListTs extends Vue {
     isLoadingConfirmedTx = false
     currentTab: number = 0
     currentPage: number = 1
-    pageSize: number = networkConfig.namespaceListSize
+    pageSize: number = networkConfig.NamespaceListSize
     rootNameList: any[] = []
     screenMosaic: any = {}
     showCheckPWDialog = false

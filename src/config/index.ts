@@ -159,7 +159,7 @@ export const networkConfig = {
     maxAccountRestrictionValues: 512,
     maxMosaicRestrictionValues: 20,
     maxMessageSize: 1024,
-    namespaceListSize: 9,
+    NamespaceListSize: 9,
     seedWalletMaxAmount:10
 }
 
