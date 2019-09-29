@@ -13,7 +13,6 @@
           <span @click="addAddress" class="add_button radius pointer">+</span>
         </div>
       </div>
-
       <div class="multisig_property_amount">
         <span class="gray_content">
           <div class="title">{{$t('min_approval')}}</div>
