@@ -72,7 +72,7 @@ export const formDataConfig = {
         cosignerList: [],
         multisigPublickey: ''
     },
-    NamespaceEditForm: {
+    namespaceEditForm: {
         name: '',
         duration: 0,
         fee: 0.5,

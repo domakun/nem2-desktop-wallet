@@ -13,3 +13,6 @@ export * from './formattedTransactions'
 export * from './types'
 export * from './AppNamespace'
 export * from './ChainStatus'
+
+export class DefaultFee {
+}
