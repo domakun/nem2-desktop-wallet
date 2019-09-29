@@ -35,7 +35,7 @@ export class NamespaceListTs extends Vue {
     activeAccount: any
     app: any
     currentNamespace = ''
-    pageSize: number = networkConfig.NamespaceListSize
+    pageSize: number = networkConfig.namespaceListSize
     page: number = 1
     showNamespaceEditDialog = false
     showUnAliasDialog = false
@@ -163,7 +163,7 @@ export class NamespaceListTs extends Vue {
         if (!isActive) {
             return MosaicNamespaceStatusType.EXPIRED
         }
-        const expireTime = endHeight - currentHeight > namespaceGracePeriodDuration ? endHeight - currentHeight : MosaicNamespaceStatusType.EXPIRED
+        const expireTime = endHeight - currentHeight - namespaceGracePeriodDuration > 0 ? endHeight - currentHeight - namespaceGracePeriodDuration : MosaicNamespaceStatusType.EXPIRED
         return expireTime
     }
 
@@ -184,7 +184,8 @@ export class NamespaceListTs extends Vue {
     }
 
     durationToTime(duration) {
-        const durationNum = Number(duration - this.currentHeight)
+        const {namespaceGracePeriodDuration} = this
+        const durationNum = Number(duration - this.currentHeight - namespaceGracePeriodDuration)
         return formatSeconds(durationNum * 12)
     }
 

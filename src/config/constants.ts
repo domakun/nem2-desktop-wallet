@@ -1,4 +1,5 @@
 import {TransactionType} from 'nem2-sdk'
+import { DefaultFee } from '@/core/model'
 
 export const isWindows = require('./packge.ts').isWin32
 
@@ -90,8 +91,38 @@ export const Message = {
     ADDRESS_ALIAS_NOT_EXIST_ERROR: 'address_alias_not_exist',
     MOSAIC_ALIAS_NOT_EXIST_ERROR: 'mosaic_alias_not_exist',
     HD_WALLET_PATH_ERROR: 'hd_wallet_path_error',
-    NODE_EXISTS_ERROR: 'node_exists_error',
-    SEED_WALLET_OVERFLOW_ERROR: 'seed_wallet_can_not_be_more_than_10'
+    NODE_EXISTS_ERROR:'node_exists_error',
+    SEED_WALLET_OVERFLOW_ERROR:'seed_wallet_can_not_be_more_than_10'
+}
+
+export const FEE_SPEEDS: Record <string, string> = {
+    SLOW: 'SLOW',
+    NORMAL: 'NORMAL',
+    FAST: 'FAST',
+}
+
+export const FEE_GROUPS: Record <string, string> = {
+    SINGLE: 'SINGLE',
+    DOUBLE: 'DOUBLE',
+    TRIPLE: 'TRIPLE',
+}
+
+export const DEFAULT_FEES: Record <string, DefaultFee[]> = {
+    [FEE_GROUPS.SINGLE]: [
+        {speed: FEE_SPEEDS.SLOW, value: 0.5},
+        {speed: FEE_SPEEDS.NORMAL, value: 1},
+        {speed: FEE_SPEEDS.FAST, value: 2},
+    ],
+    [FEE_GROUPS.DOUBLE]: [
+        {speed: FEE_SPEEDS.SLOW, value: 1},
+        {speed: FEE_SPEEDS.NORMAL, value: 2},
+        {speed: FEE_SPEEDS.FAST, value: 3},
+    ],
+    [FEE_GROUPS.TRIPLE]: [
+        {speed: FEE_SPEEDS.SLOW, value: 1.5},
+        {speed: FEE_SPEEDS.NORMAL, value: 3},
+        {speed: FEE_SPEEDS.FAST, value: 6},
+    ],
 }
 
 export const defaultNetworkConfig = {
@@ -150,7 +181,7 @@ export const networkConfig = {
     maxNamespaceDepth: 3,
     minNamespaceDuration: "1m",
     maxNamespaceDuration: "365d",
-    namespaceGracePeriodDuration: 172800,// 24 days
+    namespaceGracePeriodDuration: 156000,//s
     reservedRootNamespaceNames: ["xem", "nem", "user", "account", "org", "com", "biz", "net", "edu", "mil", "gov", "info"],
     testMnemonicString: 'this is a test string his is a test string this is',
     namespaceRentalFeeSinkPublicKey: "3E82E1C1E4A75ADAA3CBA8C101C3CD31D9817A2EB966EB3B511FB2ED45B8E262",
@@ -160,7 +191,5 @@ export const networkConfig = {
     maxMosaicRestrictionValues: 20,
     maxMessageSize: 1024,
     namespaceListSize: 9,
-    seedWalletMaxAmount: 10
+    seedWalletMaxAmount:10
 }
-
-

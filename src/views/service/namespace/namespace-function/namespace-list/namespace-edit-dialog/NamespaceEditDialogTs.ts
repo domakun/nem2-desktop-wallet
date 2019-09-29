@@ -3,8 +3,8 @@ import {mapState} from "vuex"
 import {Component, Vue, Prop, Watch} from 'vue-property-decorator'
 import {Password} from 'nem2-sdk'
 import {Message} from "@/config/index.ts"
-import {getAbsoluteMosaicAmount,formatSeconds} from '@/core/utils'
-import {formDataConfig} from "@/config/view/form";
+import {getAbsoluteMosaicAmount, formatSeconds} from '@/core/utils'
+import {formDataConfig} from "@/config/view/form"
 import {AppWallet} from "@/core/model"
 import {createRootNamespace} from "@/core/services/namespace"
 
@@ -18,7 +18,7 @@ import {createRootNamespace} from "@/core/services/namespace"
 export class NamespaceEditDialogTs extends Vue {
     activeAccount: any
     show = false
-    isCompleteForm = false
+    isCompleteForm = true
     stepIndex = 0
     durationIntoDate: string = '0'
     namespace = formDataConfig.namespaceEditForm
@@ -128,7 +128,7 @@ export class NamespaceEditDialogTs extends Vue {
         this.namespace = {
             name: '',
             duration: 0,
-            fee: 50000,
+            fee: 0.5,
             password: ''
         }
         this.durationIntoDate = '0'
@@ -143,6 +143,6 @@ export class NamespaceEditDialogTs extends Vue {
     onFormItemChange() {
         const {name, duration, fee, password} = this.namespace
         // isCompleteForm
-        this.isCompleteForm = name !== '' && duration > 0 && fee > 0 && password !== ''
+        // this.isCompleteForm = name !== '' && duration > 0 && fee > 0 && password !== ''
     }
 }
