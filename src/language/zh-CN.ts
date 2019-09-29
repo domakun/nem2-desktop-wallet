@@ -736,8 +736,11 @@ export const zh_CN = {
     importance: '重要性',
     Add_to_local_address_book: '添加到本地地址簿',
     contact_list: '通信录',
-    meta_data: 'MetaData',
+    meta_data: 'Metadata',
     node_exists_error: '节点已存在',
+    SLOW: '慢',
+    NORMAL: '正常',
+    FAST: '快',
     //////////////////////////////////////////////0927
     seed_wallet_can_not_be_more_than_10: '本账户创建钱包数量已达上限，请更换账户以创建新钱包。',
     create_or_import: '创建或导入',

@@ -1,19 +1,19 @@
+import {Address, MosaicId, AliasType} from "nem2-sdk"
+import {mapState} from "vuex"
 import {formatSeconds} from '@/core/utils/utils.ts'
 import {Component, Watch, Vue} from 'vue-property-decorator'
 import NamespaceEditDialog from './namespace-edit-dialog/NamespaceEditDialog.vue'
-import {mapState} from "vuex"
-import {networkConfig} from '@/config/index.ts'
-import {Address, MosaicId, AliasType} from "nem2-sdk"
+import {networkConfig, namespaceSortType} from '@/config'
+import {AppMosaics} from '@/core/services/mosaics'
+import {sortByBindType, sortByduration, sortByName, sortByOwnerShip, sortByBindInfo} from "@/core/services/namespace"
+import {StoreAccount, AppInfo, MosaicNamespaceStatusType} from "@/core/model"
+
 import NamespaceUnAliasDialog
     from '@/views/service/namespace/namespace-function/namespace-list/namespace-unAlias-dialog/NamespaceUnAliasDialog.vue'
 import NamespaceMosaicAliasDialog
     from '@/views/service/namespace/namespace-function/namespace-list/namespace-mosaic-alias-dialog/NamespaceMosaicAliasDialog.vue'
 import NamespaceAddressAliasDialog
     from '@/views/service/namespace/namespace-function/namespace-list/namespace-address-alias-dialog/NamespaceAddressAliasDialog.vue'
-import {AppMosaics} from '@/core/services/mosaics'
-import {MosaicNamespaceStatusType} from "@/core/model/MosaicNamespaceStatusType"
-import {sortByBindInfo, sortByBindType, sortByduration, sortByName, sortByOwnerShip} from "@/core/services/namespace"
-import {namespaceSortType} from "@/config/view/namespace"
 
 @Component({
     components: {
@@ -32,8 +32,8 @@ import {namespaceSortType} from "@/config/view/namespace"
 })
 
 export class NamespaceListTs extends Vue {
-    activeAccount: any
-    app: any
+    activeAccount: StoreAccount
+    app: AppInfo
     currentNamespace = ''
     pageSize: number = networkConfig.namespaceListSize
     page: number = 1
@@ -102,7 +102,6 @@ export class NamespaceListTs extends Vue {
         const {currentHeight} = this
         const {address} = this.wallet
         return AppMosaics().getAvailableToBeLinked(currentHeight, address, this.$store)
-
     }
 
     get namespaceLoading() {
@@ -135,26 +134,9 @@ export class NamespaceListTs extends Vue {
         }
     }
 
-
-    closeMosaicAliasDialog() {
-        this.showMosaicAliasDialog = false
-    }
-
-    closeUnAliasDialog() {
-        this.showUnAliasDialog = false
-    }
-
     showEditDialog(namespaceName) {
         this.currentNamespace = namespaceName
         this.showNamespaceEditDialog = true
-    }
-
-    closeNamespaceEditDialog() {
-        this.showNamespaceEditDialog = false
-    }
-
-    closeAddressAliasDialog() {
-        this.isShowAddressAliasDialog = false
     }
 
     computeDuration(namespaceInfo) {
@@ -180,7 +162,6 @@ export class NamespaceListTs extends Vue {
     showAddressLinkDialog(aliasItem) {
         this.isShowAddressAliasDialog = true
         this.aliasDialogItem = aliasItem
-
     }
 
     durationToTime(duration) {
@@ -201,9 +182,9 @@ export class NamespaceListTs extends Vue {
         this.isShowExpiredNamespace = !isShowExpiredNamespace
     }
 
-    @Watch('NamespaceList', {deep: true})
+    // @TODO: probably unnecessary
+    @Watch('namespaceList', {deep: true})
     onNamespaceListChange() {
-
         this.initNamespace()
     }
 
@@ -215,5 +196,4 @@ export class NamespaceListTs extends Vue {
     mounted() {
         this.initNamespace()
     }
-
 }
