@@ -65,7 +65,7 @@ export class WalletDetailsTs extends Vue {
         return this.app.chainStatus.currentHeight
     }
 
-    get namespaceList() {
+    get NamespaceList() {
         return this.activeAccount.namespaces
     }
 
@@ -75,7 +75,7 @@ export class WalletDetailsTs extends Vue {
 
     get getSelfAlias() {
         const {currentHeight} = this
-        return this.namespaceList
+        return this.NamespaceList
             .filter(namespace =>
                 namespace.alias instanceof AddressAlias &&
                 //@ts-ignore
