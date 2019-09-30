@@ -42,6 +42,7 @@
         confirmedTxListener = null
         txStatusListener = null
         chainListeners: ChainListeners = null
+
         get node(): string {
             return this.activeAccount.node
         }
@@ -117,13 +118,12 @@
                     this.$store.commit('SET_MULTISIG_LOADING', true),
                 ])
 
-                //@TODO: moove from there
+                //@TODO: move from there
                 const mosaicListFromStorage = localRead(newWallet.address)
                 const parsedMosaicListFromStorage = mosaicListFromStorage === ''
                     ? false : JSON.parse(mosaicListFromStorage)
-
+                // AppWallet.getAccountInfo(this.$store)
                 if (mosaicListFromStorage) await this.$store.commit('SET_MOSAICS', parsedMosaicListFromStorage)
-
                 const initMosaicsAndNamespaces = await Promise.all([
                     // @TODO make it an AppWallet methods
                     initMosaic(newWallet, this),
@@ -138,7 +138,7 @@
                 ])
 
                 new AppWallet(newWallet).setMultisigStatus(this.node, this.$store)
-                
+
                 if (!this.chainListeners) {
                     this.chainListeners = new ChainListeners(this, newWallet.address, this.node)
                     this.chainListeners.start()
@@ -179,26 +179,26 @@
                     mosaicsAmountViewFromAddress(node, accountAddress),
                 ])
 
-                const appNamespaces = promises[0] 
+                const appNamespaces = promises[0]
                 // @TODO: refactor
                 const mosaicAmountViews = promises[1]
                 const appMosaics = mosaicAmountViews.map(x => AppMosaic.fromMosaicAmountView(x))
-                
+
                 await Promise.all([
                     this.$store.commit('UPDATE_MULTISIG_ACCOUNT_MOSAICS', {
-                      address, mosaics: appMosaics,
+                        address, mosaics: appMosaics,
                     }),
                     this.$store.commit('SET_MULTISIG_ACCOUNT_NAMESPACES', {
-                      address, namespaces: appNamespaces,
+                        address, namespaces: appNamespaces,
                     }),
                 ])
 
                 const appMosaicsFromNamespaces = await AppMosaics().fromAppNamespaces(appNamespaces)
                 await this.$store.commit('UPDATE_MULTISIG_ACCOUNT_MOSAICS', {
-                      address, mosaics: appMosaicsFromNamespaces,
+                    address, mosaics: appMosaicsFromNamespaces,
                 })
             } catch (error) {
-                throw new Error(error) 
+                throw new Error(error)
             }
         }
 
@@ -224,6 +224,7 @@
                 })
             }
         }
+
         /**
          * Add namespaces and divisibility to transactions and balances
          */

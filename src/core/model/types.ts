@@ -21,7 +21,7 @@ export interface AddressAndMosaics {
 
 export interface AddressAndMultisigInfo {
     address: string
-    multisigAccountInfo: MultisigAccountInfo 
+    multisigAccountInfo: MultisigAccountInfo
 }
 
 export interface StoreAccount {

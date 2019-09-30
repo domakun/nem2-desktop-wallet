@@ -6,7 +6,7 @@
             @close="showDialog = false"
     />
 
-    <div class="bottom_transactions radius scroll" >
+    <div class="bottom_transactions radius scroll">
       <div class="splite_page">
         <span>{{$t('total')}}：{{transactionList.length}} {{$t('data')}}</span>
         <Page @on-change="changePage" :total="transactionList.length" class="page_content"/>
@@ -63,7 +63,13 @@
                         :class="['overflow_ellipsis',!c.isReceipt ? 'green' : 'red']"
                         v-if="c.rawTx.type === TransactionType.TRANSFER"
                 >
+
                     {{ renderMosaics(c.rawTx.mosaics, mosaicList, currentXem) }}
+                  <!--                   <span v-for="m in renderMosaics(c.rawTx.mosaics, mosaicList, currentXem) ">-->
+                  <!--                     <span v-if="m.ownerPublicKey == publicKey">{{ m.amount}}[{{m.name}}]</span>-->
+                  <!--                     <span v-else>{{ m.amount}}[{{m.name}}]</span>-->
+                  <!--                   </span>-->
+
                 </span>
                   <span
                           class="red "
