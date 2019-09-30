@@ -621,7 +621,7 @@ export const en_US = {
     Namespace_cannot_be_a_null_or_empty_string: 'Namespace cannot be a null or empty string',
     The_root_namespace_cannot_be_longer_than_16: 'The root namespace cannot be longer than 16',
     The_sub_namespace_cannot_be_longer_than_16: 'The sub namespace cannot be longer than 64',
-    Namespace_must_start_with_a_letter: 'Namespace must start with a letter',
+    Namespace_must_start_with_a_letter: 'Namespace must start with  a small case letter',
     Namespace_can_only_contain_numbers_letters_and_other: 'Namespace can only contain numbers, letters, _ and -',
     Namespace_cannot_use_forbidden_words: 'Namespace cannot use forbidden words',
     clear_cache: 'Clear cache',

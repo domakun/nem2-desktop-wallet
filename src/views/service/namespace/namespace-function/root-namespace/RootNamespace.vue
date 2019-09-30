@@ -66,7 +66,7 @@
           </div>
         </div>
 
-        <!--        multisign fee-->
+        <!--        multisig fee-->
         <div v-else="typeList[1].isSelected">
 
           <div class="form_item">

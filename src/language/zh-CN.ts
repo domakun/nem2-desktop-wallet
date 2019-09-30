@@ -618,7 +618,7 @@ export const zh_CN = {
     Namespace_cannot_be_a_null_or_empty_string: 'Namespace 不能为空值或空字符串',
     The_root_namespace_cannot_be_longer_than_16: 'Root namespace 长度不能大于16',
     The_sub_namespace_cannot_be_longer_than_16: 'Sub namespace 长度不能大于64',
-    Namespace_must_start_with_a_letter: 'Namespace 必须以字母开头',
+    Namespace_must_start_with_a_letter: 'Namespace 必须以小写字母开头',
     Namespace_can_only_contain_numbers_letters_and_other: 'Namespace 只能包含数字，字母，_和-',
     Namespace_cannot_use_forbidden_words: 'Namespace 不能使用禁止的单词',
     clear_cache: '重置账户',

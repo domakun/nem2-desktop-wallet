@@ -1,6 +1,6 @@
 <template>
-  <div class="remote_board_container secondary_page_animate scroll">
-    <div class="top_network_info radius scroll" style="display: block;">
+  <div class="remote_board_container secondary_page_animate">
+    <div class="top_network_info radius" style="display: block;">
       <div class="remote_total">
         <strong class="trend"> {{$t('Remote_title_receipt')}}</strong>
         <div class="num_class">
@@ -10,7 +10,6 @@
           <div class="div_cer">
             <span class="remote_public_key">{{$t('Remote_state')}}：</span>
             <span>{{isLinked?'Linked':'Unlink'}}</span>
-            <!--            <i-switch v-model="isLinked" @on-change="toggleSwitch"/>-->
             <button :class="[isLinked?'toggle_link_button_to_unlink':'toggle_link_button_to_link','pointer']"
                     @click="toggleSwitch">
               {{isLinked?$t('Unlink_now'):$t('Link_now')}}
