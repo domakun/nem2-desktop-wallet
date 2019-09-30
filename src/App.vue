@@ -128,7 +128,6 @@
                 const mosaicListFromStorage = localRead(newWallet.address)
                 const parsedMosaicListFromStorage = mosaicListFromStorage === ''
                     ? false : JSON.parse(mosaicListFromStorage)
-                // AppWallet.getAccountInfo(this.$store)
                 if (mosaicListFromStorage) await this.$store.commit('SET_MOSAICS', parsedMosaicListFromStorage)
                 const initMosaicsAndNamespaces = await Promise.all([
                     // @TODO make it an AppWallet methods
