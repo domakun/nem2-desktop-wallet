@@ -6,12 +6,12 @@ import {
     renderMosaics, renderMosaicNames, renderMosaicAmount
 } from '@/core/utils'
 import TransactionModal from '@/views/monitor/monitor-transaction-modal/TransactionModal.vue'
-import {TransferType} from "@/core/model/TransferType";
+import {TransferType} from "@/core/model/TransferType"
 import {StoreAccount, AppInfo, FormattedTransaction} from "@/core/model"
 
 @Component({
     computed: {...mapState({activeAccount: 'account', app: 'app'})},
-    components: { TransactionModal },
+    components: {TransactionModal},
 })
 export class CollectionRecordTs extends Vue {
     activeAccount: StoreAccount
@@ -29,7 +29,7 @@ export class CollectionRecordTs extends Vue {
 
     showDialog: boolean = false
     activeTransaction: FormattedTransaction = null
-    
+
     @Prop({
         default: () => {
             return 0
@@ -51,19 +51,19 @@ export class CollectionRecordTs extends Vue {
 
     get transferTransactionList() {
         const {transactionList} = this
-        return transactionList.filter(({rawTx})=> rawTx.type === TransactionType.TRANSFER)
+        return transactionList.filter(({rawTx}) => rawTx.type === TransactionType.TRANSFER)
     }
 
     get slicedConfirmedTransactionList() {
         const {currentMonthFirst, currentMonthLast, transferTransactionList} = this
         const filteredByDate = [...transferTransactionList]
-            .filter(item => (!item.isTxUnconfirmed
-                && item.txHeader.date <= currentMonthLast && item.txHeader.date.getDate() >= currentMonthFirst))
+        // @ts-ignore
+            .filter(item => (!item.isTxUnconfirmed && item.txHeader.date <= currentMonthLast && item.txHeader.date >= currentMonthFirst))
         if (!filteredByDate.length) return []
 
         return this.transactionType === TransferType.SENT
-        ? filteredByDate.filter(({txHeader}) => txHeader.tag === 'payment')
-        : filteredByDate.filter(({txHeader}) => txHeader.tag !== 'payment')
+            ? filteredByDate.filter(({txHeader}) => txHeader.tag === 'payment')
+            : filteredByDate.filter(({txHeader}) => txHeader.tag !== 'payment')
     }
 
     get mosaicList() {
