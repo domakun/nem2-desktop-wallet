@@ -3,11 +3,16 @@ import {mapState} from "vuex"
 import {formatSeconds} from '@/core/utils/utils.ts'
 import {Component, Watch, Vue} from 'vue-property-decorator'
 import NamespaceEditDialog from './namespace-edit-dialog/NamespaceEditDialog.vue'
-import {networkConfig, namespaceSortType} from '@/config'
+import {networkConfig} from '@/config'
 import {AppMosaics} from '@/core/services/mosaics'
-import {sortByBindType, sortByduration, sortByName, sortByOwnerShip, sortByBindInfo} from "@/core/services/namespace"
+import {
+    sortByNamespaceBindInfo, sortByNamespaceBindType,
+    sortByNamespaceDuration,
+    sortByNamespaceName,
+    sortByNamespaceOwnerShip
+} from "@/core/services/namespace"
 import {StoreAccount, AppInfo, MosaicNamespaceStatusType} from "@/core/model"
-
+import {namespaceSortType} from '@/config/view/namespace.ts'
 import NamespaceUnAliasDialog
     from '@/views/service/namespace/namespace-function/namespace-list/namespace-unAlias-dialog/NamespaceUnAliasDialog.vue'
 import NamespaceMosaicAliasDialog
@@ -117,19 +122,19 @@ export class NamespaceListTs extends Vue {
         const currentNamespaceList = [...this.currentNamespaceList]
         switch (type) {
             case namespaceSortType.byName:
-                this.currentNamespaceList = sortByName(currentNamespaceList)
+                this.currentNamespaceList = sortByNamespaceName(currentNamespaceList)
                 break
             case namespaceSortType.byDuration:
-                this.currentNamespaceList = sortByduration(currentNamespaceList)
+                this.currentNamespaceList = sortByNamespaceDuration(currentNamespaceList)
                 break
             case namespaceSortType.byBindInfo:
-                this.currentNamespaceList = sortByBindInfo(currentNamespaceList)
+                this.currentNamespaceList = sortByNamespaceBindInfo(currentNamespaceList)
                 break
             case namespaceSortType.byBindType:
-                this.currentNamespaceList = sortByBindType(currentNamespaceList)
+                this.currentNamespaceList = sortByNamespaceBindType(currentNamespaceList)
                 break
             case namespaceSortType.byOwnerShip:
-                this.currentNamespaceList = sortByOwnerShip(currentNamespaceList)
+                this.currentNamespaceList = sortByNamespaceOwnerShip(currentNamespaceList)
                 break
         }
     }

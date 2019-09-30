@@ -40,7 +40,7 @@ export const monitorReceiptTransferTypeConfig = [
         isSelect: false,
         disabled: false
     }, {
-        name: 'crosschain_transfer',
+        name: 'cross_chain_transfer',
         isSelect: false,
         disabled: true
     }, {
@@ -60,7 +60,7 @@ export const monitorTransferTransferTypeConfig = [
         isSelect: false,
         disabled: false
     }, {
-        name: 'crosschain_transfer',
+        name: 'cross_chain_transfer',
         isSelect: false,
         disabled: true
     }, {

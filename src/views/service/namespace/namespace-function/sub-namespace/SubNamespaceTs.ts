@@ -1,12 +1,12 @@
 import {mapState} from "vuex"
 import {Address, PublicAccount, MultisigAccountInfo, NetworkType} from "nem2-sdk"
 import {Component, Vue, Watch} from 'vue-property-decorator'
-import {Message, networkConfig, formDataConfig, defaultNetworkConfig, DEFAULT_FEES, FEE_GROUPS} from "@/config"
+import {Message, networkConfig, defaultNetworkConfig, DEFAULT_FEES, FEE_GROUPS} from "@/config"
 import {NamespaceApiRxjs} from "@/core/api/NamespaceApiRxjs.ts"
 import {getAbsoluteMosaicAmount, formatAddress} from '@/core/utils'
 import {createBondedMultisigTransaction, createCompleteMultisigTransaction, AppNamespace, StoreAccount, AppInfo, AppWallet, DefaultFee} from "@/core/model"
 import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
-
+import {formDataConfig} from '@/config/view/form.ts'
 @Component({
     components: {
         CheckPWDialog
@@ -47,7 +47,7 @@ export class SubNamespaceTs extends Vue {
             ? Address.createFromPublicKey(activeMultisigAccount, this.wallet.networkType).plain()
             : null
     }
-    
+
     get announceInLock(): boolean {
         const {activeMultisigAccount, networkType} = this
         if (!this.activeMultisigAccount) return false
@@ -251,7 +251,7 @@ export class SubNamespaceTs extends Vue {
     closeCheckPWDialog() {
         this.showCheckPWDialog = false
     }
-    
+
     submit() {
         if (!this.isCompleteForm) return
         if (!this.checkForm()) return

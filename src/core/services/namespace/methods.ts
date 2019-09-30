@@ -25,12 +25,12 @@ export const createSubNamespace = (rootNamespaceName, subNamespaceName, networkT
     return new NamespaceApiRxjs().createdSubNamespace(subNamespaceName, rootNamespaceName, networkType, maxFee)
 }
 
-export const sortByduration = (list) => {
+export const sortByNamespaceDuration = (list) => {
     return list.sort((a, b) => {
         return b.endHeight - a.endHeight
     })
 }
-export const sortByName = (list) => {
+export const sortByNamespaceName = (list) => {
     let namespaceMap = {}
     let nameList = []
     list.forEach(item => {
@@ -42,19 +42,19 @@ export const sortByName = (list) => {
     })
 }
 
-export const sortByOwnerShip = (list) => {
+export const sortByNamespaceOwnerShip = (list) => {
     return list.sort((a, b) => {
         return b.isLinked
     })
 }
 
-export const sortByBindType = (list) => {
+export const sortByNamespaceBindType = (list) => {
     return list.sort((a, b) => {
         return b.alias.type - a.alias.type
     })
 }
 
-export const sortByBindInfo = (list) => {
+export const sortByNamespaceBindInfo = (list) => {
     return list.sort((a, b) => {
         return b.alias.type - a.alias.type
     })
