@@ -143,7 +143,6 @@
                 ])
 
                 new AppWallet(newWallet).setMultisigStatus(this.node, this.$store)
-
                 if (!this.chainListeners) {
                     this.chainListeners = new ChainListeners(this, newWallet.address, this.node)
                     this.chainListeners.start()
