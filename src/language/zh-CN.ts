@@ -174,7 +174,7 @@ export const zh_CN = {
     entrusted_harvesting_is_a_way_to_achieve_remote_online_mining_without_having_to_keep_the_original_account_open: '委托收获是可以实现远程在线“挖矿”而不必保持原账号开启的途径',
     use_the_NEM_Apostille_service_to_create_block_chain_notarized_timestamps_to_track_and_audit_file_authentication_status: '使用NEM Apostille服务创建区块链公证时间戳,跟踪和审计文件认证状态。',
     assign_tags_to_addresses_to_easily_track_contacts: '将标签分配给地址以轻松跟踪联系人',
-    use_Changelly_and_ShapeShift_widgets_to_buy_XEM_at_the_best_rates: 'Use Changelly and ShapeShift widgets to buy XEM at the best rates!',
+    use_Changelly_and_ShapeShift_widgets_to_buy_XEM_at_the_best_rates: '用最优惠的价格买到XEM!',
     receive: '收款',
 //   monitor-transfer
     transfer_target: '转账目标',
@@ -301,7 +301,7 @@ export const zh_CN = {
     multi_signature: '多重签名',
     apostille: '公证',
     address_book: '地址簿',
-    instant_exchanges: 'Instant Exchanges',
+    instant_exchanges: '即时汇率',
 
 
     //import
@@ -530,7 +530,6 @@ export const zh_CN = {
     namespace_tips_value_1: 'a, b, c, ..., z, 0, 1, 2, ..., 9, _ , -',
     namespace_tips_value_2: 'nem, user, account, org, com, biz, net, edu, mil, gov , info.',
     undefined: '未定义',
-    // namespace_duration_tip_1: '持续时间以块计算，一个块为12秒，一个块=50gas，最大有效期为365天',
     namespace_duration_tip_1: '持续时间以块计算，一个块为12秒，一个块=1/20000XEM，最大有效期为365天',
     rent: '租金',
     Update_namespace_prompts: '更新命名空间提示',
@@ -593,7 +592,7 @@ export const zh_CN = {
     success: '操作成功',
     Transaction_sending: '节点已接收事务',
     Transaction_Reception: '节点已确认事务',
-    Multisig_Transaction_Reception: 'New multisig transaction confirmed',
+    Multisig_Transaction_Reception: '新的多签交易确认了！',
     co_signers_amount_less_than_0: '共签人数不可小于1',
     min_approval_amount_less_than_0: 'Min approval 不可小于1',
     min_removal_amount_less_than_0: 'Min removal 不可小于1',
