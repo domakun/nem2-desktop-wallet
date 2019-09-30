@@ -770,5 +770,6 @@ export const en_US = {
     create_sub_wallet: 'Create sub wallet',
     Import_private_key: 'Import private key',
     copy_mnemonic: 'copy mnemonic',
-    Harvesting: 'Harvesting'
+    Harvesting: 'Harvesting',
+    ILLEGAL_PUBLICKEY_ERROR:'public key format error'
 }
