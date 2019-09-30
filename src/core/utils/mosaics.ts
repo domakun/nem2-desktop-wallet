@@ -16,9 +16,8 @@ export const renderMosaicsReturnList = (
     mosaicList: AppMosaic[],
     currentXem: string): any => {
     const items = mosaics
-        .map((mosaic: any) => {
+        .map((mosaic) => {
             const hex = mosaic.id.toHex()
-            // const owner = mosaic.mosaicInfo.owner.publicKey
             if (!mosaicList[hex] || !mosaicList[hex].properties) return
             const appMosaic = mosaicList[hex]
             const name = appMosaic.name || appMosaic.hex
@@ -45,7 +44,7 @@ export const renderMosaics = (
     mosaicList: AppMosaic[],
     currentXem: string): any => {
     const items = mosaics
-        .map((mosaic: any) => {
+        .map((mosaic) => {
             const hex = mosaic.id.toHex()
             // const owner = mosaic.mosaicInfo.owner.publicKey
             if (!mosaicList[hex] || !mosaicList[hex].properties) return

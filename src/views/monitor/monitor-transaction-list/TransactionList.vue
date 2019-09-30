@@ -63,13 +63,7 @@
                         :class="['overflow_ellipsis',!c.isReceipt ? 'green' : 'red']"
                         v-if="c.rawTx.type === TransactionType.TRANSFER"
                 >
-
                     {{ renderMosaics(c.rawTx.mosaics, mosaicList, currentXem) }}
-                  <!--                   <span v-for="m in renderMosaics(c.rawTx.mosaics, mosaicList, currentXem) ">-->
-                  <!--                     <span v-if="m.ownerPublicKey == publicKey">{{ m.amount}}[{{m.name}}]</span>-->
-                  <!--                     <span v-else>{{ m.amount}}[{{m.name}}]</span>-->
-                  <!--                   </span>-->
-
                 </span>
                   <span
                           class="red "
