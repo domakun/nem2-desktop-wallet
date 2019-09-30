@@ -69,8 +69,7 @@
         <div
                 v-for="(value, index) in currentMosaicList.slice((currentPage-1)*pageSize,currentPage*pageSize)"
                 :key="index"
-                class="listItem"
-        >
+                :class="['listItem',value.mosaicInfo.owner.publicKey == publicKey?'owned_mosaic':'']">
           <Row>
             <span class="mosaic_id">{{value.hex}}</span>
             <span class="available_quantity">{{value.mosaicInfo?formatNumber(value.mosaicInfo.supply.compact()):0}}</span>
@@ -99,12 +98,12 @@
             <span class="poptip">
               <div
                       class="listFnDiv"
-                      v-if="computeDuration(value) > 0 || computeDuration(value) === 'Forever'"
+                      v-if="value.mosaicInfo.owner.publicKey == publicKey &&(computeDuration(value) > 0 || computeDuration(value) === 'Forever')"
               >
                 <Poptip placement="bottom">
                   <i class="moreFn"></i>
                   <div slot="content" class="updateFn">
-                    <p class="fnItem" @click="showEditDialog(value)" v-if="value.supplyMutable">
+                    <p class="fnItem" @click="showEditDialog(value)" v-if="value.properties.supplyMutable">
                       <i><img src="@/common/img/service/updateMsaioc.png"></i>
                       <span class="">{{$t('modify_supply')}}</span>
                     </p>
@@ -142,12 +141,24 @@
       <p class="green_text">{{$t('mosaic_attribute_text')}}</p>
       <p>{{$t('mosaic_attribute_text_2')}}</p>
     </div>
-    <MosaicAliasDialog :showMosaicAliasDialog="showMosaicAliasDialog" :itemMosaic="selectedMosaic"
-                       @closeMosaicAliasDialog="closeMosaicAliasDialog"></MosaicAliasDialog>
-    <MosaicUnAliasDialog :showMosaicUnAliasDialog="showMosaicUnAliasDialog" :itemMosaic="selectedMosaic"
-                         @closeMosaicUnAliasDialog="closeMosaicUnAliasDialog"></MosaicUnAliasDialog>
-    <EditDialog :showMosaicEditDialog="showMosaicEditDialog" :itemMosaic="selectedMosaic"
-                @closeMosaicEditDialog="closeMosaicEditDialog"></EditDialog>
+    <MosaicAliasDialog
+        v-if="showMosaicAliasDialog"
+        :showMosaicAliasDialog="showMosaicAliasDialog"
+        :itemMosaic="selectedMosaic"
+        @close="showMosaicAliasDialog = false"
+    />
+    <MosaicUnAliasDialog
+        v-if="showMosaicUnAliasDialog"
+        :showMosaicUnAliasDialog="showMosaicUnAliasDialog"
+        :itemMosaic="selectedMosaic"
+        @close="showMosaicUnAliasDialog = false"
+    />
+    <EditDialog
+        v-if="showMosaicEditDialog"
+        :showMosaicEditDialog="showMosaicEditDialog"
+        :itemMosaic="selectedMosaic"
+        @close="showMosaicEditDialog = false"
+    />
   </div>
 </template>
 

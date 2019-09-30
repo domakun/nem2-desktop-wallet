@@ -21,7 +21,7 @@ export class MosaicApiRxjs {
         return new MosaicId(uintArray)
     }
 
-    getcurrentXEM() {
+    getCurrentXEM() {
         return NetworkCurrencyMosaic.createRelative(0)
     }
 
@@ -87,14 +87,14 @@ export class MosaicApiRxjs {
     mosaicSupplyChange(mosaicId: any,
                        delta: number,
                        MosaicSupplyType: number,
-                       netWorkType: number,
+                       networkType: number,
                        maxFee?: number) {
         return MosaicSupplyChangeTransaction.create(
             Deadline.create(),
             mosaicId,
             MosaicSupplyType,
             UInt64.fromUint(delta),
-            netWorkType,
+            networkType,
             maxFee ? UInt64.fromUint(maxFee) : undefined
         )
     }
