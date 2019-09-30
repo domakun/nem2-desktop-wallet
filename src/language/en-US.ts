@@ -629,7 +629,7 @@ export const en_US = {
     confirm_information: 'Confirm information',
     please_input_new_account_name: 'Please input new account name',
     Locking_passwords_as_a_form_of_program_protection: 'Locking passwords as a form of program protection verification.Once forgotten, there will be no recovery. Please remember your Lock password.',
-    delete_wallet_tip: 'Be careful! You\'re deleting wallet %{walletName} After changing the wallet, the wallet data will be deleted. Make sure the wallet is backed up. If you do not properly back up, you will not be able to retrieve your wallet after deleting your wallet. Please handle this operation carefully. Also, in order to ensure that I am operating, please enter the wallet password.',
+    delete_wallet_tip: 'Be careful! You\'re deleting wallet %{walletName} .Make sure the wallet is backed up. If you do not properly back up, you will not be able to retrieve your wallet after deleting your wallet. Please handle this operation carefully. Also, in order to ensure that I am operating, please enter the wallet password.',
     delete_wallet: 'Delete wallet',
 
 
@@ -768,5 +768,5 @@ export const en_US = {
     create_sub_wallet: 'Create sub wallet',
     Import_private_key: 'Import private key',
     copy_mnemonic: 'copy mnemonic',
-    Harvesting:'Harvesting'
+    Harvesting: 'Harvesting'
 }

@@ -36,9 +36,8 @@
               <i class="copyIcon" @click="copy(wallet.publicKey)"><img
                       src="@/common/img/wallet/copyIcon.png"></i>
             </p>
-            <p>
+            <p class="link_text">
               <span class="tit">{{$t('alias')}}</span>
-              <!--              <span class=" alias_delete pointer"></span>-->
               <span class="  alias_add pointer" @click="isShowBindDialog=true"></span>
 
               <span class="walletPublicKey">{{getSelfAlias.join(',')||'-'}}</span>
