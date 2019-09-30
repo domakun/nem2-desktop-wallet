@@ -2,7 +2,7 @@ import {Transaction, MultisigAccountInfo} from 'nem2-sdk';
 import {AppNamespace} from './AppNamespace';
 import {AppMosaic} from './AppMosaic';
 import {FormattedTransaction} from './FormattedTransaction';
-import {ChainStatus} from '.';
+import {ChainStatus, AppWallet} from '.';
 
 export interface AddressAndTransaction {
   address: string
@@ -30,7 +30,7 @@ export interface StoreAccount {
     currentXem: string,
     currentXEM1: string,
     account: Account | any,
-    wallet: any,
+    wallet: AppWallet,
     mosaics: Record<string, AppMosaic>,
     namespaces: any[],
     errorTx: Array<any>,
@@ -61,5 +61,7 @@ export interface AppInfo {
     transactionsLoading: boolean,
     xemUsdPrice: Number,
     namespaceLoading: boolean
-    multisigLoading: boolean
+    multisigLoading: boolean,
+    isUiDisabled: boolean,
+    uiDisabledMessage: string
 }

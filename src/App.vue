@@ -1,6 +1,7 @@
 <template>
   <div id="app" :class="[isWindows?'windows':'mac']">
     <router-view/>
+    <DisabledUiOverlay/>
   </div>
 </template>
 
@@ -28,11 +29,16 @@
     import {getNamespacesFromAddress} from '@/core/services'
     import {AppMosaic, AppWallet, AppInfo, StoreAccount} from '@/core/model'
     import {MultisigApiRxjs} from "@/core/api/MultisigApiRxjs"
+    import DisabledUiOverlay from '@/common/vue/disabled-ui-overlay/DisabledUiOverlay.vue';
+
 
     @Component({
         computed: {
             ...mapState({activeAccount: 'account', app: 'app'}),
         },
+        components: {
+            DisabledUiOverlay
+        }
     })
     export default class App extends Vue {
         isWindows = isWindows
