@@ -745,4 +745,5 @@ export const zh_CN = {
     create_sub_wallet: '创建子钱包',
     Import_private_key: '导入私钥',
     copy_mnemonic: '复制助记词',
+    Harvesting:'收获'
 }

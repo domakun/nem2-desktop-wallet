@@ -20,12 +20,6 @@
                 <span v-else>0</span>
               </span>
             </p>
-<!--            <p>-->
-<!--              <span class="tit" v-if="wallet&&wallet.path">{{$t('path')}}</span>-->
-<!--              <span>-->
-<!--                {{wallet.path}}-->
-<!--              </span>-->
-<!--            </p>-->
             <p>
               <span class="tit">{{$t('Wallet_name')}}</span>
               <span class="walletName" v-if="wallet">{{wallet.name}}</span>
@@ -93,12 +87,13 @@
             {{$t('contact_list')}}
           </li>
           <!--restrict-->
-          <!--          <li :class="['left',functionShowList[1]?'active':''] " @click="showFunctionIndex(1)">-->
-          <!--            {{$t('Filter_management')}}-->
-          <!--          </li>-->
+                    <li :class="['left',functionShowList[1]?'active':''] " @click="showFunctionIndex(1)">
+                      {{$t('Harvesting')}}
+                    </li>
         </ul>
       </div>
       <WalletAlias v-if="functionShowList[0]"></WalletAlias>
+      <WalletHarvesting v-if="functionShowList[1]"></WalletHarvesting>
       <!--      <WalletFilter v-if="functionShowList[1]"></WalletFilter>-->
     </div>
     <MnemonicDialog :showMnemonicDialog="showMnemonicDialog"
