@@ -18,8 +18,8 @@ export class CollectionRecordTs extends Vue {
     app: AppInfo
     transactionHash = ''
     isShowSearchDetail = false
-    currentMonthLast: any = 0
-    currentMonthFirst: number = 0
+    currentMonthLast: Date
+    currentMonthFirst: Date
     currentMonth: string = ''
     transactionDetails: any = []
     transferType = TransferType
@@ -57,8 +57,7 @@ export class CollectionRecordTs extends Vue {
     get slicedConfirmedTransactionList() {
         const {currentMonthFirst, currentMonthLast, transferTransactionList} = this
         const filteredByDate = [...transferTransactionList]
-        // @ts-ignore
-            .filter(item => (!item.isTxUnconfirmed && item.txHeader.date <= currentMonthLast && item.txHeader.date >= currentMonthFirst))
+            .filter(item => (!item.isTxUnconfirmed && item.txHeader.date.getTime() <= currentMonthLast.getTime()  && item.txHeader.date.getTime() >= currentMonthFirst.getTime() ))
         if (!filteredByDate.length) return []
 
         return this.transactionType === TransferType.SENT

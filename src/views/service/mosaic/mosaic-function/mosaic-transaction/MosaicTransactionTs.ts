@@ -19,10 +19,9 @@ import {
     formatSeconds, formatAddress, getAbsoluteMosaicAmount,
 } from '@/core/utils'
 import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
-import {defaultNetworkConfig, Message, DEFAULT_FEES, FEE_GROUPS} from '@/config'
+import {defaultNetworkConfig, Message,formDataConfig, DEFAULT_FEES, FEE_GROUPS} from '@/config'
 import {createBondedMultisigTransaction, createCompleteMultisigTransaction, StoreAccount, AppWallet, DefaultFee} from "@/core/model"
 import {NETWORK_PARAMS} from '@/core/validation'
-import {formDataConfig} from '@/config/view/form.ts'
 @Component({
     components: {
         CheckPWDialog

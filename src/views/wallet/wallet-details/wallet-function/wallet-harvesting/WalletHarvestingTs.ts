@@ -21,7 +21,7 @@ export class WalletHarvestingTs extends Vue {
     isLinkToRemote = false
     isShowDialog = false
     remotePublickey = ''
-    formItem: any = formDataConfig.remoteForm
+    formItems: any = formDataConfig.remoteForm
 
     get getWallet() {
         return this.activeAccount.wallet
@@ -48,11 +48,7 @@ export class WalletHarvestingTs extends Vue {
     }
 
     initForm() {
-        this.formItem = {
-            remotePublickey: '',
-            fee: 0.5,
-            password: ''
-        }
+        this.formItems = formDataConfig.remoteForm
     }
 
     changePage() {
@@ -77,7 +73,7 @@ export class WalletHarvestingTs extends Vue {
     }
 
     checkForm(): boolean {
-        const {remotePublickey, fee, password} = this.formItem
+        const {remotePublickey, fee, password} = this.formItems
         if (remotePublickey.length !== 64) {
             this.showErrorMessage(this.$t(Message.ILLEGAL_PUBLICKEY_ERROR) + '')
             return false
@@ -111,7 +107,7 @@ export class WalletHarvestingTs extends Vue {
     }
 
     sendTransaction() {
-        let {remotePublickey, fee, password} = this.formItem
+        let {remotePublickey, fee, password} = this.formItems
         const {generationHash, node, networkType, xemDivisibility, isLinked} = this
         console.log(fee, xemDivisibility)
         fee = getAbsoluteMosaicAmount(fee, xemDivisibility)
@@ -145,7 +141,7 @@ export class WalletHarvestingTs extends Vue {
                 that.remotePublickey = ''
                 if (Number(that.remotePublickey) != 0) {
                     // switch on
-                    that.formItem.remotePublickey = that.remotePublickey
+                    that.formItems.remotePublickey = that.remotePublickey
                     that.isLinked = true
                     return
                 }

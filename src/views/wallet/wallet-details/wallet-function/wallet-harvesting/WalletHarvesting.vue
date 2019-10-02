@@ -82,19 +82,19 @@
 
       <div class="gray_input_content">
         <span class="title">{{$t('remote_modal_pul')}}</span>
-        <input type="text" v-model="formItem.remotePublickey" :placeholder="$t('remote_modal_place1')">
+        <input type="text" v-model="formItems.remotePublickey" :placeholder="$t('remote_modal_place1')">
       </div>
 
       <div class="gray_input_content">
         <span class="title">{{$t('fee')}}</span>
-        <input type="text" v-model="formItem.fee" :placeholder="$t('fee')">
+        <input type="text" v-model="formItems.fee" :placeholder="$t('fee')">
         <!--        <span class="gas">gas</span>-->
       </div>
 
 
       <div class="gray_input_content">
         <span class="title">{{$t('password')}}</span>
-        <input type="password" v-model="formItem.password" :placeholder="$t('remote_modal_place2')">
+        <input type="password" v-model="formItems.password" :placeholder="$t('remote_modal_place2')">
 
       </div>
 

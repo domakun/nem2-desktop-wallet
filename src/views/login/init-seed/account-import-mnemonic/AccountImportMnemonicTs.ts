@@ -1,4 +1,4 @@
-import {Message} from "@/config/index.ts"
+import {Message,formDataConfig} from "@/config/index.ts"
 import {mapState} from 'vuex'
 import {Password} from "nem2-sdk"
 import {Component, Vue} from 'vue-property-decorator'
@@ -6,7 +6,6 @@ import {networkTypeConfig} from '@/config/view/setting'
 import {AppLock} from "@/core/utils"
 import {AppInfo, StoreAccount, AppWallet} from "@/core/model"
 import CheckPasswordDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
-import {formDataConfig} from '@/config/view/form.ts'
 @Component({
     computed: {
         ...mapState({

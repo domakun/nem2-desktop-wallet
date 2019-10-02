@@ -6,8 +6,7 @@ import {
 } from 'nem2-sdk'
 import {mapState} from "vuex"
 import {Component, Vue, Watch} from 'vue-property-decorator'
-import {Message, DEFAULT_FEES, FEE_GROUPS, defaultNetworkConfig} from "@/config/index.ts"
-import {formDataConfig} from '@/config/view/form.ts'
+import {Message, formDataConfig,DEFAULT_FEES, FEE_GROUPS, defaultNetworkConfig} from "@/config/index.ts"
 import CheckPWDialog from '@/common/vue/check-password-dialog/CheckPasswordDialog.vue'
 import {createBondedMultisigTransaction, StoreAccount, DefaultFee, AppWallet} from "@/core/model"
 import {getAbsoluteMosaicAmount, formatAddress} from "@/core/utils"
