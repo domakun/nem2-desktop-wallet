@@ -114,15 +114,11 @@ export class RemoteAccountService {
       const delegatedPrivateKey = this
         .getRemoteAccountFromLinkedAccountKey(password)
         .privateKey
-
-      const accountPrivateKey = this.wallet.getAccount(password).privateKey
-
       return PersistentDelegationRequestTransaction
         .createPersistentDelegationRequestTransaction(
           deadline,
           delegatedPrivateKey,
           recipientPublicKey,
-          accountPrivateKey,
           this.wallet.networkType,
           feeAmount,
         )

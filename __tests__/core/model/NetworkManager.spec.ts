@@ -29,7 +29,8 @@ OnWalletChange.trigger = mockOnWalletChangeTrigger
 const mockGetBlockByHeight = blockNumber => of(blockNumber).pipe(
   tap(blockNumber => mockGetBlockByHeightCall(blockNumber)),
   switchMap(blockNumber => {
-    if (blockNumber === '29248') return of(block29248)
+    const _blockNumber = blockNumber.compact()
+    if (_blockNumber === 29248) return of(block29248)
     return of(block1)
   }),
 )
@@ -37,7 +38,8 @@ const mockGetBlockByHeight = blockNumber => of(blockNumber).pipe(
 const mockGetBlockByHeightWithLimit = blockNumber => of(blockNumber).pipe(
   tap(blockNumber => mockGetBlockByHeightWithLimitCall(blockNumber)),
   switchMap(blockNumber => {
-    if (blockNumber === '29248') return of([block29248])
+    const _blockNumber = blockNumber.compact()
+    if (_blockNumber === 29248) return of([block29248])
     return of(block1)
   }),
 )

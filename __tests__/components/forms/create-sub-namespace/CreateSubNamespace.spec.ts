@@ -103,7 +103,7 @@ describe('CreateSubNamespace', () => {
 
     const namespaceRegistrationTransaction = wrapper.vm.transactionList[0]
     expect(namespaceRegistrationTransaction).toBeInstanceOf(NamespaceRegistrationTransaction)
-    expect(namespaceRegistrationTransaction.type).toBe(TransactionType.REGISTER_NAMESPACE)
+    expect(namespaceRegistrationTransaction.type).toBe(TransactionType.NAMESPACE_REGISTRATION)
     expect(namespaceRegistrationTransaction.networkType).toBe(CosignWallet.networkType)
     expect(namespaceRegistrationTransaction.version).not.toBeUndefined()
     expect(namespaceRegistrationTransaction.deadline).not.toBeUndefined()
@@ -137,7 +137,7 @@ describe('CreateSubNamespace', () => {
     expect(aggregateTransaction.maxFee).toBeInstanceOf(UInt64)
 
     expect(namespaceRegistrationTransaction).toBeInstanceOf(NamespaceRegistrationTransaction)
-    expect(namespaceRegistrationTransaction.type).toBe(TransactionType.REGISTER_NAMESPACE)
+    expect(namespaceRegistrationTransaction.type).toBe(TransactionType.NAMESPACE_REGISTRATION)
     expect(namespaceRegistrationTransaction.networkType).toBe(CosignWallet.networkType)
     expect(namespaceRegistrationTransaction.version).not.toBeUndefined()
     expect(namespaceRegistrationTransaction.deadline).not.toBeUndefined()
@@ -171,7 +171,7 @@ describe('CreateSubNamespace', () => {
     expect(aggregateTransaction.maxFee).toBeInstanceOf(UInt64)
 
     expect(namespaceRegistrationTransaction).toBeInstanceOf(NamespaceRegistrationTransaction)
-    expect(namespaceRegistrationTransaction.type).toBe(TransactionType.REGISTER_NAMESPACE)
+    expect(namespaceRegistrationTransaction.type).toBe(TransactionType.NAMESPACE_REGISTRATION)
     expect(namespaceRegistrationTransaction.networkType).toBe(CosignWallet.networkType)
     expect(namespaceRegistrationTransaction.version).not.toBeUndefined()
     expect(namespaceRegistrationTransaction.deadline).not.toBeUndefined()
@@ -211,7 +211,7 @@ describe('CreateSubNamespace', () => {
     await flushPromises()
     const namespaceRegistrationTransaction = wrapper.vm.transactionList[0]
     expect(namespaceRegistrationTransaction).toBeInstanceOf(NamespaceRegistrationTransaction)
-    expect(namespaceRegistrationTransaction.type).toBe(TransactionType.REGISTER_NAMESPACE)
+    expect(namespaceRegistrationTransaction.type).toBe(TransactionType.NAMESPACE_REGISTRATION)
     expect(namespaceRegistrationTransaction.networkType).toBe(CosignWallet.networkType)
     expect(namespaceRegistrationTransaction.version).not.toBeUndefined()
     expect(namespaceRegistrationTransaction.deadline).not.toBeUndefined()

@@ -78,7 +78,7 @@ describe('Endpoints', () => {
     expect(mockCommit.mock.calls[1][0]).toBe('SET_NODE')
     expect(mockCommit.mock.calls[1][1]).toStrictEqual({
       'networkType': 152,
-      'node': 'http://api-harvest-20.ap-northeast-1.nemtech.network:3000',
+      'node': 'http://api-20.us-west-1.nemtech.network:3000',
     })
     done()
   })
@@ -102,7 +102,7 @@ describe('Endpoints', () => {
     expect(mockCommit.mock.calls[1][0]).toBe('SET_NODE')
     expect(mockCommit.mock.calls[1][1]).toStrictEqual({
       'networkType': 152,
-      'node': 'http://api-harvest-20.ap-northeast-1.nemtech.network:3000',
+      'node': 'http://api-20.us-west-1.nemtech.network:3000',
     })
     done()
   })

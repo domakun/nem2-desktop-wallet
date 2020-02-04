@@ -51,7 +51,7 @@ export class ProxySettingTs extends Vue {
 
   get isUnconfirmedLinkTransactionExisted() {
     return this.activeAccount.transactionList.find(
-      item => item.isTxConfirmed === false && item.rawTx.type === TransactionType.LINK_ACCOUNT,
+      item => item.isTxConfirmed === false && item.rawTx.type === TransactionType.ACCOUNT_LINK,
     )
   }
 

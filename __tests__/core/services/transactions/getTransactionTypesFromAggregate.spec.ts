@@ -57,7 +57,7 @@ describe('getTransactionTypesFromAggregate', () => {
     const transactionTypesFromAggregate = getTransactionTypesFromAggregate(aggregateTransaction)
 
     expect(transactionTypesFromAggregate).toEqual([
-      TransactionType.REGISTER_NAMESPACE,
+      TransactionType.NAMESPACE_REGISTRATION,
       TransactionType.TRANSFER,
       TransactionType.MOSAIC_ALIAS,
     ])

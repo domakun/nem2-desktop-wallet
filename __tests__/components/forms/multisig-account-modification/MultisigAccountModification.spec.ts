@@ -164,7 +164,7 @@ describe('MultisigAccountModification', () => {
     expect(transaction.deadline).toBeInstanceOf(Deadline)
 
     const innerTransaction: MultisigAccountModificationTransaction = transaction.innerTransactions[0]
-    expect(innerTransaction.type).toBe(TransactionType.MODIFY_MULTISIG_ACCOUNT)
+    expect(innerTransaction.type).toBe(TransactionType.MULTISIG_ACCOUNT_MODIFICATION)
     expect(innerTransaction.networkType).toBe(CosignWallet.networkType)
     expect(innerTransaction.maxFee.compact()).toBe(3)
     expect(innerTransaction.deadline).toBeInstanceOf(Deadline)
@@ -202,7 +202,7 @@ describe('MultisigAccountModification', () => {
     expect(transaction.deadline).toBeInstanceOf(Deadline)
 
     const [innerTransaction] = transaction.innerTransactions
-    expect(innerTransaction.type).toBe(TransactionType.MODIFY_MULTISIG_ACCOUNT)
+    expect(innerTransaction.type).toBe(TransactionType.MULTISIG_ACCOUNT_MODIFICATION)
     expect(innerTransaction.networkType).toBe(CosignWallet.networkType)
     expect(innerTransaction.maxFee.compact()).toBe(3)
     expect(innerTransaction.deadline).toBeInstanceOf(Deadline)
@@ -240,7 +240,7 @@ describe('MultisigAccountModification', () => {
     expect(transaction.deadline).toBeInstanceOf(Deadline)
 
     const [innerTransaction] = transaction.innerTransactions
-    expect(innerTransaction.type).toBe(TransactionType.MODIFY_MULTISIG_ACCOUNT)
+    expect(innerTransaction.type).toBe(TransactionType.MULTISIG_ACCOUNT_MODIFICATION)
     expect(innerTransaction.networkType).toBe(CosignWallet.networkType)
     expect(innerTransaction.maxFee.compact()).toBe(3)
     expect(innerTransaction.deadline).toBeInstanceOf(Deadline)

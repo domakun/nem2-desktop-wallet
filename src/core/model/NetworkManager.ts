@@ -1,6 +1,6 @@
 import {
   ChainHttp, BlockHttp, QueryParams, TransactionType, NamespaceService, NamespaceHttp,
-  MosaicAliasTransaction, MosaicDefinitionTransaction, Namespace, BlockInfo,
+  MosaicAliasTransaction, MosaicDefinitionTransaction, Namespace, BlockInfo, UInt64,
 } from 'nem2-sdk'
 import {Store} from 'vuex'
 import {AppState, Notice, AppMosaic, NetworkProperties} from '.'
@@ -63,7 +63,7 @@ export class NetworkManager {
     const that = this
 
     this.blockHttp
-      .getBlockByHeight('1')
+      .getBlockByHeight(UInt64.fromUint(1))
       .subscribe(
         (block: BlockInfo) => {
           that.generationHash = block.generationHash
@@ -80,7 +80,7 @@ export class NetworkManager {
     const heightUint = await this.chainHttp.getBlockchainHeight().toPromise()
     const height = heightUint.compact()
     const blocksInfo = await this.blockHttp.getBlocksByHeightWithLimit(
-      `${height}`, maxDifficultyBlocks,
+      UInt64.fromUint(height), maxDifficultyBlocks,
     ).toPromise()
     this.networkProperties.initializeLatestBlocks(blocksInfo, currentEndpoint)
   }
@@ -94,7 +94,7 @@ export class NetworkManager {
   private async setNetworkMosaics(): Promise<void> {
     const {store} = this
     const currentEndpoint = `${this.endpoint}`
-    const firstTx = await this.blockHttp.getBlockTransactions('1', new QueryParams(100)).toPromise()
+    const firstTx = await this.blockHttp.getBlockTransactions(UInt64.fromUint(1), new QueryParams(100)).toPromise()
     const mosaicDefinitionTx: any[] = firstTx.filter(({type}) => type === TransactionType.MOSAIC_DEFINITION)
     const mosaicAliasTx: any[] = firstTx.filter(({type}) => type === TransactionType.MOSAIC_ALIAS)
     const [firstAliasTx]: any = mosaicAliasTx

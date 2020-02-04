@@ -8,7 +8,7 @@ export const transactionTypeConfig = {
   },
   'register_namespace': {
     label: 'register_namespace',
-    value: TransactionType.REGISTER_NAMESPACE,
+    value: TransactionType.NAMESPACE_REGISTRATION,
   },
   'address_alias': {
     label: 'address_alias',
@@ -28,7 +28,7 @@ export const transactionTypeConfig = {
   },
   'modify_multisig_account': {
     label: 'modify_multisig_account',
-    value: TransactionType.MODIFY_MULTISIG_ACCOUNT,
+    value: TransactionType.MULTISIG_ACCOUNT_MODIFICATION,
   },
   'aggregate_complete': {
     label: 'aggregate_complete',
@@ -41,7 +41,7 @@ export const transactionTypeConfig = {
   },
   'lock': {
     label: 'lock',
-    value: TransactionType.LOCK,
+    value: TransactionType.HASH_LOCK,
   },
   'secret_lock': {
     label: 'secret_lock',
@@ -53,18 +53,18 @@ export const transactionTypeConfig = {
   },
   'modify_account_property_address': {
     label: 'modify_account_property_address',
-    value: TransactionType.ACCOUNT_RESTRICTION_ADDRESS,
+    value: TransactionType.ACCOUNT_ADDRESS_RESTRICTION,
   },
   'modify_account_property_mosaic': {
     label: 'modify_account_property_address',
-    value: TransactionType.ACCOUNT_RESTRICTION_MOSAIC,
+    value: TransactionType.ACCOUNT_MOSAIC_RESTRICTION,
   },
   'modify_account_property_entity_type': {
     label: 'modify_account_property_entity_type',
-    value: TransactionType.ACCOUNT_RESTRICTION_OPERATION,
+    value: TransactionType.ACCOUNT_OPERATION_RESTRICTION,
   },
   'link_account': {
     label: 'link_account',
-    value: TransactionType.LINK_ACCOUNT,
+    value: TransactionType.ACCOUNT_LINK,
   },
 }

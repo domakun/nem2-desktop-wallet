@@ -3,9 +3,9 @@ import {NetworkType} from 'nem2-sdk'
 
 export const defaultNodeList: Endpoint[] = [
   {
-    value: 'http://api-harvest-20.ap-northeast-1.nemtech.network:3000',
-    name: 'ap-northeast-1',
-    url: 'api-harvest-20.ap-northeast-1.nemtech.network',
+    value: 'http://api-20.us-west-1.nemtech.network:3000',
+    name: 'us-west-1',
+    url: 'api-20.us-west-1.nemtech.network',
     networkType:NetworkType.TEST_NET,
   },
   {
@@ -25,13 +25,6 @@ export const defaultNodeList: Endpoint[] = [
     name: 'us-west-1',
     url: 'api-harvest-20.us-west-1.nemtech.network',
     networkType:NetworkType.TEST_NET,
-  },
-  {
-    value: 'http://api-20.us-west-1.nemtech.network:3000',
-    name: 'us-west-1',
-    url: 'api-20.us-west-1.nemtech.network',
-    networkType:NetworkType.TEST_NET,
-
   },
   {
     value: 'http://localhost:3000',

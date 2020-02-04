@@ -6,17 +6,17 @@ import {
 } from '@/core/services'
 
 const txTypeToGetNamespaces = [
-  TransactionType.REGISTER_NAMESPACE,
+  TransactionType.NAMESPACE_REGISTRATION,
   TransactionType.MOSAIC_ALIAS,
   TransactionType.ADDRESS_ALIAS,
 ]
 
 const txTypeToSetAccountInfo = [
-  TransactionType.LINK_ACCOUNT,
+  TransactionType.ACCOUNT_LINK,
 ]
 
 const txTypeToGetMultisigInfo = [
-  TransactionType.MODIFY_MULTISIG_ACCOUNT,
+  TransactionType.MULTISIG_ACCOUNT_MODIFICATION,
 ]
 
 /**
