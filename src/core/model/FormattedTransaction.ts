@@ -1,20 +1,33 @@
 import {TransactionHeader} from '@/core/model'
-import {Transaction, Address} from 'nem2-sdk'
+import {Transaction} from 'nem2-sdk'
+import {AppState, TransactionStatusGroups, TransactionFormatterOptions, TransactionCategories} from './types'
+import {Store} from 'vuex'
 
-/**
- * Formatted transaction to be injected in the views
- */
 export abstract class FormattedTransaction {
-    rawTx: Transaction
-    txHeader: TransactionHeader
-    txBody: any
-    isTxUnconfirmed: boolean
-    store: any
-  
-    constructor(transaction: any, address: Address, currentXem: string, xemDivisibility: number, store: any) {
-        this.rawTx = transaction
-        this.txHeader = new TransactionHeader(transaction, address, currentXem, xemDivisibility, store)
-        this.isTxUnconfirmed = transaction.isTxUnconfirmed || false // @TODO: don't add key to Transaction
-        return this
-    }
+  dialogDetailMap?: any
+  formattedInnerTransactions?: FormattedTransaction[]
+  icon?: any
+  rawTx: Transaction
+  store: Store<AppState>
+  toCosign: boolean
+  transactionStatusGroup: TransactionStatusGroups
+  txBody: any
+  txHeader: TransactionHeader
+
+  constructor(
+    transaction: any,
+    store: Store<AppState>,
+    options?: TransactionFormatterOptions,
+  ) {
+    this.rawTx = transaction
+    this.txHeader = new TransactionHeader(transaction, store)
+    this.toCosign = options && options.transactionCategory
+          && options.transactionCategory === TransactionCategories.TO_COSIGN
+    this.transactionStatusGroup = options ? options.transactionStatusGroup : TransactionStatusGroups.confirmed
+    return this
+  }
+
+  get isTxConfirmed(): boolean {
+    return this.transactionStatusGroup === TransactionStatusGroups.confirmed
+  }
 }

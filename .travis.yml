@@ -1,8 +1,8 @@
 language: node_js
 node_js:
+  - "12"
   - "10"
-  - "9"
-  - "8"
+
 cache:
   directories:
     - node_modules
@@ -11,7 +11,9 @@ install:
   - npm install
 
 script:
+  - npm run lint:all
   - npm run build
+  - npm run test
 
 after_script:
   - cd ./dist
@@ -26,4 +28,5 @@ after_script:
 branches:
   only:
     - master
+    - develop
 

@@ -1,35 +1,29 @@
 import i18n from '@/language'
 import VeeValidate from 'vee-validate'
 import en from 'vee-validate/dist/locale/en'
+import ja from 'vee-validate/dist/locale/ja'
 import zhCN from 'vee-validate/dist/locale/zh_CN'
-import {registerCustomValidators} from '@/core/validation/registerCustomValidators.ts'
-
-// @TODO: refactor dictionaries import
-const customMessagesEn = {
-    address: () => `this address is invalid`,
-    confirmLock: () => `this password is incorrect`,
-    confirmPassword: () => 'passwords do not match',
-}
-const customMessagesZh = {
-    address: () => `this address is invalid`,
-    confirmLock: () => `this password is incorrect`,
-    confirmPassword: () => 'passwords do not match',
-}
+import {registerCustomValidators} from './customValidators'
+import {customMessages, customFieldMessages} from './customMessages'
 
 export const veeValidateConfig = {
-    i18n,
-    fieldsBagName: 'fieldBags',
-    dictionary: {
-        'en-US': {
-            messages: {...en.messages, ...customMessagesEn},
-        },
-        'zh-CN': {
-            messages: {...zhCN.messages, ...customMessagesZh},
-        },
+  i18n,
+  fieldsBagName: 'fieldBags',
+  dictionary: {
+    'en-US': {
+      messages: {...en.messages, ...customMessages},
+      custom: customFieldMessages,
     },
-    inject: {
-        $validator: '$validator',
+    'zh-CN': {
+      messages: {...zhCN.messages},
     },
+    'ja-JP': {
+      messages: {...ja.messages},
+    },
+  },
+  inject: {
+    $validator: '$validator',
+  },
 }
 
 registerCustomValidators(VeeValidate.Validator)

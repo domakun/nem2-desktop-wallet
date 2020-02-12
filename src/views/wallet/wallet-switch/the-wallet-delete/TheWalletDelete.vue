@@ -1,14 +1,14 @@
 <template>
-  <div class="checkPWDialogWrap">
+  <div class="delete_wallet_container">
     <Modal
-            v-model="show"
-            class-name="vertical-center-modal"
-            :footer-hide="true"
-            :transfer="false"
-            @on-cancel="checkPasswordDialogCancel"
+      v-model="visible"
+      class-name="vertical-center-modal"
+      :footer-hide="true"
+      :transfer="false"
+      @on-cancel="visible = false"
     >
       <div slot="header" class="checkPWDialogHeader">
-        <span class="title">{{$t('delete_wallet')}} : {{walletToDelete.name}}</span>
+        <span class="title">{{ $t('delete_wallet') }} : {{ walletToDelete.name }}</span>
       </div>
       <div class="checkPWDialogBody">
         <div class="stepItem1">
@@ -16,17 +16,15 @@
             <img src="@/common/img/wallet/walletDeleteIcon.png">
           </div>
           <p class="checkRemind">
-            {{$t('delete_wallet_tip', {walletName :getWallet.name})}}
-            {{$t('delete_wallet_tip')}}</p>
-          <Form :model="confirmation">
-            <FormItem>
-              <Input v-model="confirmation.value" type="password" required
-                     :placeholder="$t(confirmationPrompt)"></Input>
-            </FormItem>
-            <FormItem>
-              <Button type="success" @click="submit"> {{$t('confirm')}}</Button>
-            </FormItem>
-          </Form>
+            {{ $t('delete_wallet_tip', {walletName :walletToDelete.name}) }}
+          </p>
+          <p v-if="walletList.length === 1" class="checkRemind orange">
+            {{ $t('this_account_will_be_logged_out_after_the_wallet_is_successfully_deleted') }}
+          </p>
+          <CheckPassword
+            :return-password="true"
+            @passwordValidated="passwordValidated"
+          />
         </div>
       </div>
     </Modal>
@@ -35,18 +33,8 @@
 
 
 <script lang="ts">
-    import "./TheWalletDelete.less"
-    import {TheWalletDeleteTs} from '@/views/wallet/wallet-switch/the-wallet-delete/TheWalletDeleteTs.ts'
-
-    /**
-     @Prop: showCheckPWDialog
-     @return: closeCheckPWDialog()
-     @return: checkEnd(privatekey:string)
-     */
-
-    export default class TheWalletDelete extends TheWalletDeleteTs {
-    }
+import './TheWalletDelete.less'
+import {TheWalletDeleteTs} from '@/views/wallet/wallet-switch/the-wallet-delete/TheWalletDeleteTs.ts'
+export default class TheWalletDelete extends TheWalletDeleteTs {
+}
 </script>
-
-<style scoped>
-</style>

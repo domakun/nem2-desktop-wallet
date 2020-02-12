@@ -2,6 +2,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  scroll-behavior: smooth;
 }
 
 html {
@@ -27,12 +28,18 @@ body {
   height: 100%;
   text-align: left;
   font-family: "Microsoft YaHei";
-
   //
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+.text_select {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
 }
 
 table {
@@ -155,7 +162,7 @@ input::placeholder {
   }
 
   p {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 400;
     color: #CCCCCC;
     white-space: nowrap;
@@ -222,11 +229,12 @@ textarea {
 .pointer {
   cursor: pointer !important;
 }
+.pointer:hover{
+  opacity: .8;
+}
 
 .topo_graph_container {
-
   .tooltip {
-
     box-shadow: 0 0 5px #e0e0e0;
     padding: 20px;
     max-width: 700px !important;
@@ -325,10 +333,88 @@ textarea {
     box-shadow: none;
     border-bottom: 1px solid #ccc;
   }
+
   .input_point {
     input {
       border: none;
       border-bottom: 1px solid #ccc;
     }
+  }
+}
+
+.ivu-modal-wrap {
+  z-index: 99999991 !important;
+}
+
+.url_text {
+  color: #999999;
+  cursor: pointer;
+}
+
+.url_text:hover {
+  color: #1FB6AC;
+}
+
+.ivu-modal-header-inner {
+  font-size: 20px !important;
+  padding: 20px 30px !important;
+
+}
+
+.ivu-modal-body {
+  padding: 20px 50px !important;
+}
+
+.justify_text {
+  text-align-last: justify;
+  text-align: justify;
+  text-justify: distribute-all-lines; // 这行必加，兼容ie浏览器
+}
+
+.url_text {
+  color: #999999;
+  cursor: pointer;
+}
+
+.url_text:hover {
+  color: #1FB6AC;
+}
+
+.ivu-modal-header-inner {
+  font-size: 20px !important;
+  padding: 20px 30px !important;
+
+}
+
+.ivu-modal-body {
+  padding: 20px 50px !important;
+}
+
+.justify_text {
+  text-align-last: justify;
+  text-align: justify;
+  text-justify: distribute-all-lines;
+}
+
+.confirm-alert-container {
+
+  .ivu-modal-mask {
+    z-index: 99999999 !important;
+  }
+  .ivu-modal-wrap {
+    z-index: 99999999 !important;
+  }
+  .ivu-modal-body {
+    padding: 0 !important;
+  }
+  .ivu-modal-footer {
+    border: none;
+  }
+  .ivu-modal-header {
+    border: none;
+  }
+  .ivu-btn-primary {
+    background-color: #1FB6AC !important;
+    border: none !important;
   }
 }

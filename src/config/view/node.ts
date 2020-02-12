@@ -1,20 +1,59 @@
-export const nodeListConfig: Array<{ value: string, name: string, url: string, isSelected: boolean }> = [
-    {
-        value: 'http://13.114.200.132:3000',
-        name: 'jp-5',
-        url: '13.114.200.132',
-        isSelected: false,
-    },
-    {
-        value: 'http://52.194.207.217:3000',
-        name: 'api-node-jp-12',
-        url: '52.194.207.217',
-        isSelected: false,
-    },
-    {
-        value: 'http://47.107.245.217:3000',
-        name: 'api-node-cn-0',
-        url: '47.107.245.217',
-        isSelected: true,
-    },
+import {Endpoint} from '@/core/model'
+import {NetworkType} from 'nem2-sdk'
+
+export const defaultNodeList: Endpoint[] = [
+  {
+    value: 'http://api-20.us-west-1.nemtech.network:3000',
+    name: 'us-west-1',
+    url: 'api-20.us-west-1.nemtech.network',
+    networkType:NetworkType.TEST_NET,
+  },
+  {
+    value: 'http://api-harvest-20.ap-southeast-1.nemtech.network:3000',
+    name: 'ap-southeast-1',
+    url: 'api-harvest-20.ap-southeast-1.nemtech.network',
+    networkType:NetworkType.TEST_NET,
+  },
+  {
+    value: 'http://api-harvest-20.eu-west-1.nemtech.network:3000',
+    name: 'eu-west-1',
+    url: 'api-harvest-20.eu-west-1.nemtech.network',
+    networkType:NetworkType.TEST_NET,
+  },
+  {
+    value: 'http://api-harvest-20.us-west-1.nemtech.network:3000',
+    name: 'us-west-1',
+    url: 'api-harvest-20.us-west-1.nemtech.network',
+    networkType:NetworkType.TEST_NET,
+  },
+  {
+    value: 'http://localhost:3000',
+    name: 'http://localhost:3000',
+    url: 'http://localhost:3000',
+    networkType:NetworkType.MAIN_NET,
+  },
+  {
+    value: 'http://localhost:3000',
+    name: 'http://localhost:3000',
+    url: 'http://localhost:3000',
+    networkType:NetworkType.MIJIN,
+  },
+  {
+    value: 'http://localhost:3000',
+    name: 'http://localhost:3000',
+    url: 'http://localhost:3000',
+    networkType:NetworkType.MIJIN_TEST,
+  },
+]
+
+export const explorerUrlHead = 'http://explorer.nemtech.network/transaction/'
+export const explorerLinkList = [
+  {
+    explorerBasePath: 'http://explorer.nemtech.network/transaction/',
+    networkType: NetworkType.TEST_NET,
+  },
+  {
+    explorerBasePath: 'http://explorer.mt.nemtech.network/transaction/',
+    networkType: NetworkType.MIJIN_TEST,
+  },
 ]

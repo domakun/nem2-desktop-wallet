@@ -1,242 +1,197 @@
-import {defaultNetworkConfig, Message} from "@/config/index.ts"
-import {QRCodeGenerator} from 'nem2-qr-library'
-import {copyTxt} from '@/core/utils/utils.ts'
-import {Component, Vue, Watch} from 'vue-property-decorator'
-import CollectionRecord from '@/common/vue/collection-record/CollectionRecord.vue'
-import {mapState} from "vuex"
-import {MosaicId, NamespaceId, AliasType} from "nem2-sdk"
-import {NamespaceApiRxjs} from "@/core/api/NamespaceApiRxjs"
-import {TransferType} from "@/core/model/TransferType"
-import {monitorRecaeiptTransferTypeConfig} from "@/config/view/monitor"
-import {AppInfo, StoreAccount} from "@/core/model"
+import {Message} from '@/config/index.ts'
+import {QRCodeGenerator, TransactionQR} from 'nem2-qr-library'
+import {copyTxt} from '@/core/utils'
+import {Component, Vue, Provide} from 'vue-property-decorator'
+import CollectionRecord from '@/components/collection-record/CollectionRecord.vue'
+import {mapState} from 'vuex'
+import {MosaicId, TransferTransaction, Deadline, Address, Mosaic, UInt64, PlainMessage, NamespaceId} from 'nem2-sdk'
+import {TransferType} from '@/core/model/TransferType'
+import {monitorReceiptTransferTypeConfig} from '@/config/view/monitor'
+import {AppInfo, MosaicNamespaceStatusType, StoreAccount} from '@/core/model'
+import failureIcon from '@/common/img/monitor/failure.png'
+import {pluck, concatMap} from 'rxjs/operators'
+import {of} from 'rxjs'
+import {validateMosaicId, validation} from '@/core/validation'
+import ErrorTooltip from '@/components/other/forms/errorTooltip/ErrorTooltip.vue'
 
 @Component({
-    components: {
-        CollectionRecord
-    },
-    computed: {
-        ...mapState({
-            activeAccount: 'account',
-            app: 'app'
-        })
-    }
+  components: {CollectionRecord, ErrorTooltip},
+  computed: {
+    ...mapState({
+      activeAccount: 'account',
+      app: 'app',
+    }),
+  },
+  subscriptions() {
+    const qrCode$ = this
+      .$watchAsObservable('qrCodeArgs', {immediate: true})
+      .pipe(pluck('newValue'),
+        concatMap((args) => {
+          if (args instanceof TransactionQR) return args.toBase64()
+          return of(failureIcon)
+        }))
+    return {qrCode$}
+  },
 })
 
 export class MonitorInvoiceTs extends Vue {
-    activeAccount: StoreAccount
-    app: AppInfo
-    result = ''
-    assetType = ''
-    assetAmount = 0
-    assetAmounts = 0
-    note = ''
-    notes = ''
-    QRCode: string = ''
-    transactionHash = ''
-    TransferType = TransferType
-    isShowDialog = false
-    transferTypeList = monitorRecaeiptTransferTypeConfig
-    qrInfo = {
-        mosaicHex: this.$store.state.account.currentXem || defaultNetworkConfig.currentXem,
-        mosaicAmount: 0,
-        remarks: '',
-    }
-    formItem = {
-        mosaicHex: '',
-        mosaicAmount: 0,
-        remarks: '',
-    }
+  @Provide() validator: any = this.$validator
+  activeAccount: StoreAccount
+  app: AppInfo
+  validation = validation
+  TransferType = TransferType
+  transferTypeList = monitorReceiptTransferTypeConfig
+  selectedMosaicHex = ''
+  formItems = {
+    mosaicAmount: 0,
+    message: '',
+  }
 
-    get accountPublicKey() {
-        return this.activeAccount.wallet.publicKey
+  QRCode: string = failureIcon
+
+  get networkCurrency() {
+    return this.activeAccount.networkCurrency
+  }
+
+  get activeMosaic(): {
+    name: string
+    hex: string
+    id: MosaicId | NamespaceId
+  } {
+    const {selectedMosaicHex} = this
+
+    if (!selectedMosaicHex) {return {
+      name: null, hex: selectedMosaicHex, id: null,
+    }}
+
+    try {
+      const selectedFromList = Object.values(this.mosaics)
+        .find(({name, hex}) => name === selectedMosaicHex || hex === selectedMosaicHex)
+
+      if (selectedFromList !== undefined) {
+        const {name, hex} = selectedFromList
+        const id = name ? new NamespaceId(name) : new MosaicId(hex)
+        return {name, hex, id}
+      }
+
+      const name = null
+      const hex = selectedMosaicHex
+      const id = validateMosaicId(hex).valid
+        ? new MosaicId(hex) : new NamespaceId(hex.toLowerCase())
+
+      return {name, hex, id}
+    } catch (error) {
+      console.error('MonitorInvoiceTs -> error', error)
+      return {
+        name: null, hex: selectedMosaicHex, id: null,
+      }
     }
+  }
 
-    get accountAddress() {
-        return this.activeAccount.wallet.address
-    }
-
-    get node() {
-        return this.activeAccount.node
-    }
-
-    get currentXem() {
-        return this.activeAccount.currentXem
-    }
-
-
-    get getWallet() {
-        return this.activeAccount.wallet
-    }
-
-    get generationHash() {
-        return this.activeAccount.generationHash
-    }
-
-    get networkType() {
-        return this.activeAccount.wallet.networkType
-    }
-
-    get mosaics() {
-        return this.activeAccount.mosaics
-    }
-
-    get currentHeight() {
-        return this.app.chainStatus.currentHeight
+  get transferTransaction(): TransferTransaction {
+    if (this.$validator.errors.any()) {
+      return null
     }
 
-    get mosaicsLoading() {
-        return this.app.mosaicsLoading
+    try {
+      const {activeMosaic} = this
+      const {networkType, address} = this.wallet
+
+      if (!activeMosaic.id) return null
+      const walletAddress = Address.createFromRawAddress(address)
+      const {mosaicAmount, message} = this.formItems
+
+      return TransferTransaction.create(
+        Deadline.create(),
+        walletAddress,
+        [new Mosaic(activeMosaic.id, UInt64.fromUint(mosaicAmount))],
+        PlainMessage.create(message),
+        networkType,
+      )
+    } catch (error) {
+      console.error('MonitorInvoiceTs -> error', error)
+      return null
     }
+  }
 
-    get mosaicList() {
-        // @TODO: would be better to return a loading indicator
-        // instead of an empty array ([] = "no matching data" in the select dropdown)
-        const {mosaics, currentHeight} = this
-        if (this.mosaicsLoading || !mosaics) return []
-
-        const mosaicList: any = Object.values(this.mosaics)
-        return [...mosaicList]
-            .filter(({expirationHeight}) => expirationHeight === 'Forever' || currentHeight < expirationHeight)
-            .map(({name, balance, hex}) => ({
-                label: `${name || hex} (${balance ? balance.toLocaleString() : 0})`,
-                value: hex,
-            }))
+  get qrCodeArgs(): TransactionQR {
+    const {transferTransaction} = this
+    if (!transferTransaction || !(transferTransaction instanceof TransferTransaction)) return null
+    try {
+      return QRCodeGenerator.createTransactionRequest(
+        transferTransaction,
+        this.wallet.networkType,
+        this.app.networkProperties.generationHash,
+      )
+    } catch (e) {
+      return null
     }
+  }
 
-    async checkForm() {
-        const that = this
-        const {node} = this
-        let {mosaicAmount, mosaicHex} = this.formItem
-        mosaicAmount = Number(mosaicAmount)
-        if ((!Number(mosaicAmount) && Number(mosaicAmount) !== 0) || Number(mosaicAmount) < 0) {
-            this.showErrorMessage(this.$t(Message.AMOUNT_LESS_THAN_0_ERROR))
-            return false
-        }
-        if (mosaicHex.indexOf('@') === -1) {
-            try {
-                new MosaicId(mosaicHex)
-            } catch (e) {
-                this.showErrorMessage(this.$t(Message.MOSAIC_HEX_FORMAT_ERROR))
-                return false
-            }
-        } else {
-            const namespaceId = new NamespaceId(mosaicHex.substring(1))
-            let flag = false
-            try {
-                const namespaceInfo: any = await new NamespaceApiRxjs().getNamespace(namespaceId, node).toPromise()
-                if (namespaceInfo.alias.type === AliasType.Mosaic) {
-                    //@ts-ignore
-                    that.formItem.mosaicHex = new MosaicId(namespaceInfo.alias.mosaicId).toHex()
-                }
-            } catch (e) {
-                this.showErrorMessage(this.$t(Message.MOSAIC_ALIAS_NOT_EXIST_ERROR))
-                return false
-            }
-        }
-        return true
-    }
+  get accountAddress() {
+    return this.activeAccount.wallet.address
+  }
 
-    filterMethod(value, option) {
-        return 1
-    }
+  get wallet() {
+    return this.activeAccount.wallet
+  }
 
-    showErrorMessage(message) {
-        this.$Notice.destroy()
-        this.$Notice.error({
-            title: message
-        })
-    }
+  get mosaics() {
+    return this.activeAccount.mosaics
+  }
 
-    onChange() {
-        let {mosaicAmount} = this.formItem
-        var reg = /^(0|[1-9][0-9]*)(\.\d+)?$/
-        if (!reg.test(`${mosaicAmount}`)) {
-            this.showErrorMessage(this.$t(Message.PLEASE_ENTER_THE_CORRECT_NUMBER))
-        }
-    }
+  get mosaicList() {
+    // @TODO: should be an AppMosaic method
+    // @TODO: would be better to return a loading indicator
+    // instead of an empty array ([] = "no matching data" in the select dropdown)
+    const {mosaics} = this
+    const currentHeight = this.app.networkProperties.height
+    if (this.app.mosaicsLoading || !mosaics) return []
 
-    checkLength() {
-        let {remarks} = this.formItem
-        if (remarks.length > 25) {
-            this.showErrorMessage(this.$t(Message.NOTES_SHOULD_NOT_EXCEED_25_CHARACTER))
-        }
-    }
+    const mosaicList: any = Object.values(mosaics)
 
-    async generateQR() {
-        const flag = await this.checkForm()
-        if (!flag) {
-            return
-        }
-        this.notes = this.note
-        const {generationHash, networkType} = this
-        const {mosaicHex, mosaicAmount, remarks} = this.formItem
-        const QRCodeData = {
-            type: 1002,
-            address: this.accountAddress,
-            mosaicHex: mosaicHex,
-            mosaicAmount: mosaicAmount,
-            remarks: remarks
-        }
-        this.QRCode = QRCodeGenerator
-            .createExportObject(QRCodeData, networkType, generationHash)
-            .toBase64()
+    return [...mosaicList]
+      .filter(({expirationHeight}) => {
+        return expirationHeight === MosaicNamespaceStatusType.FOREVER
+                    || currentHeight < expirationHeight
+      })
+      .map(({hex, name}) => ({value: name || hex}))
+  }
 
-        this.qrInfo = this.formItem
-    }
+  filterMethod() {
+    return 1
+  }
 
+  showErrorMessage(message) {
+    this.$Notice.destroy()
+    this.$Notice.error({
+      title: message,
+    })
+  }
 
-    downloadQR() {
-        const {address} = this.getWallet
-        var oQrcode: any = document.querySelector('#qrImg')
-        var url = oQrcode.src
-        var a = document.createElement('a')
-        var event = new MouseEvent('click')
-        a.download = 'qr_receive_' + address
-        a.href = url
-        a.dispatchEvent(event)
-    }
+  downloadQR() {
+    const {address} = this.wallet
+    const QRCode: any = document.querySelector('#qrImg')
+    const url = QRCode.src
+    const a = document.createElement('a')
+    const event = new MouseEvent('click')
+    a.download = `qr_receive_${address}`
+    a.href = url
+    a.dispatchEvent(event)
+  }
 
+  copyAddress() {
+    const {$Notice} = this
+    copyTxt(this.accountAddress).then(() => {
+      $Notice.success(
+        {
+          title: `${this.$t(Message.COPY_SUCCESS)}`,
+        },
+      )
+    })
+  }
 
-    switchTransferType(index) {
-        const list: any = this.transferTypeList
-        if (list[index].disabled) {
-            return
-        }
-        list.map((item) => {
-            item.isSelect = false
-            return item
-        })
-        list[index].isSelect = true
-        this.transferTypeList = list
-    }
-
-
-    copyAddress() {
-        const that = this
-        copyTxt(this.accountAddress).then(() => {
-            that.$Notice.success(
-                {
-                    title: this.$t(Message.COPY_SUCCESS) + ''
-                }
-            )
-        })
-    }
-
-    createQRCode() {
-        if (!this.getWallet.address) return
-        const {generationHash, networkType} = this
-        const QRCodeData = {publicKey: this.accountPublicKey}
-        this.QRCode = QRCodeGenerator
-            .createExportObject(QRCodeData, networkType, generationHash)
-            .toBase64()
-    }
-
-    @Watch('getWallet.address')
-    onGetWalletChange() {
-        this.createQRCode()
-    }
-
-    mounted() {
-        this.createQRCode()
-    }
+  mounted() {
+    this.selectedMosaicHex = this.mosaicList[0] ? this.mosaicList[0].value : ''
+  }
 }

@@ -1,61 +1,18 @@
-import {Component, Vue} from 'vue-property-decorator'
-import {Message} from "@/config"
-import {AppLock} from "@/core/utils"
-import {AppAccounts, AppAccount} from '@/core/model'
-import {networkTypeConfig} from "@/config/view/setting"
-import {NetworkType} from "nem2-sdk"
+import {Vue, Component} from 'vue-property-decorator'
+import {createStepBarTitleList} from '@/config/view'
+import routes from '@/router/routers'
 
 @Component
-export class CreateAccountTs extends Vue {
-    formItem = {
-        accountName: '',
-        password: '',
-        passwordAgain: '',
-        hint: '',
-        currentNetType: NetworkType.MIJIN_TEST,
-    }
-    networkTypeList = networkTypeConfig
+export default class CreateAccountTs extends Vue {
+  StepBarTitleList = createStepBarTitleList
 
-    checkInput() {
-        const {accountName, password, passwordAgain} = this.formItem
-        const appAccounts = AppAccounts()
-        if (appAccounts.getAccountFromLocalStorage(accountName)) {
-            this.$Notice.error({title: this.$t(Message.ACCOUNT_NAME_EXISTS_ERROR) + ''})
-            return false
-        }
-        if (!accountName || accountName == '') {
-            this.$Notice.error({title: this.$t(Message.ACCOUNT_NAME_INPUT_ERROR) + ''})
-            return false
-        }
-        if (!password || password.length < 8) {
-            this.$Notice.error({title: this.$t(Message.PASSWORD_SETTING_INPUT_ERROR) + ''})
-            return false
-        }
-        if (passwordAgain !== password) {
-            this.$Notice.error({title: this.$t(Message.INCONSISTENT_PASSWORD_ERROR) + ''})
-            return false
-        }
-        return true
-    }
+  get currentRouterIndex() {
+    const {name} = this.$route
+    // @ts-ignore
+    return routes[0].children[7].children[2].children.findIndex(item => item.name === name) + 1
+  }
 
-    createAccount() {
-        const appAccounts = AppAccounts()
-        let {accountName, password, currentNetType, hint} = this.formItem
-        if (!this.checkInput()) return
-        password = AppLock.encryptString(password, password)
-        const appAccount = new AppAccount(accountName, [], password, hint, currentNetType)
-        appAccounts.saveAccountInLocalStorage(appAccount)
-        this.$Notice.success({title: this.$t(Message.OPERATION_SUCCESS) + ''})
-        this.$store.commit('SET_ACCOUNT_NAME', accountName)
-        this.$router.push({
-            name: 'initSeed',
-            params: {
-                initType: '1'
-            }
-        })
-    }
-
-    toBack() {
-        this.$router.push('login')
-    }
+  getStepTextClassName(index) {
+    return Number(this.currentRouterIndex) > index ? 'white' : 'gray'
+  }
 }

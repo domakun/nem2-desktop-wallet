@@ -1,14 +1,15 @@
-import {Transaction, TransferTransaction, Address, TransactionType, InnerTransaction} from "nem2-sdk"
-import {transactionTag} from "@/config"
+import {Transaction, Address, TransactionType} from 'nem2-sdk'
+import {transactionTag} from '@/config'
 import {getRelativeMosaicAmount} from '@/core/utils'
 import {transferIcons, transactionTypeToIcon} from '@/common/img/monitor/icons'
-import {ChainStatus} from './ChainStatus'
+import {AppState} from './types'
+import {Store} from 'vuex'
 
 /**
  * Custom properties built from transaction headers
  */
 export class TransactionHeader {
-   /**
+  /**
    * Active account is the recipient
    */
   isReceipt: boolean
@@ -19,7 +20,7 @@ export class TransactionHeader {
   /**
    * Transaction blockTime
    */
-  time: string // @TODO: make extrapolation method from blockNumber
+  time: string
   /**
    * Transaction date
    */
@@ -40,38 +41,42 @@ export class TransactionHeader {
   /** 
    * icon
    */ 
-  icon:any
+  icon: any
 
-  constructor(transaction: Transaction, address: Address, currentXem: string, xemDivisibility: number, store: any) {
-     this.isReceipt = transaction instanceof TransferTransaction
-        && transaction.recipient instanceof Address // @TODO: handle namespaceId
-        && transaction.recipient.plain()  === address.plain()
+  constructor(transaction: Transaction, store: Store<AppState>) {
+    const {networkCurrency, wallet} = store.state.account
+    
+    this.isReceipt = transaction.type === TransactionType.TRANSFER
+         // @ts-ignore
+         && transaction.recipientAddress instanceof Address
+         // @ts-ignore
+         && transaction.recipientAddress.plain() === wallet.address
+      
+    const {networkProperties} = store.state.app
 
-      const chainStatus: ChainStatus = store.getters.chainStatus
+    this.tag = this.getTag(transaction)
+    this.fee = getRelativeMosaicAmount(transaction.maxFee.compact(), networkCurrency.divisibility)
+    this.icon = this.getIcon(transaction)
 
-     this.tag = this.getTag(transaction)
-     this.fee = getRelativeMosaicAmount(transaction.maxFee.compact(), xemDivisibility)
-     this.icon = this.getIcon(transaction)
-
-     if (transaction.transactionInfo) {
-          this.block = transaction.transactionInfo.height.compact()
-          this.time = chainStatus.getTimeFromBlockNumber(this.block)
-          this.date = new Date(this.time)
-          this.hash = transaction.transactionInfo.hash
-     }
+    if (transaction.transactionInfo) {
+      this.block = transaction.transactionInfo.height.compact()
+      this.time = networkProperties.getTimeFromBlockNumber(this.block)
+      this.date = new Date(this.time)
+      this.hash = transaction.transactionInfo.hash
+    }
   }
 
   getTag(tx: Transaction) {
-      if(tx.type === TransactionType.TRANSFER && this.isReceipt) return transactionTag.RECEIPT
-      if(tx.type === TransactionType.TRANSFER && !this.isReceipt) return transactionTag.PAYMENT
-      return transactionTag[tx.type]
+    if(tx.type === TransactionType.TRANSFER && this.isReceipt) return transactionTag.RECEIPT
+    if(tx.type === TransactionType.TRANSFER && !this.isReceipt) return transactionTag.PAYMENT
+    return transactionTag[tx.type]
   }
 
   getIcon(tx: Transaction) {
-     if (tx.type === TransactionType.TRANSFER) {
-         return this.isReceipt ? transferIcons.transferReceived : transferIcons.transferSent
-     }
+    if (tx.type === TransactionType.TRANSFER) {
+      return this.isReceipt ? transferIcons.transferReceived : transferIcons.transferSent
+    }
 
-     return transactionTypeToIcon[tx.type]
+    return transactionTypeToIcon[tx.type]
   }
 }

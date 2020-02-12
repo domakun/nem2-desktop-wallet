@@ -1,91 +1,98 @@
 <template>
   <div class="walletSwitchWrap">
-    <div class="walletSwitchHead ">
-      <p class="tit">{{$t('Wallet_management')}}</p>
+    <div class="walletSwitchHead">
+      <p class="tit">
+        {{ $t('Wallet_management') }}
+      </p>
+      <p class="back-up pointer" @click="displayMnemonicDialog">
+        {{ $t('backup_mnemonic') }}
+      </p>
     </div>
-    <div class="walletList scroll">
-      <div :class="['walletItem', item.active || walletList.length === 1 ?walletStyleSheetType.activeWallet:item.stylesheet,'radius']"
-           @click="switchWallet(item.address)"
-           v-for="(item, index) in walletList" :key="index">
-        <Row>
-          <Col span="15">
-            <div>
-              <p class="walletName">{{item.accountTitle}}-{{item.name}}</p>
-              <p class="walletAmount overflow_ellipsis">
-                {{formatNumber(item.balance)}}
-                &nbsp;<span class="tails">XEM</span>
-              </p>
-            </div>
-          </Col>
-          <Col span="9">
-            <div @click.stop>
-              <p class="walletTypeTxt">{{isMultisig(item.address) ? $t('Public_account') : ''}}</p>
-              <div class="options">
-                <Poptip placement="bottom">
-                  <img src="@/common/img/wallet/moreActive.png">
-                  <div slot="content">
-                    <p
-                            class="optionItem"
-                            @click.stop="walletToDelete = item; showDeleteDialog = true">
-                      <i><img src="@/common/img/wallet/delete.png"></i>
-                      <span>{{$t('delete')}}</span>
-                    </p>
-                    <p
-                            class="optionItem"
-                            @click.stop="walletToUpdate = item; showUpdateDialog = true">
-                      <i><img src="@/common/img/setting/settingEditNodeHover.png"></i>
-                      <span class="green">{{$t('update_wallet_name')}}</span>
-                    </p>
-                  </div>
-                </Poptip>
+
+    <div ref="walletScroll" class="walletList scroll">
+      <div v-for="(item, index) in walletList" :key="index" class="wallet_scroll_item">
+        <div
+          ref="walletsDiv"
+          :class="[ 'walletItem', getWalletStyle(item), 'radius' ]"
+          @click="switchWallet(item.address)"
+        >
+          <Row>
+            <i-col span="15">
+              <div>
+                <p class="walletName">
+                  {{ item.name }}
+                </p>
+                <p class="walletAmount overflow_ellipsis">
+                  <NumberFormatting :number-of-formatting="getBalanceFromAddress(item)" />
+                  <span class="tails">{{ networkCurrency.ticker }}</span>
+                </p>
               </div>
-            </div>
-          </Col>
-        </Row>
+            </i-col>
+            <i-col span="9">
+              <div @click.stop>
+                <div class="options">
+                  <span class="mosaics">
+                    <Icon type="logo-buffer" />
+                    <NumberFormatting
+                      :number-of-formatting="item.numberOfMosaics
+                        ? formatNumber(item.numberOfMosaics ) : 0"
+                    />
+                  </span>
+                  <span class="delete" @click="deleteWallet(item)">
+                    <Icon type="md-trash" />
+                  </span>
+                </div>
+              </div>
+            </i-col>
+          </Row>
+        </div>
       </div>
     </div>
 
     <div class="walletMethod">
       <Row>
-        <Col span="12">
-          <div class="createBtn pointer" @click="toCreate">{{$t('create_sub_wallet')}}</div>
-        </Col>
-        <Col span="12">
-          <div class="importBtn pointer" @click="toImport">{{$t('Import_private_key')}}</div>
-        </Col>
+        <i-col span="12">
+          <div class="createBtn pointer" @click="checkBeforeShowWalletAdd">
+            {{ $t('from_seed') }}
+          </div>
+        </i-col>
+        <i-col span="12">
+          <div class="importBtn pointer" @click="$emit('toImport')">
+            {{ $t('from_privatekey') }}
+          </div>
+        </i-col>
       </Row>
     </div>
+
+    <TheWalletAdd
+      v-if="showWalletAdd"
+      :visible="showWalletAdd"
+      @close="showWalletAdd = false"
+    />
+
+    <MnemonicDialog
+      v-if="showMnemonicDialog"
+      :show-mnemonic-dialog="showMnemonicDialog"
+      @closeMnemonicDialog="showMnemonicDialog = false"
+    />
+
     <TheWalletDelete
-            :showCheckPWDialog="showDeleteDialog"
-            :wallet-to-delete="walletToDelete"
-            @closeCheckPWDialog="closeDeleteDialog"
-            @on-cancel="showCheckPWDialog = false"
+      v-if="showDeleteDialog"
+      :show-check-p-w-dialog="showDeleteDialog"
+      :wallet-to-delete="walletToDelete"
+      @closeCheckPWDialog="showDeleteDialog = false"
+      @on-cancel="showDeleteDialog = false"
     />
-    <TheWalletUpdate
-            :showUpdateDialog="showUpdateDialog"
-            :walletToUpdate="walletToUpdate"
-            @closeUpdateDialog="closeUpdateDialog"
-            @on-cancel="showUpdateDialog = false"
-    />
-    <CheckPasswordDialog
-            :showCheckPWDialog="showCheckPWDialog"
-            :isOnlyCheckPassword="true"
-            @closeCheckPWDialog="closeCheckPWDialog"
-            @checkEnd="checkEnd"
-    ></CheckPasswordDialog>
   </div>
 </template>
 
 <script lang="ts">
-    import './WalletSwitch.less'
-    //@ts-ignore
-    import {WalletSwitchTs} from '@/views/wallet/wallet-switch/WalletSwitchTs.ts'
+import './WalletSwitch.less'
+import {WalletSwitchTs} from '@/views/wallet/wallet-switch/WalletSwitchTs.ts'
 
-    export default class WalletSwitch extends WalletSwitchTs {
-
-    }
+export default class WalletSwitch extends WalletSwitchTs {
+}
 </script>
 
 <style scoped>
-
 </style>

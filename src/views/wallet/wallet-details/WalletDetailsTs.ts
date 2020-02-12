@@ -1,154 +1,148 @@
-import {copyTxt} from '@/core/utils/utils.ts'
-import {QRCodeGenerator} from 'nem2-qr-library'
-import {Address, AddressAlias, MultisigAccountInfo} from 'nem2-sdk'
-import {Component, Vue, Watch} from 'vue-property-decorator'
-import WalletAlias from './wallet-function/wallet-alias/WalletAlias.vue'
-import WalletFilter from './wallet-function/wallet-filter/WalletFilter.vue'
-import KeystoreDialog from '@/views/wallet/keystore-dialog/KeystoreDialog.vue'
-import MnemonicDialog from '@/views/wallet/mnemonic-dialog/MnemonicDialog.vue'
-import PrivatekeyDialog from '@/views/wallet/privatekey-dialog/PrivatekeyDialog.vue'
-import WalletUpdatePassword from './wallet-function/wallet-update-password/WalletUpdatePassword.vue'
-import {mapState} from "vuex"
-import {AppWallet, AppInfo, StoreAccount} from "@/core/model"
-import {getCurrentImportance} from '@/core/model/AppWallet.ts'
-import TheBindForm from '@/views/wallet/wallet-details/wallet-function/the-bind-form/TheBindForm.vue'
+import {copyTxt} from '@/core/utils'
+import {ContactQR} from 'nem2-qr-library'
+import {AliasType, PublicAccount} from 'nem2-sdk'
+import {Component, Vue} from 'vue-property-decorator'
+import KeystoreDialog from '@/views/wallet/wallet-details/keystore-dialog/KeystoreDialog.vue'
+import PrivatekeyDialog from '@/views/wallet/wallet-details/privatekey-dialog/PrivatekeyDialog.vue'
+import WalletHarvesting from '@/views/wallet/wallet-details/wallet-function/wallet-harvesting/WalletHarvesting.vue'
+import {mapState, mapGetters} from 'vuex'
+import {AppWallet, AppInfo, StoreAccount, AppNamespace} from '@/core/model'
+import failureIcon from '@/common/img/monitor/failure.png'
+import Alias from '@/components/forms/alias/Alias.vue'
+import {of} from 'rxjs'
+import {pluck, concatMap} from 'rxjs/operators'
+import TheWalletUpdate from '@/views/wallet/wallet-switch/the-wallet-update/TheWalletUpdate.vue'
+import TheWalletDelete from '@/views/wallet/wallet-switch/the-wallet-delete/TheWalletDelete.vue'
 
 @Component({
-    components: {
-        TheBindForm,
-        MnemonicDialog,
-        PrivatekeyDialog,
-        KeystoreDialog,
-        WalletAlias,
-        WalletFilter,
-        WalletUpdatePassword
-    },
-    computed: {
-        ...mapState({
-            activeAccount: 'account',
-            app: 'app'
-        })
-    }
+  components: {
+    Alias,
+    PrivatekeyDialog,
+    KeystoreDialog,
+    WalletHarvesting,
+    TheWalletUpdate,
+    TheWalletDelete,
+  },
+  computed: {
+    ...mapState({
+      activeAccount: 'account',
+      app: 'app',
+    }),
+    ...mapGetters({
+      isMultisig: 'isMultisig',
+      isCosignatory: 'isCosignatory',
+    }),
+  },
+  subscriptions() {
+    const qrCode$ = this
+      .$watchAsObservable('qrCodeArgs', {immediate: true})
+      .pipe(pluck('newValue'),
+        concatMap((args) => {
+          if (args instanceof ContactQR) return args.toBase64()
+          return of(failureIcon)
+        }))
+    return {qrCode$}
+  },
 })
 export class WalletDetailsTs extends Vue {
-    activeAccount: StoreAccount
-    app: AppInfo
-    aliasList = []
-    QRCode: string = ''
-    showMnemonicDialog: boolean = false
-    showKeystoreDialog: boolean = false
-    showPrivatekeyDialog: boolean = false
-    functionShowList = [true, false]
-    isShowBindDialog = false
+  activeAccount: StoreAccount
+  app: AppInfo
+  aliasList = []
+  showMnemonicDialog = false
+  showKeystoreDialog = false
+  showPrivatekeyDialog = false
+  functionShowList = [ false, true ]
+  showBindDialog = false
+  bind = true
+  fromNamespace = false
+  activeNamespace: AppNamespace = null
+  showUpdateDialog = false
+  showDeleteDialog = false
+  isMultisig: boolean
+  isCosignatory: boolean
 
-    get wallet(): AppWallet {
-        return this.activeAccount.wallet
+  get wallet(): AppWallet {
+    return this.activeAccount.wallet
+  }
+
+  // @TODO: false should not be an option, if false occurs, then it is a reactivity bug
+  get getAddress(): string | false {
+    return this.activeAccount.wallet ? this.activeAccount.wallet.address : false
+  }
+
+  get NamespaceList() {
+    return this.activeAccount.namespaces
+  }
+
+  get importance(): string {
+    return this.activeAccount.wallet.importance ? `${this.activeAccount.wallet.importance}0` : '0'
+  }
+
+  get selfAliases(): AppNamespace[] {
+    return this.NamespaceList
+      .filter(({alias}) =>
+        alias
+                && alias.type === AliasType.Address
+                && alias.address.plain() === this.getAddress,
+      )
+  }
+
+  get qrCodeArgs(): ContactQR {
+    try {
+      const publicAccount: any = PublicAccount
+        .createFromPublicKey(this.wallet.publicKey, this.wallet.networkType)
+
+      return new ContactQR(
+        this.wallet.name,
+        publicAccount,
+        this.wallet.networkType,
+        this.app.networkProperties.generationHash,
+      )
+    } catch (error) {
+      return null
     }
+  }
 
-    get isMultisig(): boolean {
-        const multisigAccountInfo: MultisigAccountInfo = this.activeAccount.multisigAccountInfo[this.wallet.address]
-        if (!multisigAccountInfo) return false
-        return multisigAccountInfo.cosignatories.length > 0
-    }
+  showFunctionIndex(index) {
+    this.functionShowList = [ false, false, false ]
+    this.functionShowList[index] = true
+  }
 
-    get getAddress() {
-        return this.activeAccount.wallet ? this.activeAccount.wallet.address : false
-    }
+  closeMnemonicDialog() {
+    this.showMnemonicDialog = false
+  }
 
-    get generationHash() {
-        return this.activeAccount.generationHash
-    }
+  changePrivatekeyDialog() {
+    this.showPrivatekeyDialog = true
+  }
 
-    get currentHeight() {
-        return this.app.chainStatus.currentHeight
-    }
+  closePrivatekeyDialog() {
+    this.showPrivatekeyDialog = false
+  }
 
-    get namespaceList() {
-        return this.activeAccount.namespaces
-    }
+  changeKeystoreDialog() {
+    this.showKeystoreDialog = true
+  }
 
-    get importance() {
-        return this.activeAccount.wallet.importance ? this.activeAccount.wallet.importance + '0' : 0
-    }
+  bindNamespace() {
+    this.bind = true
+    this.fromNamespace = false
+    this.activeNamespace = null
+    this.showBindDialog = true
+  }
 
-    get getSelfAlias() {
-        const {currentHeight} = this
-        return this.namespaceList
-            .filter(namespace =>
-                namespace.alias instanceof AddressAlias &&
-                //@ts-ignore
-                Address.createFromEncoded(namespace.alias.address).address == this.getAddress
-            )
-            .map(item => item.label)
-    }
+  unbindNamespace(namespace: AppNamespace) {
+    this.bind = false
+    this.fromNamespace = true
+    this.activeNamespace = namespace
+    this.showBindDialog = true
+  }
 
-
-    showFunctionIndex(index) {
-        this.functionShowList = [false, false, false]
-        this.functionShowList[index] = true
-    }
-
-    // @TODO
-    changeMnemonicDialog() {
-        if (!this.wallet['encryptedMnemonic']) {
-            this.$Notice.warning({
-                title: this.$t('no_mnemonic') + ''
-            })
-            return
-        }
-        this.showMnemonicDialog = true
-    }
-
-    closeMnemonicDialog() {
-        this.showMnemonicDialog = false
-    }
-
-    changePrivatekeyDialog() {
-        this.showPrivatekeyDialog = true
-    }
-
-    closePrivatekeyDialog() {
-        this.showPrivatekeyDialog = false
-    }
-
-    changeKeystoreDialog() {
-        this.showKeystoreDialog = true
-    }
-
-    closeKeystoreDialog() {
-        this.showKeystoreDialog = false
-    }
-
-    setQRCode(address) {
-        if (!address || address.length < 40) return
-        const {networkType} = Address.createFromRawAddress(address)
-        const {generationHash} = this
-        this.QRCode = QRCodeGenerator.createExportObject({address}, networkType, generationHash).toBase64()
-    }
-
-    copy(txt) {
-        copyTxt(txt).then(() => {
-            this.$Notice.success({
-                title: this['$t']('successful_copy') + ''
-            })
-        })
-    }
-
-    init() {
-        this.setQRCode(this.getAddress)
-        getCurrentImportance(this.$store)
-    }
-
-    closeBindDialog() {
-        this.isShowBindDialog = false
-    }
-
-    @Watch('getAddress')
-    onGetAddressChange() {
-        this.init()
-    }
-
-    mounted() {
-        this.init()
-    }
+  copy(txt) {
+    copyTxt(txt).then(() => {
+      this.$Notice.success({
+        title: `${this['$t']('successful_copy')}`,
+      })
+    })
+  }
 }

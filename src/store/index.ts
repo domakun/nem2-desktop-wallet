@@ -1,15 +1,15 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import app from '@/store/app/index.ts'
-import account from '@/store/account/index.ts'
-import { appMosaicsModule, onTransactionRefreshModule } from '@/store/plugins'
+import {appState, appMutations, appActions} from '@/store/app'
+import {accountState, accountMutations, accountActions, accountGetters} from '@/store/account'
+import {appMosaicsModule, onTransactionRefreshModule} from '@/store/plugins'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-    modules: {
-        app,
-        account
-    },
-    plugins: [appMosaicsModule, onTransactionRefreshModule]
+  modules: {
+    app: {...appState, ...appMutations, ...appActions},
+    account: {...accountState, ...accountMutations, ...accountActions, ...accountGetters},
+  },
+  plugins: [ appMosaicsModule, onTransactionRefreshModule ],
 })
